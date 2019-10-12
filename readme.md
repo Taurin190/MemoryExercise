@@ -1,11 +1,18 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# MemoryExercise
+Laravelの練習プロジェクト。問題を自分で作って確認するWEBアプリ。ユーザ管理、投稿、
+表示を一通り実装。
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## Install
+## Setup Necessary Files with composer
+Require to install composer in advance.
+
+    composer install
+
+## User local environment
+You can use `http://localhost:8000` with following command.
+
+    php artisan serve    
+
 
 ## About Laravel
 
