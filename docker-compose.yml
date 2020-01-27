@@ -10,6 +10,7 @@ services:
     - DATABASE_URL=mysql://root:password@mysql/memory?charset=utf8mb4
     - REDIS_URL=redis:6379
     - REDIS_HOST=redis
+    - APP_NAME=MemoryExercise
     volumes:
     - .:/var/www/html
   mysql:
