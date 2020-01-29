@@ -17,6 +17,7 @@ class CreateMemoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('ename')->index();
             $table->string('title');
+            $table->bigInteger('user_id')->index();
             $table->string('question');
             $table->string('answer');
             $table->timestamp('created_at')->nullable();
