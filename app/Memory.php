@@ -2,8 +2,9 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Model;
 
-class Memory
+class Memory extends Model
 {
-
+    protected $table = 'memories';
 }
