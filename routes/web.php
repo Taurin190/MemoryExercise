@@ -21,10 +21,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/exercise', 'ExerciseController@index')->name('exercise.index');
 
-Route::get('/list', 'ExerciseController@list')->name('exercise');
+Route::get('/list', 'ExerciseController@list')->name('exercise.list');
 
-Route::get('/create', 'ExerciseController@form')->name('form');
+Route::get('/create', 'ExerciseController@form')->name('exercise.form');
 
-Route::post('/create', 'ExerciseController@create')->name('create');
+Route::post('/create', 'ExerciseController@create')->name('exercise.create');
 
 Route::get('/setting', 'HomeController@index')->name('setting');

@@ -3,18 +3,23 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
+use \Mockery as m;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Http\Controllers\ExerciseController;
-
 class ExerciseControllerTest extends TestCase
 {
-    private $ExerciseController;
+    protected $userMock;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->ExerciseController = new ExerciseController();
+        $this->userMock = m::mock('\App\User')->makePartial();
+        $this->userMock->shouldReceive("create")->andReturn("");
+    }
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        m::close();
     }
     /**
      * A basic unit test example.
@@ -30,30 +35,37 @@ class ExerciseControllerTest extends TestCase
     {
         $response = $this->get(route('exercise.index'));
         $response->assertStatus(302);
+        $response->assertLocation("/login");
     }
 
     public function testIndex()
     {
-        $this->get(route('exercise.index'));
-        $actual = $this->ExerciseController->index();
-        $this->assertSame(view("exercise_index"), $actual);
+        $user = factory(\App\User::class)->create();
+
+        $response = $this->actingAs($user)
+            ->get(route('exercise.index'));
+        $response->assertOk();
+        $response->assertLocation("/exercise");
     }
 
     public function testList()
     {
-        $actual = $this->ExerciseController->list();
-        $this->assertSame(view("exercise_list"), $actual);
+        $response = $this->get(route('exercise.list'));
+        $response->assertOk();
+        $response->assertLocation("/exercise/list");
     }
 
     public function testForm()
     {
-        $actual = $this->ExerciseController->form();
-        $this->assertSame(view("exercise_form"), $actual);
+        $response = $this->get(route('exercise.form'));
+        $response->assertOk();
+        $response->assertLocation("/exercise/create");
     }
 
     public function testCreate()
     {
-        $actual = $this->ExerciseController->create();
-        $this->assertSame(view("exercise_create"), $actual);
+        $response = $this->post(route('exercise.create'));
+        $response->assertOk();
+        $response->assertLocation("/exercise/create");
     }
 }
