@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/exercise', 'ExerciseController@index')->name('exercise');
+Route::get('/exercise', 'ExerciseController@index')->name('exercise.index');
 
 Route::get('/list', 'ExerciseController@list')->name('exercise');
 

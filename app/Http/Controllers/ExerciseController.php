@@ -23,21 +23,21 @@ class ExerciseController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('exercise_index');
     }
 
     public function list()
     {
-        return view('home');
+        return view('exercise_list');
     }
 
     public function create()
     {
-        return view('home');
+        return view('exercise_create');
     }
 
     public function form()
     {
-        return view('home');
+        return view('exercise_form');
     }
 }

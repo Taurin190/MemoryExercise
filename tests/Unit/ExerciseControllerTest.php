@@ -26,8 +26,15 @@ class ExerciseControllerTest extends TestCase
         $this->assertTrue(true);
     }
 
+    public function testNotLogin()
+    {
+        $response = $this->get(route('exercise.index'));
+        $response->assertStatus(302);
+    }
+
     public function testIndex()
     {
+        $this->get(route('exercise.index'));
         $actual = $this->ExerciseController->index();
         $this->assertSame(view("exercise_index"), $actual);
     }
