@@ -40,9 +40,7 @@ class ExerciseControllerTest extends TestCase
 
     public function testIndex()
     {
-        $user = factory(\App\User::class)->create();
-
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($this->userMock)
             ->get(route('exercise.index'));
         $response->assertOk();
         $response->assertLocation("/exercise");
@@ -50,21 +48,24 @@ class ExerciseControllerTest extends TestCase
 
     public function testList()
     {
-        $response = $this->get(route('exercise.list'));
+        $response = $this->actingAs($this->userMock)
+            ->get(route('exercise.list'));
         $response->assertOk();
         $response->assertLocation("/exercise/list");
     }
 
     public function testForm()
     {
-        $response = $this->get(route('exercise.form'));
+        $response = $this->actingAs($this->userMock)
+            ->get(route('exercise.form'));
         $response->assertOk();
         $response->assertLocation("/exercise/create");
     }
 
     public function testCreate()
     {
-        $response = $this->post(route('exercise.create'));
+        $response = $this->actingAs($this->userMock)
+            ->post(route('exercise.create'));
         $response->assertOk();
         $response->assertLocation("/exercise/create");
     }
