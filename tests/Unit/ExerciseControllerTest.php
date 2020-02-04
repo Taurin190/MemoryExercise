@@ -40,6 +40,7 @@ class ExerciseControllerTest extends TestCase
 
     public function testIndex()
     {
+        $this->app->instance('Illuminate\Auth\Manager', $this->getAuthMock(false));
         $response = $this->actingAs($this->userMock)
             ->get(route('exercise.index'));
         $response->assertOk();
@@ -68,5 +69,12 @@ class ExerciseControllerTest extends TestCase
             ->post(route('exercise.create'));
         $response->assertOk();
         $response->assertLocation("/exercise/create");
+    }
+
+    protected function getAuthMock($isLoggedIn = false)
+    {
+        $authMock = m::mock('Illuminate\Auth\Manager');
+        $authMock->shouldReceive('check')->once()->andReturn($isLoggedIn);
+        return $authMock;
     }
 }
