@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use \Mockery as m;
+use Illuminate\Auth as auth;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 class ExerciseControllerTest extends TestCase
@@ -40,7 +41,7 @@ class ExerciseControllerTest extends TestCase
 
     public function testIndex()
     {
-        $this->app->instance('Illuminate\Auth\Manager', $this->getAuthMock(false));
+        $this->app->instance('Illuminate\Auth\Manager', $this->getAuthMock(true));
         $response = $this->actingAs($this->userMock)
             ->get(route('exercise.index'));
         $response->assertOk();
@@ -73,8 +74,9 @@ class ExerciseControllerTest extends TestCase
 
     protected function getAuthMock($isLoggedIn = false)
     {
-        $authMock = m::mock('Illuminate\Auth\Manager');
+        $authMock = m::mock('Illuminate\Auth\AuthManager');
         $authMock->shouldReceive('check')->once()->andReturn($isLoggedIn);
+        $authMock->shouldReceive('shouldUse')->once()->andReturn();
         return $authMock;
     }
 }
