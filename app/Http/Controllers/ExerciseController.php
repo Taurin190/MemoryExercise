@@ -37,21 +37,10 @@ class ExerciseController extends Controller
      */
     public function create()
     {
-        if (Request::has('InputName')) {
-            $name = Request::input('InputName');
-        } else {
+        $name = Request::input('InputName') ?? "";
+        $question = Request::input('InputQuestion') ?? "";
+        $answer = Request::input('InputAnswer') ?? "";
 
-        }
-        if (Request::has('InputQuestion')) {
-            $question = Request::input('InputQuestion');
-        } else {
-
-        }
-        if (Request::has('InputAnswer')) {
-            $answer = Request::input('InputAnswer');
-        } else {
-
-        }
         return view('exercise_create');
     }
 
