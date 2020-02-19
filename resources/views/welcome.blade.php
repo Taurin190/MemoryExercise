@@ -85,9 +85,9 @@
                 </div>
 
                 <div class="links">
-                    <a>Exercise</a>
-                    <a href="{{ route('register') }}">Create</a>
-                    <a>Setting</a>
+                    <a href="{{ route('exercise.index') }}">Exercise</a>
+                    <a href="{{ route('exercise.create') }}">Create</a>
+                    <a href="{{ route('setting') }}">Setting</a>
                 </div>
             </div>
         </div>
