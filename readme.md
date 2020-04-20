@@ -21,7 +21,8 @@ Laravelの練習プロジェクト。
 - 問題を作成できる
 
 ## ToDo
-- Workbook（問題集）クラス作成
+- [ ] Workbook（問題集）クラス作成
+  - [ ] Workbookクラスの設計
 - Workbookを取得するクラス作成とメソッド作成
 - Workbook一覧を表示するクラス作成
 - 指定したWorkbookをExercise（問題）を含めて取得するメソッド作成
