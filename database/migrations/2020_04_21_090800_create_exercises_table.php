@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWorkbooksTable extends Migration
+class CreateExercisesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateWorkbooksTable extends Migration
      */
     public function up()
     {
-        Schema::create('workbooks', function (Blueprint $table) {
-            $table->bigIncrements('workbook_id');
-            $table->string('title');
-            $table->multiLineString('explanation');
+        Schema::create('exercises', function (Blueprint $table) {
+            $table->bigIncrements('exercise_id');
+            $table->string('question');
+            $table->multiLineString('answer');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateWorkbooksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('workbooks');
+        Schema::dropIfExists('exercises');
     }
 }

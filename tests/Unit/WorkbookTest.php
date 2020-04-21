@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use \App\Workbook;
 
 class WorkbookTest extends TestCase
 {
@@ -15,6 +16,7 @@ class WorkbookTest extends TestCase
      */
     public function testExample()
     {
+        $workbook = factory(Workbook::class)->make();
         $this->assertTrue(true);
     }
 }
