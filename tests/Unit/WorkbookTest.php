@@ -3,8 +3,6 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use \App\Workbook;
 
 class WorkbookTest extends TestCase
@@ -14,9 +12,19 @@ class WorkbookTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testPrimaryKey()
     {
-        $workbook = factory(Workbook::class)->make();
-        $this->assertTrue(true);
+        $workbook = new Workbook();
+        $actual = $workbook->getKeyName();
+        $this->assertSame("workbook_id", $actual);
+        $actual = $workbook->getKeyType();
+        $this->assertSame('int', $actual);
+    }
+
+    public function testFillable()
+    {
+        $workbook = new Workbook();
+        $actual = $workbook->getFillable();
+        $this->assertSame(['title', 'explanation'], $actual);
     }
 }
