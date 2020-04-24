@@ -34,9 +34,10 @@ class WorkbookUsecase
      * @param $wordbook_id int 問題集のID
      * @param $name string 問題集の名前
      * @param $description string 問題集の説明
+     * @return int 問題集のID
      */
     public function modifyWorkbook($wordbook_id, $name, $description) {
-
+        return $this->repository->modify($wordbook_id, $name, $description);
     }
 
     /**
