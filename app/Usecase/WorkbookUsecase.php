@@ -13,16 +13,37 @@ class WorkbookUsecase
 {
     /**
      * 問題集を作成します
+     * @param $name string 問題集名
+     * @param $description string 問題集の説明
      */
-    public function createWorkbook() {
+    public function createWorkbook($name, $description) {
+
+    }
+
+    /**
+     * 問題集を編集します
+     * @param $wordbook_id int 問題集のID
+     * @param $name string 問題集の名前
+     * @param $description string 問題集の説明
+     */
+    public function modifyWorkbook($wordbook_id, $name, $description) {
+
+    }
+
+    /**
+     * 問題集を削除します
+     * @param $wordbook_id int 削除する問題集のID
+     */
+    public function deleteWorkbook($wordbook_id) {
 
     }
 
     /**
      * 問題を問題集に登録します
+     * @param $workbook_id int 問題集のID
      * @param $exercise_id int 登録する問題のID
      */
-    public function addExercise($exercise_id) {
+    public function addExercise($workbook_id, $exercise_id) {
 
     }
 
