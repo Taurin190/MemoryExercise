@@ -2,9 +2,8 @@
 
 namespace Tests\Unit\usecase;
 
+use App\Usecase\WorkbookUsecase;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use \Mockery as m;
 
@@ -29,6 +28,9 @@ class WorkbookUsecaseTest extends TestCase
 
     public function testCreateWorkbook()
     {
-        $this->assertTrue(true);
+        $this->workbookRepositoryMock->shouldReceive('add')->with("test workbook", "This is test workbook.")->once()->andReturn(1);
+        $workbook = new WorkbookUsecase($this->workbookRepositoryMock);
+        $actual = $workbook->createWorkbook("test workbook", "This is test workbook.");
+        self::assertSame($actual, 1);
     }
 }

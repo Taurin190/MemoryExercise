@@ -9,15 +9,24 @@
 namespace App\Usecase;
 
 
+use App\Domain\WorkbookRepository;
+
 class WorkbookUsecase
 {
+    private $repository;
+
+    public function __construct(WorkbookRepository $repository) {
+        $this->repository = $repository;
+    }
+
     /**
      * 問題集を作成します
      * @param $name string 問題集名
      * @param $description string 問題集の説明
+     * @return int 問題集のID
      */
     public function createWorkbook($name, $description) {
-
+        return $this->repository->add($name, $description);
     }
 
     /**

@@ -11,5 +11,6 @@ namespace App\Domain;
 
 class WorkbookRepository
 {
-
+    public function add() {
+    }
 }
