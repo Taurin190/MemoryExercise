@@ -22,16 +22,17 @@ class WorkbookUsecase
     /**
      * 指定した問題集を取得する
      * @param $workbook_id int 問題集のID
+     * @return Workbook 取得した問題集
      */
     public function getWorkbook($workbook_id) {
-
+        return $this->repository->findByWorkbookId($workbook_id);
     }
 
     /**
      * 問題集を全て取得する
      */
     public function getAllWorkbook() {
-
+        return $this->repository->findAll();
     }
 
     /**

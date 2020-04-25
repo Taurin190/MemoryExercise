@@ -4,6 +4,8 @@ namespace Tests\Unit\usecase;
 
 use App\Usecase\WorkbookUsecase;
 use App\Domain\WorkbookDomainException;
+use App\Domain\Workbook;
+use phpDocumentor\Reflection\Types\Array_;
 use Tests\TestCase;
 
 use \Mockery as m;
@@ -25,6 +27,39 @@ class WorkbookUsecaseTest extends TestCase
     {
         parent::tearDown();
         m::close();
+    }
+
+    public function testGetWorkbook()
+    {
+        $this->workbookRepositoryMock->shouldReceive('findByWorkbookId')->with(1)->once()->andReturn($this->workbookEntityMock);
+
+        $workbook = new WorkbookUsecase($this->workbookRepositoryMock);
+        $actual = $workbook->getWorkbook(1);
+        self::assertTrue($actual instanceof Workbook);
+    }
+
+    public function testGetWorkbookNotFound()
+    {
+        $this->workbookRepositoryMock->shouldReceive('findByWorkbookId')->with(100)->once()->andThrow(new WorkbookDomainException("問題集が取得できませんでした。"));
+
+        $workbook = new WorkbookUsecase($this->workbookRepositoryMock);
+        try {
+            $workbook->getWorkbook(100);
+            self::fail("Exceptionが投げられませんでした。");
+        } catch (WorkbookDomainException $e) {
+            $this->assertSame("問題集が取得できませんでした。", $e->getMessage());
+        }
+    }
+
+    public function testGetAllWorkbook()
+    {
+        $workbookList = [$this->workbookEntityMock];
+        $this->workbookRepositoryMock->shouldReceive('findAll')->once()->andReturn($workbookList);
+
+        $workbook = new WorkbookUsecase($this->workbookRepositoryMock);
+        $actual = $workbook->getAllWorkbook();
+        self::assertIsArray($actual);
+        self::assertTrue($actual[0] instanceof Workbook);
     }
 
     public function testCreateWorkbook()
