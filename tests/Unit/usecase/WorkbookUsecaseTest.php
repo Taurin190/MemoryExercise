@@ -13,6 +13,8 @@ class WorkbookUsecaseTest extends TestCase
 {
     protected $workbookEntityMock;
 
+    protected $exerciseEntityMock;
+
     protected $workbookRepositoryMock;
 
     protected $exerciseRepositoryMock;
@@ -21,6 +23,7 @@ class WorkbookUsecaseTest extends TestCase
     {
         parent::setUp();
         $this->workbookEntityMock = m::mock('\App\Domain\Workbook');
+        $this->exerciseEntityMock = m::mock('\App\Domain\Exercise');
         $this->workbookRepositoryMock = m::mock('\App\Domain\WorkbookRepository');
         $this->exerciseRepositoryMock = m::mock('\App\Domain\ExerciseRepository');
     }
@@ -138,13 +141,49 @@ class WorkbookUsecaseTest extends TestCase
         }
     }
 
-//    public function testAddExercise()
-//    {
-//        $this->workbookRepositoryMock
-//            ->shouldReceive('findByWorkbookId')
-//            ->once()->andReturn($this->workbookEntityMock);
-//
-//        $workbook = new WorkbookUsecase($this->workbookRepositoryMock);
-//        $workbook->addExercise(1, 1);
-//    }
+    public function testAddExercise()
+    {
+        $this->workbookRepositoryMock
+            ->shouldReceive('findByWorkbookId')
+            ->with(1)
+            ->once()->andReturn($this->workbookEntityMock);
+        $this->exerciseRepositoryMock
+            ->shouldReceive('findByExerciseId')
+            ->with(1)
+            ->once()->andReturn($this->exerciseEntityMock);
+        $this->workbookEntityMock
+            ->shouldReceive('addExercise')
+            ->with($this->exerciseEntityMock)
+            ->once()->andReturn($this->workbookEntityMock);
+        $this->workbookRepositoryMock
+            ->shouldReceive('save')
+            ->with($this->workbookEntityMock)
+            ->once()->andReturn();
+
+        $workbook = new WorkbookUsecase($this->workbookRepositoryMock, $this->exerciseRepositoryMock);
+        $workbook->addExercise(1, 1);
+    }
+
+    public function testDeleteExercise()
+    {
+        $this->workbookRepositoryMock
+            ->shouldReceive('findByWorkbookId')
+            ->with(1)
+            ->once()->andReturn($this->workbookEntityMock);
+        $this->exerciseRepositoryMock
+            ->shouldReceive('findByExerciseId')
+            ->with(1)
+            ->once()->andReturn($this->exerciseEntityMock);
+        $this->workbookEntityMock
+            ->shouldReceive('deleteExercise')
+            ->with($this->exerciseEntityMock)
+            ->once()->andReturn($this->workbookEntityMock);
+        $this->workbookRepositoryMock
+            ->shouldReceive('save')
+            ->with($this->workbookEntityMock)
+            ->once()->andReturn();
+
+        $workbook = new WorkbookUsecase($this->workbookRepositoryMock, $this->exerciseRepositoryMock);
+        $workbook->deleteExercise(1, 1);
+    }
 }

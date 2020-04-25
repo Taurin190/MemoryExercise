@@ -74,15 +74,22 @@ class WorkbookUsecase
      * @param $exercise_id int 登録する問題のID
      */
     public function addExercise($workbook_id, $exercise_id) {
-
+        $workbook = $this->workbookRepository->findByWorkbookId($workbook_id);
+        $exercise = $this->exerciseRepository->findByExerciseId($exercise_id);
+        $newWorkbook = $workbook->addExercise($exercise);
+        $this->workbookRepository->save($newWorkbook);
     }
 
     /**
      * 問題を問題集から削除する
+     * @param $workbook_id int 問題集のID
      * @param $exercise_id int 削除する問題のID
      */
-    public function deleteExercise($exercise_id) {
-
+    public function deleteExercise($workbook_id, $exercise_id) {
+        $workbook = $this->workbookRepository->findByWorkbookId($workbook_id);
+        $exercise = $this->exerciseRepository->findByExerciseId($exercise_id);
+        $newWorkbook = $workbook->deleteExercise($exercise);
+        $this->workbookRepository->save($newWorkbook);
     }
 
     /**
