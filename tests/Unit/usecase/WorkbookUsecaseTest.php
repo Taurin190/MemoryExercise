@@ -43,19 +43,6 @@ class WorkbookUsecaseTest extends TestCase
         self::assertTrue($actual instanceof Workbook);
     }
 
-    public function testGetWorkbookNotFound()
-    {
-        $this->workbookRepositoryMock->shouldReceive('findByWorkbookId')->with(100)->once()->andThrow(new WorkbookDomainException("問題集が取得できませんでした。"));
-
-        $workbook = new WorkbookUsecase($this->workbookRepositoryMock, $this->exerciseRepositoryMock);
-        try {
-            $workbook->getWorkbook(100);
-            self::fail("Exceptionが投げられませんでした。");
-        } catch (WorkbookDomainException $e) {
-            $this->assertSame("問題集が取得できませんでした。", $e->getMessage());
-        }
-    }
-
     public function testGetAllWorkbook()
     {
         $workbookList = [$this->workbookEntityMock];
@@ -85,19 +72,6 @@ class WorkbookUsecaseTest extends TestCase
         self::assertSame( 1, $actual);
     }
 
-    public function testCreateWorkbookWithEmptyTitle()
-    {
-        $this->workbookRepositoryMock->shouldReceive('add')->with("", "This is test workbook.")->once()->andThrow(new WorkbookDomainException("タイトルが空です。"));
-
-        $workbook = new WorkbookUsecase($this->workbookRepositoryMock, $this->exerciseRepositoryMock);
-        try {
-            $workbook->createWorkbook("", "This is test workbook.");
-            self::fail('Exceptionが投げられませんでした。');
-        } catch (WorkbookDomainException $e) {
-            $this->assertSame("タイトルが空です。", $e->getMessage());
-        }
-    }
-
     public function testModifyWorkbook()
     {
         $this->workbookRepositoryMock->shouldReceive('modify')->with(1, "test workbook", "This is test workbook.")->once()->andReturn(1);
@@ -105,40 +79,6 @@ class WorkbookUsecaseTest extends TestCase
         $workbook = new WorkbookUsecase($this->workbookRepositoryMock, $this->exerciseRepositoryMock);
         $actual = $workbook->modifyWorkbook(1, "test workbook", "This is test workbook.");
         self::assertSame(1, $actual);
-    }
-
-    public function testModifyWorkbookNotFound()
-    {
-        $this->workbookRepositoryMock
-            ->shouldReceive('modify')
-            ->with(99999, "test workbook", "This is test workbook.")
-            ->once()
-            ->andThrow(new WorkbookDomainException("問題集が見つかりません。"));
-
-        $workbook = new WorkbookUsecase($this->workbookRepositoryMock, $this->exerciseRepositoryMock);
-        try {
-            $workbook->modifyWorkbook(99999, "test workbook", "This is test workbook.");
-            self::fail('Exceptionが投げられませんでした。');
-        } catch (WorkbookDomainException $e) {
-            $this->assertSame("問題集が見つかりません。", $e->getMessage());
-        }
-    }
-
-    public function testModifyWorkbookWithEmptyTitle()
-    {
-        $this->workbookRepositoryMock
-            ->shouldReceive('modify')
-            ->with(1, "", "This is test workbook.")
-            ->once()
-            ->andThrow(new WorkbookDomainException("タイトルが空です。"));
-
-        $workbook = new WorkbookUsecase($this->workbookRepositoryMock, $this->exerciseRepositoryMock);
-        try {
-            $workbook->modifyWorkbook(1, "", "This is test workbook.");
-            self::fail('Exceptionが投げられませんでした。');
-        } catch (WorkbookDomainException $e) {
-            $this->assertSame("タイトルが空です。", $e->getMessage());
-        }
     }
 
     public function testAddExercise()
