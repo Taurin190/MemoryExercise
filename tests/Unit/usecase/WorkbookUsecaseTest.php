@@ -3,7 +3,7 @@
 namespace Tests\Unit\usecase;
 
 use App\Usecase\WorkbookUsecase;
-use App\Usecase\WorkbookDomainException;
+use App\Domain\WorkbookDomainException;
 use Tests\TestCase;
 
 use \Mockery as m;
@@ -51,7 +51,7 @@ class WorkbookUsecaseTest extends TestCase
 
         $workbook = new WorkbookUsecase($this->workbookRepositoryMock);
         try {
-            $actual = $workbook->createWorkbook("", "This is test workbook.");
+            $workbook->createWorkbook("", "This is test workbook.");
             self::fail('Exceptionが投げられませんでした。');
         } catch (WorkbookDomainException $e) {
             $this->assertSame("タイトルが空です。", $e->getMessage());
@@ -65,5 +65,39 @@ class WorkbookUsecaseTest extends TestCase
         $workbook = new WorkbookUsecase($this->workbookRepositoryMock);
         $actual = $workbook->modifyWorkbook(1, "test workbook", "This is test workbook.");
         self::assertSame(1, $actual);
+    }
+
+    public function testModifyWorkbookNotFound()
+    {
+        $this->workbookRepositoryMock
+            ->shouldReceive('modify')
+            ->with(99999, "test workbook", "This is test workbook.")
+            ->once()
+            ->andThrow(new WorkbookDomainException("問題集が見つかりません。"));
+
+        $workbook = new WorkbookUsecase($this->workbookRepositoryMock);
+        try {
+            $workbook->modifyWorkbook(99999, "test workbook", "This is test workbook.");
+            self::fail('Exceptionが投げられませんでした。');
+        } catch (WorkbookDomainException $e) {
+            $this->assertSame("問題集が見つかりません。", $e->getMessage());
+        }
+    }
+
+    public function testModifyWorkbookWithEmptyTitle()
+    {
+        $this->workbookRepositoryMock
+            ->shouldReceive('modify')
+            ->with(1, "", "This is test workbook.")
+            ->once()
+            ->andThrow(new WorkbookDomainException("タイトルが空です。"));
+
+        $workbook = new WorkbookUsecase($this->workbookRepositoryMock);
+        try {
+            $workbook->modifyWorkbook(1, "", "This is test workbook.");
+            self::fail('Exceptionが投げられませんでした。');
+        } catch (WorkbookDomainException $e) {
+            $this->assertSame("タイトルが空です。", $e->getMessage());
+        }
     }
 }
