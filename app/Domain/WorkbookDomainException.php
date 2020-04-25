@@ -6,7 +6,7 @@
  * Time: 7:31
  */
 
-namespace App\Usecase;
+namespace App\Domain;
 
 
 class WorkbookDomainException extends \Exception
