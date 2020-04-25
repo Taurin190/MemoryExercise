@@ -186,4 +186,27 @@ class WorkbookUsecaseTest extends TestCase
         $workbook = new WorkbookUsecase($this->workbookRepositoryMock, $this->exerciseRepositoryMock);
         $workbook->deleteExercise(1, 1);
     }
+
+    public function testModifyExerciseOrder()
+    {
+        $this->workbookRepositoryMock
+            ->shouldReceive('findByWorkbookId')
+            ->with(1)
+            ->once()->andReturn($this->workbookEntityMock);
+        $this->exerciseRepositoryMock
+            ->shouldReceive('findByExerciseId')
+            ->with(1)
+            ->once()->andReturn($this->exerciseEntityMock);
+        $this->workbookEntityMock
+            ->shouldReceive('modifyOrder')
+            ->with($this->exerciseEntityMock, 3)
+            ->once()->andReturn($this->workbookEntityMock);
+        $this->workbookRepositoryMock
+            ->shouldReceive('save')
+            ->with($this->workbookEntityMock)
+            ->once()->andReturn();
+
+        $workbook = new WorkbookUsecase($this->workbookRepositoryMock, $this->exerciseRepositoryMock);
+        $workbook->modifyExerciseOrder(1,1, 3);
+    }
 }

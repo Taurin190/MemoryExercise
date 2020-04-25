@@ -97,7 +97,10 @@ class WorkbookUsecase
      * @param $exercise_id int 変更する問題のID
      * @param $order_num int 変更後の順番
      */
-    public function modifyExerciseOrder($exercise_id, $order_num) {
-
+    public function modifyExerciseOrder($workbook_id, $exercise_id, $order_num) {
+        $workbook = $this->workbookRepository->findByWorkbookId($workbook_id);
+        $exercise = $this->exerciseRepository->findByExerciseId($exercise_id);
+        $newWorkbook = $workbook->modifyOrder($exercise, $order_num);
+        $this->workbookRepository->save($newWorkbook);
     }
 }
