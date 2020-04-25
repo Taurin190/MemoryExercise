@@ -11,6 +11,7 @@ namespace App\Usecase;
 
 use App\Domain\ExerciseRepository;
 use App\Domain\WorkbookRepository;
+use App\Domain\Workbook;
 
 class WorkbookUsecase
 {
@@ -46,7 +47,8 @@ class WorkbookUsecase
      * @return int 問題集のID
      */
     public function createWorkbook($name, $description) {
-        return $this->workbookRepository->add($name, $description);
+        $workbook = Workbook::create($name, $description);
+        return $this->workbookRepository->save($workbook);
     }
 
     /**

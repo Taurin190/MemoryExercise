@@ -3,7 +3,6 @@
 namespace Tests\Unit\usecase;
 
 use App\Usecase\WorkbookUsecase;
-use App\Domain\WorkbookDomainException;
 use App\Domain\Workbook;
 use Tests\TestCase;
 
@@ -22,7 +21,7 @@ class WorkbookUsecaseTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->workbookEntityMock = m::mock('\App\Domain\Workbook');
+        $this->workbookEntityMock = m::mock('alias:\App\Domain\Workbook');
         $this->exerciseEntityMock = m::mock('\App\Domain\Exercise');
         $this->workbookRepositoryMock = m::mock('\App\Domain\WorkbookRepository');
         $this->exerciseRepositoryMock = m::mock('\App\Domain\ExerciseRepository');
@@ -56,20 +55,31 @@ class WorkbookUsecaseTest extends TestCase
 
     public function testCreateWorkbook()
     {
-        $this->workbookRepositoryMock->shouldReceive('add')->with("test workbook", "This is test workbook.")->once()->andReturn(1);
+        $this->workbookEntityMock
+            ->shouldReceive('create')
+            ->with("test workbook", "This is test workbook.")
+            ->once()->andReturn($this->workbookEntityMock);
+        $this->workbookRepositoryMock
+            ->shouldReceive('save')
+            ->with($this->workbookEntityMock)
+            ->once()->andReturn();
 
         $workbook = new WorkbookUsecase($this->workbookRepositoryMock, $this->exerciseRepositoryMock);
-        $actual = $workbook->createWorkbook("test workbook", "This is test workbook.");
-        self::assertSame( 1, $actual);
+        $workbook->createWorkbook("test workbook", "This is test workbook.");
     }
 
     public function testCreateWorkbookWithEmptyDescription()
     {
-        $this->workbookRepositoryMock->shouldReceive('add')->with("test workbook", "")->once()->andReturn(1);
-
+        $this->workbookEntityMock
+            ->shouldReceive('create')
+            ->with("test workbook", "")
+            ->once()->andReturn($this->workbookEntityMock);
+        $this->workbookRepositoryMock
+            ->shouldReceive('save')
+            ->with($this->workbookEntityMock)
+            ->once()->andReturn();
         $workbook = new WorkbookUsecase($this->workbookRepositoryMock, $this->exerciseRepositoryMock);
-        $actual = $workbook->createWorkbook("test workbook", "");
-        self::assertSame( 1, $actual);
+        $workbook->createWorkbook("test workbook", "");
     }
 
     public function testModifyWorkbook()
