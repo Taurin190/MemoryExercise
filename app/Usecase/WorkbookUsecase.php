@@ -9,14 +9,18 @@
 namespace App\Usecase;
 
 
+use App\Domain\ExerciseRepository;
 use App\Domain\WorkbookRepository;
 
 class WorkbookUsecase
 {
-    private $repository;
+    private $workbookRepository;
 
-    public function __construct(WorkbookRepository $repository) {
-        $this->repository = $repository;
+    private $exerciseRepository;
+
+    public function __construct(WorkbookRepository $workbookRepository, ExerciseRepository $exerciseRepository) {
+        $this->workbookRepository = $workbookRepository;
+        $this->exerciseRepository = $exerciseRepository;
     }
 
     /**
@@ -25,14 +29,14 @@ class WorkbookUsecase
      * @return Workbook 取得した問題集
      */
     public function getWorkbook($workbook_id) {
-        return $this->repository->findByWorkbookId($workbook_id);
+        return $this->workbookRepository->findByWorkbookId($workbook_id);
     }
 
     /**
      * 問題集を全て取得する
      */
     public function getAllWorkbook() {
-        return $this->repository->findAll();
+        return $this->workbookRepository->findAll();
     }
 
     /**
@@ -42,7 +46,7 @@ class WorkbookUsecase
      * @return int 問題集のID
      */
     public function createWorkbook($name, $description) {
-        return $this->repository->add($name, $description);
+        return $this->workbookRepository->add($name, $description);
     }
 
     /**
@@ -53,7 +57,7 @@ class WorkbookUsecase
      * @return int 問題集のID
      */
     public function modifyWorkbook($wordbook_id, $name, $description) {
-        return $this->repository->modify($wordbook_id, $name, $description);
+        return $this->workbookRepository->modify($wordbook_id, $name, $description);
     }
 
     /**
