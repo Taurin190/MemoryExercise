@@ -20,7 +20,22 @@ class WorkbookUsecase
     }
 
     /**
-     * 問題集を作成します
+     * 指定した問題集を取得する
+     * @param $workbook_id int 問題集のID
+     */
+    public function getWorkbook($workbook_id) {
+
+    }
+
+    /**
+     * 問題集を全て取得する
+     */
+    public function getAllWorkbook() {
+
+    }
+
+    /**
+     * 問題集を作成する
      * @param $name string 問題集名
      * @param $description string 問題集の説明
      * @return int 問題集のID
@@ -30,7 +45,7 @@ class WorkbookUsecase
     }
 
     /**
-     * 問題集を編集します
+     * 問題集を編集する
      * @param $wordbook_id int 問題集のID
      * @param $name string 問題集の名前
      * @param $description string 問題集の説明
@@ -41,7 +56,7 @@ class WorkbookUsecase
     }
 
     /**
-     * 問題集を削除します
+     * 問題集を削除する
      * @param $wordbook_id int 削除する問題集のID
      */
     public function deleteWorkbook($wordbook_id) {
@@ -49,7 +64,7 @@ class WorkbookUsecase
     }
 
     /**
-     * 問題を問題集に登録します
+     * 問題を問題集に登録する
      * @param $workbook_id int 問題集のID
      * @param $exercise_id int 登録する問題のID
      */
@@ -58,7 +73,7 @@ class WorkbookUsecase
     }
 
     /**
-     * 問題を問題集から削除します
+     * 問題を問題集から削除する
      * @param $exercise_id int 削除する問題のID
      */
     public function deleteExercise($exercise_id) {
@@ -66,7 +81,7 @@ class WorkbookUsecase
     }
 
     /**
-     * 問題の順番を変更します
+     * 問題の順番を変更する
      * @param $exercise_id int 変更する問題のID
      * @param $order_num int 変更後の順番
      */
