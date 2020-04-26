@@ -33,6 +33,18 @@ class Workbook
         $this->description = $description;
     }
 
+    public function getWorkbookId() {
+        return $this->workbook_id;
+    }
+
+    public function getTitle() {
+        return $this->title;
+    }
+
+    public function getDescription() {
+        return $this->description;
+    }
+
     public function getExerciseList() {
        return $this->exercise_list;
     }
