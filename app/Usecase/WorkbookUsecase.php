@@ -45,6 +45,7 @@ class WorkbookUsecase
      * @param $name string 問題集名
      * @param $description string 問題集の説明
      * @return int 問題集のID
+     * @throws \App\Domain\WorkbookDomainException
      */
     public function createWorkbook($name, $description) {
         $workbook = Workbook::create($name, $description);
