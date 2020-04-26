@@ -91,6 +91,14 @@ class WorkbookUsecaseTest extends TestCase
         self::assertSame(1, $actual);
     }
 
+    public function testDeleteWorkbook()
+    {
+        $this->workbookRepositoryMock->shouldReceive('delete')->with(1)->once()->andReturn();
+
+        $workbook = new WorkbookUsecase($this->workbookRepositoryMock, $this->exerciseRepositoryMock);
+        $workbook->deleteWorkbook(1);
+    }
+
     public function testAddExercise()
     {
         $this->workbookRepositoryMock
