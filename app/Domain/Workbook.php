@@ -54,6 +54,7 @@ class Workbook
     }
 
     public function deleteExercise(Exercise $exercise) {
+        $this->exercise_list = array_diff($this->exercise_list, [$exercise]);
     }
 
     public function modifyOrder(Exercise $exercise, $order_num) {

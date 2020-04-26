@@ -20,6 +20,10 @@ class WorkbookTest extends TestCase
         try {
             $workbook = Workbook::create("test workbook", "This is an example of workbook.");
             self::assertTrue($workbook instanceof Workbook);
+            $actual = $workbook->getTitle();
+            self::assertSame("test workbook", $actual);
+            $actual = $workbook->getDescription();
+            self::assertSame("This is an example of workbook.", $actual);
         } catch (\Exception $e) {
             self::fail("予期しない例外が発生しました。");
         }
@@ -45,5 +49,23 @@ class WorkbookTest extends TestCase
         $exercise_list = $workbook->getExerciseList();
         self::assertIsArray($exercise_list);
         self::assertTrue(in_array($this->exerciseMock, $exercise_list));
+    }
+
+    public function testDeleteExercise() {
+        $workbook = null;
+        try {
+            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+        } catch (\Exception $e) {
+            self::fail("予期しない例外が発生しました。");
+        }
+        $workbook->addExercise($this->exerciseMock);
+        $exercise_list = $workbook->getExerciseList();
+        self::assertIsArray($exercise_list);
+        self::assertTrue(in_array($this->exerciseMock, $exercise_list));
+
+        $workbook->deleteExercise($this->exerciseMock);
+        $exercise_list = $workbook->getExerciseList();
+        self::assertIsArray($exercise_list);
+        self::assertFalse(in_array($this->exerciseMock, $exercise_list));
     }
 }
