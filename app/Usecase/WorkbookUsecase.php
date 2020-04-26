@@ -60,7 +60,8 @@ class WorkbookUsecase
      */
     public function modifyWorkbook($wordbook_id, $title, $description) {
         $workbook = $this->workbookRepository->findByWorkbookId($wordbook_id);
-        $workbook->modify($title, $description);
+        $workbook->modifyTitle($title);
+        $workbook->modifyDescription($description);
         $this->workbookRepository->save($workbook);
     }
 

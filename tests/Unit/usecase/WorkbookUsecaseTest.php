@@ -88,7 +88,10 @@ class WorkbookUsecaseTest extends TestCase
             ->shouldReceive('findByWorkbookId')->with(1)
             ->once()->andReturn($this->workbookEntityMock);
         $this->workbookEntityMock
-            ->shouldReceive('modify')->with("test workbook", "This is test workbook.")
+            ->shouldReceive('modifyTitle')->with("test workbook")
+            ->once()->andReturn($this->workbookEntityMock);
+        $this->workbookEntityMock
+            ->shouldReceive('modifyDescription')->with("This is test workbook.")
             ->once()->andReturn($this->workbookEntityMock);
         $this->workbookRepositoryMock
             ->shouldReceive('save')->with($this->workbookEntityMock)
