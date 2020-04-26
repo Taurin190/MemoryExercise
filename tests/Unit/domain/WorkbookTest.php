@@ -63,9 +63,28 @@ class WorkbookTest extends TestCase
         self::assertIsArray($exercise_list);
         self::assertTrue(in_array($this->exerciseMock, $exercise_list));
 
-        $workbook->deleteExercise($this->exerciseMock);
+        try {
+            $workbook->deleteExercise($this->exerciseMock);
+        } catch (\Exception $e) {
+            self::fail("予期しない例外が発生しました。");
+        }
         $exercise_list = $workbook->getExerciseList();
         self::assertIsArray($exercise_list);
         self::assertFalse(in_array($this->exerciseMock, $exercise_list));
+    }
+
+    public function testDeleteExerciseNotIncludedValue() {
+        $workbook = null;
+        try {
+            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+        } catch (\Exception $e) {
+            self::fail("予期しない例外が発生しました。");
+        }
+        try {
+            $workbook->deleteExercise($this->exerciseMock);
+            self::fail("予期した例外が発生しませんでした。");
+        } catch (WorkbookDomainException $e) {
+            self::assertSame("削除対象の要素が配列に存在しません。", $e->getMessage());
+        }
     }
 }

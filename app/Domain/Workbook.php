@@ -53,7 +53,16 @@ class Workbook
         $this->exercise_list[] = $exercise;
     }
 
+    /**
+     * 問題集から登録した問題を削除する
+     *  登録されていない問題を削除しようとした場合は、想定外の挙動であるため例外を返す
+     * @param Exercise $exercise
+     * @throws WorkbookDomainException
+     */
     public function deleteExercise(Exercise $exercise) {
+        if (!in_array($exercise, $this->exercise_list)) {
+            throw new WorkbookDomainException("削除対象の要素が配列に存在しません。");
+        }
         $this->exercise_list = array_diff($this->exercise_list, [$exercise]);
     }
 
