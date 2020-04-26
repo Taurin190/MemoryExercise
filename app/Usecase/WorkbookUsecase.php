@@ -55,12 +55,13 @@ class WorkbookUsecase
     /**
      * 問題集を編集する
      * @param $wordbook_id int 問題集のID
-     * @param $name string 問題集の名前
+     * @param $title string 問題集の名前
      * @param $description string 問題集の説明
-     * @return int 問題集のID
      */
-    public function modifyWorkbook($wordbook_id, $name, $description) {
-        return $this->workbookRepository->modify($wordbook_id, $name, $description);
+    public function modifyWorkbook($wordbook_id, $title, $description) {
+        $workbook = $this->workbookRepository->findByWorkbookId($wordbook_id);
+        $workbook->modify($title, $description);
+        $this->workbookRepository->save($workbook);
     }
 
     /**

@@ -84,11 +84,18 @@ class WorkbookUsecaseTest extends TestCase
 
     public function testModifyWorkbook()
     {
-        $this->workbookRepositoryMock->shouldReceive('modify')->with(1, "test workbook", "This is test workbook.")->once()->andReturn(1);
+        $this->workbookRepositoryMock
+            ->shouldReceive('findByWorkbookId')->with(1)
+            ->once()->andReturn($this->workbookEntityMock);
+        $this->workbookEntityMock
+            ->shouldReceive('modify')->with("test workbook", "This is test workbook.")
+            ->once()->andReturn($this->workbookEntityMock);
+        $this->workbookRepositoryMock
+            ->shouldReceive('save')->with($this->workbookEntityMock)
+            ->once()->andReturn();
 
         $workbook = new WorkbookUsecase($this->workbookRepositoryMock, $this->exerciseRepositoryMock);
-        $actual = $workbook->modifyWorkbook(1, "test workbook", "This is test workbook.");
-        self::assertSame(1, $actual);
+        $workbook->modifyWorkbook(1, "test workbook", "This is test workbook.");
     }
 
     public function testDeleteWorkbook()
