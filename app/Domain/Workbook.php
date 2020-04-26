@@ -33,7 +33,12 @@ class Workbook
         $this->description = $description;
     }
 
+    public function getExerciseList() {
+       return $this->exercise_list;
+    }
+
     public function addExercise(Exercise $exercise) {
+        $this->exercise_list[] = $exercise;
     }
 
     public function deleteExercise(Exercise $exercise) {
