@@ -64,6 +64,20 @@ class Workbook
     }
 
     public function modifyOrder(Exercise $exercise, $order_num) {
+        $insert_num = $order_num - 1;
+        $exercise_amount = count($this->exercise_list);
+        $tmp_exercise_list = array_diff($this->exercise_list, [$exercise]);
+        $new_exercise_list = [];
+
+        for ($i = 0; $i < $exercise_amount; $i++) {
+            if ($i == $insert_num) {
+                $new_exercise_list[] = $exercise;
+                continue;
+            }
+            $new_exercise_list[] = $tmp_exercise_list[0];
+            array_shift($tmp_exercise_list);
+        }
+        $this->exercise_list = $new_exercise_list;
     }
 
     /**

@@ -133,4 +133,37 @@ class WorkbookTest extends TestCase
             self::assertSame("削除対象の要素が配列に存在しません。", $e->getMessage());
         }
     }
+
+    public function testModifyOrder() {
+        $exercise_mock_list = [];
+        for ($i = 0; $i < 5; $i++) {
+            $tmp_exercise_mock = m::mock('\App\Domain\Exercise');
+            $tmp_exercise_mock->shouldReceive("getQuestion")->andReturn("test" . $i);
+            $exercise_mock_list[] = $tmp_exercise_mock;
+        }
+
+        $workbook = null;
+        try {
+            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+            for ($i = 0; $i < 5; $i++) {
+                $workbook->addExercise($exercise_mock_list[$i]);
+            }
+            $actual_list = $workbook->getExerciseList();
+            self::assertSame("test0", $actual_list[0]->getQuestion());
+            self::assertSame("test1", $actual_list[1]->getQuestion());
+            self::assertSame("test2", $actual_list[2]->getQuestion());
+            self::assertSame("test3", $actual_list[3]->getQuestion());
+            self::assertSame("test4", $actual_list[4]->getQuestion());
+
+            $workbook->modifyOrder($actual_list[4], 1);
+            $actual_list = $workbook->getExerciseList();
+            self::assertSame("test4", $actual_list[0]->getQuestion());
+            self::assertSame("test0", $actual_list[1]->getQuestion());
+            self::assertSame("test1", $actual_list[2]->getQuestion());
+            self::assertSame("test2", $actual_list[3]->getQuestion());
+            self::assertSame("test3", $actual_list[4]->getQuestion());
+        } catch (\Exception $e) {
+            self::fail("予期しない例外が発生しました。" . $e);
+        }
+    }
 }
