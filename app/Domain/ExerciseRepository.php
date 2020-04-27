@@ -9,7 +9,13 @@
 namespace App\Domain;
 
 
-class ExerciseRepository
+interface ExerciseRepository
 {
+    function save(Workbook $workbook);
 
+    function findByWorkbookId(int $workbook_id);
+
+    function findAll();
+
+    function delete();
 }
