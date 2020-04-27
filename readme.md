@@ -26,8 +26,8 @@ Laravelの練習プロジェクト。
   - [x] Workbookクラスの設計
 - [ ] Workbookを取得するクラス作成とメソッド作成
   - [x] Use caseクラス作成
-  - [ ] Domainクラス作成
-  - [ ] repository作成
+  - [x] Domainクラス作成
+  - [ ] Repository作成
 - Workbook一覧を表示するクラス作成
 - 指定したWorkbookをExercise（問題）を含めて取得するメソッド作成
 - 問題に回答できる画面を作成
