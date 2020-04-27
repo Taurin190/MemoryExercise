@@ -1,23 +1,16 @@
 <?php
 namespace App\Infrastructure;
-use App\Domain\Workbook;
+
+use App\Domain\Exercise;
 
 class ExerciseRepository implements \App\Domain\ExerciseRepository
 {
 
-    function save(Workbook $workbook)
+    function findByExerciseId($exercise_id)
     {
     }
 
-    function findByWorkbookId(int $workbook_id)
-    {
-    }
-
-    function findAll()
-    {
-    }
-
-    function delete()
+    function save(Exercise $exercise)
     {
     }
 }
