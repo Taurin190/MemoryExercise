@@ -45,12 +45,25 @@ class Workbook
         return $this->description;
     }
 
+    public function modifyTitle($title) {
+        if (empty($title)) {
+            throw new WorkbookDomainException("タイトルが空です。");
+        }
+        $this->title = $title;
+    }
+    public function modifyDescription($description) {
+        $this->description = $description;
+    }
+
     public function getExerciseList() {
        return $this->exercise_list;
     }
 
     public function addExercise(Exercise $exercise) {
         $this->exercise_list[] = $exercise;
+    }
+
+    public function modifyOrder(Exercise $exercise, $order_num) {
     }
 
     /**
@@ -66,6 +79,5 @@ class Workbook
         $this->exercise_list = array_diff($this->exercise_list, [$exercise]);
     }
 
-    public function modifyOrder(Exercise $exercise, $order_num) {
-    }
+
 }

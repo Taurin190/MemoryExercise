@@ -38,6 +38,52 @@ class WorkbookTest extends TestCase
         }
     }
 
+    public function testModifyTitle() {
+        try {
+            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+            self::assertTrue($workbook instanceof Workbook);
+            $actual = $workbook->getTitle();
+            self::assertSame("test workbook", $actual);
+
+            $workbook->modifyTitle("modified test workbook");
+            $actual = $workbook->getTitle();
+            self::assertSame("modified test workbook", $actual);
+        } catch (\Exception $e) {
+            self::fail("予期しない例外が発生しました。" . $e);
+        }
+    }
+
+    public function testModifyTitleToEmpty() {
+        try {
+            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+            self::assertTrue($workbook instanceof Workbook);
+            $actual = $workbook->getTitle();
+            self::assertSame("test workbook", $actual);
+
+            $workbook->modifyTitle("");
+            self::fail("例外が発生しませんでした。");
+        } catch (WorkbookDomainException $e) {
+            self::assertSame("タイトルが空です。", $e->getMessage());
+        } catch (\Exception $e) {
+            self::fail($e);
+        }
+    }
+
+    public function testModifyDescription() {
+        try {
+            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+            self::assertTrue($workbook instanceof Workbook);
+            $actual = $workbook->getDescription();
+            self::assertSame("This is an example of workbook.", $actual);
+
+            $workbook->modifyDescription("modified example of workbook.");
+            $actual = $workbook->getDescription();
+            self::assertSame("modified example of workbook.", $actual);
+        } catch (\Exception $e) {
+            self::fail("予期しない例外が発生しました。" . $e);
+        }
+    }
+
     public function testAddExercise() {
         $workbook = null;
         try {
