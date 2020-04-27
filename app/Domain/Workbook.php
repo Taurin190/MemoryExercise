@@ -63,6 +63,12 @@ class Workbook
         $this->exercise_list[] = $exercise;
     }
 
+    /**
+     * 問題集に登録している問題の順番を入れ替える
+     * @param Exercise $exercise
+     * @param int $order_num
+     * @throws WorkbookDomainException
+     */
     public function modifyOrder(Exercise $exercise, int $order_num) {
         $insert_num = $order_num - 1;
         $exercise_amount = count($this->exercise_list);
