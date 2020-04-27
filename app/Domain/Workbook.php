@@ -63,9 +63,16 @@ class Workbook
         $this->exercise_list[] = $exercise;
     }
 
-    public function modifyOrder(Exercise $exercise, $order_num) {
+    public function modifyOrder(Exercise $exercise, int $order_num) {
         $insert_num = $order_num - 1;
         $exercise_amount = count($this->exercise_list);
+        // 要素が1つ以下の場合は、例外を返さないように処理を行わない。
+        if ($exercise_amount <= 1) {
+            return;
+        }
+        if ($insert_num < 0 || $exercise_amount <= $insert_num) {
+            throw new WorkbookDomainException("指定された順番が不正です。");
+        }
         $tmp_exercise_list = array_diff($this->exercise_list, [$exercise]);
         $new_exercise_list = [];
 
