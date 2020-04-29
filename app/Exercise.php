@@ -14,4 +14,18 @@ class Exercise extends Model
     {
         return $this->belongsToMany('App\Workbook');
     }
+
+    public static function map(\App\Domain\Exercise $exercise) {
+        $model = Exercise::find($exercise->getExerciseId());
+        if (is_null($model)) {
+            return new Exercise([
+                'question' => $exercise->getQuestion(),
+                'answer' => $exercise->getAnswer()
+            ]);
+        }
+        return $model->fill([
+            'question' => $exercise->getQuestion(),
+            'answer' => $exercise->getAnswer()
+        ]);
+    }
 }
