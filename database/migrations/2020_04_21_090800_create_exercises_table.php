@@ -16,7 +16,7 @@ class CreateExercisesTable extends Migration
         Schema::create('exercises', function (Blueprint $table) {
             $table->bigIncrements('exercise_id');
             $table->string('question');
-            $table->multiLineString('answer');
+            $table->string('answer');
             $table->timestamps();
         });
     }

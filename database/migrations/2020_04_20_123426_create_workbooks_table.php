@@ -16,7 +16,7 @@ class CreateWorkbooksTable extends Migration
         Schema::create('workbooks', function (Blueprint $table) {
             $table->bigIncrements('workbook_id');
             $table->string('title');
-            $table->multiLineString('explanation');
+            $table->string('explanation');
             $table->timestamps();
         });
     }
