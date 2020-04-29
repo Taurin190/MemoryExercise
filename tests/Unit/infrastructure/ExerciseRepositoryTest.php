@@ -16,33 +16,33 @@ class ExerciseRepositoryTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->exerciseMock = m::mock('alias:\App\Domain\Exercise');
-        $this->exerciseDomainMock = m::mock('alias:\App\Exercise');
+        $this->exerciseDomainMock = m::mock('alias:\App\Domain\Exercise');
+        $this->exerciseMock = m::mock('alias:\App\Exercise');
     }
 
     public function testFindByExerciseId()
     {
-        $this->exerciseDomainMock
+        $this->exerciseMock
             ->shouldReceive('find')
             ->once()
             ->with(1)
-            ->andReturn($this->exerciseDomainMock);
-        $this->exerciseDomainMock
+            ->andReturn($this->exerciseMock);
+        $this->exerciseMock
             ->shouldReceive('first')
             ->once()
-            ->andReturn($this->exerciseDomainMock);
-        $this->exerciseMock
+            ->andReturn($this->exerciseMock);
+        $this->exerciseDomainMock
             ->shouldReceive('map')
             ->once()
-            ->with($this->exerciseDomainMock)
-            ->andReturn($this->exerciseMock);
+            ->with($this->exerciseMock)
+            ->andReturn($this->exerciseDomainMock);
         $repository = new ExerciseRepository();
         $domain = $repository->findByExerciseId(1);
         self::assertTrue($domain instanceof \App\Domain\Exercise);
     }
     public function testFindByExerciseIdNotFound()
     {
-        $this->exerciseDomainMock
+        $this->exerciseMock
             ->shouldReceive('find')
             ->once()
             ->with(999)
@@ -54,5 +54,20 @@ class ExerciseRepositoryTest extends TestCase
         } catch (DataNotFoundException $e) {
             self::assertSame("Data not found in exercises by id: 999", $e->getMessage());
         }
+    }
+
+    public function testSave()
+    {
+        $this->exerciseMock
+            ->shouldReceive('map')
+            ->once()
+            ->with($this->exerciseDomainMock)
+            ->andReturn($this->exerciseMock);
+        $this->exerciseMock
+            ->shouldReceive('save')
+            ->once()
+            ->andReturn();
+        $repository = new ExerciseRepository();
+        $repository->save($this->exerciseDomainMock);
     }
 }

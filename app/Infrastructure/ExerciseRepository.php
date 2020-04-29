@@ -17,5 +17,6 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
 
     function save(Exercise $exercise)
     {
+        \App\Exercise::map($exercise)->save();
     }
 }
