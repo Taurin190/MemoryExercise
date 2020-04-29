@@ -2,13 +2,17 @@
 namespace App\Infrastructure;
 
 use App\Domain\Exercise;
+use App\Exceptions\DataNotFoundException;
 
 class ExerciseRepository implements \App\Domain\ExerciseRepository
 {
     function findByExerciseId($exercise_id)
     {
-        $domain = \App\Exercise::find($exercise_id)->first();
-        return Exercise::map($domain);
+        $domain = \App\Exercise::find($exercise_id);
+        if (is_null($domain)) {
+            throw new DataNotFoundException("Data not found in exercises by id: " . $exercise_id);
+        }
+        return Exercise::map($domain->first());
     }
 
     function save(Exercise $exercise)
