@@ -48,17 +48,16 @@ class ExerciseTest extends TestCase
     public function testMap()
     {
         $this->exerciseModelMock
-            ->shouldReceive('getAttributes')
-            ->with('exercise_id')
+            ->shouldReceive('getKey')
             ->once()
             ->andReturn(1);
         $this->exerciseModelMock
-            ->shouldReceive('getAttributes')
+            ->shouldReceive('getAttribute')
             ->with('question')
             ->once()
             ->andReturn('Is this an apple?');
         $this->exerciseModelMock
-            ->shouldReceive('getAttributes')
+            ->shouldReceive('getAttribute')
             ->with('answer')
             ->once()
             ->andReturn('Yes, it is.');

@@ -28,9 +28,9 @@ class Exercise
 
     public static function map(\App\Exercise $model) {
         return new Exercise(
-            $model->getAttributes("question"),
-            $model->getAttributes("answer"),
-            $model->getAttributes("exercise_id")
+            $model->getAttribute("question"),
+            $model->getAttribute("answer"),
+            $model->getKey()
         );
     }
 
