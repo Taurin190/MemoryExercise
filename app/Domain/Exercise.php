@@ -9,10 +9,11 @@ class Exercise
 
     private $answer;
 
-    private function __construct($question, $answer)
+    private function __construct($question, $answer, $exercise_id = null)
     {
         $this->question = $question;
         $this->answer = $answer;
+        $this->exercise_id = $exercise_id;
     }
 
     public static function create($question, $answer) {
@@ -23,6 +24,14 @@ class Exercise
             throw new DomainException("解答が空です。");
         }
         return new Exercise($question, $answer);
+    }
+
+    public static function map(\App\Exercise $model) {
+        return new Exercise(
+            $model->getAttributes("question"),
+            $model->getAttributes("answer"),
+            $model->getAttributes("exercise_id")
+        );
     }
 
     public function getExerciseId() {

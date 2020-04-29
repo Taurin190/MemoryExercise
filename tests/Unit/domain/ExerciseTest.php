@@ -4,9 +4,16 @@ namespace Tests\Unit\domain;
 use Tests\TestCase;
 use App\Domain\Exercise;
 use App\Domain\DomainException;
+use \Mockery as m;
 
 class ExerciseTest extends TestCase
 {
+    protected $exerciseModelMock;
+
+    public function setUp(): void
+    {
+        $this->exerciseModelMock = m::mock('\App\Exercise');
+    }
     public function testCreate() {
         $exercise = null;
         try {
@@ -36,6 +43,29 @@ class ExerciseTest extends TestCase
         } catch (DomainException $e) {
             self::assertSame("解答が空です。", $e->getMessage());
         }
+    }
+
+    public function testMap()
+    {
+        $this->exerciseModelMock
+            ->shouldReceive('getAttributes')
+            ->with('exercise_id')
+            ->once()
+            ->andReturn(1);
+        $this->exerciseModelMock
+            ->shouldReceive('getAttributes')
+            ->with('question')
+            ->once()
+            ->andReturn('Is this an apple?');
+        $this->exerciseModelMock
+            ->shouldReceive('getAttributes')
+            ->with('answer')
+            ->once()
+            ->andReturn('Yes, it is.');
+        $actual = Exercise::map($this->exerciseModelMock);
+        self::assertSame(1, $actual->getExerciseId());
+        self::assertSame('Is this an apple?', $actual->getQuestion());
+        self::assertSame('Yes, it is.', $actual->getAnswer());
     }
 
     public function testSetQuestion() {
