@@ -37,7 +37,18 @@ class WorkbookRepositoryTest extends TestCase
     }
 
     public function testFindAll() {
+        $this->workbookMock
+            ->shouldReceive('all')
+            ->once()
+            ->andReturn([$this->workbookMock]);
+        $this->workbookDomainMock
+            ->shouldReceive('map')
+            ->once()
+            ->with($this->workbookMock)
+            ->andReturn($this->workbookDomainMock);
         $repository = new WorkbookRepository();
         $actual = $repository->findAll();
+        self::assertTrue(is_array($actual));
+        self::assertSame(1, count($actual));
     }
 }

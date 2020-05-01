@@ -12,6 +12,12 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
 
     function findAll()
     {
+        $domain_list = [];
+        $all_model = \App\Workbook::all();
+        foreach ($all_model as $model) {
+            $domain_list[] = Workbook::map($model);
+        }
+        return $domain_list;
     }
 
     function save(Workbook $workbook)
