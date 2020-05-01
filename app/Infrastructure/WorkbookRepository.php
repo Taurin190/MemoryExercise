@@ -22,9 +22,11 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
 
     function save(Workbook $workbook)
     {
+        \App\Workbook::map($workbook)->save();
     }
 
-    function delete()
+    function delete(int $workbook_id)
     {
+        \App\Workbook::find($workbook_id)->delete();
     }
 }

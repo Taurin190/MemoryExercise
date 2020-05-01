@@ -9,5 +9,5 @@ interface WorkbookRepository
 
     function findAll();
 
-    function delete();
+    function delete(int $workbook_id);
 }
