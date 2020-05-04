@@ -7,10 +7,15 @@
  */
 
 namespace App\Http\Controllers;
-
+use App\Usecase\WorkbookUsecase;
 
 class WorkbookController extends Controller
 {
+    protected $workbook_usecase;
+
+    public function __construct(WorkbookUsecase $workbook_usecase) {
+        $this->workbook_usecase = $workbook_usecase;
+    }
     public function list()
     {
         return view("workbook_list");
