@@ -18,7 +18,9 @@ class WorkbookController extends Controller
     }
     public function list()
     {
-        return view("workbook_list");
+        $workbook_list = $this->workbook_usecase->getAllWorkbook();
+
+        return view("workbook_list")->with('workbooks', $workbook_list);
     }
 
 }
