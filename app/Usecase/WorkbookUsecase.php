@@ -26,7 +26,7 @@ class WorkbookUsecase
 
     /**
      * 指定した問題集を取得する
-     * @param $workbook_id int 問題集のID
+     * @param $workbook_id string 問題集のID
      * @return Workbook 取得した問題集
      */
     public function getWorkbook($workbook_id) {

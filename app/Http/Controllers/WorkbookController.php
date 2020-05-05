@@ -22,5 +22,9 @@ class WorkbookController extends Controller
 
         return view("workbook_list")->with('workbooks', $workbook_list);
     }
-
+    public function detail($uuid)
+    {
+        $workbook = $this->workbook_usecase->getWorkbook($uuid);
+        return view('workbook_detail')->with('workbook', $workbook);
+    }
 }

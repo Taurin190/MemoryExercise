@@ -22,4 +22,17 @@ class WorkbookControllerTest extends TestCase
         $response->assertViewHas('workbooks');
         self::assertSame([], $response->viewData('workbooks'));
     }
+    public function testDetail()
+    {
+        $workbookUsecaseMock = m::mock('App\Usecase\WorkbookUsecase');
+        $workbookDomainMock = m::mock('App\Domain\Workbook');
+        $workbookUsecaseMock->shouldReceive('getWorkbook')
+            ->once()
+            ->with('testid1')
+            ->andReturn($workbookDomainMock);
+        $this->instance(WorkbookUsecase::class, $workbookUsecaseMock);
+        $response = $this->get(route('workbook.detail', 'testid1'));
+        $response->assertViewIs('workbook_detail');
+        $response->assertViewHas('workbook');
+    }
 }

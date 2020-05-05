@@ -30,3 +30,5 @@ Route::post('/exercise/create', 'ExerciseController@create')->name('exercise.cre
 Route::get('/setting', 'HomeController@index')->name('setting');
 
 Route::get('/workbook/list', 'WorkbookController@list')->name('workbook.list');
+
+Route::get('/workbook/{uuid}', 'WorkbookController@detail')->name('workbook.detail');
