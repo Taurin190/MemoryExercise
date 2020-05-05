@@ -4,23 +4,16 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            @foreach($workbooks as $workbook)
             <div class="card">
-                <div class="card-header">Dashboard</div>
-
+                <a href="/workbook/{{$workbook->getWorkbookId()}}">
+                <div class="card-header">{{ $workbook->getTitle() }}</div>
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    @foreach($workbooks as $workbook)
-                        {{ $workbook->getWorkbookId() }}
-                        {{ $workbook->getTitle() }}
                         {{ $workbook->getExplanation() }}
-                    @endforeach
-                    You are logged in!
                 </div>
+                </a>
             </div>
+            @endforeach
         </div>
     </div>
 </div>
