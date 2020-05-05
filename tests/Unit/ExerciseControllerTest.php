@@ -39,21 +39,11 @@ class ExerciseControllerTest extends TestCase
         $response->assertLocation("/login");
     }
 
-    public function testIndex()
-    {
-        $this->app->instance('Illuminate\Auth\Manager', $this->getAuthMock(true));
-        $response = $this->actingAs($this->userMock)
-            ->get(route('exercise.index'));
-        $response->assertOk();
-        $response->assertLocation("/exercise");
-    }
-
     public function testList()
     {
         $response = $this->actingAs($this->userMock)
             ->get(route('exercise.list'));
         $response->assertOk();
-        $response->assertLocation("/exercise/list");
     }
 
     public function testForm()
@@ -61,15 +51,6 @@ class ExerciseControllerTest extends TestCase
         $response = $this->actingAs($this->userMock)
             ->get(route('exercise.form'));
         $response->assertOk();
-        $response->assertLocation("/exercise/create");
-    }
-
-    public function testCreate()
-    {
-        $response = $this->actingAs($this->userMock)
-            ->post(route('exercise.create'));
-        $response->assertOk();
-        $response->assertLocation("/exercise/create");
     }
 
     protected function getAuthMock($isLoggedIn = false)
