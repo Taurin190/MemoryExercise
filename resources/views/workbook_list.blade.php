@@ -13,7 +13,11 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
+                    @foreach($workbooks as $workbook)
+                        {{ $workbook->getWorkbookId() }}
+                        {{ $workbook->getTitle() }}
+                        {{ $workbook->getDescription() }}
+                    @endforeach
                     You are logged in!
                 </div>
             </div>

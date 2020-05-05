@@ -29,6 +29,25 @@ class WorkbookTest extends TestCase
         }
     }
 
+    public function testMap() {
+        $model_mock = m::mock('\App\Workbook');
+        $model_mock->shouldReceive('getKey')
+            ->once()
+            ->andReturn(1);
+        $model_mock->shouldReceive('getAttribute')
+            ->once()
+            ->with('title')
+            ->andReturn('test workbook');
+        $model_mock->shouldReceive('getAttribute')
+            ->once()
+            ->with('explanation')
+            ->andReturn('this is a test workbook');
+        $workbook = Workbook::map($model_mock);
+        self::assertTrue($workbook instanceof Workbook);
+        self::assertSame("test workbook", $workbook->getTitle());
+        self::assertSame("this is a test workbook", $workbook->getDescription());
+    }
+
     public function testCreateWithoutTitle() {
         try {
             Workbook::create("", "This is an example of workbook.");

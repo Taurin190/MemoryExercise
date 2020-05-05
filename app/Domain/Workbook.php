@@ -28,7 +28,18 @@ class Workbook
         return $workbook;
     }
 
-    private function __construct($title, $description) {
+    public static function map(\App\Workbook $workbook_model) {
+        return new Workbook(
+            $workbook_model->getAttribute('title'),
+            $workbook_model->getAttribute('explanation'),
+            $workbook_model->getKey()
+        );
+    }
+
+    private function __construct($title, $description, $workbook_id = null) {
+        if (isset($workbook_id)) {
+            $this->workbook_id = $workbook_id;
+        }
         $this->title = $title;
         $this->description = $description;
     }
