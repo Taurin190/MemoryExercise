@@ -22,7 +22,7 @@ class WorkbookTest extends TestCase
             self::assertTrue($workbook instanceof Workbook);
             $actual = $workbook->getTitle();
             self::assertSame("test workbook", $actual);
-            $actual = $workbook->getDescription();
+            $actual = $workbook->getExplanation();
             self::assertSame("This is an example of workbook.", $actual);
         } catch (\Exception $e) {
             self::fail("予期しない例外が発生しました。");
@@ -45,7 +45,7 @@ class WorkbookTest extends TestCase
         $workbook = Workbook::map($model_mock);
         self::assertTrue($workbook instanceof Workbook);
         self::assertSame("test workbook", $workbook->getTitle());
-        self::assertSame("this is a test workbook", $workbook->getDescription());
+        self::assertSame("this is a test workbook", $workbook->getExplanation());
     }
 
     public function testCreateWithoutTitle() {
@@ -88,15 +88,15 @@ class WorkbookTest extends TestCase
         }
     }
 
-    public function testModifyDescription() {
+    public function testModifyExplanation() {
         try {
             $workbook = Workbook::create("test workbook", "This is an example of workbook.");
             self::assertTrue($workbook instanceof Workbook);
-            $actual = $workbook->getDescription();
+            $actual = $workbook->getExplanation();
             self::assertSame("This is an example of workbook.", $actual);
 
-            $workbook->modifyDescription("modified example of workbook.");
-            $actual = $workbook->getDescription();
+            $workbook->modifyExplanation("modified example of workbook.");
+            $actual = $workbook->getExplanation();
             self::assertSame("modified example of workbook.", $actual);
         } catch (\Exception $e) {
             self::fail("予期しない例外が発生しました。" . $e);

@@ -16,7 +16,7 @@
                     @foreach($workbooks as $workbook)
                         {{ $workbook->getWorkbookId() }}
                         {{ $workbook->getTitle() }}
-                        {{ $workbook->getDescription() }}
+                        {{ $workbook->getExplanation() }}
                     @endforeach
                     You are logged in!
                 </div>

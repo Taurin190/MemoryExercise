@@ -9,22 +9,22 @@ class Workbook
 
     private $title;
 
-    private $description;
+    private $explanation;
 
     private $exercise_list = [];
 
     /**
      * 問題集を作成するFactoryMethod
      * @param $title string 問題集のタイトル
-     * @param $description string 問題集の説明
+     * @param $explanation string 問題集の説明
      * @return Workbook 作成した問題集
      * @throws WorkbookDomainException
      */
-    public static function create($title, $description) {
+    public static function create($title, $explanation) {
         if (empty($title)) {
             throw new WorkbookDomainException("タイトルが空です。");
         }
-        $workbook = new Workbook($title, $description);
+        $workbook = new Workbook($title, $explanation);
         return $workbook;
     }
 
@@ -36,12 +36,12 @@ class Workbook
         );
     }
 
-    private function __construct($title, $description, $workbook_id = null) {
+    private function __construct($title, $explanation, $workbook_id = null) {
         if (isset($workbook_id)) {
             $this->workbook_id = $workbook_id;
         }
         $this->title = $title;
-        $this->description = $description;
+        $this->explanation = $explanation;
     }
 
     public function getWorkbookId() {
@@ -52,8 +52,8 @@ class Workbook
         return $this->title;
     }
 
-    public function getDescription() {
-        return $this->description;
+    public function getExplanation() {
+        return $this->explanation;
     }
 
     public function modifyTitle($title) {
@@ -62,8 +62,8 @@ class Workbook
         }
         $this->title = $title;
     }
-    public function modifyDescription($description) {
-        $this->description = $description;
+    public function modifyExplanation($explanation) {
+        $this->explanation = $explanation;
     }
 
     public function getExerciseList() {
