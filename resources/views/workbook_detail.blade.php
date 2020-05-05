@@ -10,7 +10,10 @@
             @endif
             @foreach($workbook->getExerciseList() as $exercise)
                 <p>{{ $exercise->getQuestion() }}</p>
-                <p>{{ $exercise->getAnswer() }}</p>
+                <a data-toggle="collapse" href="#collapse-{{$exercise->getExerciseId()}}">解答を表示</a>
+                <div id="collapse-{{$exercise->getExerciseId()}}" class="collapse card">
+                    <div class="card-body">{{ $exercise->getAnswer() }}</div>
+                </div>
             @endforeach
             <div></div>
         </div>
