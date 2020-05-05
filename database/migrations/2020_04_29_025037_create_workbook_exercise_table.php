@@ -14,8 +14,8 @@ class CreateWorkbookExerciseTable extends Migration
     public function up()
     {
         Schema::create('workbook_exercise', function (Blueprint $table) {
-            $table->unsignedBigInteger('workbook_id');
-            $table->unsignedBigInteger('exercise_id');
+            $table->uuid('workbook_id');
+            $table->uuid('exercise_id');
             $table->primary(['workbook_id', 'exercise_id']);
 
             $table->foreign('workbook_id')

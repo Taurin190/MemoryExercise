@@ -18,7 +18,7 @@ class WorkbookTest extends TestCase
         $actual = $workbook->getKeyName();
         $this->assertSame("workbook_id", $actual);
         $actual = $workbook->getKeyType();
-        $this->assertSame('int', $actual);
+        $this->assertSame('string', $actual);
     }
 
     public function testFillable()

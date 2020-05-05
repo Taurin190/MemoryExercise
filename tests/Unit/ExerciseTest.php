@@ -23,7 +23,7 @@ class ExerciseTest extends TestCase
         $actual = $workbook->getKeyName();
         self::assertSame("exercise_id", $actual);
         $actual = $workbook->getKeyType();
-        self::assertSame('int', $actual);
+        self::assertSame('string', $actual);
     }
 
     public function testFillable()
@@ -38,7 +38,7 @@ class ExerciseTest extends TestCase
         $this->exerciseDomainMock
             ->shouldReceive('getExerciseId')
             ->once()
-            ->andReturn(1);
+            ->andReturn('test1');
         $this->exerciseDomainMock
             ->shouldReceive('getQuestion')
             ->once()
@@ -48,7 +48,6 @@ class ExerciseTest extends TestCase
             ->once()
             ->andReturn('Yes. it is.');
         $actual = Exercise::map($this->exerciseDomainMock);
-        self::assertSame(1, $actual->getKey());
         self::assertSame('Is this a pencil?', $actual->getAttribute('question'));
         self::assertSame('Yes. it is.', $actual->getAttribute('answer'));
     }

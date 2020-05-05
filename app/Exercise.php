@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Exercise extends Model
 {
     protected $primaryKey = 'exercise_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $fillable = [
         'question', 'answer',
     ];
@@ -24,6 +26,7 @@ class Exercise extends Model
             ]);
         }
         return $model->fill([
+            'exercise_id' => $exercise->getExerciseId(),
             'question' => $exercise->getQuestion(),
             'answer' => $exercise->getAnswer()
         ]);

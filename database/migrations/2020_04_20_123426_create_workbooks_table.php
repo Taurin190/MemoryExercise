@@ -14,7 +14,8 @@ class CreateWorkbooksTable extends Migration
     public function up()
     {
         Schema::create('workbooks', function (Blueprint $table) {
-            $table->bigIncrements('workbook_id');
+            $table->uuid('workbook_id');
+            $table->primary('workbook_id');
             $table->string('title');
             $table->string('explanation');
             $table->timestamps();

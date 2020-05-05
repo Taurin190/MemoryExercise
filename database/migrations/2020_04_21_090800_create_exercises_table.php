@@ -14,7 +14,8 @@ class CreateExercisesTable extends Migration
     public function up()
     {
         Schema::create('exercises', function (Blueprint $table) {
-            $table->bigIncrements('exercise_id');
+            $table->uuid('exercise_id');
+            $table->primary('exercise_id');
             $table->string('question');
             $table->string('answer');
             $table->timestamps();

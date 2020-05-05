@@ -18,6 +18,7 @@ use Faker\Generator as Faker;
 
 $factory->define(\App\Exercise::class, function (Faker $faker) {
     return [
+        'exercise_id' => Str::orderedUuid(),
         'question' => $faker->word(),
         'answer' => $faker->word(),
     ];

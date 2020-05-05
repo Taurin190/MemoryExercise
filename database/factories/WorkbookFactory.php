@@ -18,6 +18,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Workbook::class, function (Faker $faker) {
     return [
+        'workbook_id' => Str::orderedUuid(),
         'title' => $faker->title,
         'explanation' => $faker->address,
     ];
