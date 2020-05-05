@@ -42,10 +42,14 @@ class WorkbookTest extends TestCase
             ->once()
             ->with('explanation')
             ->andReturn('this is a test workbook');
+        $model_mock->shouldReceive('exercises')
+            ->once()
+            ->andReturn([]);
         $workbook = Workbook::map($model_mock);
         self::assertTrue($workbook instanceof Workbook);
         self::assertSame("test workbook", $workbook->getTitle());
         self::assertSame("this is a test workbook", $workbook->getExplanation());
+        self::assertSame([], $workbook->getExerciseList());
     }
 
     public function testCreateWithoutTitle() {

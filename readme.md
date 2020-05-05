@@ -32,7 +32,7 @@ Laravelの練習プロジェクト。
   - [x] Workbook一覧表示Viewのクラス作成
   - [x] Workbook表示のコントローラ作成
   - [x] Workbook一覧表示のRoute作成
-- 指定したWorkbookをExercise（問題）を含めて取得するメソッド作成
+- [x] 指定したWorkbookをExercise（問題）を含めて取得するメソッド作成
 - 問題に回答できる画面を作成
 - 解答時のセッションを管理するメソッド作成
 - History（問題回答履歴）クラス作成

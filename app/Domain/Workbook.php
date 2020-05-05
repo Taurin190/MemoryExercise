@@ -32,13 +32,17 @@ class Workbook
         return new Workbook(
             $workbook_model->getAttribute('title'),
             $workbook_model->getAttribute('explanation'),
-            $workbook_model->getKey()
+            $workbook_model->getKey(),
+            $workbook_model->exercises()
         );
     }
 
-    private function __construct($title, $explanation, $workbook_id = null) {
+    private function __construct($title, $explanation, $workbook_id = null, $exercise_list = null) {
         if (isset($workbook_id)) {
             $this->workbook_id = $workbook_id;
+        }
+        if (isset($exercise_list)) {
+            $this->exercise_list = $exercise_list;
         }
         $this->title = $title;
         $this->explanation = $explanation;
