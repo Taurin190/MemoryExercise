@@ -8,7 +8,6 @@
             @if(!empty($workbook->getExplanation()))
                 <span>{{ $workbook->getExplanation() }}</span>
             @endif
-
         </div>
     </div>
 </div>
