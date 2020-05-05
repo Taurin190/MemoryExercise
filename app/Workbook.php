@@ -14,6 +14,6 @@ class Workbook extends Model
     ];
     public function exercises()
     {
-        return $this->belongsToMany('App\Exercise');
+        return $this->belongsToMany('App\Exercise', 'workbook_exercise', 'workbook_id', 'exercise_id');
     }
 }

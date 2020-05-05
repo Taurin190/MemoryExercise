@@ -2,7 +2,6 @@
 
 namespace App\Domain;
 
-
 class Workbook
 {
     private $workbook_id;
@@ -37,12 +36,12 @@ class Workbook
         );
     }
 
-    private function __construct($title, $explanation, $workbook_id = null, $exercise_list = null) {
+    private function __construct($title, $explanation, $workbook_id = null, $exercises = null) {
         if (isset($workbook_id)) {
             $this->workbook_id = $workbook_id;
         }
-        if (isset($exercise_list)) {
-            $this->exercise_list = $exercise_list;
+        if (isset($exercises)) {
+            $this->setExerciseList($exercises->get());
         }
         $this->title = $title;
         $this->explanation = $explanation;
@@ -121,5 +120,11 @@ class Workbook
         $this->exercise_list = array_diff($this->exercise_list, [$exercise]);
     }
 
-
+    private function setExerciseList($exercise_list) {
+        $domain_list = [];
+        foreach($exercise_list as $model) {
+            $domain_list[] = Exercise::map($model);
+        }
+        $this->exercise_list = $domain_list;
+    }
 }

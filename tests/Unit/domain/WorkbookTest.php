@@ -44,7 +44,7 @@ class WorkbookTest extends TestCase
             ->andReturn('this is a test workbook');
         $model_mock->shouldReceive('exercises')
             ->once()
-            ->andReturn([]);
+            ->andReturn(null);
         $workbook = Workbook::map($model_mock);
         self::assertTrue($workbook instanceof Workbook);
         self::assertSame("test workbook", $workbook->getTitle());

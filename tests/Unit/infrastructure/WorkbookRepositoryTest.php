@@ -18,9 +18,9 @@ class WorkbookRepositoryTest extends TestCase
     public function testFindByWorkbookId()
     {
         $this->workbookMock
-            ->shouldReceive('find')
+            ->shouldReceive('where')
             ->once()
-            ->with(1)
+            ->with('workbook_id', 'test1')
             ->andReturn($this->workbookMock);
         $this->workbookMock
             ->shouldReceive('first')
@@ -32,7 +32,7 @@ class WorkbookRepositoryTest extends TestCase
             ->with($this->workbookMock)
             ->andReturn($this->workbookDomainMock);
         $repository = new WorkbookRepository();
-        $domain = $repository->findByWorkbookId(1);
+        $domain = $repository->findByWorkbookId('test1');
         self::assertTrue($domain instanceof \App\Domain\Workbook);
     }
 

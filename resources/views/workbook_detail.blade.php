@@ -8,6 +8,11 @@
             @if(!empty($workbook->getExplanation()))
                 <span>{{ $workbook->getExplanation() }}</span>
             @endif
+            @foreach($workbook->getExerciseList() as $exercise)
+                <p>{{ $exercise->getQuestion() }}</p>
+                <p>{{ $exercise->getAnswer() }}</p>
+            @endforeach
+            <div></div>
         </div>
     </div>
 </div>

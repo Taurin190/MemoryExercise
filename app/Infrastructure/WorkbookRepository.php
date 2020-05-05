@@ -6,7 +6,7 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
 {
     function findByWorkbookId($workbook_id)
     {
-        $model = \App\Workbook::find($workbook_id);
+        $model = \App\Workbook::where('workbook_id', $workbook_id);
         return Workbook::map($model->first());
     }
 
