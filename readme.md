@@ -28,10 +28,10 @@ Laravelの練習プロジェクト。
   - [x] Use caseクラス作成
   - [x] Domainクラス作成
   - [x] Repository作成
-- [ ] Workbook一覧を表示するクラス作成
-  - [ ] Workbook一覧表示Viewのクラス作成
-  - [ ] Workbook表示のコントローラ作成
-  - [ ] Workbook一覧表示のRoute作成
+- [x] Workbook一覧を表示するクラス作成
+  - [x] Workbook一覧表示Viewのクラス作成
+  - [x] Workbook表示のコントローラ作成
+  - [x] Workbook一覧表示のRoute作成
 - 指定したWorkbookをExercise（問題）を含めて取得するメソッド作成
 - 問題に回答できる画面を作成
 - 解答時のセッションを管理するメソッド作成
