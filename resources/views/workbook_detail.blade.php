@@ -8,6 +8,7 @@
             @if(!empty($workbook->getExplanation()))
                 <span>{{ $workbook->getExplanation() }}</span>
             @endif
+            {{Form::open(['route' => [ 'workbook.complete', $workbook->getWorkbookId()]])}}
             @foreach($workbook->getExerciseList() as $exercise)
                 <p>{{ $exercise->getQuestion() }}</p>
                 <div>
@@ -31,6 +32,7 @@
             <div>
                 <button class="btn btn-primary btn-block">回答完了</button>
             </div>
+            {{Form::close()}}
         </div>
     </div>
 </div>

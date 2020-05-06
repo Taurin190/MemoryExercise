@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 use App\Usecase\WorkbookUsecase;
+use Illuminate\Http\Request;
 
 class WorkbookController extends Controller
 {
@@ -26,5 +27,9 @@ class WorkbookController extends Controller
     {
         $workbook = $this->workbook_usecase->getWorkbook($uuid);
         return view('workbook_detail')->with('workbook', $workbook);
+    }
+    public function complete(Request $request)
+    {
+
     }
 }
