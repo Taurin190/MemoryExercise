@@ -31,6 +31,14 @@ class WorkbookExerciseSeeder extends Seeder
                     'workbook_id' => 'test3',
                     'exercise_id' => 'exercise3',
                 ],
+                [
+                    'workbook_id' => 'test4',
+                    'exercise_id' => 'exercise4',
+                ],
+                [
+                    'workbook_id' => 'test4',
+                    'exercise_id' => 'exercise5',
+                ],
             ];
         foreach ($workbook_exercises as $workbook_exercise) {
             DB::table('workbook_exercise')->insert($workbook_exercise);
