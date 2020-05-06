@@ -36,6 +36,8 @@ class WorkbookControllerTest extends TestCase
             ->andReturn('this is test workbook');
         $workbookDomainMock->shouldReceive('getExerciseList')
             ->andReturn([]);
+        $workbookDomainMock->shouldReceive('getWorkbookId')
+            ->andReturn('workbook1');
         $this->instance(WorkbookUsecase::class, $workbookUsecaseMock);
         $response = $this->get(route('workbook.detail', 'testid1'));
         $response->assertViewIs('workbook_detail');

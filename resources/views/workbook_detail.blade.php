@@ -19,15 +19,16 @@
                 </div>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons" role="group" aria-label="{{ $exercise->getExerciseId() }}">
                     <label class="btn btn-info">
-                        <input type="radio" autocomplete="off" checked>覚えた</input>
+                        <input type="radio" autocomplete="off" name="{{$exercise->getExerciseId()}}" value="ok">覚えた</input>
                     </label>
                     <label class="btn btn-info">
-                        <input type="radio" autocomplete="off">ちょっと怪しい</input>
+                        <input type="radio" autocomplete="off" name="{{$exercise->getExerciseId()}}" value="studying">ちょっと怪しい</input>
                     </label>
-                    <label class="btn btn-info">
-                        <input type="radio" autocomplete="off">分からない</input>
+                    <label class="btn btn-info active">
+                        <input type="radio" autocomplete="off" name="{{$exercise->getExerciseId()}}" value="ng" checked required>分からない</input>
                     </label>
                 </div>
+                <input type="hidden" name="exercise_list[]" value="{{$exercise->getExerciseId()}}" />
             @endforeach
             <div>
                 <button class="btn btn-primary btn-block">回答完了</button>
