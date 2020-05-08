@@ -59,4 +59,12 @@ class Exercise
         }
         $this->answer = $answer;
     }
+
+    public function toArray() {
+        return $exercise_array = [
+            'exercise_id' => $this->exercise_id,
+            'question' => $this->question,
+            'answer' => $this->answer
+        ];
+    }
 }

@@ -127,4 +127,18 @@ class Workbook
         }
         $this->exercise_list = $domain_list;
     }
+
+    public function toArray() {
+        $exercise_json_array = [];
+        foreach ($this->exercise_list as $exercise) {
+            $exercise_json_array[] = $exercise->toArray();
+        }
+        $workbook_array = [
+            'workbook_id' => $this->workbook_id,
+            'title' => $this->title,
+            'explanation' => $this->explanation,
+            'exercise_list' => $exercise_json_array
+        ];
+        return $workbook_array;
+    }
 }

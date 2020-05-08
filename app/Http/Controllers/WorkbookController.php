@@ -22,12 +22,15 @@ class WorkbookController extends Controller
     {
         $workbook_list = $this->workbook_usecase->getAllWorkbook();
 
-        return view("workbook_list")->with('workbooks', $workbook_list);
+        return view("workbook_list")
+            ->with('workbooks', $workbook_list);
     }
     public function detail($uuid)
     {
         $workbook = $this->workbook_usecase->getWorkbook($uuid);
-        return view('workbook_detail')->with('workbook', $workbook);
+        return view('workbook_detail')
+            ->with('workbook', $workbook)
+            ->with('workbook_array', $workbook->toArray());
     }
     public function complete($uuid, Request $request)
     {
