@@ -116,4 +116,18 @@ class ExerciseTest extends TestCase
             self::assertSame("解答が空です。", $e->getMessage());
         }
     }
+
+    public function testToArray() {
+        try {
+            $exercise = Exercise::create("Do you like dog?", "yes, I like.");
+            $actual = $exercise->toArray();
+            self::assertSame([
+                "exercise_id" => null,
+                "question" => "Do you like dog?",
+                "answer" => "yes, I like."
+            ],$actual);
+        } catch (DomainException $e) {
+            self::fail("予期しない例外が発生しました。" . $e);
+        }
+    }
 }

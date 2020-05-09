@@ -249,4 +249,60 @@ class WorkbookTest extends TestCase
             self::fail("予期しない例外が発生しました。" . $e);
         }
     }
+
+    public function testToArray() {
+        $exercise_mock_list = [];
+        for ($i = 0; $i < 5; $i++) {
+            $tmp_exercise_mock = m::mock('\App\Domain\Exercise');
+            $tmp_exercise_mock->shouldReceive("toArray")->andReturn([
+                "exercise_id" => "id" . $i,
+                "question" => "test" . $i,
+                "answer" => "answer" . $i
+            ]);
+            $exercise_mock_list[] = $tmp_exercise_mock;
+        }
+
+        $workbook = null;
+        try {
+            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+            for ($i = 0; $i < 5; $i++) {
+                $workbook->addExercise($exercise_mock_list[$i]);
+            }
+        } catch (\Exception $e) {
+            self::fail("予期しない例外が発生しました。" . $e);
+        }
+        $actual = $workbook->toArray();
+        self::assertSame([
+            "workbook_id" => null,
+            "title" => "test workbook",
+            "explanation" => "This is an example of workbook.",
+            "exercise_list" => [
+                [
+                    "exercise_id" => "id0",
+                    "question" => "test0",
+                    "answer" => "answer0"
+                ],
+                [
+                    "exercise_id" => "id1",
+                    "question" => "test1",
+                    "answer" => "answer1"
+                ],
+                [
+                    "exercise_id" => "id2",
+                    "question" => "test2",
+                    "answer" => "answer2"
+                ],
+                [
+                    "exercise_id" => "id3",
+                    "question" => "test3",
+                    "answer" => "answer3"
+                ],
+                [
+                    "exercise_id" => "id4",
+                    "question" => "test4",
+                    "answer" => "answer4"
+                ],
+            ]
+        ],$actual);
+    }
 }
