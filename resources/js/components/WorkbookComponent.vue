@@ -6,8 +6,7 @@
                 <div class="card-body">{{ workbook.explanation }}</div>
             </div>
         </div>
-        <div v-else>
-
+        <div v-else-if="page <= workbook.exercise_list.length">
             <div v-for="(exercise, index) in workbook.exercise_list">
                 <div v-if="page - 1 == index" class="py-4">
                     <b>問題{{index + 1}}</b>
@@ -23,13 +22,13 @@
                     </div>
                     <div class="btn-group btn-group-toggle" data-toggle="buttons" role="group" aria-label="">
                         <label class="btn btn-info">
-                            <input type="radio" autocomplete="off" name="" value="ok">覚えた</input>
+                            <input type="radio" autocomplete="off" name="" value="ok"/>覚えた
                         </label>
                         <label class="btn btn-info">
-                            <input type="radio" autocomplete="off" name="" value="studying">ちょっと怪しい</input>
+                            <input type="radio" autocomplete="off" name="" value="studying"/>ちょっと怪しい
                         </label>
                         <label class="btn btn-info active">
-                            <input type="radio" autocomplete="off" name="" value="ng" checked required>分からない</input>
+                            <input type="radio" autocomplete="off" name="" value="ng" checked required/>分からない
                         </label>
                     </div>
                     <input type="hidden" name="exercise_list[]" value="" />
@@ -37,8 +36,14 @@
             </div>
         </div>
         <div class="btn-group d-flex" role="group" aria-label="...">
-            <button type="button" v-on:click="page -= 1" class="btn btn-outline-info w-100">前へ</button>
-            <button type="button" v-on:click="page += 1" class="btn btn-outline-info w-100">次へ</button>
+            <button type="button"
+                    v-on:click="prevPage"
+                    class="btn btn-outline-info w-100"
+                    v-bind:class="{ 'disabled' : isFirstPage }">前へ</button>
+            <button type="button"
+                    v-on:click="nextPage"
+                    class="btn btn-outline-info w-100"
+                    v-bind:class="{ 'disabled' : isFinalPage }">次へ</button>
         </div>
     </div>
 </template>
@@ -52,6 +57,28 @@
         data: function() {
             return {
                 page: 0
+            }
+        },
+        methods: {
+            nextPage: function (event) {
+                if (this.page >= this.workbook.exercise_list.length) {
+                    return;
+                }
+                this.page += 1;
+            },
+            prevPage: function (event) {
+                if (this.page <= 0) {
+                    return;
+                }
+                this.page -= 1;
+            }
+        },
+        computed: {
+            isFirstPage: function() {
+                return this.page == 0;
+            },
+            isFinalPage: function() {
+                return this.page == this.workbook.exercise_list.length;
             }
         }
     }
