@@ -1,17 +1,17 @@
 <template>
-    <div class="col-md-8">
-        <div v-if="page == 0">
-            <h1>{{ workbook.title }}</h1>
-            <div v-if="workbook.explanation" class="card">
+    <div>
+        <div v-if="page == 0" class="pb-5" style="margin-top: 70px">
+            <h1 class="pb-3">{{ workbook.title }}</h1>
+            <div v-if="workbook.explanation" class="card pb-2">
                 <div class="card-body">{{ workbook.explanation }}</div>
             </div>
         </div>
-        <div v-else-if="page <= workbook.exercise_list.length">
+        <div v-else-if="page <= workbook.exercise_list.length" style="margin-top: 70px">
             <div v-for="(exercise, index) in workbook.exercise_list">
-                <div v-if="page - 1 == index" class="py-4">
+                <div v-show="page - 1 == index" class="py-4">
                     <b>問題{{index + 1}}</b>
                     <p>{{ exercise.question }}</p>
-                    <div class="pb-4">
+                    <div class="pb-3">
                         <a data-toggle="collapse" href="#collapse-">解答を表示</a>
                         <div id="collapse-" class="collapse card">
                             <div class="card-body">
@@ -20,30 +20,35 @@
                             </div>
                         </div>
                     </div>
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons" role="group" aria-label="">
+                    <div class="btn-group btn-group-toggle pb-1" data-toggle="buttons" role="group" :aria-label="exercise.exercise_id">
                         <label class="btn btn-info">
-                            <input type="radio" autocomplete="off" name="" value="ok"/>覚えた
+                            <input type="radio" autocomplete="off" :name="exercise.exercise_id" value="ok"/>覚えた
                         </label>
                         <label class="btn btn-info">
-                            <input type="radio" autocomplete="off" name="" value="studying"/>ちょっと怪しい
+                            <input type="radio" autocomplete="off" :name="exercise.exercise_id" value="studying"/>ちょっと怪しい
                         </label>
                         <label class="btn btn-info active">
-                            <input type="radio" autocomplete="off" name="" value="ng" checked required/>分からない
+                            <input type="radio" autocomplete="off" :name="exercise.exercise_id" value="ng" checked required/>分からない
                         </label>
                     </div>
-                    <input type="hidden" name="exercise_list[]" value="" />
+                    <input type="hidden" name="exercise_list[]" :value="exercise.exercise_id" />
                 </div>
             </div>
         </div>
-        <div class="btn-group d-flex" role="group" aria-label="...">
-            <button type="button"
-                    v-on:click="prevPage"
-                    class="btn btn-outline-info w-100"
-                    v-bind:class="{ 'disabled' : isFirstPage }">前へ</button>
-            <button type="button"
-                    v-on:click="nextPage"
-                    class="btn btn-outline-info w-100"
-                    v-bind:class="{ 'disabled' : isFinalPage }">次へ</button>
+        <div class="" style="margin-bottom: 50px; margin-top: 100px;">
+            <div class="btn-group d-flex pb-2" role="group" aria-label="...">
+                <button type="button"
+                        v-on:click="prevPage"
+                        class="btn btn-outline-info w-100"
+                        v-bind:class="{ 'disabled' : isFirstPage }">前へ</button>
+                <button type="button"
+                        v-on:click="nextPage"
+                        class="btn btn-outline-info w-100"
+                        v-bind:class="{ 'disabled' : isFinalPage }">次へ</button>
+            </div>
+            <div v-if="isFinalPage">
+                <input type="submit" class="btn btn-primary btn-block" value="回答完了"/>
+            </div>
         </div>
     </div>
 </template>
@@ -60,13 +65,13 @@
             }
         },
         methods: {
-            nextPage: function (event) {
+            nextPage: function () {
                 if (this.page >= this.workbook.exercise_list.length) {
                     return;
                 }
                 this.page += 1;
             },
-            prevPage: function (event) {
+            prevPage: function () {
                 if (this.page <= 0) {
                     return;
                 }
