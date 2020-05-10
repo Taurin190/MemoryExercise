@@ -36,6 +36,10 @@ class WorkbookController extends Controller
     {
         $workbook = $this->workbook_usecase->getWorkbook($uuid);
         $answer = new Answer($request);
-        return view('workbook_complete')->with('workbook', $workbook)->with('answer', $answer);
+        return view('workbook_complete')
+            ->with('workbook', $workbook)
+            ->with('answer', $answer)
+            ->with('answer_graph_data', $answer->toGraphData())
+            ->with('exercise_count', $answer->getExerciseCount());
     }
 }

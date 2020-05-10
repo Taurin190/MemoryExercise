@@ -14,9 +14,12 @@
         <div class="col-md-8 component-block">
             <div>
                 <h2>問題数 ({{$answer->getExerciseCount()}})</h2>
-                <p>覚えた数 ({{$answer->getOKCount()}})</p>
-                <p>勉強中の数 ({{$answer->getStudyingCount()}})</p>
-                <p>分からなかった数 ({{$answer->getNGCount()}})</p>
+                <answer-graph-component :chartdata='@json($answer_graph_data)' :count='@json($exercise_count)'></answer-graph-component>
+                <ul class="list-inline">
+                    <li class="list-inline-item col-3">覚えた数 ({{$answer->getOKCount()}})</li>
+                    <li class="list-inline-item col-3">勉強中の数 ({{$answer->getStudyingCount()}})</li>
+                    <li class="list-inline-item col-3">分からなかった数 ({{$answer->getNGCount()}})</li>
+                </ul>
             </div>
             <div class="pager-block">
                 <a class="btn btn-primary btn-block" href="{{route('workbook.list')}}" >問題集一覧に戻る</a>

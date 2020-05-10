@@ -64,4 +64,18 @@ class Answer
     {
         return $this->studying_count;
     }
+    public function toGraphData() {
+        return [
+            'labels' => ['OK', 'Studying', 'NG'],
+            'datasets' => [
+                'label' => '回答数',
+                'backgroundColor' => '#f87979',
+                'data' =>[
+                    $this->ok_count,
+                    $this->studying_count,
+                    $this->ng_count
+                ],
+            ],
+        ];
+    }
 }
