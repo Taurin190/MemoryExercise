@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div v-if="page == 0" class="pb-5" style="margin-top: 70px">
+        <div v-if="page == 0" class="pb-5 title-block">
             <h1 class="pb-3">{{ workbook.title }}</h1>
             <div v-if="workbook.explanation" class="card pb-2">
                 <div class="card-body">{{ workbook.explanation }}</div>
             </div>
         </div>
-        <div v-else-if="page <= workbook.exercise_list.length" style="margin-top: 70px">
+        <div v-else-if="page <= workbook.exercise_list.length" class="component-block">
             <div v-for="(exercise, index) in workbook.exercise_list">
                 <div v-show="page - 1 == index" class="py-4">
                     <b>問題{{index + 1}}</b>
@@ -20,7 +20,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="btn-group btn-group-toggle pb-1" data-toggle="buttons" role="group" :aria-label="exercise.exercise_id">
+                    <div class="btn-group btn-group-toggle py-3" data-toggle="buttons" role="group" :aria-label="exercise.exercise_id">
                         <label class="btn btn-info">
                             <input type="radio" autocomplete="off" :name="exercise.exercise_id" value="ok"/>覚えた
                         </label>
@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <div class="" style="margin-bottom: 50px; margin-top: 100px;">
+        <div class="pager-block">
             <div class="btn-group d-flex pb-2" role="group" aria-label="...">
                 <button type="button"
                         v-on:click="prevPage"
