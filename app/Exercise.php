@@ -16,6 +16,10 @@ class Exercise extends Model
     {
         return $this->belongsToMany('App\Workbook');
     }
+    public function answerHistories()
+    {
+        return $this->hasMany('App\AnswerHistory');
+    }
 
     public static function map(\App\Domain\Exercise $exercise) {
         $model = Exercise::find($exercise->getExerciseId());
