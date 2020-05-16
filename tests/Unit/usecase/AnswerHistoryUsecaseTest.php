@@ -2,17 +2,18 @@
 
 namespace Tests\Unit\usecase;
 
-use App\Usecase\WorkbookUsecase;
-use App\Domain\Workbook;
+use App\Usecase\AnswerHistoryUsecase;
+use App\Domain\Answer;
+use App\Domain\AnswerHistory;
 use Tests\TestCase;
 
 use \Mockery as m;
 
 class AnswerHistoryUsecaseTest extends TestCase
 {
-    protected $workbookEntityMock;
+    protected $AnswerHistoryMock;
 
-    protected $exerciseEntityMock;
+    protected $AnswerMock;
 
     protected $workbookRepositoryMock;
 
@@ -31,6 +32,8 @@ class AnswerHistoryUsecaseTest extends TestCase
 
     public function testAddAnswerHistory()
     {
+        $answer_history = new AnswerHistoryUsecase();
+
         self::assertTrue(true);
     }
 
