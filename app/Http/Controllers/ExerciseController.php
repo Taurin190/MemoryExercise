@@ -39,6 +39,7 @@ class ExerciseController extends Controller
 
     /**
      * when post from form
+     * @param ExerciseRequest $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function confirm(ExerciseRequest $request)
