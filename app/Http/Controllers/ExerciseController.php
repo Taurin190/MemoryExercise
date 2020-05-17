@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ExerciseRequest;
 
 class ExerciseController extends Controller
 {
@@ -31,21 +32,20 @@ class ExerciseController extends Controller
         return view('exercise_list');
     }
 
-    /**
-     * when post from form
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function create()
-    {
-        $name = Request::input('InputName') ?? "";
-        $question = Request::input('InputQuestion') ?? "";
-        $answer = Request::input('InputAnswer') ?? "";
-
-        return view('exercise_create');
-    }
-
     public function form()
     {
         return view('exercise_form');
     }
+
+    /**
+     * when post from form
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function confirm(ExerciseRequest $request)
+    {
+        var_dump($request->all());
+
+        return view('exercise_list');
+    }
+
 }

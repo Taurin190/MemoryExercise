@@ -2,23 +2,17 @@
 
 @section('content')
     <div class="container">
-        <form class="form-horizontal">
+        {{Form::open(['route' => [ 'exercise.confirm']])}}
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="InputName">Title</label>
+                <label class="col-sm-2 control-label" for="InputQuestion">問題の質問</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="InputName" placeholder="タイトル">
+                    <input type="text" class="form-control" id="InputQuestion" name="question" placeholder="質問">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="InputQuestion">Question</label>
+                <label class="col-sm-2 control-label" for="InputAnswer">問題の答え</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="InputQuestion" placeholder="質問">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="InputAnswer">Answer</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="InputAnswer" placeholder="答え">
+                    <input type="text" class="form-control" id="InputAnswer" name="answer" placeholder="答え">
                 </div>
             </div>
             <div class="form-group">
@@ -26,6 +20,6 @@
                     <button type="submit" class="btn btn-primary btn-block">送信</button>
                 </div>
             </div>
-        </form>
+        {{Form::close()}}
     </div>
 @endsection

@@ -25,7 +25,7 @@ Route::get('/exercise/list', 'ExerciseController@list')->name('exercise.list');
 
 Route::get('/exercise/create', 'ExerciseController@form')->name('exercise.form');
 
-Route::post('/exercise/create', 'ExerciseController@create')->name('exercise.create');
+Route::post('/exercise/confirm', 'ExerciseController@confirm')->name('exercise.confirm');
 
 Route::get('/setting', 'HomeController@index')->name('setting');
 
