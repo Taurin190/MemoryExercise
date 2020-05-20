@@ -86,7 +86,7 @@
 
                 <div class="links">
                     <a href="{{ route('exercise.index') }}">Exercise</a>
-                    <a href="{{ route('exercise.create') }}">Create</a>
+                    <a href="{{ route('exercise.form') }}">Create</a>
                     <a href="{{ route('setting') }}">Setting</a>
                 </div>
             </div>
