@@ -7,11 +7,19 @@
  */
 
 namespace App\Usecase;
+use App\Domain\Exercise;
 use App\Http\Requests\ExerciseRequest;
+use App\Infrastructure\ExerciseRepository;
 
 class ExerciseUsecase
 {
-    public function createExerciseFromRequest(ExerciseRequest $request) {
+    protected $exerciseRepository;
 
+    public function __construct(ExerciseRepository $repository) {
+        $this->exerciseRepository = $repository;
+    }
+    public function createExerciseFromRequest(ExerciseRequest $request) {
+        $exercise = Exercise::create($request->get('question'), $request->get('answer'));
+        $this->exerciseRepository->save($exercise);
     }
 }

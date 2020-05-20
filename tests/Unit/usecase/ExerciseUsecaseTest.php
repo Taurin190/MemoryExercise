@@ -37,9 +37,9 @@ class ExerciseUsecaseTest extends TestCase
     }
     public function testCreateExerciseFromRequest()
     {
-        $this->exerciseRequest->shouldReceive('get')->with('question')->once()->andReturn('aaa');
-        $this->exerciseRequest->shouldReceive('get')->with('answer')->once()->andReturn('bbb');
-        $this->exerciseDomain->shouldReceive('create')->with('aaa','bbb')->once()->andReturn($this->exerciseDomain);
+        $this->exerciseRequest->shouldReceive('get')->with('question')->once()->andReturn('Is this dog?');
+        $this->exerciseRequest->shouldReceive('get')->with('answer')->once()->andReturn('Yes, it is');
+        $this->exerciseDomain->shouldReceive('create')->with('Is this dog?','Yes, it is')->once()->andReturn($this->exerciseDomain);
         $this->exerciseRepository->shouldReceive('save')->with($this->exerciseDomain)->once()->andReturn();
         $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
         $exercise_usecase->createExerciseFromRequest($this->exerciseRequest);
