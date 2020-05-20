@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Webpatser\Uuid\Uuid;
 
 class Exercise extends Model
 {
@@ -12,6 +13,15 @@ class Exercise extends Model
     protected $fillable = [
         'question', 'answer',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->{$model->getKeyName()} = (string) Uuid::generate()->string;
+        });
+    }
+
     public function workbooks()
     {
         return $this->belongsToMany('App\Workbook');

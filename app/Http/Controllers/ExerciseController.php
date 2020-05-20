@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Usecase\ExerciseUsecase;
 use Illuminate\Http\Request;
 use App\Http\Requests\ExerciseRequest;
 
 class ExerciseController extends Controller
 {
+    protected $exerciseUsecase;
+
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @param ExerciseUsecase $usecase
      */
-    public function __construct()
+    public function __construct(ExerciseUsecase $usecase)
     {
         $this->middleware('auth');
+        $this->exerciseUsecase = $usecase;
     }
 
     /**
@@ -44,8 +48,7 @@ class ExerciseController extends Controller
      */
     public function confirm(ExerciseRequest $request)
     {
-        var_dump($request->all());
-
+        $this->exerciseUsecase->createExerciseFromRequest($request);
         return view('exercise_list');
     }
 
