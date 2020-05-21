@@ -36,7 +36,7 @@ class ExerciseController extends Controller
         return view('exercise_list');
     }
 
-    public function form()
+    public function create()
     {
         return view('exercise_form');
     }

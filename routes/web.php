@@ -23,7 +23,7 @@ Route::get('/exercise', 'ExerciseController@index')->name('exercise.index');
 
 Route::get('/exercise/list', 'ExerciseController@list')->name('exercise.list');
 
-Route::get('/exercise/create', 'ExerciseController@form')->name('exercise.form');
+Route::get('/exercise/create', 'ExerciseController@create')->name('exercise.create');
 
 Route::post('/exercise/confirm', 'ExerciseController@confirm')->name('exercise.confirm');
 

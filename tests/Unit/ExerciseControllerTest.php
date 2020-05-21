@@ -49,7 +49,7 @@ class ExerciseControllerTest extends TestCase
     public function testForm()
     {
         $response = $this->actingAs($this->userMock)
-            ->get(route('exercise.form'));
+            ->get(route('exercise.create'));
         $response->assertOk();
     }
 
