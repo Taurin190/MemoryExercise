@@ -18,6 +18,9 @@ class ExerciseUsecase
     public function __construct(ExerciseRepository $repository) {
         $this->exerciseRepository = $repository;
     }
+    public function getExerciseDomainFromRequest(ExerciseRequest $request) {
+        return Exercise::create($request->get('question'), $request->get('answer'));
+    }
     public function createExerciseFromRequest(ExerciseRequest $request) {
         $exercise = Exercise::create($request->get('question'), $request->get('answer'));
         $this->exerciseRepository->save($exercise);
