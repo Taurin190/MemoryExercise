@@ -62,7 +62,8 @@ class ExerciseController extends Controller
     public function complete(ExerciseRequest $request)
     {
         $this->exerciseUsecase->createExerciseFromRequest($request);
-        $request->session()->flush();
+        $request->session()->forget('question');
+        $request->session()->forget('answer');
         return view('exercise_complete');
     }
 
