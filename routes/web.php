@@ -27,6 +27,8 @@ Route::get('/exercise/create', 'ExerciseController@create')->name('exercise.crea
 
 Route::post('/exercise/confirm', 'ExerciseController@confirm')->name('exercise.confirm');
 
+Route::post('/exercise/complete', 'ExerciseController@complete')->name('exercise.complete');
+
 Route::get('/setting', 'HomeController@index')->name('setting');
 
 Route::get('/workbook/list', 'WorkbookController@list')->name('workbook.list');

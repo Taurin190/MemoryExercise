@@ -38,7 +38,7 @@ class ExerciseController extends Controller
 
     public function create()
     {
-        return view('exercise_form');
+        return view('exercise_create');
     }
 
     /**
@@ -49,7 +49,13 @@ class ExerciseController extends Controller
     public function confirm(ExerciseRequest $request)
     {
         $this->exerciseUsecase->createExerciseFromRequest($request);
-        return view('exercise_list');
+        return view('exercise_confirm');
+    }
+
+    public function complete(ExerciseRequest $request)
+    {
+        $this->exerciseUsecase->createExerciseFromRequest($request);
+        return view('exercise_complete');
     }
 
 }
