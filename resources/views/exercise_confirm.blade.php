@@ -19,8 +19,8 @@
         </div>
     </div>
     <div class="btn-group d-flex pb-2" role="group" aria-label="...">
-        <button type="button"
-                class="btn btn-outline-secondary w-100">戻る</button>
+        <a href="{{route('exercise.create')}}"
+                class="btn btn-outline-secondary w-100">戻る</a>
         <input type="submit"
                 class="btn btn-outline-primary w-100" value="作成" />
     </div>

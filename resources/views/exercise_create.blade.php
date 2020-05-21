@@ -19,7 +19,7 @@
                            id="InputQuestion"
                            name="question"
                            placeholder="質問"
-
+                           value="{{ $question }}"
                     >
                     @if(!empty($errors->first('question')))
                     <span class="text-danger">{{ $error }}</span>
@@ -34,7 +34,7 @@
                            id="InputAnswer"
                            name="answer"
                            placeholder="答え"
-
+                           value="{{ $answer }}"
                     >
                     @if(!empty($errors->first('answer')))
                         <span class="text-danger">{{ $error }}</span>
@@ -43,7 +43,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-primary btn-block">送信</button>
+                    <button type="submit" class="btn btn-primary btn-block">作成</button>
                 </div>
             </div>
         {{Form::close()}}

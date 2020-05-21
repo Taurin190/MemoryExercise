@@ -36,9 +36,13 @@ class ExerciseController extends Controller
         return view('exercise_list');
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('exercise_create');
+        $question = $request->session()->pull('question', '');
+        $answer = $request->session()->pull('answer', '');
+        return view('exercise_create')
+            ->with('question', $question)
+            ->with('answer', $answer);
     }
 
     /**
@@ -49,6 +53,8 @@ class ExerciseController extends Controller
     public function confirm(ExerciseRequest $request)
     {
         $exercise = $this->exerciseUsecase->getExerciseDomainFromRequest($request);
+        $request->session()->put('question', $request->get('question'));
+        $request->session()->put('answer', $request->get('answer'));
         return view('exercise_confirm')
             ->with("exercise", $exercise);
     }
@@ -56,6 +62,7 @@ class ExerciseController extends Controller
     public function complete(ExerciseRequest $request)
     {
         $this->exerciseUsecase->createExerciseFromRequest($request);
+        $request->session()->flush();
         return view('exercise_complete');
     }
 
