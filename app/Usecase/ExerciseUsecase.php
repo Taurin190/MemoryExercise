@@ -18,9 +18,22 @@ class ExerciseUsecase
     public function __construct(ExerciseRepository $repository) {
         $this->exerciseRepository = $repository;
     }
+
+    /**
+     * ExerciseRequestからExerciseドメインモデルを作成して返す
+     * @param ExerciseRequest $request
+     * @return Exercise
+     * @throws \App\Domain\DomainException
+     */
     public function getExerciseDomainFromRequest(ExerciseRequest $request) {
         return Exercise::create($request->get('question'), $request->get('answer'));
     }
+
+    /**
+     * ExerciseRequestからExerciseデータを作成する
+     * @param ExerciseRequest $request
+     * @throws \App\Domain\DomainException
+     */
     public function createExerciseFromRequest(ExerciseRequest $request) {
         $exercise = Exercise::create($request->get('question'), $request->get('answer'));
         $this->exerciseRepository->save($exercise);
