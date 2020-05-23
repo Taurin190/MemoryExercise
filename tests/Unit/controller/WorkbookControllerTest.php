@@ -30,6 +30,8 @@ class WorkbookControllerTest extends TestCase
             ->once()
             ->with('testid1')
             ->andReturn($workbookDomainMock);
+        $workbookDomainMock->shouldReceive('toArray')
+            ->andReturn(['title' => 'test workbook']);
         $workbookDomainMock->shouldReceive('getTitle')
             ->andReturn('test workbook');
         $workbookDomainMock->shouldReceive('getExplanation')
