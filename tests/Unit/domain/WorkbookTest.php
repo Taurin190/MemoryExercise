@@ -16,6 +16,11 @@ class WorkbookTest extends TestCase
         parent::setUp();
         $this->exerciseMock = m::mock('\App\Domain\Exercise');
     }
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        m::close();
+    }
     public function testCreate() {
         try {
             $workbook = Workbook::create("test workbook", "This is an example of workbook.");

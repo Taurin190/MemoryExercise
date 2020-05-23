@@ -19,7 +19,11 @@ class ExerciseRepositoryTest extends TestCase
         $this->exerciseDomainMock = m::mock('alias:\App\Domain\Exercise');
         $this->exerciseMock = m::mock('alias:\App\Exercise');
     }
-
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        m::close();
+    }
     public function testFindByExerciseId()
     {
         $this->exerciseMock

@@ -15,6 +15,11 @@ class WorkbookRepositoryTest extends TestCase
         $this->workbookDomainMock = m::mock('alias:\App\Domain\Workbook');
         $this->workbookMock = m::mock('alias:\App\Workbook');
     }
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        m::close();
+    }
     public function testFindByWorkbookId()
     {
         $this->workbookMock

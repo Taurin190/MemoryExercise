@@ -14,6 +14,11 @@ class ExerciseTest extends TestCase
     {
         $this->exerciseModelMock = m::mock('\App\Exercise');
     }
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        m::close();
+    }
     public function testCreate() {
         $exercise = null;
         try {

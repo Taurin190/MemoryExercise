@@ -16,7 +16,11 @@ class ExerciseTest extends TestCase
         parent::setUp();
         $this->exerciseDomainMock = m::mock('alias:\App\Domain\Exercise');
     }
-
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        m::close();
+    }
     public function testPrimaryKey()
     {
         $workbook = new Exercise();
