@@ -42,4 +42,14 @@ class WorkbookController extends Controller
             ->with('answer_graph_data', $answer->toGraphData())
             ->with('exercise_count', $answer->getExerciseCount());
     }
+
+    public function create()
+    {
+        return view('workbook_create');
+    }
+
+    public function confirm()
+    {
+        return view('workbook_create');
+    }
 }
