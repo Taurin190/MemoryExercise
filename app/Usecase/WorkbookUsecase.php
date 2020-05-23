@@ -12,6 +12,7 @@ namespace App\Usecase;
 use App\Domain\ExerciseRepository;
 use App\Domain\WorkbookRepository;
 use App\Domain\Workbook;
+use App\Http\Requests\WorkbookRequest;
 
 class WorkbookUsecase
 {
@@ -107,5 +108,20 @@ class WorkbookUsecase
         $exercise = $this->exerciseRepository->findByExerciseId($exercise_id);
         $newWorkbook = $workbook->modifyOrder($exercise, $order_num);
         $this->workbookRepository->save($newWorkbook);
+    }
+
+    /**
+     * WorkbookRequestからWorkbookドメインモデルを作成し返す
+     * @param WorkbookRequest $request
+     * @return Workbook ドメインモデル
+     * @throws \App\Domain\WorkbookDomainException
+     */
+    public function getWorkbookDomainFromRequest(WorkbookRequest $request) {
+        return Workbook::create($request->get('title'), $request->get('explanation', ''));
+    }
+
+    public function createWorkbookFromRequest(WorkbookRequest $request) {
+        $workbook = Workbook::create($request->get('title'), $request->get('explanation', ''));
+        $this->workbookRepository->save($workbook);
     }
 }

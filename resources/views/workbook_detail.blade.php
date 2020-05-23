@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            {{Form::open(['route' => [ 'workbook.complete', $workbook->getWorkbookId()]])}}
+            {{Form::open(['route' => [ 'workbook.result', $workbook->getWorkbookId()]])}}
                 <workbook-component :workbook='@json($workbook_array)'></workbook-component>
             {{Form::close()}}
         </div>

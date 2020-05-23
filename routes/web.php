@@ -35,8 +35,10 @@ Route::get('/workbook/list', 'WorkbookController@list')->name('workbook.list');
 
 Route::get('/workbook/create', 'WorkbookController@create')->name('workbook.create');
 
-Route::get('/workbook/confirm', 'WorkbookController@confirm')->name('workbook.confirm');
+Route::post('/workbook/confirm', 'WorkbookController@confirm')->name('workbook.confirm');
+
+Route::post('/workbook/complete', 'WorkbookController@complete')->name('workbook.complete');
 
 Route::get('/workbook/{uuid}', 'WorkbookController@detail')->name('workbook.detail');
 
-Route::post('/workbook/{uuid}/complete', 'WorkbookController@complete')->name('workbook.complete');
+Route::post('/workbook/{uuid}/result', 'WorkbookController@result')->name('workbook.result');
