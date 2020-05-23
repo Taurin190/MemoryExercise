@@ -23,9 +23,9 @@ class ExerciseRepositoryTest extends TestCase
     public function testFindByExerciseId()
     {
         $this->exerciseMock
-            ->shouldReceive('find')
+            ->shouldReceive('where')
             ->once()
-            ->with(1)
+            ->with('exercise_id', "1")
             ->andReturn($this->exerciseMock);
         $this->exerciseMock
             ->shouldReceive('first')
@@ -37,19 +37,19 @@ class ExerciseRepositoryTest extends TestCase
             ->with($this->exerciseMock)
             ->andReturn($this->exerciseDomainMock);
         $repository = new ExerciseRepository();
-        $domain = $repository->findByExerciseId(1);
+        $domain = $repository->findByExerciseId("1");
         self::assertTrue($domain instanceof \App\Domain\Exercise);
     }
     public function testFindByExerciseIdNotFound()
     {
         $this->exerciseMock
-            ->shouldReceive('find')
+            ->shouldReceive('where')
             ->once()
-            ->with(999)
+            ->with('exercise_id', '999')
             ->andReturn();
         $repository = new ExerciseRepository();
         try {
-            $repository->findByExerciseId(999);
+            $repository->findByExerciseId('999');
             self::fail("例外が発生しませんでした。");
         } catch (DataNotFoundException $e) {
             self::assertSame("Data not found in exercises by id: 999", $e->getMessage());
