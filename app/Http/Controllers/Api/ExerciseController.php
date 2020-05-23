@@ -22,6 +22,6 @@ class ExerciseController extends Controller
 
     public function search(Request $request)
     {
-
+        return response()->json(['apple' => 'red', 'peach' => 'pink']);
     }
 }
