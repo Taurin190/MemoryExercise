@@ -35,15 +35,6 @@ class ExerciseUsecaseTest extends TestCase
         parent::tearDown();
         m::close();
     }
-    public function testCreateExerciseFromRequest()
-    {
-        $this->exerciseRequest->shouldReceive('get')->with('question')->once()->andReturn('Is this dog?');
-        $this->exerciseRequest->shouldReceive('get')->with('answer')->once()->andReturn('Yes, it is');
-        $this->exerciseDomain->shouldReceive('create')->with('Is this dog?','Yes, it is')->once()->andReturn($this->exerciseDomain);
-        $this->exerciseRepository->shouldReceive('save')->with($this->exerciseDomain)->once()->andReturn();
-        $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
-        $exercise_usecase->createExerciseFromRequest($this->exerciseRequest);
-    }
 
     public function testSearchExercise() {
         $exercise_mock1 = m::mock('alias:App\Domain\Exercise');

@@ -120,24 +120,4 @@ class WorkbookUsecase
         $newWorkbook = $workbook->modifyOrder($exercise, $order_num);
         $this->workbookRepository->save($newWorkbook);
     }
-
-    /**
-     * WorkbookRequestからWorkbookドメインモデルを作成して返す
-     * @param WorkbookRequest $request
-     * @return Workbook ドメインモデル
-     * @throws \App\Domain\WorkbookDomainException
-     */
-    public function getWorkbookDomainFromRequest(WorkbookRequest $request) {
-        return Workbook::create($request->get('title'), $request->get('explanation', ''));
-    }
-
-    /**
-     * RequestからWorkbookのデータを作成する
-     * @param WorkbookRequest $request
-     * @throws \App\Domain\WorkbookDomainException
-     */
-    public function createWorkbookFromRequest(WorkbookRequest $request) {
-        $workbook = Workbook::create($request->get('title'), $request->get('explanation', ''));
-        $this->workbookRepository->save($workbook);
-    }
 }
