@@ -44,4 +44,43 @@ class ExerciseUsecaseTest extends TestCase
         $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
         $exercise_usecase->createExerciseFromRequest($this->exerciseRequest);
     }
+
+    public function testSearchExercise() {
+        $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
+        $this->exerciseRepository->shouldReceive('search')->with("", 1)->once()->andReturn([
+            [
+                "exercise_id" => "id0",
+                "question" => "test0",
+                "answer" => "answer0"
+            ],
+            [
+                "exercise_id" => "id1",
+                "question" => "test1",
+                "answer" => "answer1"
+            ],
+            [
+                "exercise_id" => "id2",
+                "question" => "test2",
+                "answer" => "answer2"
+            ]
+        ]);
+        $actual = $exercise_usecase->searchExercise("", 1);
+        self::assertSame([
+            [
+                "exercise_id" => "id0",
+                "question" => "test0",
+                "answer" => "answer0"
+            ],
+            [
+                "exercise_id" => "id1",
+                "question" => "test1",
+                "answer" => "answer1"
+            ],
+            [
+                "exercise_id" => "id2",
+                "question" => "test2",
+                "answer" => "answer2"
+            ]
+        ], $actual);
+    }
 }

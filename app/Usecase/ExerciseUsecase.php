@@ -38,4 +38,8 @@ class ExerciseUsecase
         $exercise = Exercise::create($request->get('question'), $request->get('answer'));
         $this->exerciseRepository->save($exercise);
     }
+
+    public function searchExercise($text, $page) {
+        return $this->exerciseRepository->search($text, $page);
+    }
 }

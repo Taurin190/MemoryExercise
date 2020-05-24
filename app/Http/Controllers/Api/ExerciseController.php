@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Usecase\ExerciseUsecase;
+use App\Http\Requests\ExerciseSearchRequest;
 
 class ExerciseController extends Controller
 {
@@ -20,8 +21,9 @@ class ExerciseController extends Controller
         $this->exerciseUsecase = $usecase;
     }
 
-    public function search(Request $request)
+    public function search(ExerciseSearchRequest $request)
     {
+
         return response()->json(['apple' => 'red', 'peach' => 'pink']);
     }
 }
