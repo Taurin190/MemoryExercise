@@ -46,41 +46,20 @@ class ExerciseUsecaseTest extends TestCase
     }
 
     public function testSearchExercise() {
+        $exercise_mock1 = m::mock('alias:App\Domain\Exercise');
+        $exercise_mock2 = m::mock('alias:App\Domain\Exercise');
+        $exercise_mock3 = m::mock('alias:App\Domain\Exercise');
         $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
         $this->exerciseRepository->shouldReceive('search')->with("", 1)->once()->andReturn([
-            [
-                "exercise_id" => "id0",
-                "question" => "test0",
-                "answer" => "answer0"
-            ],
-            [
-                "exercise_id" => "id1",
-                "question" => "test1",
-                "answer" => "answer1"
-            ],
-            [
-                "exercise_id" => "id2",
-                "question" => "test2",
-                "answer" => "answer2"
-            ]
+                $exercise_mock1,
+                $exercise_mock2,
+                $exercise_mock3
         ]);
         $actual = $exercise_usecase->searchExercise("", 1);
         self::assertSame([
-            [
-                "exercise_id" => "id0",
-                "question" => "test0",
-                "answer" => "answer0"
-            ],
-            [
-                "exercise_id" => "id1",
-                "question" => "test1",
-                "answer" => "answer1"
-            ],
-            [
-                "exercise_id" => "id2",
-                "question" => "test2",
-                "answer" => "answer2"
-            ]
+            $exercise_mock1,
+            $exercise_mock2,
+            $exercise_mock3
         ], $actual);
     }
 }
