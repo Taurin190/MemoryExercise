@@ -23,7 +23,13 @@ class ExerciseController extends Controller
 
     public function search(ExerciseSearchRequest $request)
     {
-
+        $text = $request->input('text', '');
+        $page = $request->input('page');
+        $result = $this->exerciseUsecase->searchExercise($text, $page);
+        $exercise_list = [];
+        foreach($result as $exercise) {
+            $exercise_list = $exercise->toArray();
+        }
         return response()->json(['apple' => 'red', 'peach' => 'pink']);
     }
 }

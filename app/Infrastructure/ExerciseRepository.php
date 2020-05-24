@@ -19,4 +19,8 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
     {
         \App\Exercise::map($exercise)->save();
     }
+
+    function search($text, $page){
+        return \App\Exercise::whereRaw("match(`question`) against (? IN NATURAL LANGUAGE MODE)", [$text])->get();
+    }
 }
