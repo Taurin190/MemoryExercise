@@ -51,14 +51,18 @@ class WorkbookController extends Controller
 
     public function confirm(WorkbookRequest $request)
     {
-        $workbook = $this->workbook_usecase->getWorkbookDomainFromRequest($request);
+        $title = $request->get('title');
+        $explanation = $request->get('explanation');
+        $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
         return view('workbook_confirm')
             ->with('workbook', $workbook);
     }
 
     public function complete(WorkbookRequest $request)
     {
-        $this->workbook_usecase->createWorkbookFromRequest($request);
+        $title = $request->get('title');
+        $explanation = $request->get('explanation');
+        $this->workbook_usecase->createWorkbook($title, $explanation);
 
         return view('workbook_complete');
     }

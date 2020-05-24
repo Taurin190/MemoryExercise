@@ -19,6 +19,16 @@ class ExerciseUsecase
         $this->exerciseRepository = $repository;
     }
 
+
+    public function makeExercise($question, $answer) {
+        return Exercise::create($question, $answer);
+    }
+
+    public function createExercise($question, $answer) {
+        $exercise = Exercise::create($question, $answer);
+        $this->exerciseRepository->save($exercise);
+    }
+
     /**
      * ExerciseRequestからExerciseドメインモデルを作成して返す
      * @param ExerciseRequest $request

@@ -52,7 +52,9 @@ class ExerciseController extends Controller
      */
     public function confirm(ExerciseRequest $request)
     {
-        $exercise = $this->exerciseUsecase->getExerciseDomainFromRequest($request);
+        $question = $request->get('question');
+        $answer = $request->get('answer');
+        $exercise = $this->exerciseUsecase->makeExercise($question, $answer);
         $request->session()->put('question', $request->get('question'));
         $request->session()->put('answer', $request->get('answer'));
         return view('exercise_confirm')
@@ -61,7 +63,9 @@ class ExerciseController extends Controller
 
     public function complete(ExerciseRequest $request)
     {
-        $this->exerciseUsecase->createExerciseFromRequest($request);
+        $question = $request->get('question');
+        $answer = $request->get('answer');
+        $this->exerciseUsecase->createExercise($question, $answer);
         $request->session()->forget('question');
         $request->session()->forget('answer');
         return view('exercise_complete');

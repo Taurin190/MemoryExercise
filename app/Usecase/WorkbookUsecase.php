@@ -54,6 +54,17 @@ class WorkbookUsecase
     }
 
     /**
+     * 問題集を作成する
+     * @param $name string 問題集名
+     * @param $description string 問題集の説明
+     * @return Workbook 問題集のドメインモデル
+     * @throws \App\Domain\WorkbookDomainException
+     */
+    public function makeWorkbook($name, $description) {
+        return Workbook::create($name, $description);
+    }
+
+    /**
      * 問題集を編集する
      * @param $wordbook_id int 問題集のID
      * @param $title string 問題集の名前
