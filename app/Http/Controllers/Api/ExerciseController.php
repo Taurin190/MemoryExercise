@@ -30,6 +30,6 @@ class ExerciseController extends Controller
         foreach($result as $exercise) {
             $exercise_list = $exercise->toArray();
         }
-        return response()->json(['apple' => 'red', 'peach' => 'pink']);
+        return response()->json($exercise_list);
     }
 }

@@ -21,6 +21,6 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
     }
 
     function search($text, $page){
-        return \App\Exercise::whereRaw("match(`question`) against (? IN NATURAL LANGUAGE MODE)", [$text])->get();
+        return \App\Exercise::whereRaw("match(`question`) against (? IN NATURAL LANGUAGE MODE)", $text)->get();
     }
 }
