@@ -28,7 +28,7 @@ class ExerciseController extends Controller
         $result = $this->exerciseUsecase->searchExercise($text, $page);
         $exercise_list = [];
         foreach($result as $exercise) {
-            $exercise_list = $exercise->toArray();
+            $exercise_list[] = $exercise->toArray();
         }
         return response()->json($exercise_list);
     }
