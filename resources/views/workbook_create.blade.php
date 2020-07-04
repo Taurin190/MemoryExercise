@@ -25,6 +25,7 @@
                               placeholder="問題集の説明を入れてください。"></textarea>
                 </div>
             </div>
+            <exercise-search-component></exercise-search-component>
             <div class="col-sm-offset-2 ">
                 <button type="submit" class="btn btn-primary btn-block">作成</button>
             </div>

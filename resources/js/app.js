@@ -21,6 +21,7 @@ Vue.config.devtools = true;
 
 Vue.component('workbook-component', require('./components/WorkbookComponent.vue').default);
 Vue.component('answer-graph-component', require('./components/AnswerGraphComponent.vue').default);
+Vue.component('exercise-search-component', require('./components/ExerciseSearchComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
