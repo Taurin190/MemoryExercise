@@ -20,6 +20,11 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         \App\Exercise::map($exercise)->save();
     }
 
+    function findAll()
+    {
+        return \App\Exercise::take(10)->get();
+    }
+
     function search($text, $page){
         return \App\Exercise::whereRaw("match(`question`) against (? IN NATURAL LANGUAGE MODE)", $text)->get();
     }

@@ -30,6 +30,9 @@ class ExerciseUsecase
     }
 
     public function searchExercise($text, $page) {
+        if (mb_strlen($text) < 2) {
+            return $this->exerciseRepository->findAll();
+        }
         return $this->exerciseRepository->search($text, $page);
     }
 }
