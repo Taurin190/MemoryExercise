@@ -26,6 +26,7 @@
                     <input type="checkbox"
                            :value="exercise.exercise_id"
                            id="checkbox"
+                           v-on:click="setChecked('checked', $event)"
                            @change="addExercise"
                            autocomplete="off">
                     <div class="btn-group">
@@ -66,13 +67,43 @@
                 })
             },
             addExercise: function (id) {
-                console.log(id);
-            }
+                // console.log(id);
+            },
+            setChecked: function(key, event) {
+                var self = this;
+                for(var i in self.exercise_list) {
+                    if(self.exercise_list[i]['exercise_id'] == event.target.value) {
+                        if(event.target.checked) {
+                            self.exercise_list[i][key] = true;
+                            this.updateSelectedList(i);
+                        }
+                        else {
+                            self.exercise_list[i][key] = false;
+                            this.updateSelectedList(i);
+                        }
+                        break;
+                    }
+                }
+            },
+            updateSelectedList: function(index) {
+                if (!Object.keys(this.exercise_list[index]).includes('checked')) {
+                    return;
+                }
+                if (this.exercise_list[index].checked) {
+                    if (!Object.keys(this.selected_exercise_list).includes(this.exercise_list[index].exercise_id)) {
+                        this.$set(this.selected_exercise_list, this.exercise_list[index].exercise_id, this.exercise_list[index]);
+                    }
+                } else {
+                    if (Object.keys(this.selected_exercise_list).includes(this.exercise_list[index].exercise_id)) {
+                        this.$delete(this.selected_exercise_list, this.exercise_list[index].exercise_id);
+                    }
+                }
+            },
         },
         watch: {
             text: function(text) {
                 this.loadExercise(text)
-            }
+            },
         }
     }
 </script>
