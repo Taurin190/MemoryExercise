@@ -29,6 +29,10 @@ class ExerciseUsecase
         $this->exerciseRepository->save($exercise);
     }
 
+    public function getAllExercises($limit) {
+        return $this->exerciseRepository->findAll();
+    }
+
     public function searchExercise($text, $page) {
         if (mb_strlen($text) < 2) {
             return $this->exerciseRepository->findAll();

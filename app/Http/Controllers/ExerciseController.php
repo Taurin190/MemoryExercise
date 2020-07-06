@@ -28,7 +28,9 @@ class ExerciseController extends Controller
      */
     public function index()
     {
-        return view('exercise_index');
+        $exercise_list = $this->exerciseUsecase->getAllExercises(10);
+        return view('exercise_index')
+            ->with('exercise_list', $exercise_list);
     }
 
     public function list()
