@@ -10,6 +10,7 @@
                 <li v-for="(exercise, index) in selected_exercise_list"
                     class="list-group-item d-flex justify-content-between align-items-center">
                     {{ exercise.question }}
+                    <input type="hidden" name="exercise[]" :value="exercise.exercise_id" />
                 </li>
             </ul>
         </div>
@@ -25,7 +26,6 @@
                 <div class="form-group">
                     <input type="checkbox"
                            :value="exercise.exercise_id"
-                           id="checkbox"
                            v-on:click="setChecked('checked', $event)"
                            @change="addExercise"
                            autocomplete="off">
