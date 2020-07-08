@@ -33,6 +33,10 @@ class ExerciseUsecase
         return $this->exerciseRepository->findAll();
     }
 
+    public function getAllExercisesWithIdList($id_list) {
+        return $this->exerciseRepository->findAllByExerciseIdList($id_list);
+    }
+
     public function searchExercise($text, $page) {
         if (mb_strlen($text) < 2) {
             return $this->exerciseRepository->findAll();

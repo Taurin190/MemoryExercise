@@ -15,6 +15,11 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         return Exercise::map($domain->first());
     }
 
+    function findAllByExerciseIdList($exercise_id_list)
+    {
+        return \App\Exercise::whereIn('exercise_id', $exercise_id_list)->get();
+    }
+
     function save(Exercise $exercise)
     {
         \App\Exercise::map($exercise)->save();
