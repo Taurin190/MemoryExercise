@@ -11,7 +11,6 @@ use App\Usecase\WorkbookUsecase;
 use App\Usecase\ExerciseUsecase;
 use App\Domain\Answer;
 use Illuminate\Http\Request;
-use App\Http\Requests\WorkbookRequest;
 
 class WorkbookController extends Controller
 {
@@ -46,31 +45,5 @@ class WorkbookController extends Controller
             ->with('answer', $answer)
             ->with('answer_graph_data', $answer->toGraphData())
             ->with('exercise_count', $answer->getExerciseCount());
-    }
-
-    public function create()
-    {
-        return view('workbook_create');
-    }
-
-    public function confirm(WorkbookRequest $request)
-    {
-        $title = $request->get('title');
-        $explanation = $request->get('explanation');
-        $exercise_id_list = $request->get('exercise');
-        $exercise_list = $this->exercise_usecase->getAllExercisesWithIdList($exercise_id_list);
-        $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
-        return view('workbook_confirm')
-            ->with('workbook', $workbook)
-            ->with('exercise_list', $exercise_list);
-    }
-
-    public function complete(WorkbookRequest $request)
-    {
-        $title = $request->get('title');
-        $explanation = $request->get('explanation');
-        $this->workbook_usecase->createWorkbook($title, $explanation);
-
-        return view('workbook_complete');
     }
 }
