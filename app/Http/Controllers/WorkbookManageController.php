@@ -45,6 +45,8 @@ class WorkbookManageController extends Controller
     {
         $title = $request->get('title');
         $explanation = $request->get('explanation');
+        $exercise_id_list = $request->get('exercise');
+        $exercise_list = $this->exercise_usecase->getAllExercisesWithIdList($exercise_id_list);
         $this->workbook_usecase->createWorkbook($title, $explanation);
 
         return view('workbook_complete');
