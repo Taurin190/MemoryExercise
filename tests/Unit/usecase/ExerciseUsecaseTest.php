@@ -53,4 +53,22 @@ class ExerciseUsecaseTest extends TestCase
             $exercise_mock3
         ], $actual);
     }
+
+    public function testGetAllExercisesWithIdList() {
+        $exercise_mock1 = m::mock('alias:App\Domain\Exercise');
+        $exercise_mock2 = m::mock('alias:App\Domain\Exercise');
+        $exercise_mock3 = m::mock('alias:App\Domain\Exercise');
+        $this->exerciseRepository->shouldReceive('findAllByExerciseIdList')->with(['aaa', 'bbb', 'ccc'])->once()->andReturn([
+            $exercise_mock1,
+            $exercise_mock2,
+            $exercise_mock3
+        ]);
+        $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
+        $actual = $exercise_usecase->getAllExercisesWithIdList(['aaa', 'bbb', 'ccc']);
+        self::assertSame([
+            $exercise_mock1,
+            $exercise_mock2,
+            $exercise_mock3
+        ], $actual);
+    }
 }
