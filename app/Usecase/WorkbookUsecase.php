@@ -44,12 +44,14 @@ class WorkbookUsecase
     /**
      * 問題集を作成する
      * @param $name string 問題集名
-     * @param $description string 問題集の説明
+     * @param $description string
+     * @param $exercise_list Array 問題モデルの配列
      * @return int 問題集のID
      * @throws \App\Domain\WorkbookDomainException
      */
-    public function createWorkbook($name, $description) {
+    public function createWorkbook($name, $description, $exercise_list = null) {
         $workbook = Workbook::create($name, $description);
+        $workbook->setExerciseDomainList($exercise_list);
         return $this->workbookRepository->save($workbook);
     }
 

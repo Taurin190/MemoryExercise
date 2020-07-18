@@ -22,7 +22,7 @@ class WorkbookUsecaseTest extends TestCase
     {
         parent::setUp();
         $this->workbookEntityMock = m::mock('alias:\App\Domain\Workbook');
-        $this->exerciseEntityMock = m::mock('\App\Domain\Exercise');
+        $this->exerciseEntityMock = m::mock('alias:\App\Domain\Exercise');
         $this->workbookRepositoryMock = m::mock('\App\Domain\WorkbookRepository');
         $this->exerciseRepositoryMock = m::mock('\App\Domain\ExerciseRepository');
     }
@@ -80,6 +80,36 @@ class WorkbookUsecaseTest extends TestCase
             ->once()->andReturn();
         $workbook = new WorkbookUsecase($this->workbookRepositoryMock, $this->exerciseRepositoryMock);
         $workbook->createWorkbook("test workbook", "");
+    }
+
+    public function testCreateWorkbookWithExerciseList()
+    {
+        $exercise_mock1 = m::mock('alias:App\Domain\Exercise');
+        $exercise_mock2 = m::mock('alias:App\Domain\Exercise');
+        $exercise_mock3 = m::mock('alias:App\Domain\Exercise');
+
+        $this->workbookEntityMock
+            ->shouldReceive('create')
+            ->with(
+                "test workbook",
+                "This is test workbook."
+                )
+            ->once()->andReturn($this->workbookEntityMock);
+        $this->workbookEntityMock
+            ->shouldReceive('setExerciseDomainList')
+            ->with([$exercise_mock1, $exercise_mock2, $exercise_mock3])
+            ->once()->andReturn();
+        $this->workbookRepositoryMock
+            ->shouldReceive('save')
+            ->with($this->workbookEntityMock)
+            ->once()->andReturn();
+
+        $workbook = new WorkbookUsecase($this->workbookRepositoryMock, $this->exerciseRepositoryMock);
+        $workbook->createWorkbook(
+            "test workbook",
+            "This is test workbook.",
+            [$exercise_mock1, $exercise_mock2, $exercise_mock3]
+        );
     }
 
     public function testModifyWorkbook()

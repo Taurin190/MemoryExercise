@@ -128,6 +128,10 @@ class Workbook
         $this->exercise_list = $domain_list;
     }
 
+    public function setExerciseDomainList($exercise_domain_list) {
+        $this->exercise_list = $exercise_domain_list;
+    }
+
     public function toArray() {
         $exercise_json_array = [];
         foreach ($this->exercise_list as $exercise) {
