@@ -20,8 +20,8 @@
                 <label>問題</label>
                 <ul>
                     @foreach($exercise_list as $exercise)
-                        <li>{{ $exercise->question }}</li>
-                        <input type="hidden" name="exercise[]" value="{{ $exercise->exercise_id }}" />
+                        <li>{{ $exercise->getQuestion() }}</li>
+                        <input type="hidden" name="exercise[]" value="{{ $exercise->getExerciseId() }}" />
                     @endforeach
                 </ul>
             </div>
