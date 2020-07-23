@@ -24,7 +24,7 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
 
     function save(Workbook $workbook)
     {
-        if (count($workbook->getExerciseList()) > 0) {
+        if ($workbook->getExerciseList() != null && count($workbook->getExerciseList()) > 0) {
             DB::beginTransaction();
             try {
                 $workbook_model = \App\Workbook::map($workbook);

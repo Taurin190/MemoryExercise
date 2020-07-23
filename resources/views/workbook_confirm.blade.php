@@ -16,6 +16,7 @@
                 <p>{{ $workbook->getExplanation() }}</p>
                 <input type="hidden" name="explanation" value="{{ $workbook->getExplanation() }}">
             </div>
+            @isset($exercise_list)
             <div>
                 <label>問題</label>
                 <ul>
@@ -25,6 +26,7 @@
                     @endforeach
                 </ul>
             </div>
+            @endisset
         </div>
     </div>
     <div class="btn-group d-flex pb-2" role="group" aria-label="...">

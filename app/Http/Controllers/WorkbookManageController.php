@@ -34,11 +34,17 @@ class WorkbookManageController extends Controller
         $title = $request->get('title');
         $explanation = $request->get('explanation');
         $exercise_id_list = $request->get('exercise');
-        $exercise_list = $this->exercise_usecase->getAllExercisesWithIdList($exercise_id_list);
-        $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
-        return view('workbook_confirm')
-            ->with('workbook', $workbook)
-            ->with('exercise_list', $exercise_list);
+        if (isset($exercise_id_list)) {
+            $exercise_list = $this->exercise_usecase->getAllExercisesWithIdList($exercise_id_list);
+            $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
+            return view('workbook_confirm')
+                ->with('workbook', $workbook)
+                ->with('exercise_list', $exercise_list);
+        } else {
+            $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
+            return view('workbook_confirm')
+                ->with('workbook', $workbook);
+        }
     }
 
     public function complete(WorkbookRequest $request)
@@ -46,7 +52,10 @@ class WorkbookManageController extends Controller
         $title = $request->get('title');
         $explanation = $request->get('explanation');
         $exercise_id_list = $request->get('exercise');
-        $exercise_list = $this->exercise_usecase->getAllExercisesWithIdList($exercise_id_list);
+        $exercise_list = null;
+        if (isset($exercise_id_list)) {
+            $exercise_list = $this->exercise_usecase->getAllExercisesWithIdList($exercise_id_list);
+        }
         $this->workbook_usecase->createWorkbook($title, $explanation, $exercise_list);
 
         return view('workbook_complete');
