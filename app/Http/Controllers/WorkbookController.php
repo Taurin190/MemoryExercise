@@ -7,10 +7,12 @@
  */
 
 namespace App\Http\Controllers;
+use App\Usecase\AnswerHistoryUsecase;
 use App\Usecase\WorkbookUsecase;
 use App\Usecase\ExerciseUsecase;
 use App\Domain\Answer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WorkbookController extends Controller
 {
@@ -18,9 +20,12 @@ class WorkbookController extends Controller
 
     protected $exercise_usecase;
 
-    public function __construct(WorkbookUsecase $workbook_usecase, ExerciseUsecase $exercise_usecase) {
+    protected $history_usecase;
+
+    public function __construct(WorkbookUsecase $workbook_usecase, ExerciseUsecase $exercise_usecase, AnswerHistoryUsecase $history_usecase) {
         $this->workbook_usecase = $workbook_usecase;
         $this->exercise_usecase = $exercise_usecase;
+        $this->history_usecase = $history_usecase;
     }
     public function list()
     {
@@ -40,6 +45,10 @@ class WorkbookController extends Controller
     {
         $workbook = $this->workbook_usecase->getWorkbook($uuid);
         $answer = new Answer($request);
+        if (Auth::check()) {
+            $this->history_usecase->addAnswerHistory($answer);
+        }
+
         return view('workbook_result')
             ->with('workbook', $workbook)
             ->with('answer', $answer)
