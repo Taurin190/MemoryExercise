@@ -4,7 +4,7 @@ namespace Tests\Unit\usecase;
 
 use App\Usecase\AnswerHistoryUsecase;
 use App\Domain\Answer;
-use App\Domain\AnswerHistory;
+use App\Domain\ExerciseHistory;
 use Tests\TestCase;
 
 use \Mockery as m;
