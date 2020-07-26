@@ -4,16 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ExerciseHistory extends Model
+class WorkbookHistory extends Model
 {
     protected $primaryKey = 'exercise_history_id';
 
     protected $fillable = [
-        'score'
+        'exercise_count', 'ok_count', 'ng_count', 'studying_count'
     ];
 
-    public function exercise() {
-        return $this->hasOne('\App\Exercise');
+    public function workbook() {
+        return $this->hasOne('\App\Workbook');
     }
 
     public function user() {
