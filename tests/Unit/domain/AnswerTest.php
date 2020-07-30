@@ -20,11 +20,13 @@ class AnswerTest extends TestCase
         parent::setUp();
         $this->requestMock = m::mock('Illuminate\Http\Request');
     }
+
     public function tearDown(): void
     {
         parent::tearDown();
         m::close();
     }
+
     public function testGetExerciseCount() {
         $this->requestMock->exercise_list = ['test1', 'test2', 'test3'];
         $this->requestMock->test1 = 'ok';
@@ -34,6 +36,7 @@ class AnswerTest extends TestCase
         $answer = new Answer($this->requestMock);
         self::assertSame(3, $answer->getExerciseCount());
     }
+
     public function testGetOKCount() {
         $this->requestMock->exercise_list = ['test1', 'test2', 'test3'];
         $this->requestMock->test1 = 'ok';
@@ -43,6 +46,7 @@ class AnswerTest extends TestCase
         $answer = new Answer($this->requestMock);
         self::assertSame(1, $answer->getOKCount());
     }
+
     public function testGetNGCount() {
         $this->requestMock->exercise_list = ['test1', 'test2', 'test3'];
         $this->requestMock->test1 = 'ok';
@@ -52,6 +56,7 @@ class AnswerTest extends TestCase
         $answer = new Answer($this->requestMock);
         self::assertSame(1, $answer->getNGCount());
     }
+
     public function testGetStudyingCount() {
         $this->requestMock->exercise_list = ['test1', 'test2', 'test3'];
         $this->requestMock->test1 = 'ok';
