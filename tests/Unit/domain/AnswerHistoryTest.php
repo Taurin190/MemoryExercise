@@ -16,13 +16,6 @@ class AnswerHistoryTest extends TestCase
 {
     public function testMap()
     {
-        $answer_mock = m::mock('alias:App\Domain\Answer');
-        $workbook_history_mock = m::mock('alias:App\Domain\WorkbookHistory');
-        $workbook_mock = m::mock('App\Domain\Workbook');
-        $workbook_history_mock->shouldReceive('map')
-            ->with($workbook_mock)->once()->andReturn($workbook_history_mock);
-
-
         $exercise_mock_list = [];
         $exercise_mock1 = m::mock('App\Domain\Exercise');
         $exercise_mock2 = m::mock('App\Domain\Exercise');
@@ -40,12 +33,16 @@ class AnswerHistoryTest extends TestCase
             ->with($exercise_mock3)->once()->andReturn($exercise_history_mock);
 
 
-        $answer_mock->shouldReceive('getWorkbook')
-            ->once()->andReturn($workbook_mock);
-        $answer_mock->shouldReceive('getExerciseList')
-            ->once()->andReturn($exercise_mock_list);
+        $answer_mock = m::mock('alias:App\Domain\Answer');
+        $workbook_history_mock = m::mock('alias:App\Domain\WorkbookHistory');
+        $workbook_mock = m::mock('App\Domain\Workbook');
 
-        $actual = AnswerHistory::map($answer_mock);
+        $workbook_mock->shouldReceive('getExerciseList')
+            ->once()->andReturn($exercise_mock_list);
+        $workbook_history_mock->shouldReceive('map')
+            ->with($answer_mock, $workbook_mock)->once()->andReturn($workbook_history_mock);
+
+        $actual = AnswerHistory::map($answer_mock, $workbook_mock);
 
         self::assertTrue($actual instanceof AnswerHistory);
         self::assertTrue($actual->getWorkbookHistory() instanceof WorkbookHistory);

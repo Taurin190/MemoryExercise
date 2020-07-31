@@ -23,17 +23,17 @@ class AnswerHistory
 
     private $exercise_history_list;
 
-    private function __construct($workbook, $exercise_list)
+    private function __construct($answer, $workbook)
     {
-        $this->workbook_history = WorkbookHistory::map($workbook);
+        $this->workbook_history = WorkbookHistory::map($answer, $workbook);
         $this->exercise_history_list = [];
-        foreach ($exercise_list as $exercise) {
+        foreach ($workbook->getExerciseList() as $exercise) {
             $this->exercise_history_list[] = ExerciseHistory::map($exercise);
         }
     }
 
-    public static function map(Answer $answer) {
-        return new AnswerHistory($answer->getWorkbook(), $answer->getExerciseList());
+    public static function map(Answer $answer, $workbook) {
+        return new AnswerHistory($answer, $workbook);
     }
 
     public function getWorkbookHistory() {

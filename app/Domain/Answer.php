@@ -19,6 +19,8 @@ class Answer
 
     protected $studying_count = 0;
 
+    protected $workbook_id;
+
     public function __construct($request)
     {
         if (!is_array($request->exercise_list)) {

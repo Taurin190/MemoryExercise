@@ -46,7 +46,7 @@ class WorkbookController extends Controller
         $workbook = $this->workbook_usecase->getWorkbook($uuid);
         $answer = new Answer($request);
         if (Auth::check()) {
-            $this->history_usecase->addAnswerHistory($answer);
+            $this->history_usecase->addAnswerHistory($answer, $workbook);
         }
 
         return view('workbook_result')
