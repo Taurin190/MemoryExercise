@@ -9,6 +9,7 @@
 namespace App\Domain;
 use App\Domain\Workbook;
 use App\Domain\Answer;
+use App\User;
 
 class WorkbookHistory
 {
@@ -22,7 +23,7 @@ class WorkbookHistory
 
     private $workbook;
 
-    private function __construct(Answer $answer, Workbook $workbook) {
+    private function __construct(Answer $answer, Workbook $workbook, User $user) {
         $this->exercise_count = $answer->getExerciseCount();
         $this->ok_count = $answer->getOKCount();
         $this->ng_count = $answer->getNGCount();
@@ -30,7 +31,7 @@ class WorkbookHistory
         $this->workbook = $workbook;
     }
 
-    public static function map(Answer $answer, Workbook $workbook) {
-        return new WorkbookHistory($answer, $workbook);
+    public static function map(Answer $answer, Workbook $workbook, User $use) {
+        return new WorkbookHistory($answer, $workbook, $use);
     }
 }

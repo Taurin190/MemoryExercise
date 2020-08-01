@@ -40,8 +40,8 @@ class AnswerHistoryUsecaseTest extends TestCase
     public function testAddAnswerHistory()
     {
         $this->answerHistoryMock
-            ->shouldReceive('map')
-            ->with($this->answerMock, $this->workbookMock)
+            ->shouldReceive('create')
+            ->with($this->answerMock, $this->workbookMock, 1)
             ->once()
             ->andReturn($this->answerHistoryMock);
         $this->answerHistoryRepositoryMock
@@ -50,7 +50,7 @@ class AnswerHistoryUsecaseTest extends TestCase
             ->once()
             ->andReturn();
         $answer_history = new AnswerHistoryUsecase($this->answerHistoryRepositoryMock);
-        $answer_history->addAnswerHistory($this->answerMock, $this->workbookMock);
+        $answer_history->addAnswerHistory($this->answerMock, $this->workbookMock, 1);
         self::assertTrue(true);
     }
 

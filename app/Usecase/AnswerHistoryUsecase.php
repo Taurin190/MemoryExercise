@@ -7,6 +7,7 @@
  */
 
 namespace App\Usecase;
+use App\User;
 use App\Domain\Answer;
 use App\Domain\Workbook;
 use App\Domain\AnswerHistory;
@@ -24,9 +25,10 @@ class AnswerHistoryUsecase
      * 回答した内容を記録に残す
      * @param Answer $answer
      * @param Workbook $workbook
+     * @param User $user
      */
-    public function addAnswerHistory(Answer $answer, Workbook $workbook) {
-        $answer_history = AnswerHistory::map($answer, $workbook);
+    public function addAnswerHistory(Answer $answer, Workbook $workbook, User $user) {
+        $answer_history = AnswerHistory::map($answer, $workbook, $user);
         $this->answerHistoryRepository->save($answer_history);
     }
 

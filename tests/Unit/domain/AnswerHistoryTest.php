@@ -26,11 +26,11 @@ class AnswerHistoryTest extends TestCase
 
         $exercise_history_mock = m::mock('alias:App\Domain\ExerciseHistory');
         $exercise_history_mock->shouldReceive('map')
-            ->with($exercise_mock1)->once()->andReturn($exercise_history_mock);
+            ->with($exercise_mock1, 1)->once()->andReturn($exercise_history_mock);
         $exercise_history_mock->shouldReceive('map')
-            ->with($exercise_mock2)->once()->andReturn($exercise_history_mock);
+            ->with($exercise_mock2, 1)->once()->andReturn($exercise_history_mock);
         $exercise_history_mock->shouldReceive('map')
-            ->with($exercise_mock3)->once()->andReturn($exercise_history_mock);
+            ->with($exercise_mock3, 1)->once()->andReturn($exercise_history_mock);
 
 
         $answer_mock = m::mock('alias:App\Domain\Answer');
@@ -40,9 +40,9 @@ class AnswerHistoryTest extends TestCase
         $workbook_mock->shouldReceive('getExerciseList')
             ->once()->andReturn($exercise_mock_list);
         $workbook_history_mock->shouldReceive('map')
-            ->with($answer_mock, $workbook_mock)->once()->andReturn($workbook_history_mock);
+            ->with($answer_mock, $workbook_mock, 1)->once()->andReturn($workbook_history_mock);
 
-        $actual = AnswerHistory::map($answer_mock, $workbook_mock);
+        $actual = AnswerHistory::map($answer_mock, $workbook_mock, 1);
 
         self::assertTrue($actual instanceof AnswerHistory);
         self::assertTrue($actual->getWorkbookHistory() instanceof WorkbookHistory);

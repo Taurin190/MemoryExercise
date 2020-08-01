@@ -11,5 +11,5 @@ namespace App\Domain;
 
 interface AnswerHistoryRepository
 {
-
+    function save(AnswerHistory $answerHistory);
 }

@@ -13,6 +13,8 @@ class Answer
 {
     protected $exercise_list = [];
 
+    protected $exercise_map = [];
+
     protected $ok_count = 0;
 
     protected $ng_count = 0;
@@ -34,6 +36,7 @@ class Answer
             if (!isset($request->$exercise)) {
                 throw new DomainException("回答されていない問題があります。");
             }
+            $this->exercise_map[$exercise] = $request->$exercise;
             switch ($request->$exercise) {
                 case 'ok':
                     $this->ok_count++;
@@ -48,6 +51,16 @@ class Answer
                     throw new DomainException("不正な回答が設定されています。");
             }
         }
+    }
+
+    public function getExerciseMap()
+    {
+        return $this->exercise_map;
+    }
+
+    public function getExerciseList()
+    {
+        return $this->exercise_list;
     }
 
     public function getExerciseCount()
