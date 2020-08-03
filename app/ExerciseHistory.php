@@ -19,4 +19,8 @@ class ExerciseHistory extends Model
     public function user() {
         return $this->hasOne('\App\User');
     }
+
+    public static function map(\App\Domain\ExerciseHistory $exerciseHistory) {
+
+    }
 }

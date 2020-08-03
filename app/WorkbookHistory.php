@@ -19,4 +19,27 @@ class WorkbookHistory extends Model
     public function user() {
         return $this->hasOne('\App\User');
     }
+
+    public static function map(\App\Domain\WorkbookHistory $workbookHistory) {
+        $model = WorkbookHistory::find($workbookHistory->getWorkbookHistoryId());
+        if (is_null($model)) {
+            return new WorkbookHistory([
+                'exercise_count' => $workbookHistory->getExerciseCount(),
+                'ok_count' => $workbookHistory->getOKCount(),
+                'ng_count' => $workbookHistory->getNGCount(),
+                'studying_count' => $workbookHistory->getStudyingCount(),
+                'workbook' => Workbook::map($workbookHistory->getWorkbook()),
+                'user' => $workbookHistory->getUser()
+            ]);
+        } else {
+            return $model->fill([
+                'workbook_history_id' => $$workbookHistory->getWorkbookHistoryId(),
+                'ok_count' => $workbookHistory->getOKCount(),
+                'ng_count' => $workbookHistory->getNGCount(),
+                'studying_count' => $workbookHistory->getStudyingCount(),
+                'workbook' => Workbook::map($workbookHistory->getWorkbook()),
+                'user' => $workbookHistory->getUser()
+            ]);
+        }
+    }
 }
