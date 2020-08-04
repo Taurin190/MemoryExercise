@@ -7,9 +7,11 @@
  */
 
 namespace App\Domain;
-
+use App\User;
 
 interface AnswerHistoryRepository
 {
     function save(AnswerHistory $answerHistory);
+
+    function getAnswerHistoryByExerciseList(User $user, $exercise_list);
 }

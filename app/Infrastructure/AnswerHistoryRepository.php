@@ -12,6 +12,7 @@ namespace App\Infrastructure;
 use App\Domain\AnswerHistory;
 use App\ExerciseHistory;
 use App\WorkbookHistory;
+use App\User;
 
 class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
 {
@@ -31,5 +32,9 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
             $exercise_history_model->exercise()->associate(\App\Exercise::map($exercise_history->getExercise()));
             $exercise_history_model->save();
         }
+    }
+
+    function getAnswerHistoryByExerciseList(User $user, $exercise_list) {
+
     }
 }

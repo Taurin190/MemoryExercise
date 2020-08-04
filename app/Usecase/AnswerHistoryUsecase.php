@@ -35,4 +35,14 @@ class AnswerHistoryUsecase
     public function getAnswerHistoryForWorkbook(string $workbook_id) {
 
     }
+
+    /**
+     * 問題の解答履歴を対象の問題配列より取得する
+     * @param User $user
+     * @param $exercise_list
+     * @return array
+     */
+    public function getExerciseHistoryFromExerciseList(User $user, $exercise_list) {
+        return [];
+    }
 }

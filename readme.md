@@ -63,14 +63,15 @@ Laravelの練習プロジェクト。
     - [x] 問題を取得するAPI作成
     - [x] Vueで問題を動的に取得
     - [x] 取得した問題を選択できるようにする
-- [ ] History（問題回答履歴）クラス作成
+- [x] History（問題回答履歴）クラス作成
   - [x] Historyモデル、マイグレイトクラス作成
   - [x] Historyドメインクラス作成
-    - [ ] ドメインクラスをインスタンス化した時にidが存在することを保障したい
-  - [ ] Historyリポジトリ作成
-  - [ ] 解答時にログインしていた場合に履歴を保存
-- 問題履歴を保存するメソッド作成
-- 結果を取得して表示する画面作成
+  - [x] Historyリポジトリ作成
+  - [x] 解答時にログインしていた場合に履歴を保存
+- [ ] 結果を取得して表示する画面作成
+  - [ ] 問題の解答結果を取得するリポジトリ作成
+  - [ ] 問題の解答結果を取得するユースケース作成
+  - [ ] 画面の修正
 
 ## License
 The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
