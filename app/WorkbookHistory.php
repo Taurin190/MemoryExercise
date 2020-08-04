@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class WorkbookHistory extends Model
 {
-    protected $primaryKey = 'exercise_history_id';
+    protected $primaryKey = 'workbook_history_id';
 
     protected $fillable = [
         'exercise_count', 'ok_count', 'ng_count', 'studying_count'
     ];
 
     public function workbook() {
-        return $this->hasOne('\App\Workbook');
+        return $this->belongsTo('\App\Workbook', 'workbook_id', 'workbook_id');
     }
 
     public function user() {
-        return $this->hasOne('\App\User');
+        return $this->belongsTo('\App\User', 'user_id', 'id');
     }
 
     public static function map(\App\Domain\WorkbookHistory $workbookHistory) {
@@ -27,18 +27,15 @@ class WorkbookHistory extends Model
                 'exercise_count' => $workbookHistory->getExerciseCount(),
                 'ok_count' => $workbookHistory->getOKCount(),
                 'ng_count' => $workbookHistory->getNGCount(),
-                'studying_count' => $workbookHistory->getStudyingCount(),
-                'workbook' => Workbook::map($workbookHistory->getWorkbook()),
-                'user' => $workbookHistory->getUser()
+                'studying_count' => $workbookHistory->getStudyingCount()
             ]);
         } else {
             return $model->fill([
                 'workbook_history_id' => $$workbookHistory->getWorkbookHistoryId(),
+                'exercise_count' => $workbookHistory->getExerciseCount(),
                 'ok_count' => $workbookHistory->getOKCount(),
                 'ng_count' => $workbookHistory->getNGCount(),
-                'studying_count' => $workbookHistory->getStudyingCount(),
-                'workbook' => Workbook::map($workbookHistory->getWorkbook()),
-                'user' => $workbookHistory->getUser()
+                'studying_count' => $workbookHistory->getStudyingCount()
             ]);
         }
     }
