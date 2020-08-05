@@ -36,9 +36,10 @@ class ExerciseController extends Controller
     {
         $exercise_list = $this->exerciseUsecase->getAllExercises(10);
         if (Auth::check()) {
-            $exercise_history_list = $this->answerHistoryUsecase->getExerciseHistoryFromExerciseList(Auth::user(), $exercise_list);
+            $exercise_history_list = $this->answerHistoryUsecase->getExerciseHistoryCountByExerciseList(Auth::user(), $exercise_list);
             return view('exercise_index')
-                ->with('exercise_list', $exercise_list);
+                ->with('exercise_list', $exercise_list)
+                ->with('exercise_history_list', $exercise_history_list);
         } else {
             return view('exercise_index')
                 ->with('exercise_list', $exercise_list);

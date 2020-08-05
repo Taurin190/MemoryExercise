@@ -37,12 +37,23 @@ class AnswerHistoryUsecase
     }
 
     /**
-     * 問題の解答履歴を対象の問題配列より取得する
-     * @param User $user
+     * 問題の配列より解答回数をセットした連想配列を取得する
+     * @param $user
      * @param $exercise_list
      * @return array
      */
-    public function getExerciseHistoryFromExerciseList(User $user, $exercise_list) {
-        return [];
+    public function getExerciseHistoryCountByExerciseList($user, $exercise_list) {
+        $exercise_history_list = $this->answerHistoryRepository->getExerciseHistoryByList($user, $exercise_list);
+        $exercise_count_list = [];
+        foreach ($exercise_history_list as $exercise_history) {
+            $exercise_id = $exercise_history->exercise_id;
+            if (array_key_exists($exercise_id, $exercise_count_list)) {
+                $tmp_count = $exercise_count_list[$exercise_id];
+                $exercise_count_list[$exercise_id] = $tmp_count + 1;
+            } else {
+                $exercise_count_list[$exercise_id] = 1;
+            }
+        }
+        return $exercise_count_list;
     }
 }

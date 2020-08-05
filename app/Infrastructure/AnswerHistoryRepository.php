@@ -34,7 +34,11 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
         }
     }
 
-    function getAnswerHistoryByExerciseList(User $user, $exercise_list) {
-
+    function getExerciseHistoryByList(User $user, $exercise_list) {
+        $exercise_id_list = [];
+        foreach ($exercise_list as $exercise) {
+            $exercise_id_list[] = $exercise->getKey();
+        }
+        return ExerciseHistory::where('user_id', $user->getKey())->whereIn('exercise_id', $exercise_id_list)->get();
     }
 }
