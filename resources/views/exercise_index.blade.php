@@ -17,7 +17,15 @@
                         @foreach($exercise_list as $exercise)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             {{ $exercise->question }}
-                            <span class="badge badge-primary badge-pill">14</span>
+                            @if($exercise_history_list)
+                                <span class="badge badge-primary badge-pill">
+                                    @if(isset($exercise_history_list[$exercise->exercise_id]))
+                                        {{ $exercise_history_list[$exercise->exercise_id] }}
+                                    @else
+                                        0
+                                    @endif
+                                </span>
+                            @endif
                         </li>
                         @endforeach
                     </ul>
