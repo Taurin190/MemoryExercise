@@ -28,7 +28,9 @@ class EditController extends Controller
 
     public function edit($uuid)
     {
-        return view('workbook_create');
+        $workbook = $this->workbook_usecase->getWorkbook($uuid);
+        return view('workbook_edit')
+            ->with('workbook', $workbook);
     }
 
     public function confirm($uuid, WorkbookRequest $request)
