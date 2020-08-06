@@ -6,13 +6,14 @@
  * Time: 18:02
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Workbook;
+use App\Http\Controllers\Controller;
 use App\Usecase\WorkbookUsecase;
 use App\Usecase\ExerciseUsecase;
 use App\Http\Requests\WorkbookRequest;
 
 
-class WorkbookManageController extends Controller
+class CreateController extends Controller
 {
     protected $workbook_usecase;
 

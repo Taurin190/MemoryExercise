@@ -68,10 +68,12 @@ Laravelの練習プロジェクト。
   - [x] Historyドメインクラス作成
   - [x] Historyリポジトリ作成
   - [x] 解答時にログインしていた場合に履歴を保存
-- [ ] 結果を取得して表示する画面作成
-  - [ ] 問題の解答結果を取得するリポジトリ作成
-  - [ ] 問題の解答結果を取得するユースケース作成
-  - [ ] 画面の修正
+- [x] 結果を取得して表示する画面作成
+  - [x] 問題の解答結果を取得するリポジトリ作成
+  - [x] 問題の解答結果を取得するユースケース作成
+  - [x] 画面の修正
+- [ ] 問題集を編集できるようにする
+  - [ ] 
 
 ## License
 The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).

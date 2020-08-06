@@ -33,11 +33,11 @@ Route::get('/setting', 'HomeController@index')->name('setting');
 
 Route::get('/workbook/list', 'WorkbookController@list')->name('workbook.list');
 
-Route::get('/workbook/create', 'WorkbookManageController@create')->name('workbook.create');
+Route::get('/workbook/create', 'Workbook\CreateController@create')->name('workbook.create');
 
-Route::post('/workbook/confirm', 'WorkbookManageController@confirm')->name('workbook.confirm');
+Route::post('/workbook/confirm', 'Workbook\CreateController@confirm')->name('workbook.confirm');
 
-Route::post('/workbook/complete', 'WorkbookManageController@complete')->name('workbook.complete');
+Route::post('/workbook/complete', 'Workbook\CreateController@complete')->name('workbook.complete');
 
 Route::get('/workbook/{uuid}', 'WorkbookController@detail')->name('workbook.detail');
 
