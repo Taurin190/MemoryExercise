@@ -23,10 +23,10 @@
                            class="form-control "
                            id="InputExplanation"
                            name="explanation"
-                              placeholder="問題集の説明を入れてください。">{{  $workbook->getExplanation() }}</textarea>
+                              placeholder="問題集の説明を入れてください。">{{ $workbook->getExplanation() }}</textarea>
                 </div>
             </div>
-            <exercise-search-component></exercise-search-component>
+            <exercise-search-component :workbook='@json($workbook_array)'></exercise-search-component>
             <div class="col-sm-offset-2 ">
                 <button type="submit" class="btn btn-primary btn-block">編集</button>
             </div>

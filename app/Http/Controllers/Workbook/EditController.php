@@ -30,7 +30,8 @@ class EditController extends Controller
     {
         $workbook = $this->workbook_usecase->getWorkbook($uuid);
         return view('workbook_edit')
-            ->with('workbook', $workbook);
+            ->with('workbook', $workbook)
+            ->with('workbook_array', $workbook->toArray());
     }
 
     public function confirm($uuid, WorkbookRequest $request)

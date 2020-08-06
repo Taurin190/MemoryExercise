@@ -50,6 +50,20 @@
     import "axios";
     export default {
         name: "ExerciseSearchComponent",
+        props: {
+            workbook : {}
+        },
+        mounted: function() {
+            console.log(this.workbook);
+            console.log(this.workbook.exercise_list);
+          if (this.workbook.exercise_list.length > 0) {
+              for (var i = 0; i < this.workbook.exercise_list.length; i++) {
+                  if (!Object.keys(this.selected_exercise_list).includes(this.workbook.exercise_list[i].exercise_id)) {
+                      this.$set(this.selected_exercise_list, this.workbook.exercise_list[i].exercise_id, this.workbook.exercise_list[i]);
+                  }
+              }
+          }
+        },
         data: function() {
             return {
                 exercise_list: {},
