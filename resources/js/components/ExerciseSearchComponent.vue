@@ -24,10 +24,16 @@
             <li v-for="(exercise, index) in exercise_list"
             class="list-group-item d-flex justify-content-between align-items-center">
                 <div class="form-group">
-                    <input type="checkbox"
+                    <input v-if="should_checked(index)"
+                           type="checkbox"
                            :value="exercise.exercise_id"
                            v-on:click="setChecked('checked', $event)"
-                           @change="addExercise"
+                           checked="checked"
+                           autocomplete="off">
+                    <input v-else
+                           type="checkbox"
+                           :value="exercise.exercise_id"
+                           v-on:click="setChecked('checked', $event)"
                            autocomplete="off">
                     <div class="btn-group">
                         <label for="fancy-checkbox-default" class="btn btn-default">
@@ -60,6 +66,7 @@
               for (var i = 0; i < this.workbook.exercise_list.length; i++) {
                   if (!Object.keys(this.selected_exercise_list).includes(this.workbook.exercise_list[i].exercise_id)) {
                       this.$set(this.selected_exercise_list, this.workbook.exercise_list[i].exercise_id, this.workbook.exercise_list[i]);
+                      this.$set(this.exercise_list, this.workbook.exercise_list[i].exercise_id, this.workbook.exercise_list[i]);
                   }
               }
           }
@@ -77,11 +84,10 @@
                     url: 'http://localhost:8000/api/exercise?text=' + text,
                     method: 'GET'
                 }).then(res =>  {
-                    this.exercise_list =  res.data
+                    for (var i = 0; i < res.data.length; i ++) {
+                        this.$set(this.exercise_list, res.data[i].exercise_id, res.data[i]);
+                    }
                 })
-            },
-            addExercise: function (id) {
-                // console.log(id);
             },
             setChecked: function(key, event) {
                 var self = this;
@@ -114,10 +120,18 @@
                 }
             },
         },
+        computed: {
+            should_checked: function() {
+                self = this;
+                return function(index) {
+                    return Object.keys(self.selected_exercise_list).includes(index);
+                }
+            }
+        },
         watch: {
             text: function(text) {
                 this.loadExercise(text)
-            },
+            }
         }
     }
 </script>
