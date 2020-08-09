@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    {{Form::open(['route' => [ 'workbook.edit.complete']])}}
+    {{Form::open(['route' =>  ['workbook.edit.complete', $workbook->getWorkbookId()]])}}
     <div class="row justify-content-center">
         <div class="col-md-8">
             <p>以下で編集してよろしいですか？</p>
@@ -30,7 +30,7 @@
         </div>
     </div>
     <div class="btn-group d-flex pb-2" role="group" aria-label="...">
-        <a href="{{route('workbook.create')}}"
+        <a href="{{route('workbook.edit', $workbook->getWorkbookId())}}"
            class="btn btn-outline-secondary w-100">戻る</a>
         <input type="submit"
                class="btn btn-outline-primary w-100" value="作成" />
