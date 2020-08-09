@@ -42,12 +42,12 @@ class EditController extends Controller
         if (isset($exercise_id_list)) {
             $exercise_list = $this->exercise_usecase->getAllExercisesWithIdList($exercise_id_list);
             $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
-            return view('workbook_confirm')
+            return view('workbook_edit_confirm')
                 ->with('workbook', $workbook)
                 ->with('exercise_list', $exercise_list);
         } else {
             $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
-            return view('workbook_confirm')
+            return view('workbook_edit_confirm')
                 ->with('workbook', $workbook);
         }
     }
@@ -63,6 +63,6 @@ class EditController extends Controller
         }
         $this->workbook_usecase->createWorkbook($title, $explanation, $exercise_list);
 
-        return view('workbook_complete');
+        return view('workbook_edit_complete');
     }
 }
