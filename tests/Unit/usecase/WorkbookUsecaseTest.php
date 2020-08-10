@@ -59,6 +59,10 @@ class WorkbookUsecaseTest extends TestCase
             ->shouldReceive('create')
             ->with("test workbook", "This is test workbook.")
             ->once()->andReturn($this->workbookEntityMock);
+        $this->workbookEntityMock
+            ->shouldReceive('setExerciseDomainList')
+            ->with(null)
+            ->once()->andReturn();
         $this->workbookRepositoryMock
             ->shouldReceive('save')
             ->with($this->workbookEntityMock)
@@ -74,6 +78,10 @@ class WorkbookUsecaseTest extends TestCase
             ->shouldReceive('create')
             ->with("test workbook", "")
             ->once()->andReturn($this->workbookEntityMock);
+        $this->workbookEntityMock
+            ->shouldReceive('setExerciseDomainList')
+            ->with(null)
+            ->once()->andReturn();
         $this->workbookRepositoryMock
             ->shouldReceive('save')
             ->with($this->workbookEntityMock)
@@ -110,6 +118,43 @@ class WorkbookUsecaseTest extends TestCase
             "This is test workbook.",
             [$exercise_mock1, $exercise_mock2, $exercise_mock3]
         );
+    }
+
+    public function testMakeWorkbookFromExistingWorkbook()
+    {
+        $this->workbookEntityMock
+            ->shouldReceive('create')
+            ->with(
+                "test workbook",
+                "This is test workbook.",
+                null,
+                "workbook1"
+            )
+            ->once()->andReturn($this->workbookEntityMock);
+        $this->workbookEntityMock
+            ->shouldReceive('getWorkbookId')
+            ->once()->andReturn("workbook1");
+        $this->workbookEntityMock
+            ->shouldReceive('getTitle')
+            ->once()->andReturn("test workbook");
+        $this->workbookEntityMock
+            ->shouldReceive('getExplanation')
+            ->once()->andReturn("This is test workbook.");
+        $this->workbookEntityMock
+            ->shouldReceive('getExerciseList')
+            ->once()->andReturn([]);
+
+        $workbook = new WorkbookUsecase($this->workbookRepositoryMock, $this->exerciseRepositoryMock);
+        $actual = $workbook->makeWorkbook(
+            "test workbook",
+            "This is test workbook.",
+            null,
+            "workbook1"
+        );
+        self::assertSame("workbook1", $actual->getWorkbookId());
+        self::assertSame("test workbook", $actual->getTitle());
+        self::assertSame("This is test workbook.", $actual->getExplanation());
+        self::assertSame([], $actual->getExerciseList());
     }
 
     public function testModifyWorkbook()

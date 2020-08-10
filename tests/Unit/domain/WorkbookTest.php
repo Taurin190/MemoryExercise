@@ -66,6 +66,14 @@ class WorkbookTest extends TestCase
         }
     }
 
+    public function testCreateWithWorkbookId() {
+        $actual = Workbook::create("test title", "This is an example of workbook", null, "workbook1");
+        self::assertSame("workbook1", $actual->getWorkbookId());
+        self::assertSame("test title", $actual->getTitle());
+        self::assertSame("This is an example of workbook", $actual->getExplanation());
+        self::assertSame([], $actual->getExerciseList());
+    }
+
     public function testModifyTitle() {
         try {
             $workbook = Workbook::create("test workbook", "This is an example of workbook.");
