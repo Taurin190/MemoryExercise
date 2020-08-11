@@ -73,12 +73,16 @@ class WorkbookUsecase
      * @param $wordbook_id int 問題集のID
      * @param $title string 問題集の名前
      * @param $description string 問題集の説明
+     * @param null $exercise_list
      */
-    public function modifyWorkbook($wordbook_id, $title, $description) {
+    public function modifyWorkbook($wordbook_id, $title, $description, $exercise_list = null) {
         $workbook = $this->workbookRepository->findByWorkbookId($wordbook_id);
         $workbook->modifyTitle($title);
-        $workbook->modifyDescription($description);
-        $this->workbookRepository->save($workbook);
+        $workbook->modifyExplanation($description);
+        if (isset($exercise_list)) {
+            $workbook->setExerciseDomainList($exercise_list);
+        }
+        $this->workbookRepository->update($workbook);
     }
 
     /**

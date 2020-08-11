@@ -43,7 +43,11 @@ class Workbook
             $this->workbook_id = $workbook_id;
         }
         if (isset($exercises)) {
-            $this->setExerciseList($exercises->get());
+            if (is_array($exercises)) {
+                $this->setExerciseList($exercises);
+            } else {
+                $this->setExerciseList($exercises->get());
+            }
         }
         $this->title = $title;
         $this->explanation = $explanation;
@@ -125,7 +129,11 @@ class Workbook
     private function setExerciseList($exercise_list) {
         $domain_list = [];
         foreach($exercise_list as $model) {
-            $domain_list[] = Exercise::map($model);
+            if ($model instanceof Exercise) {
+                $domain_list[] = $model;
+            } else {
+                $domain_list[] = Exercise::map($model);
+            }
         }
         $this->exercise_list = $domain_list;
     }

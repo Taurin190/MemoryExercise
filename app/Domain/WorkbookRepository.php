@@ -5,6 +5,8 @@ interface WorkbookRepository
 {
     function save(Workbook $workbook);
 
+    function update(Workbook $workbook);
+
     function findByWorkbookId($workbook_id);
 
     function findAll();

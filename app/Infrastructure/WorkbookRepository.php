@@ -45,6 +45,28 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
         }
     }
 
+    function update(Workbook $workbook)
+    {
+        DB::beginTransaction();
+        try {
+            $workbook_model = \App\Workbook::map($workbook);
+            $workbook_model->save();
+            $uuid = $workbook_model->getKey();
+            $workbook_model->exercises()->detach();
+            if ($workbook->getExerciseList() != null && count($workbook->getExerciseList()) > 0) {
+                foreach ($workbook->getExerciseList() as $exercise) {
+                    $workbook_model->exercises()->attach(
+                        ['workbook_id' => $uuid],
+                        ['exercise_id' => $exercise->getExerciseId()]
+                    );
+                }
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            Log::error("DB Exception: " . $e);
+        }
+    }
+
     function delete(int $workbook_id)
     {
         \App\Workbook::find($workbook_id)->delete();

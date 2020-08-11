@@ -43,8 +43,8 @@ Route::post('/workbook/confirm', 'Workbook\CreateController@confirm')->name('wor
 
 Route::post('/workbook/complete', 'Workbook\CreateController@complete')->name('workbook.complete');
 
-Route::get('/workbook/edit/{uuid}', 'Workbook\EditController@edit')->name('workbook.edit');
+Route::get('/workbook/{uuid}/edit', 'Workbook\EditController@edit')->name('workbook.edit');
 
-Route::post('/workbook/edit/{uuid}/confirm', 'Workbook\EditController@confirm')->name('workbook.edit.confirm');
+Route::post('/workbook/{uuid}/edit/confirm', 'Workbook\EditController@confirm')->name('workbook.edit.confirm');
 
-Route::post('/workbook/edit/{uuid}/complete', 'Workbook\EditController@complete')->name('workbook.edit.complete');
+Route::post('/workbook/{uuid}/edit/complete', 'Workbook\EditController@complete')->name('workbook.edit.complete');

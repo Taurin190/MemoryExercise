@@ -41,12 +41,12 @@ class EditController extends Controller
         $exercise_id_list = $request->get('exercise');
         if (isset($exercise_id_list)) {
             $exercise_list = $this->exercise_usecase->getAllExercisesWithIdList($exercise_id_list);
-            $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
+            $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation, $exercise_list, $uuid);
             return view('workbook_edit_confirm')
                 ->with('workbook', $workbook)
                 ->with('exercise_list', $exercise_list);
         } else {
-            $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
+            $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation, null, $uuid);
             return view('workbook_edit_confirm')
                 ->with('workbook', $workbook);
         }
@@ -61,7 +61,7 @@ class EditController extends Controller
         if (isset($exercise_id_list)) {
             $exercise_list = $this->exercise_usecase->getAllExercisesWithIdList($exercise_id_list);
         }
-        $this->workbook_usecase->createWorkbook($title, $explanation, $exercise_list);
+        $this->workbook_usecase->modifyWorkbook($uuid, $title, $explanation, $exercise_list);
 
         return view('workbook_edit_complete');
     }
