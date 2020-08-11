@@ -1,6 +1,7 @@
 <?php
 namespace App\Infrastructure;
 use App\Domain\Workbook;
+use App\Exceptions\DataNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -9,6 +10,9 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
     function findByWorkbookId($workbook_id)
     {
         $model = \App\Workbook::where('workbook_id', $workbook_id);
+        if (is_null($model->first())) {
+            throw new DataNotFoundException("Data Not Fount: Invalid Workbook Id.");
+        }
         return Workbook::map($model->first());
     }
 
