@@ -81,7 +81,7 @@
         methods: {
             loadExercise: function (text) {
                 axios({
-                    url: 'http://localhost:8000/api/exercise?text=' + text,
+                    url: '/api/exercise?text=' + text,
                     method: 'GET'
                 }).then(res =>  {
                     for (var i = 0; i < res.data.length; i ++) {
