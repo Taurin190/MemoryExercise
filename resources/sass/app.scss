@@ -13,3 +13,23 @@ div.component-block {
 div.pager-block {
     margin: 10px 0 50px;
 }
+
+div.banner-image {
+    background-image: url('/bg-img.jpg');
+    background-size: 100% auto;
+    background-position: 80% 50%;
+    height: 400px;
+}
+
+div.banner-container {
+    height: 400px;
+    display:table-cell;
+    vertical-align:middle;
+    text-align:left;
+}
+
+p.banner-text {
+    color: white;
+    font-size: 40px;
+    margin-bottom: 0;
+}
