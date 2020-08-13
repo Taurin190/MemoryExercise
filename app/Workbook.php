@@ -21,6 +21,10 @@ class Workbook extends Model
             $model->{$model->getKeyName()} = (string) Uuid::generate()->string;
         });
     }
+    public function user()
+    {
+        return $this->belongsTo('\App\User', 'author_id', 'id');
+    }
 
     public function exercises()
     {

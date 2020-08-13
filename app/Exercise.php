@@ -22,6 +22,10 @@ class Exercise extends Model
         });
     }
 
+    public function user()
+    {
+        return $this->belongsTo('\App\User', 'author_id', 'id');
+    }
     public function workbooks()
     {
         return $this->belongsToMany('App\Workbook');
