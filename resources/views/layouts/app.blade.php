@@ -53,7 +53,7 @@
                                 <a class="nav-link" href="{{ route('workbook.create') }}">{{ __('問題集作成') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('workbook.create') }}">{{ __('問題登録') }}</a>
+                                <a class="nav-link" href="{{ route('exercise.create') }}">{{ __('問題登録') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('workbook.list') }}">{{ __('勉強開始') }}</a>
