@@ -11,7 +11,7 @@ class Exercise extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = [
-        'question', 'answer',
+        'question', 'answer', 'public'
     ];
 
     protected static function boot()
