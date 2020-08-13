@@ -9,10 +9,10 @@
             </div>
         </div>
     </div>
-    <div class="container">
+    <div class="container py-5">
         <div class="row">
-            <div class="col-8">
-                <h2>問題を自分で作成する事で記憶定着を促す</h2>
+            <div class="col-8 mx-auto">
+                <h2 class="text-center">問題を自分で作成する事で記憶定着を促す</h2>
             </div>
         </div>
     </div>
