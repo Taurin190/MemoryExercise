@@ -23,6 +23,8 @@ Vue.component('workbook-component', require('./components/WorkbookComponent.vue'
 Vue.component('answer-graph-component', require('./components/AnswerGraphComponent.vue').default);
 Vue.component('exercise-search-component', require('./components/ExerciseSearchComponent.vue').default);
 Vue.component('study-history-graph-component', require('./components/StudyHistoryGraphComponent.vue').default);
+Vue.component('category-search-component', require('./components/CategorySearchComponent.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
