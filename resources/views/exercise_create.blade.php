@@ -5,11 +5,13 @@
 
         @if(count($errors) > 0)
         <div class="row">
-            <div class="col-md-8 mx-auto alert alert-danger alert-dismissible fade show">
-                @foreach ($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <div class="offset-md-2 col-md-10 mx-auto ">
+                <div class="mx-3 col-md-11 float-right alert alert-danger alert-dismissible fade show">
+                    @foreach ($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
             </div>
         </div>
         @endif
