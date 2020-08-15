@@ -30,6 +30,8 @@ Vue.component('category-search-component', require('./components/CategorySearchC
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+import VueSweetalert2 from 'vue-sweetalert2';
+Vue.use(VueSweetalert2);
 
 const app = new Vue({
     el: '#app',
