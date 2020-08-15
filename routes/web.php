@@ -21,11 +21,11 @@ Route::get('/exercise', 'ExerciseController@index')->name('exercise.index');
 
 Route::get('/exercise/list', 'ExerciseController@list')->name('exercise.list');
 
-Route::get('/exercise/create', 'ExerciseController@create')->name('exercise.create');
+Route::get('/exercise/create', 'Exercise\CreateController@create')->name('exercise.create');
 
-Route::post('/exercise/confirm', 'ExerciseController@confirm')->name('exercise.confirm');
+Route::post('/exercise/confirm', 'Exercise\CreateController@confirm')->name('exercise.confirm');
 
-Route::post('/exercise/complete', 'ExerciseController@complete')->name('exercise.complete');
+Route::post('/exercise/complete', 'Exercise\CreateController@complete')->name('exercise.complete');
 
 Route::get('/setting', 'HomeController@index')->name('setting');
 

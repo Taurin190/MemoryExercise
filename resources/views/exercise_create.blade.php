@@ -49,21 +49,21 @@
                      <input type="radio"
                             class=""
                             name="public"
-                            value="public"
+                            value="1"
                             checked="checked"
                      >
                      <label for="contactChoice1">公開</label>
                      <input type="radio"
                             class=""
                             name="public"
-                            value="private"
+                            value="0"
                      >
                      <label for="contactChoice1">非公開</label>
                  </div>
              </div>
              <div class="py-2 col-md-10 mx-auto form-group">
                  <label class="py-2 col-md-2 float-left control-label text-right" for="InputAnswer">カテゴリ</label>
-                 <category-search-component></category-search-component>
+                 <label-search-component></label-search-component>
              </div>
              <div class="py-2 col-md-10 mx-auto form-group">
                  <div class="offset-md-2 col-md-3 float-left">

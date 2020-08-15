@@ -3,7 +3,7 @@
         <div class="py-2" v-if="label_list.length">
             <div class="px-2 py-1 mr-1 mb-2 badge badge-primary" v-for="(label, index) in label_list">
                 <span>{{ label }}</span>
-                <input type="hidden" :value="label" />
+                <input type="hidden" name="label[]" :value="label" />
                 <a style="color: white;" href="#" @click="removeTag(index)">x</a>
             </div>
         </div>
