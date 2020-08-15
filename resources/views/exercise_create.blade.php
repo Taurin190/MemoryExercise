@@ -13,8 +13,7 @@
             </div>
         </div>
         @endif
-        <form onsubmit="return false;" method="POST" action="{{ route('exercise.confirm') }}" accept-charset="UTF-8">
-        {{--{{Form::open(['route' => [ 'exercise.confirm']])}}--}}
+        {{Form::open(['route' => [ 'exercise.confirm'], 'onsubmit' => "return false;"])}}
          <div class="row">
             <div class="d-flex align-items-start py-2 col-md-10 mx-auto form-group @if(!empty($errors->first('question'))) has-error @endif">
                 <label class="pt-2 float-left col-md-2 control-label text-right" for="InputQuestion">問題の質問</label>
@@ -75,7 +74,6 @@
                  </div>
              </div>
          </div>
-        {{--{{Form::close()}}--}}
-        </form>
+        {{Form::close()}}
     </div>
 @endsection
