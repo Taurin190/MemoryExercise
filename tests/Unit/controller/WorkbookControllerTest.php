@@ -9,7 +9,11 @@ use \Mockery as m;
 
 class WorkbookControllerTest extends TestCase
 {
-
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        m::close();
+    }
     public function testList()
     {
         $workbookUsecaseMock = m::mock('App\Usecase\WorkbookUsecase');

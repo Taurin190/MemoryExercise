@@ -12,6 +12,7 @@ class ExerciseTest extends TestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->exerciseModelMock = m::mock('\App\Exercise');
     }
     public function tearDown(): void

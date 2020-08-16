@@ -26,9 +26,9 @@ class AnswerHistoryTest extends TestCase
     public function testMap()
     {
         $exercise_mock_list = [];
-        $exercise_mock1 = m::mock('App\Domain\Exercise');
-        $exercise_mock2 = m::mock('App\Domain\Exercise');
-        $exercise_mock3 = m::mock('App\Domain\Exercise');
+        $exercise_mock1 = m::mock('\App\Domain\Exercise');
+        $exercise_mock2 = m::mock('\App\Domain\Exercise');
+        $exercise_mock3 = m::mock('\App\Domain\Exercise');
         $exercise_mock1->shouldReceive('getExerciseId')
             ->once()->andReturn('exercise1');
         $exercise_mock2->shouldReceive('getExerciseId')
@@ -39,7 +39,7 @@ class AnswerHistoryTest extends TestCase
         $exercise_mock_list[] = $exercise_mock2;
         $exercise_mock_list[] = $exercise_mock3;
 
-        $exercise_history_mock = m::mock('alias:App\Domain\ExerciseHistory');
+        $exercise_history_mock = m::mock('alias:\App\Domain\ExerciseHistory');
         $exercise_history_mock->shouldReceive('create')
             ->with(1, $exercise_mock1, 'ng')->once()->andReturn($exercise_history_mock);
         $exercise_history_mock->shouldReceive('create')
