@@ -18,6 +18,7 @@ class CreateLabelsTable extends Migration
             $table->bigIncrements('label_id');
             $table->primary('label_id');
             $table->string('name');
+            $table->unique('name');
             $table->timestamps();
         });
         DB::statement('ALTER TABLE labels ADD FULLTEXT index label (`name`) with parser ngram');

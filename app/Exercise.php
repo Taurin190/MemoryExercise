@@ -34,6 +34,10 @@ class Exercise extends Model
     {
         return $this->hasMany('App\AnswerHistory');
     }
+    public function labels()
+    {
+        return $this->belongsToMany('App\Label');
+    }
 
     public static function map(\App\Domain\Exercise $exercise) {
         $model = Exercise::find($exercise->getExerciseId());
