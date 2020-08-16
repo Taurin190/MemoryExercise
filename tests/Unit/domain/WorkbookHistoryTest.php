@@ -13,11 +13,14 @@ class WorkbookHistoryTest extends TestCase
 
     protected $workbookMock;
 
+    protected $userMock;
+
     public function setUp(): void
     {
         parent::setUp();
         $this->answerMock = m::mock('\App\Domain\Answer');
         $this->workbookMock = m::mock('alias:App\Domain\Workbook');
+        $this->userMock = m::mock('App\User');
     }
     public function tearDown(): void
     {
@@ -33,7 +36,7 @@ class WorkbookHistoryTest extends TestCase
             ->once()->andReturn();
         $this->answerMock->shouldReceive('getStudyingCount')
             ->once()->andReturn();
-        WorkbookHistory::map($this->answerMock, $this->workbookMock);
+        WorkbookHistory::map($this->answerMock, $this->workbookMock, $this->userMock);
         self::assertTrue(true);
     }
 }

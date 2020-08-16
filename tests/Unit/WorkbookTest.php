@@ -25,6 +25,6 @@ class WorkbookTest extends TestCase
     {
         $workbook = new Workbook();
         $actual = $workbook->getFillable();
-        $this->assertSame(['title', 'explanation'], $actual);
+        $this->assertSame(['title', 'explanation', 'public'], $actual);
     }
 }

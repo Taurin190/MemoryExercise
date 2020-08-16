@@ -34,7 +34,7 @@ class ExerciseTest extends TestCase
     {
         $workbook = new Exercise();
         $actual = $workbook->getFillable();
-        self::assertSame(['question', 'answer'], $actual);
+        self::assertSame(['question', 'answer', 'public'], $actual);
     }
 
     public function testMap()
