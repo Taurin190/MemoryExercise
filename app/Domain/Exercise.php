@@ -3,6 +3,10 @@ namespace App\Domain;
 
 class Exercise
 {
+    const PUBLIC_EXERCISE = 1;
+
+    const PRIVATE_EXERCISE = 0;
+
     private $exercise_id;
 
     private $question;
@@ -13,7 +17,15 @@ class Exercise
 
     private $lable_list;
 
-    private function __construct($question, $answer, $exercise_id = null)
+    /**
+     * Exerciseドメインモデルのコンストラクタ
+     * @param string $exercise_id primary id。データベースにデータ作成時にidが決まるため作成時にはnullになる。
+     * @param string $question 問題の質問
+     * @param string $answer 問題の解答
+     * @param int $permission 公開範囲の設定
+     * @param null $label_list ラベル。任意で設定可能
+     */
+    private function __construct($exercise_id, $question, $answer, $permission, $label_list = null)
     {
         $this->question = $question;
         $this->answer = $answer;
@@ -27,14 +39,15 @@ class Exercise
         if (empty($answer)) {
             throw new DomainException("解答が空です。");
         }
-        return new Exercise($question, $answer);
+        return new Exercise(null, $question, $answer, self::PUBLIC_EXERCISE);
     }
 
     public static function map(\App\Exercise $model) {
         return new Exercise(
+            $model->getKey(),
             $model->getAttribute("question"),
             $model->getAttribute("answer"),
-            $model->getKey()
+            self::PUBLIC_EXERCISE
         );
     }
 
