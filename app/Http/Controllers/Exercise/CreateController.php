@@ -53,8 +53,8 @@ class CreateController extends Controller
     {
         $question = $request->get('question');
         $answer = $request->get('answer');
-        $label = $request->get('label');
-        $public = $request->get('public');
+        $label_list = $request->get('label');
+        $permission = $request->get('permission');
         $exercise = $this->exerciseUsecase->makeExercise($question, $answer);
         $request->session()->put('question', $request->get('question'));
         $request->session()->put('answer', $request->get('answer'));

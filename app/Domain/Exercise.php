@@ -9,6 +9,10 @@ class Exercise
 
     private $answer;
 
+    private $permission;
+
+    private $lable_list;
+
     private function __construct($question, $answer, $exercise_id = null)
     {
         $this->question = $question;

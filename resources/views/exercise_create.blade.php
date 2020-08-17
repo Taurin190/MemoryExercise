@@ -46,18 +46,18 @@
                 </div>
             </div>
              <div class="py-2 col-md-10 mx-auto form-group">
-                 <label class="col-md-2 float-left control-label text-right" for="InputAnswer">公開設定</label>
+                 <label class="col-md-2 float-left control-label text-right">公開設定</label>
                  <div class="col-md-10 float-left">
                      <input type="radio"
                             class=""
-                            name="public"
+                            name="permission"
                             value="1"
                             checked="checked"
                      >
                      <label for="contactChoice1">公開</label>
                      <input type="radio"
                             class=""
-                            name="public"
+                            name="permission"
                             value="0"
                      >
                      <label for="contactChoice1">非公開</label>
