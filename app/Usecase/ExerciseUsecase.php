@@ -25,7 +25,7 @@ class ExerciseUsecase
     }
 
     public function createExercise($question, $answer) {
-        $exercise = create(['question' => $question, 'answer' => $answer]);
+        $exercise = Exercise::create(['question' => $question, 'answer' => $answer]);
         $this->exerciseRepository->save($exercise);
     }
 

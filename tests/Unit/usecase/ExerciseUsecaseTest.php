@@ -36,6 +36,29 @@ class ExerciseUsecaseTest extends TestCase
         m::close();
     }
 
+    public function testMakeExercise() {
+        $this->exerciseDomain
+            ->shouldReceive('create')
+            ->with(['question' => 'How are you?', 'answer' =>'I\'m fine. thank you.'])
+            ->once()->andReturn($this->exerciseDomain);
+        $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
+        $actual = $exercise_usecase->makeExercise('How are you?','I\'m fine. thank you.');
+        self::assertTrue($actual instanceof Exercise);
+    }
+
+    public function testCreateExercise() {
+        $this->exerciseDomain
+            ->shouldReceive('create')
+            ->with(['question' => 'How are you?', 'answer' =>'I\'m fine. thank you.'])
+            ->once()->andReturn($this->exerciseDomain);
+        $this->exerciseRepository
+            ->shouldReceive('save')
+            ->with($this->exerciseDomain)
+            ->once()->andReturn();
+        $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
+        $exercise_usecase->createExercise('How are you?','I\'m fine. thank you.');
+    }
+
     public function testSearchExercise() {
         $exercise_mock1 = m::mock('alias:App\Domain\Exercise');
         $exercise_mock2 = m::mock('alias:App\Domain\Exercise');
