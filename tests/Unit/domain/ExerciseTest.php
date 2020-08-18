@@ -20,10 +20,10 @@ class ExerciseTest extends TestCase
         parent::tearDown();
         m::close();
     }
+
     public function testCreate() {
-        $exercise = null;
         try {
-            $exercise = Exercise::create("Do you like dog?", "yes, I like.");
+            $exercise = Exercise::create(["question" => "Do you like dog?", "answer" => "yes, I like."]);
             $actual = $exercise->getQuestion();
             self::assertSame("Do you like dog?", $actual);
             $actual = $exercise->getAnswer();
@@ -35,7 +35,7 @@ class ExerciseTest extends TestCase
 
     public function testCreateWithoutQuestion() {
         try {
-            Exercise::create("", "yes, I like.");
+            Exercise::create(["answer" => "yes, I like."]);
             self::fail("例外が発生しませんでした。");
         } catch (DomainException $e) {
             self::assertSame("質問が空です。", $e->getMessage());
@@ -44,7 +44,7 @@ class ExerciseTest extends TestCase
 
     public function testCreateWithoutAnswer() {
         try {
-            Exercise::create("Do you like dog?", "");
+            Exercise::create(["question" => "Do you like dog?"]);
             self::fail("例外が発生しませんでした。");
         } catch (DomainException $e) {
             self::assertSame("解答が空です。", $e->getMessage());
@@ -75,7 +75,7 @@ class ExerciseTest extends TestCase
 
     public function testSetQuestion() {
         try {
-            $exercise = Exercise::create("Do you like dog?", "yes, I like.");
+            $exercise = Exercise::create(["question" => "Do you like dog?", "answer" => "yes, I like."]);
             $actual = $exercise->getQuestion();
             self::assertSame("Do you like dog?", $actual);
             $exercise->setQuestion("Do you like cat?");
@@ -88,7 +88,7 @@ class ExerciseTest extends TestCase
 
     public function testSetQuestionWithEmpty() {
         try {
-            $exercise = Exercise::create("Do you like dog?", "yes, I like.");
+            $exercise = Exercise::create(["question" => "Do you like dog?", "answer" => "yes, I like."]);
             $actual = $exercise->getQuestion();
             self::assertSame("Do you like dog?", $actual);
             $exercise->setQuestion("");
@@ -100,7 +100,7 @@ class ExerciseTest extends TestCase
 
     public function testSetAnswer() {
         try {
-            $exercise = Exercise::create("Do you like dog?", "yes, I like.");
+            $exercise = Exercise::create(["question" => "Do you like dog?", "answer" => "yes, I like."]);
             $actual = $exercise->getAnswer();
             self::assertSame("yes, I like.", $actual);
             $exercise->setAnswer("No, I don\'t.");
@@ -113,7 +113,7 @@ class ExerciseTest extends TestCase
 
     public function testSetAnswerWithEmpty() {
         try {
-            $exercise = Exercise::create("Do you like dog?", "yes, I like.");
+            $exercise = Exercise::create(["question" => "Do you like dog?", "answer" => "yes, I like."]);
             $actual = $exercise->getAnswer();
             self::assertSame("yes, I like.", $actual);
             $exercise->setAnswer("");
@@ -125,7 +125,7 @@ class ExerciseTest extends TestCase
 
     public function testToArray() {
         try {
-            $exercise = Exercise::create("Do you like dog?", "yes, I like.");
+            $exercise = Exercise::create(["question" => "Do you like dog?", "answer" => "yes, I like."]);
             $actual = $exercise->toArray();
             self::assertSame([
                 "exercise_id" => null,

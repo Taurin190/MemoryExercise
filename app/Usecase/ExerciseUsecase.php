@@ -21,11 +21,11 @@ class ExerciseUsecase
 
 
     public function makeExercise($question, $answer) {
-        return Exercise::create($question, $answer);
+        return Exercise::create(['question' => $question, 'answer' => $answer]);
     }
 
     public function createExercise($question, $answer) {
-        $exercise = Exercise::create($question, $answer);
+        $exercise = create(['question' => $question, 'answer' => $answer]);
         $this->exerciseRepository->save($exercise);
     }
 

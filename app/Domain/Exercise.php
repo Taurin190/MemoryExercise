@@ -32,14 +32,14 @@ class Exercise
         $this->exercise_id = $exercise_id;
     }
 
-    public static function create($question, $answer) {
-        if (empty($question)) {
+    public static function  create($parameters) {
+        if (empty($parameters['question'])) {
             throw new DomainException("質問が空です。");
         }
-        if (empty($answer)) {
+        if (empty($parameters['answer'])) {
             throw new DomainException("解答が空です。");
         }
-        return new Exercise(null, $question, $answer, self::PUBLIC_EXERCISE);
+        return new Exercise(null, $parameters['question'], $parameters['answer'], self::PUBLIC_EXERCISE);
     }
 
     public static function map(\App\Exercise $model) {
