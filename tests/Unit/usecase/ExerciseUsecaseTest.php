@@ -41,10 +41,28 @@ class ExerciseUsecaseTest extends TestCase
         $exercise_mock2 = m::mock('alias:App\Domain\Exercise');
         $exercise_mock3 = m::mock('alias:App\Domain\Exercise');
         $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
-        $this->exerciseRepository->shouldReceive('search')->with("", 1)->once()->andReturn([
+        $this->exerciseRepository->shouldReceive('search')->with("ab", 1)->once()->andReturn([
                 $exercise_mock1,
                 $exercise_mock2,
                 $exercise_mock3
+        ]);
+        $actual = $exercise_usecase->searchExercise("ab", 1);
+        self::assertSame([
+            $exercise_mock1,
+            $exercise_mock2,
+            $exercise_mock3
+        ], $actual);
+    }
+
+    public function testSearchExerciseWithoutText() {
+        $exercise_mock1 = m::mock('alias:App\Domain\Exercise');
+        $exercise_mock2 = m::mock('alias:App\Domain\Exercise');
+        $exercise_mock3 = m::mock('alias:App\Domain\Exercise');
+        $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
+        $this->exerciseRepository->shouldReceive('findAll')->with()->once()->andReturn([
+            $exercise_mock1,
+            $exercise_mock2,
+            $exercise_mock3
         ]);
         $actual = $exercise_usecase->searchExercise("", 1);
         self::assertSame([
