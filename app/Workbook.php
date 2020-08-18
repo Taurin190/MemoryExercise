@@ -11,7 +11,7 @@ class Workbook extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = [
-        'title', 'explanation', 'public'
+        'title', 'explanation', 'permission'
     ];
 
     protected static function boot()

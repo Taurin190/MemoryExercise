@@ -20,7 +20,7 @@ class AddUserIdToWorkbookTable extends Migration
                 ->on('users')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
-            $table->boolean("public")->default(true);
+            $table->boolean("permission")->default(true);
         });
     }
 
@@ -34,7 +34,7 @@ class AddUserIdToWorkbookTable extends Migration
         Schema::table('workbooks', function (Blueprint $table) {
             $table->dropForeign('workbooks_author_id_foreign');
             $table->dropColumn('author_id');
-            $table->dropColumn('public');
+            $table->dropColumn('permission');
         });
     }
 }

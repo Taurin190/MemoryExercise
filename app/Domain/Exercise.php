@@ -42,7 +42,7 @@ class Exercise
         }
         $permission = self::PUBLIC_EXERCISE;
         if (isset($parameters['permission'])) {
-            $permission = $parameters['permission'];
+            $permission = (int) $parameters['permission'];
         }
         return new Exercise(null, $parameters['question'], $parameters['answer'], $permission);
     }

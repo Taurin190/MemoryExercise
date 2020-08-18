@@ -16,6 +16,14 @@
                 <p>{{ $exercise->getAnswer() }}</p>
                 <input type="hidden" name="answer" value="{{ $exercise->getAnswer() }}">
             </div>
+            <div>
+                <label>公開設定</label>
+                @if ($exercise->getPermission() === 1)
+                <p>公開</p>
+                @else
+                <p>非公開</p>
+                @endif
+            </div>
         </div>
     </div>
     <div class="btn-group d-flex pb-2" role="group" aria-label="...">

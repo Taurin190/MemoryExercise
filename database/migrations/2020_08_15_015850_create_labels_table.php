@@ -16,7 +16,6 @@ class CreateLabelsTable extends Migration
     {
         Schema::create('labels', function (Blueprint $table) {
             $table->bigIncrements('label_id');
-            $table->primary('label_id');
             $table->string('name');
             $table->unique('name');
             $table->timestamps();

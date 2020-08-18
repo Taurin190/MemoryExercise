@@ -20,12 +20,12 @@ class ExerciseUsecase
     }
 
 
-    public function makeExercise($question, $answer) {
-        return Exercise::create(['question' => $question, 'answer' => $answer]);
+    public function makeExercise($question, $answer, $permission) {
+        return Exercise::create(['question' => $question, 'answer' => $answer, 'permission' => $permission]);
     }
 
-    public function createExercise($question, $answer) {
-        $exercise = Exercise::create(['question' => $question, 'answer' => $answer]);
+    public function createExercise($question, $answer, $permission) {
+        $exercise = Exercise::create(['question' => $question, 'answer' => $answer, 'permission' => $permission]);
         $this->exerciseRepository->save($exercise);
     }
 

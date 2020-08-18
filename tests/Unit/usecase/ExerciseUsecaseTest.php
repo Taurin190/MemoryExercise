@@ -39,24 +39,24 @@ class ExerciseUsecaseTest extends TestCase
     public function testMakeExercise() {
         $this->exerciseDomain
             ->shouldReceive('create')
-            ->with(['question' => 'How are you?', 'answer' =>'I\'m fine. thank you.'])
+            ->with(['question' => 'How are you?', 'answer' =>'I\'m fine. thank you.', 'permission' => 1])
             ->once()->andReturn($this->exerciseDomain);
         $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
-        $actual = $exercise_usecase->makeExercise('How are you?','I\'m fine. thank you.');
+        $actual = $exercise_usecase->makeExercise('How are you?','I\'m fine. thank you.', 1);
         self::assertTrue($actual instanceof Exercise);
     }
 
     public function testCreateExercise() {
         $this->exerciseDomain
             ->shouldReceive('create')
-            ->with(['question' => 'How are you?', 'answer' =>'I\'m fine. thank you.'])
+            ->with(['question' => 'How are you?', 'answer' =>'I\'m fine. thank you.', 'permission' => 1])
             ->once()->andReturn($this->exerciseDomain);
         $this->exerciseRepository
             ->shouldReceive('save')
             ->with($this->exerciseDomain)
             ->once()->andReturn();
         $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
-        $exercise_usecase->createExercise('How are you?','I\'m fine. thank you.');
+        $exercise_usecase->createExercise('How are you?','I\'m fine. thank you.', 1);
     }
 
     public function testSearchExercise() {

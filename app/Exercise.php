@@ -11,7 +11,7 @@ class Exercise extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = [
-        'question', 'answer', 'public'
+        'question', 'answer', 'permission'
     ];
 
     protected static function boot()
@@ -44,13 +44,15 @@ class Exercise extends Model
         if (is_null($model)) {
             return new Exercise([
                 'question' => $exercise->getQuestion(),
-                'answer' => $exercise->getAnswer()
+                'answer' => $exercise->getAnswer(),
+                'permission' => $exercise->getPermission()
             ]);
         }
         return $model->fill([
             'exercise_id' => $exercise->getExerciseId(),
             'question' => $exercise->getQuestion(),
-            'answer' => $exercise->getAnswer()
+            'answer' => $exercise->getAnswer(),
+            'permission' => $exercise->getPermission()
         ]);
     }
 }
