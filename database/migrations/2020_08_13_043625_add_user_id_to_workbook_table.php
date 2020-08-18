@@ -20,7 +20,7 @@ class AddUserIdToWorkbookTable extends Migration
                 ->on('users')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
-            $table->boolean("permission")->default(true);
+            $table->unsignedTinyInteger("permission")->default(1);
         });
     }
 

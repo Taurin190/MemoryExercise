@@ -20,8 +20,10 @@
                 <label>公開設定</label>
                 @if ($exercise->getPermission() === 1)
                 <p>公開</p>
+                <input type="hidden" name="permission" value="{{ $exercise->getPermission() }}">
                 @else
                 <p>非公開</p>
+                <input type="hidden" name="permission" value="{{ $exercise->getPermission() }}">
                 @endif
             </div>
         </div>
