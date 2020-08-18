@@ -51,6 +51,29 @@ class ExerciseTest extends TestCase
         }
     }
 
+    public function testCreateWithoutPermission() {
+        try {
+            $exercise = Exercise::create(["question" => "Do you like dog?", "answer" => "yes, I like."]);
+            $actual = $exercise->getPermission();
+            self::assertSame(1, $actual);
+        } catch (\Exception $e) {
+            self::fail("予期しない例外が発生しました。" . $e);
+        }
+    }
+    public function testCreateWithPrivatePermission() {
+        try {
+            $exercise = Exercise::create([
+                "question" => "Do you like dog?",
+                "answer" => "yes, I like.",
+                "permission" => 0
+            ]);
+            $actual = $exercise->getPermission();
+            self::assertSame(0, $actual);
+        } catch (\Exception $e) {
+            self::fail("予期しない例外が発生しました。" . $e);
+        }
+    }
+
     public function testMap()
     {
         $this->exerciseModelMock

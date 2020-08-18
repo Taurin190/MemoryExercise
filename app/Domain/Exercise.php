@@ -30,16 +30,21 @@ class Exercise
         $this->question = $question;
         $this->answer = $answer;
         $this->exercise_id = $exercise_id;
+        $this->permission = $permission;
     }
 
-    public static function  create($parameters) {
+    public static function create($parameters) {
         if (empty($parameters['question'])) {
             throw new DomainException("質問が空です。");
         }
         if (empty($parameters['answer'])) {
             throw new DomainException("解答が空です。");
         }
-        return new Exercise(null, $parameters['question'], $parameters['answer'], self::PUBLIC_EXERCISE);
+        $permission = self::PUBLIC_EXERCISE;
+        if (isset($parameters['permission'])) {
+            $permission = $parameters['permission'];
+        }
+        return new Exercise(null, $parameters['question'], $parameters['answer'], $permission);
     }
 
     public static function map(\App\Exercise $model) {
@@ -61,6 +66,10 @@ class Exercise
 
     public function getAnswer() {
         return $this->answer;
+    }
+
+    public function getPermission() {
+        return $this->permission;
     }
 
     public function setQuestion($question) {

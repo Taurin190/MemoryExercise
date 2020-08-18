@@ -4,7 +4,7 @@
 <div class="container">
     {{Form::open(['route' => [ 'exercise.complete']])}}
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-8 py-4">
             <p>以下を作成してよろしいですか？</p>
             <div>
                 <label>問題</label>
