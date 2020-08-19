@@ -1,11 +1,11 @@
 <template>
 <div class="form-group">
-    <div class="py-4">
-        <label class="control-label">選択されている問題</label>
-        <p v-if="Object.keys(selected_exercise_list).length == 0">
+    <div class="py-5">
+        <label class="py-2 float-left col-md-2 text-right control-label">選択中の問題</label>
+        <p class="py-2 float-left col-md-10" v-if="Object.keys(selected_exercise_list).length == 0">
             選択されている問題はありません。
         </p>
-        <div v-else>
+        <div class="float-left col-md-10 py-2" v-else>
             <ul class="list-group">
                 <li v-for="(exercise, index) in selected_exercise_list"
                     class="list-group-item d-flex justify-content-between align-items-center">
@@ -15,11 +15,13 @@
             </ul>
         </div>
     </div>
-    <div class="py-4">
-        <label class="control-label">問題の追加</label>
-        <input v-model="text" class="form-control" type="text"/>
+    <div class="py-5">
+        <label class="float-left col-md-2 text-right control-label">問題の追加</label>
+        <div class="pb-2 float-left col-md-10">
+            <input class="form-control" v-model="text" type="text"/>
+        </div>
     </div>
-    <div>
+    <div class="pb-3 offset-md-2 float-left col-md-10">
         <ul class="list-group">
             <li v-for="(exercise, index) in exercise_list"
             class="list-group-item d-flex justify-content-between align-items-center">
@@ -60,16 +62,15 @@
             workbook : {}
         },
         mounted: function() {
-            console.log(this.workbook);
-            console.log(this.workbook.exercise_list);
-          if (this.workbook.exercise_list.length > 0) {
-              for (var i = 0; i < this.workbook.exercise_list.length; i++) {
-                  if (!Object.keys(this.selected_exercise_list).includes(this.workbook.exercise_list[i].exercise_id)) {
-                      this.$set(this.selected_exercise_list, this.workbook.exercise_list[i].exercise_id, this.workbook.exercise_list[i]);
-                      this.$set(this.exercise_list, this.workbook.exercise_list[i].exercise_id, this.workbook.exercise_list[i]);
-                  }
-              }
-          }
+            if (!this.workbook) return;
+            if (this.workbook.exercise_list.length > 0) {
+                for (var i = 0; i < this.workbook.exercise_list.length; i++) {
+                    if (!Object.keys(this.selected_exercise_list).includes(this.workbook.exercise_list[i].exercise_id)) {
+                        this.$set(this.selected_exercise_list, this.workbook.exercise_list[i].exercise_id, this.workbook.exercise_list[i]);
+                        this.$set(this.exercise_list, this.workbook.exercise_list[i].exercise_id, this.workbook.exercise_list[i]);
+                    }
+                }
+            }
         },
         data: function() {
             return {
@@ -84,6 +85,7 @@
                     url: '/api/exercise?text=' + text,
                     method: 'GET'
                 }).then(res =>  {
+                    this.exercise_list = {};
                     for (var i = 0; i < res.data.length; i ++) {
                         this.$set(this.exercise_list, res.data[i].exercise_id, res.data[i]);
                     }

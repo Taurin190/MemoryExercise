@@ -4,10 +4,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8 py-4">
+            <h2 class="mb-3">問題集作成</h2>
             {{Form::open(['route' => [ 'workbook.confirm']])}}
-            <div class="form-group">
-                <label class="control-label" for="InputTitle">問題集のタイトル</label>
-                <div class="">
+            <div class="form-group py-3">
+                <label class="float-left col-md-2 text-right control-label" for="InputTitle">タイトル</label>
+                <div class="float-left col-md-10">
                     <input type="text"
                            class="form-control "
                            id="InputTitle"
@@ -15,9 +16,9 @@
                            placeholder="タイトル">
                 </div>
             </div>
-            <div class="form-group">
-                <label class="control-label" for="InputExplanation">問題集の説明</label>
-                <div class="">
+            <div class="form-group py-3">
+                <label class="float-left col-md-2 text-right control-label" for="InputExplanation">説明</label>
+                <div class="float-left col-md-10">
                     <textarea rows="5"
                            class="form-control "
                            id="InputExplanation"
@@ -26,8 +27,16 @@
                 </div>
             </div>
             <exercise-search-component></exercise-search-component>
-            <div class="col-sm-offset-2 ">
-                <button type="submit" class="btn btn-primary btn-block">作成</button>
+            {{--<div class="col-sm-offset-2 ">--}}
+                {{--<button type="submit" class="btn btn-primary btn-block">作成</button>--}}
+            {{--</div>--}}
+            <div class="py-2 form-group">
+                <div class="offset-md-2 col-md-3 float-left">
+                    <button type="button" onclick="history.back()" class="btn btn-outline-secondary btn-block">戻る</button>
+                </div>
+                <div class="float-left col-md-3">
+                    <button type="button" onclick="submit()" class="btn btn-primary btn-block">作成</button>
+                </div>
             </div>
             {{Form::close()}}
         </div>
