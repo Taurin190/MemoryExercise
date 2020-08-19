@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-8 py-4">
             {{Form::open(['route' => [ 'workbook.confirm']])}}
             <div class="form-group">
                 <label class="control-label" for="InputTitle">問題集のタイトル</label>
