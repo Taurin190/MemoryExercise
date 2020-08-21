@@ -13,7 +13,7 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
             $domain = \App\Exercise::where('exercise_id', $exercise_id)
                 ->where('permission', 1)->orWhere(function ($query) use ($user, $exercise_id) {
                     $query->where('exercise_id', $exercise_id)
-                        ->where('auther_id', $user->getKey());
+                        ->where('author_id', $user->getKey());
                 });
         } else {
             $domain = \App\Exercise::where('exercise_id', $exercise_id)->where('permission', 1);
