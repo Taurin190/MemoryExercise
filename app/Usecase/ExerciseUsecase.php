@@ -37,9 +37,9 @@ class ExerciseUsecase
         return $this->exerciseRepository->findAllByExerciseIdList($id_list);
     }
 
-    public function searchExercise($text, $page) {
+    public function searchExercise($text, $page, $user = null) {
         if (mb_strlen($text) < 2) {
-            return $this->exerciseRepository->findAll();
+            return $this->exerciseRepository->findAll(10, $user);
         }
         return $this->exerciseRepository->search($text, $page);
     }

@@ -13,11 +13,14 @@ class ExerciseRepositoryTest extends TestCase
 
     protected $exerciseDomainMock;
 
+    protected $userMock;
+
     public function setUp(): void
     {
         parent::setUp();
         $this->exerciseDomainMock = m::mock('alias:\App\Domain\Exercise');
         $this->exerciseMock = m::mock('alias:\App\Exercise');
+        $this->userMock = m::mock('\App\User');
     }
     public function tearDown(): void
     {
@@ -30,6 +33,11 @@ class ExerciseRepositoryTest extends TestCase
             ->shouldReceive('where')
             ->once()
             ->with('exercise_id', "1")
+            ->andReturn($this->exerciseMock);
+        $this->exerciseMock
+            ->shouldReceive('where')
+            ->once()
+            ->with('permission', "1")
             ->andReturn($this->exerciseMock);
         $this->exerciseMock
             ->shouldReceive('first')
