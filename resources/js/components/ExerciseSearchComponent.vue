@@ -86,8 +86,13 @@
                     method: 'GET'
                 }).then(res =>  {
                     this.exercise_list = {};
+                    for (const [key, value] of Object.entries(this.selected_exercise_list)) {
+                        this.$set(this.exercise_list, key, value);
+                    }
                     for (var i = 0; i < res.data.length; i ++) {
-                        this.$set(this.exercise_list, res.data[i].exercise_id, res.data[i]);
+                        if(!Object.keys(this.exercise_list).includes(res.data[i].exercise_id)) {
+                            this.$set(this.exercise_list, res.data[i].exercise_id, res.data[i]);
+                        }
                     }
                 })
             },
