@@ -37,13 +37,21 @@ class AnswerHistoryUsecase
     }
 
     /**
+     * ユーザが日毎に解答した問題数を取得する。
+     * @param $user_id
+     */
+    public function getExerciseHistoryCountWithUserId($user_id) {
+        $this->answerHistoryRepository->getExerciseHistoryByList();
+    }
+
+    /**
      * 問題の配列より解答回数をセットした連想配列を取得する
      * @param $user
      * @param $exercise_list
      * @return array
      */
     public function getExerciseHistoryCountByExerciseList($user, $exercise_list) {
-        $exercise_history_list = $this->answerHistoryRepository->getExerciseHistoryByList($user, $exercise_list);
+        $exercise_history_list = $this->answerHistoryRepository->getExerciseHistoryByList($user->getKey(), $exercise_list);
         $exercise_count_list = [];
         foreach ($exercise_history_list as $exercise_history) {
             $exercise_id = $exercise_history->exercise_id;

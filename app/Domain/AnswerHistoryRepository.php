@@ -13,5 +13,7 @@ interface AnswerHistoryRepository
 {
     function save(AnswerHistory $answerHistory);
 
-    function getExerciseHistoryByList(User $user, $exercise_list);
+    function getExerciseHistoryByList($user_id, $exercise_list);
+
+    function getExerciseHistoryByUserIdWithinTerm($user_id, $date_since, $date_until);
 }

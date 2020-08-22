@@ -10,6 +10,7 @@ namespace App\Infrastructure;
 
 
 use App\Domain\AnswerHistory;
+use App\Exercise;
 use App\ExerciseHistory;
 use App\WorkbookHistory;
 use App\User;
@@ -34,11 +35,25 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
         }
     }
 
-    function getExerciseHistoryByList(User $user, $exercise_list) {
+    function getExerciseHistoryByList($user_id, $exercise_list) {
         $exercise_id_list = [];
         foreach ($exercise_list as $exercise) {
             $exercise_id_list[] = $exercise->getKey();
         }
-        return ExerciseHistory::where('user_id', $user->getKey())->whereIn('exercise_id', $exercise_id_list)->get();
+        return ExerciseHistory::where('user_id', $user_id)->whereIn('exercise_id', $exercise_id_list)->get();
+    }
+
+    function getExerciseHistoryByUserIdWithinTerm($user_id, $date_since, $date_until)
+    {
+        $query = ExerciseHistory::where('user_id', $user_id);
+        if (isset($date_since) and isset($date_until)) {
+            $query->whereBetween('created_at', [$date_since, $date_until]);
+        } else if (isset($date_since)) {
+            $query->where('created_at', '>', $date_since);
+        } else if (isset($date_until)) {
+            $query->where('created_at', '<', $date_until);
+        } else {
+          // ToDo 現在から一ヶ月前の範囲で取得する
+        }
     }
 }
