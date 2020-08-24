@@ -31,6 +31,12 @@ export default {
                             }
                         }
                     }
+                }],
+                xAxes: [{
+                    ticks: {
+                        autoSkip: true,
+                        maxTicksLimit: 15
+                    }
                 }]
             }
         })
