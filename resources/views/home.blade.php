@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <study-history-graph-component></study-history-graph-component>
+                        <study-history-graph-component :study-count='@json($exercise_history_count)' ></study-history-graph-component>
                     </div>
                 </div>
             </div>

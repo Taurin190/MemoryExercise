@@ -19,11 +19,13 @@ class ExerciseHistory
 
     private $exercise;
 
+    private $createdAt;
+
     public static function create($user, $exercise, $score) {
-        return new ExerciseHistory($user, $exercise, $score);
+        return new ExerciseHistory(null, $user, $exercise, $score);
     }
 
-    private function __construct($user, $exercise, $score, $exercise_history_id = null) {
+    private function __construct($exercise_history_id, $user, $exercise, $score, $createdAt = null) {
         $this->user = $user;
         $this->exercise = $exercise;
         switch ($score) {
@@ -43,6 +45,18 @@ class ExerciseHistory
         if (isset($exercise_history_id)) {
             $this->exercise_history_id = $exercise_history_id;
         }
+        if (isset($createdAt)) {
+            $this->createdAt = $createdAt;
+        }
+    }
+
+    public static function map(\App\ExerciseHistory $exerciseHistory) {
+        return new ExerciseHistory(
+            $exerciseHistory->getKey(),
+            $exerciseHistory->user(),
+            $exerciseHistory->exercise(),
+            $exerciseHistory->getAttribute("score"),
+            $exerciseHistory->created_at->format('Y-m-d'));
     }
 
     public function getExerciseHistoryId() {
@@ -59,5 +73,9 @@ class ExerciseHistory
 
     public function getExercise() {
         return $this->exercise;
+    }
+
+    public function getCreatedAt() {
+        return $this->createdAt;
     }
 }

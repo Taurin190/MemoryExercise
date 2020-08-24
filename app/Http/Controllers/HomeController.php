@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Usecase\AnswerHistoryUsecase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+    protected $answerHistoryUsecase;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(AnswerHistoryUsecase $answerHistoryUsecase)
     {
+        $this->answerHistoryUsecase = $answerHistoryUsecase;
     }
 
     /**
@@ -24,7 +27,10 @@ class HomeController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            return view('home');
+            $user = Auth::user();
+            $exercise_count_dto = $this->answerHistoryUsecase->getExerciseHistoryCountWithUserId($user->getKey(), null, null);
+            return view('home')
+                ->with('exercise_history_count', $exercise_count_dto->getGraphData());
         } else {
             return view('index');
         }

@@ -7,6 +7,7 @@
  */
 
 namespace App\Usecase;
+use App\Dto\ExerciseCountDto;
 use App\User;
 use App\Domain\Answer;
 use App\Domain\Workbook;
@@ -39,9 +40,13 @@ class AnswerHistoryUsecase
     /**
      * ユーザが日毎に解答した問題数を取得する。
      * @param $user_id
+     * @param $date_since
+     * @param $date_until
+     * @return
      */
-    public function getExerciseHistoryCountWithUserId($user_id) {
-        $this->answerHistoryRepository->getExerciseHistoryByList();
+    public function getExerciseHistoryCountWithUserId($user_id, $date_since, $date_until) {
+        $exercise_history_list = $this->answerHistoryRepository->getExerciseHistoryByUserIdWithinTerm($user_id, $date_since, $date_until);
+        return ExerciseCountDto::map($exercise_history_list);
     }
 
     /**

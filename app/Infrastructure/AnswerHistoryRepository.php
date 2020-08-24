@@ -14,9 +14,11 @@ use App\Exercise;
 use App\ExerciseHistory;
 use App\WorkbookHistory;
 use App\User;
+use DateTime;
 
 class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
 {
+    const DATE_FORMAT = "Y-m-d H:i:s";
 
     function save(AnswerHistory $answerHistory)
     {
@@ -43,17 +45,28 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
         return ExerciseHistory::where('user_id', $user_id)->whereIn('exercise_id', $exercise_id_list)->get();
     }
 
-    function getExerciseHistoryByUserIdWithinTerm($user_id, $date_since, $date_until)
+    function getExerciseHistoryByUserIdWithinTerm($user_id, DateTime $date_since = null, DateTime $date_until = null)
     {
         $query = ExerciseHistory::where('user_id', $user_id);
         if (isset($date_since) and isset($date_until)) {
-            $query->whereBetween('created_at', [$date_since, $date_until]);
+            $query->whereBetween('created_at', [$date_since->format(self::DATE_FORMAT), $date_until->format(self::DATE_FORMAT)]);
         } else if (isset($date_since)) {
-            $query->where('created_at', '>', $date_since);
+            $last_month_from_target = $date_since;
+            $last_month_from_target->modify('-1 month');
+            $query->whereBetween('created_at', [$date_since->format(self::DATE_FORMAT), $last_month_from_target->format(self::DATE_FORMAT)]);
         } else if (isset($date_until)) {
-            $query->where('created_at', '<', $date_until);
+            $query->where('created_at', '<', $date_until->format(self::DATE_FORMAT));
         } else {
-          // ToDo 現在から一ヶ月前の範囲で取得する
+          $now = new DateTime();
+          $last_month = new DateTime();
+          $last_month->modify('-1 month');
+          $query->whereBetween('created_at', [$last_month->format(self::DATE_FORMAT), $now->format(self::DATE_FORMAT)]);
         }
+        $exercise_history_list = $query->get();
+        $exercise_history_domain_list = [];
+        foreach ($exercise_history_list as $exercise_history) {
+            $exercise_history_domain_list[] = \App\Domain\ExerciseHistory::map($exercise_history);
+        }
+        return $exercise_history_domain_list;
     }
 }

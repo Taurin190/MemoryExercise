@@ -12,6 +12,11 @@ class ExerciseHistory extends Model
         'score'
     ];
 
+    protected $dates = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function exercise() {
         return $this->belongsTo('\App\Exercise', 'exercise_id');
     }

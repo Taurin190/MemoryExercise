@@ -8,6 +8,7 @@
 
 namespace App\Domain;
 use App\User;
+use DateTime;
 
 interface AnswerHistoryRepository
 {
@@ -15,5 +16,5 @@ interface AnswerHistoryRepository
 
     function getExerciseHistoryByList($user_id, $exercise_list);
 
-    function getExerciseHistoryByUserIdWithinTerm($user_id, $date_since, $date_until);
+    function getExerciseHistoryByUserIdWithinTerm($user_id, DateTime $date_since, DateTime $date_until);
 }
