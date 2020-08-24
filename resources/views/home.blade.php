@@ -22,11 +22,7 @@
                             <tbody>
                                 <tr>
                                     <th>今月の学習問題数</th>
-                                    <td>10問</td>
-                                </tr>
-                                <tr>
-                                    <th>先月の学習問題数</th>
-                                    <td>10問</td>
+                                    <td>{{ $monthly_count }}問</td>
                                 </tr>
                                 <tr>
                                     <th>累計学習問題数</th>
