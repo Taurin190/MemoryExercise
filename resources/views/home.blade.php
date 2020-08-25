@@ -26,11 +26,11 @@
                                 </tr>
                                 <tr>
                                     <th>累計学習問題数</th>
-                                    <td>100問</td>
+                                    <td>{{ $total_count }}問</td>
                                 </tr>
                                 <tr>
                                     <th>累計学習日数</th>
-                                    <td>100日</td>
+                                    <td>{{ $total_count }}日</td>
                                 </tr>
                             </tbody>
                         </table>

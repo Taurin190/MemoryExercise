@@ -17,21 +17,24 @@ class ExerciseCountDto
 
     private $labels = [];
 
+    private $monthlyCount;
+
     private $totalCount;
 
-    private function __construct($labels, $exerciseDateCountMap, $totalCount)
+    private function __construct($labels, $exerciseDateCountMap, $monthlyCount, $totalCount)
     {
         $this->labels = $labels;
         $this->exerciseDateCountMap = $exerciseDateCountMap;
+        $this->monthlyCount = $monthlyCount;
         $this->totalCount = $totalCount;
     }
 
-    public static function map($exercise_history_list) {
+    public static function map($exercise_history_list, $monthly_count, $total_count) {
         $exercise_date_count_map = [];
         $date_start = (new DateTime())->modify('-1 month');
         $date_end = new DateTime();
         $labels = [];
-        $total_count = 0;
+//        $total_count = 0;
         for ($i = $date_start; $i <= $date_end; $i->modify('+1 day')){
             $exercise_date_count_map[$i->format('Y-m-d')] = 0;
             $labels[] = $i->format('Y-m-d');
@@ -40,13 +43,17 @@ class ExerciseCountDto
             $history_date = $exercise_history->getCreatedAt();
             if (array_key_exists($history_date, $exercise_date_count_map)) {
                 $exercise_date_count_map[$history_date] += 1;
-                $total_count += 1;
+//                $total_count += 1;
             } else {
                 $exercise_date_count_map[$history_date] = 1;
-                $total_count += 1;
+//                $total_count += 1;
             }
         }
-        return new ExerciseCountDto($labels, $exercise_date_count_map, $total_count);
+        return new ExerciseCountDto($labels, $exercise_date_count_map, $monthly_count, $total_count);
+    }
+
+    public function getMonthlyCount() {
+        return $this->monthlyCount;
     }
 
     public function getTotalCount() {

@@ -46,7 +46,9 @@ class AnswerHistoryUsecase
      */
     public function getExerciseHistoryCountWithUserId($user_id, $date_since, $date_until) {
         $exercise_history_list = $this->answerHistoryRepository->getExerciseHistoryByUserIdWithinTerm($user_id, $date_since, $date_until);
-        return ExerciseCountDto::map($exercise_history_list);
+        $monthly_count = $this->answerHistoryRepository->getExerciseHistoryCountByUserIdWithinTerm($user_id);
+        $total_count = $this->answerHistoryRepository->getExerciseHistoryTotalCount($user_id);
+        return ExerciseCountDto::map($exercise_history_list, $monthly_count, $total_count);
     }
 
     /**

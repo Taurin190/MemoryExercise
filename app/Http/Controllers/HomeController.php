@@ -31,7 +31,8 @@ class HomeController extends Controller
             $exercise_count_dto = $this->answerHistoryUsecase->getExerciseHistoryCountWithUserId($user->getKey(), null, null);
             return view('home')
                 ->with('exercise_history_count', $exercise_count_dto->getGraphData())
-                ->with('monthly_count', $exercise_count_dto->getTotalCount());
+                ->with('monthly_count', $exercise_count_dto->getMonthlyCount())
+                ->with('total_count', $exercise_count_dto->getTotalCount());
         } else {
             return view('index');
         }

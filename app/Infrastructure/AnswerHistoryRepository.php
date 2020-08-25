@@ -45,8 +45,7 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
         return ExerciseHistory::where('user_id', $user_id)->whereIn('exercise_id', $exercise_id_list)->get();
     }
 
-    function getExerciseHistoryByUserIdWithinTerm($user_id, DateTime $date_since = null, DateTime $date_until = null)
-    {
+    private function createQueryByUserWithinTerm($user_id, DateTime $date_since = null, DateTime $date_until = null) {
         $query = ExerciseHistory::where('user_id', $user_id);
         if (isset($date_since) and isset($date_until)) {
             $query->whereBetween('created_at', [$date_since->format(self::DATE_FORMAT), $date_until->format(self::DATE_FORMAT)]);
@@ -57,16 +56,38 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
         } else if (isset($date_until)) {
             $query->where('created_at', '<', $date_until->format(self::DATE_FORMAT));
         } else {
-          $now = new DateTime();
-          $last_month = new DateTime();
-          $last_month->modify('-1 month');
-          $query->whereBetween('created_at', [$last_month->format(self::DATE_FORMAT), $now->format(self::DATE_FORMAT)]);
+            $now = new DateTime();
+            $last_month = new DateTime();
+            $last_month->modify('-1 month');
+            $query->whereBetween('created_at', [$last_month->format(self::DATE_FORMAT), $now->format(self::DATE_FORMAT)]);
         }
+        return $query;
+    }
+
+    function getExerciseHistoryByUserIdWithinTerm($user_id, DateTime $date_since = null, DateTime $date_until = null)
+    {
+        $query = $this->createQueryByUserWithinTerm($user_id, $date_since, $date_until);
         $exercise_history_list = $query->get();
         $exercise_history_domain_list = [];
         foreach ($exercise_history_list as $exercise_history) {
             $exercise_history_domain_list[] = \App\Domain\ExerciseHistory::map($exercise_history);
         }
         return $exercise_history_domain_list;
+    }
+
+    function getExerciseHistoryCountByUserIdWithinTerm($user_id, DateTime $date_since = null, DateTime $date_until = null)
+    {
+        $query = $this->createQueryByUserWithinTerm($user_id, $date_since, $date_until);
+        return $query->count();
+    }
+
+    function getExerciseHistoryTotalCount($user_id)
+    {
+        $query = ExerciseHistory::where('user_id', $user_id);
+        return $query->count();
+    }
+    function getExerciseHistoryTotalDays($user_id)
+    {
+
     }
 }
