@@ -30,6 +30,7 @@ class HomeController extends Controller
             $user = Auth::user();
             $exercise_count_dto = $this->answerHistoryUsecase->getExerciseHistoryCountWithUserId($user->getKey(), null, null);
             return view('home')
+                ->with('user', $user)
                 ->with('exercise_history_count', $exercise_count_dto->getGraphData())
                 ->with('monthly_count', $exercise_count_dto->getMonthlyCount())
                 ->with('total_count', $exercise_count_dto->getTotalCount())
