@@ -17,14 +17,17 @@
         @endif
         {{Form::open(['route' => [ 'exercise.confirm'], 'onsubmit' => "return false;"])}}
          <div class="row">
-            <div class="d-flex align-items-start py-2 col-md-10 mx-auto form-group @if(!empty($errors->first('question'))) has-error @endif">
-                <label class="pt-2 float-left col-md-2 control-label text-right" for="InputQuestion">問題の質問</label>
+             <div class="col-md-11 mx-auto">
+                 <h2 class="mb-3 offset-1">問題作成</h2>
+             </div>
+             <div class="d-flex align-items-start py-2 col-md-10 mx-auto form-group @if(!empty($errors->first('question'))) has-error @endif">
+                <label class="pt-2 float-left col-md-2 control-label text-right" for="InputQuestion">質問</label>
                 <div class="float-left col-md-10">
                     <textarea rows="2"
                            class="form-control"
                            id="InputQuestion"
                            name="question"
-                           placeholder="質問"
+                           placeholder="パンはパンでも食べられないパンは何だ？"
                     >{{ $question }}</textarea>
                     @if(!empty($errors->first('question')))
                     <span class="text-danger">{{ $error }}</span>
@@ -32,13 +35,13 @@
                 </div>
             </div>
             <div class="d-flex align-items-start py-2 col-md-10 mx-auto form-group @if(!empty($errors->first('answer'))) has-error @endif">
-                <label class="pt-2 col-md-2 float-left control-label text-right" for="InputAnswer">問題の答え</label>
+                <label class="pt-2 col-md-2 float-left control-label text-right" for="InputAnswer">答え</label>
                 <div class="col-md-10 float-left">
                     <textarea rows="2"
                            class="form-control "
                            id="InputAnswer"
                            name="answer"
-                           placeholder="答え"
+                           placeholder="フライパン"
                     >{{ $answer }}</textarea>
                     @if(!empty($errors->first('answer')))
                         <span class="text-danger">{{ $error }}</span>

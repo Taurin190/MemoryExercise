@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8 py-4">
+        <div class="col-md-10 py-4">
             <h2 class="mb-3">問題集作成</h2>
             {{Form::open(['route' => [ 'workbook.confirm']])}}
             <div class="form-group py-3">
