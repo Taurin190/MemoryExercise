@@ -32,7 +32,8 @@ class HomeController extends Controller
             return view('home')
                 ->with('exercise_history_count', $exercise_count_dto->getGraphData())
                 ->with('monthly_count', $exercise_count_dto->getMonthlyCount())
-                ->with('total_count', $exercise_count_dto->getTotalCount());
+                ->with('total_count', $exercise_count_dto->getTotalCount())
+                ->with('total_days', $exercise_count_dto->getTotalDays());
         } else {
             return view('index');
         }

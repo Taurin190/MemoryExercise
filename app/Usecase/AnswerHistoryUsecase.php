@@ -48,7 +48,8 @@ class AnswerHistoryUsecase
         $exercise_history_list = $this->answerHistoryRepository->getExerciseHistoryByUserIdWithinTerm($user_id, $date_since, $date_until);
         $monthly_count = $this->answerHistoryRepository->getExerciseHistoryCountByUserIdWithinTerm($user_id);
         $total_count = $this->answerHistoryRepository->getExerciseHistoryTotalCount($user_id);
-        return ExerciseCountDto::map($exercise_history_list, $monthly_count, $total_count);
+        $total_days = $this->answerHistoryRepository->getExerciseHistoryTotalDays($user_id);
+        return ExerciseCountDto::map($exercise_history_list, $monthly_count, $total_count, $total_days);
     }
 
     /**

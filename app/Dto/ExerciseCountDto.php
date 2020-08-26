@@ -21,15 +21,18 @@ class ExerciseCountDto
 
     private $totalCount;
 
-    private function __construct($labels, $exerciseDateCountMap, $monthlyCount, $totalCount)
+    private $totalDays;
+
+    private function __construct($labels, $exerciseDateCountMap, $monthlyCount, $totalCount, $totalDays)
     {
         $this->labels = $labels;
         $this->exerciseDateCountMap = $exerciseDateCountMap;
         $this->monthlyCount = $monthlyCount;
         $this->totalCount = $totalCount;
+        $this->totalDays = $totalDays;
     }
 
-    public static function map($exercise_history_list, $monthly_count, $total_count) {
+    public static function map($exercise_history_list, $monthly_count, $total_count, $total_days) {
         $exercise_date_count_map = [];
         $date_start = (new DateTime())->modify('-1 month');
         $date_end = new DateTime();
@@ -49,7 +52,7 @@ class ExerciseCountDto
 //                $total_count += 1;
             }
         }
-        return new ExerciseCountDto($labels, $exercise_date_count_map, $monthly_count, $total_count);
+        return new ExerciseCountDto($labels, $exercise_date_count_map, $monthly_count, $total_count, $total_days);
     }
 
     public function getMonthlyCount() {
@@ -58,6 +61,10 @@ class ExerciseCountDto
 
     public function getTotalCount() {
         return $this->totalCount;
+    }
+
+    public function getTotalDays() {
+        return $this->totalDays;
     }
 
     public function getGraphData() {

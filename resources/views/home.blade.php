@@ -30,7 +30,7 @@
                                 </tr>
                                 <tr>
                                     <th>累計学習日数</th>
-                                    <td>{{ $total_count }}日</td>
+                                    <td>{{ $total_days }}日</td>
                                 </tr>
                             </tbody>
                         </table>

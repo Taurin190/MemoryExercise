@@ -15,6 +15,7 @@ use App\ExerciseHistory;
 use App\WorkbookHistory;
 use App\User;
 use DateTime;
+use Illuminate\Support\Facades\DB;
 
 class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
 {
@@ -88,6 +89,9 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
     }
     function getExerciseHistoryTotalDays($user_id)
     {
-
+        $query = ExerciseHistory::select(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as Date, count(created_at) as days"))
+            ->where('user_id', $user_id)
+            ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"));
+        return $query->get()->count();
     }
 }
