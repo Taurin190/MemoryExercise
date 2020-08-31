@@ -28,13 +28,13 @@ class HomeController extends Controller
     {
         if (Auth::check()) {
             $user = Auth::user();
-            $exercise_count_dto = $this->answerHistoryUsecase->getExerciseHistoryCountWithUserId($user->getKey(), null, null);
+            $study_history_dto = $this->answerHistoryUsecase->getStudyHistoryOfUser($user->getKey(), null, null);
             return view('home')
                 ->with('user', $user)
-                ->with('exercise_history_count', $exercise_count_dto->getGraphData())
-                ->with('monthly_count', $exercise_count_dto->getMonthlyCount())
-                ->with('total_count', $exercise_count_dto->getTotalCount())
-                ->with('total_days', $exercise_count_dto->getTotalDays());
+                ->with('exercise_history_count', $study_history_dto->getGraphData())
+                ->with('monthly_count', $study_history_dto->getMonthlyCount())
+                ->with('total_count', $study_history_dto->getTotalCount())
+                ->with('total_days', $study_history_dto->getTotalDays());
         } else {
             return view('index');
         }

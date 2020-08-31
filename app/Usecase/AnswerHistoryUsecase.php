@@ -7,7 +7,7 @@
  */
 
 namespace App\Usecase;
-use App\Dto\ExerciseCountDto;
+use App\Dto\StudyHistoryDto;
 use App\User;
 use App\Domain\Answer;
 use App\Domain\Workbook;
@@ -38,18 +38,18 @@ class AnswerHistoryUsecase
     }
 
     /**
-     * ユーザが日毎に解答した問題数を取得する。
+     * ユーザの学習履歴を取得する
      * @param $user_id
      * @param $date_since
      * @param $date_until
-     * @return
+     * @return StudyHistoryDto
      */
-    public function getExerciseHistoryCountWithUserId($user_id, $date_since, $date_until) {
+    public function getStudyHistoryOfUser($user_id, $date_since, $date_until) {
         $exercise_history_list = $this->answerHistoryRepository->getExerciseHistoryByUserIdWithinTerm($user_id, $date_since, $date_until);
-        $monthly_count = $this->answerHistoryRepository->getExerciseHistoryCountByUserIdWithinTerm($user_id);
+        $monthly_count = $this->answerHistoryRepository->getExerciseHistoryCountByUserIdWithinTerm($user_id, $date_since, $date_until);
         $total_count = $this->answerHistoryRepository->getExerciseHistoryTotalCount($user_id);
         $total_days = $this->answerHistoryRepository->getExerciseHistoryTotalDays($user_id);
-        return ExerciseCountDto::map($exercise_history_list, $monthly_count, $total_count, $total_days);
+        return StudyHistoryDto::map($exercise_history_list, $monthly_count, $total_count, $total_days);
     }
 
     /**
