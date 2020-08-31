@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-12 py-2">
+        <div class="col-md-12">
             @if(count($workbooks) == 0)
                 問題集が存在しません。
             @else

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container py-4">
+    <div class="container">
 
         @if(count($errors) > 0)
         <div class="row">
