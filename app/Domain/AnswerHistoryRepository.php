@@ -20,6 +20,8 @@ interface AnswerHistoryRepository
 
     function getExerciseHistoryCountByUserIdWithinTerm($user_id, DateTime $date_since, DateTime $date_until);
 
+    function getExerciseHistoryDailyCountTableWithinTerm($user_id, DateTime $date_since, DateTime $date_until);
+
     function getExerciseHistoryTotalCount($user_id);
 
     function getExerciseHistoryTotalDays($user_id);

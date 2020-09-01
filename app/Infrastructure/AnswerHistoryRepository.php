@@ -82,6 +82,14 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
         return $query->count();
     }
 
+    function getExerciseHistoryDailyCountTableWithinTerm($user_id, DateTime $date_since = null, DateTime $date_until = null)
+    {
+        $query = $this->createQueryByUserWithinTerm($user_id, $date_since, $date_until);
+        $query->select(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as Date, count(created_at)"))
+            ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"));
+        return $query->get();
+    }
+
     function getExerciseHistoryTotalCount($user_id)
     {
         $query = ExerciseHistory::where('user_id', $user_id);
