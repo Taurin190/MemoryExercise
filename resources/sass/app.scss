@@ -15,9 +15,8 @@ div.pager-block {
 }
 
 div.banner-image {
-    background-image: url('/bg-img2.jpg');
     background-size: 100% auto;
-    background-position: 80% 50%;
+    background: url('/bg-img2.jpg') 80% 50%;
     height: 400px;
 }
 
