@@ -23,33 +23,17 @@ class StudyHistoryDto
 
     private $totalDays;
 
-    private function __construct($labels, $exerciseDateCountMap, $monthlyCount, $totalCount, $totalDays)
+    private function __construct($exerciseHistoryTable, $monthlyCount, $totalCount, $totalDays)
     {
-        $this->labels = $labels;
-        $this->exerciseDateCountMap = $exerciseDateCountMap;
+        $this->labels = $exerciseHistoryTable->getDateLabelList();
+        $this->exerciseDateCountMap = $exerciseHistoryTable->getDailyCountTable();
         $this->monthlyCount = $monthlyCount;
         $this->totalCount = $totalCount;
         $this->totalDays = $totalDays;
     }
 
-    public static function map($exercise_history_list, $monthly_count, $total_count, $total_days) {
-        $exercise_date_count_map = [];
-        $date_start = (new DateTime())->modify('-1 month');
-        $date_end = new DateTime();
-        $labels = [];
-        for ($i = $date_start; $i <= $date_end; $i->modify('+1 day')){
-            $exercise_date_count_map[$i->format('Y-m-d')] = 0;
-            $labels[] = $i->format('Y-m-d');
-        }
-        foreach ($exercise_history_list as $exercise_history) {
-            $history_date = $exercise_history->getCreatedAt();
-            if (array_key_exists($history_date, $exercise_date_count_map)) {
-                $exercise_date_count_map[$history_date] += 1;
-            } else {
-                $exercise_date_count_map[$history_date] = 1;
-            }
-        }
-        return new StudyHistoryDto($labels, $exercise_date_count_map, $monthly_count, $total_count, $total_days);
+    public static function map($exercise_history_table, $monthly_count, $total_count, $total_days) {
+        return new StudyHistoryDto($exercise_history_table, $monthly_count, $total_count, $total_days);
     }
 
     public function getMonthlyCount() {

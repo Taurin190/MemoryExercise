@@ -46,10 +46,12 @@ class AnswerHistoryUsecase
      */
     public function getStudyHistoryOfUser($user_id, $date_since, $date_until) {
         $exercise_history_list = $this->answerHistoryRepository->getExerciseHistoryByUserIdWithinTerm($user_id, $date_since, $date_until);
+        $exercise_history_table = $this->answerHistoryRepository->getExerciseHistoryDailyCountTableWithinTerm($user_id, $date_since, $date_until);
+
         $monthly_count = $this->answerHistoryRepository->getExerciseHistoryCountByUserIdWithinTerm($user_id, $date_since, $date_until);
         $total_count = $this->answerHistoryRepository->getExerciseHistoryTotalCount($user_id);
         $total_days = $this->answerHistoryRepository->getExerciseHistoryTotalDays($user_id);
-        return StudyHistoryDto::map($exercise_history_list, $monthly_count, $total_count, $total_days);
+        return StudyHistoryDto::map($exercise_history_table, $monthly_count, $total_count, $total_days);
     }
 
     /**

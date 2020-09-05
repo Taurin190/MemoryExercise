@@ -27,7 +27,7 @@ class ExerciseDailyTable
 
     public function addCount(\App\ExerciseHistory $exerciseHistory)
     {
-        $this->daily_count_table[$exerciseHistory->getAttribute('date')] = $exerciseHistory->getAttribute('count');
+        $this->daily_count_table[$exerciseHistory->getAttribute('Date')] = (int) $exerciseHistory->getAttribute('days');
     }
 
     public function getDailyCountTable() {
