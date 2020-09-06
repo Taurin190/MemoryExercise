@@ -8,9 +8,6 @@
 
 namespace App\Dto;
 
-
-use DateTime;
-
 class StudyHistoryDto
 {
     private $exerciseDateCountMap;
