@@ -5,6 +5,9 @@
             <div v-if="workbook.explanation" class="card pb-2">
                 <div class="card-body">{{ workbook.explanation }}</div>
             </div>
+            <div v-if="getExerciseCount == 0">
+                <p class="py-3">問題が登録されていません。</p>
+            </div>
         </div>
         <div v-else-if="page <= workbook.exercise_list.length" class="component-block">
             <div v-for="(exercise, index) in workbook.exercise_list">
@@ -36,7 +39,7 @@
             </div>
         </div>
         <div class="pager-block">
-            <div class="btn-group d-flex pb-2" role="group" aria-label="...">
+            <div v-if="getExerciseCount > 0" class="btn-group d-flex pb-2" role="group" aria-label="...">
                 <button type="button"
                         v-on:click="prevPage"
                         class="btn btn-outline-info w-100"
@@ -47,7 +50,8 @@
                         v-bind:class="{ 'disabled' : isFinalPage }">次へ</button>
             </div>
             <div v-if="isFinalPage">
-                <input type="submit" class="btn btn-primary btn-block" value="回答完了"/>
+                <input v-if="getExerciseCount > 0" type="submit" class="btn btn-primary btn-block" value="回答完了"/>
+                <buttn v-else type="button" onclick="history.back()" class="btn btn-outline-secondary btn-block">戻る</buttn>
             </div>
         </div>
     </div>
@@ -84,6 +88,9 @@
             },
             isFinalPage: function() {
                 return this.page == this.workbook.exercise_list.length;
+            },
+            getExerciseCount: function() {
+                return this.workbook.exercise_list.length;
             }
         }
     }
