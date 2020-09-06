@@ -97,7 +97,7 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
             $date_until = new DateTime();
         }
 
-        $exercise_daily_table = new ExerciseDailyTable($date_since, $date_until);
+        $exercise_daily_table = new ExerciseDailyTable(clone $date_since, clone $date_until);
         foreach ($exercise_date_count_list as $exercise_date_count) {
             $exercise_daily_table->addCount($exercise_date_count);
         }

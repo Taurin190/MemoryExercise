@@ -14,6 +14,8 @@ use App\Domain\Workbook;
 use App\Domain\AnswerHistory;
 use App\Domain\AnswerHistoryRepository;
 
+use DateTime;
+
 class AnswerHistoryUsecase
 {
     private $answerHistoryRepository;
@@ -45,10 +47,10 @@ class AnswerHistoryUsecase
      * @return StudyHistoryDto
      */
     public function getStudyHistoryOfUser($user_id, $date_since, $date_until) {
-        $exercise_history_list = $this->answerHistoryRepository->getExerciseHistoryByUserIdWithinTerm($user_id, $date_since, $date_until);
-        $exercise_history_table = $this->answerHistoryRepository->getExerciseHistoryDailyCountTableWithinTerm($user_id, $date_since, $date_until);
-
-        $monthly_count = $this->answerHistoryRepository->getExerciseHistoryCountByUserIdWithinTerm($user_id, $date_since, $date_until);
+        $graph_date_since = new DateTime('first day of this month');
+        $graph_date_until = new DateTime('last day of this month');
+        $exercise_history_table = $this->answerHistoryRepository->getExerciseHistoryDailyCountTableWithinTerm($user_id, $graph_date_since, $graph_date_until);
+        $monthly_count = $this->answerHistoryRepository->getExerciseHistoryCountByUserIdWithinTerm($user_id, $graph_date_since, $graph_date_until);
         $total_count = $this->answerHistoryRepository->getExerciseHistoryTotalCount($user_id);
         $total_days = $this->answerHistoryRepository->getExerciseHistoryTotalDays($user_id);
         return StudyHistoryDto::map($exercise_history_table, $monthly_count, $total_count, $total_days);

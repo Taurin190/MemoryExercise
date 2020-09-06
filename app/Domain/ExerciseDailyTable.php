@@ -21,7 +21,7 @@ class ExerciseDailyTable
         $this->label_list = [];
         for ($i = $date_start; $i <= $date_end; $i->modify('+1 day')){
             $this->daily_count_table[$i->format('Y-m-d')] = 0;
-            $this->label_list[] = $i->format('Y-m-d');
+            $this->label_list[] = $i->format('m/d');
         }
     }
 
