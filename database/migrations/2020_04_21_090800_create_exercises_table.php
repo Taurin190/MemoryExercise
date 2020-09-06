@@ -17,8 +17,8 @@ class CreateExercisesTable extends Migration
         Schema::create('exercises', function (Blueprint $table) {
             $table->uuid('exercise_id');
             $table->primary('exercise_id');
-            $table->string('question');
-            $table->string('answer');
+            $table->text('question');
+            $table->text('answer');
             $table->timestamps();
         });
         DB::statement('ALTER TABLE exercises ADD FULLTEXT index content (`question`) with parser ngram');
@@ -31,6 +31,9 @@ class CreateExercisesTable extends Migration
      */
     public function down()
     {
+        Schema::table('exercises', function (Blueprint $table) {
+            $table->dropIfExists('content');
+        });
         Schema::dropIfExists('exercises');
     }
 }

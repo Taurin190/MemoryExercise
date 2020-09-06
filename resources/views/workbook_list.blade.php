@@ -14,10 +14,9 @@
             <div class="col-md-3 py-2 px-1 float-left">
                 <div class="card workbook-card">
                     <a class="text-body text-decoration-none" href="/workbook/{{$workbook->getWorkbookId()}}">
-                    {{--<div class="card-header"></div>--}}
                     <div class="card-body">
                         <h4 class="card-title">{{ $workbook->getTitle() }}</h4>
-                        {{ $workbook->getExplanation() }}
+                        <p class="text-break">{!! nl2br(e($workbook->getExplanation())) !!}</p>
                     </div>
                     </a>
                 </div>

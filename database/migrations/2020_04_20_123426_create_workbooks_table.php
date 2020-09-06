@@ -17,7 +17,7 @@ class CreateWorkbooksTable extends Migration
             $table->uuid('workbook_id');
             $table->primary('workbook_id');
             $table->string('title');
-            $table->string('explanation');
+            $table->text('explanation');
             $table->timestamps();
         });
     }

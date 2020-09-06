@@ -24,8 +24,8 @@ class WorkbookRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|max:100',
-            'explanation' => 'max:200',
+            'title' => 'required|max:256',
+            'explanation' => 'max:3000',
         ];
     }
 }

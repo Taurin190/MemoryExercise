@@ -13,7 +13,7 @@
             </div>
             <div>
                 <label>問題集の説明</label>
-                <p>{{ $workbook->getExplanation() }}</p>
+                <p>{!! nl2br(e($workbook->getExplanation())) !!}</p>
                 <input type="hidden" name="explanation" value="{{ $workbook->getExplanation() }}">
             </div>
             @isset($exercise_list)
