@@ -15,8 +15,8 @@
                     <b>問題{{index + 1}}</b>
                     <p>{{ exercise.question }}</p>
                     <div class="pb-3">
-                        <a data-toggle="collapse" href="#collapse-">解答を表示</a>
-                        <div id="collapse-" class="collapse card">
+                        <a data-toggle="collapse" v-bind:href="'#collapse-' + exercise.exercise_id">解答を表示</a>
+                        <div v-bind:id="'collapse-' + exercise.exercise_id" class="collapse card">
                             <div class="card-body">
                                 <b>解答</b>
                                 {{ exercise.answer }}
