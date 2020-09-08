@@ -19,6 +19,11 @@
                         <p class="text-break explanation">{!! nl2br(e($workbook->getExplanation())) !!}</p>
                     </div>
                     </a>
+                    <a class="text-decoration-none" href="/workbook/{{$workbook->getWorkbookId()}}/edit">
+                        <div class="workbook-edit">
+                            <i class="fas fa-pen"></i>
+                        </div>
+                    </a>
                 </div>
             </div>
             @endforeach
