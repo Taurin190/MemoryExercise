@@ -3,7 +3,7 @@
         <div v-if="page == 0" class="pb-5 title-block">
             <h1 class="pb-3">{{ workbook.title }}</h1>
             <div v-if="workbook.explanation" class="card pb-2">
-                <div class="card-body">{{ workbook.explanation }}</div>
+                <div class="card-body explanation">{{ workbook.explanation }}</div>
             </div>
             <div v-if="getExerciseCount == 0">
                 <p class="py-3">問題が登録されていません。</p>
@@ -97,5 +97,8 @@
 </script>
 
 <style scoped>
-
+.explanation {
+    white-space:pre-wrap;
+    word-wrap:break-word;
+}
 </style>
