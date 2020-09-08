@@ -40,3 +40,10 @@ div.workbook-card a:hover {
 label {
     margin-bottom: 0;
 }
+
+p.explanation {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+}

@@ -16,7 +16,7 @@
                     <a class="text-body text-decoration-none" href="/workbook/{{$workbook->getWorkbookId()}}">
                     <div class="card-body">
                         <h4 class="card-title">{{ $workbook->getTitle() }}</h4>
-                        <p class="text-break">{!! nl2br(e($workbook->getExplanation())) !!}</p>
+                        <p class="text-break explanation">{!! nl2br(e($workbook->getExplanation())) !!}</p>
                     </div>
                     </a>
                 </div>
