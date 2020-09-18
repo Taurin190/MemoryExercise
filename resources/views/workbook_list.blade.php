@@ -19,11 +19,13 @@
                         <p class="text-break explanation">{!! nl2br(e($workbook->getExplanation())) !!}</p>
                     </div>
                     </a>
-                    <a class="text-decoration-none" href="/workbook/{{$workbook->getWorkbookId()}}/edit">
+                    @if(isset($user_id) && $workbook->getUserId() == $user_id)
+                    <a class="text-decoration-none" href="{{route('workbook.edit', $workbook->getWorkbookId())}}">
                         <div class="workbook-edit">
                             <i class="fas fa-pen"></i>
                         </div>
                     </a>
+                    @endif
                 </div>
             </div>
             @endforeach

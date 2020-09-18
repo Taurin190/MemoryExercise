@@ -2,8 +2,12 @@
 
 namespace App\Domain;
 
+use App\User;
+
 class Workbook
 {
+    const ADMIN_USER_ID = 1;
+
     private $workbook_id;
 
     private $title;
@@ -11,6 +15,8 @@ class Workbook
     private $explanation;
 
     private $exercise_list = [];
+
+    private $user_id;
 
     /**
      * 問題集を作成するFactoryMethod
@@ -38,7 +44,7 @@ class Workbook
         );
     }
 
-    private function __construct($title, $explanation, $workbook_id = null, $exercises = null) {
+    private function __construct($title, $explanation, $workbook_id = null, $exercises = null, User $user = null) {
         if (isset($workbook_id)) {
             $this->workbook_id = $workbook_id;
         }
@@ -48,6 +54,11 @@ class Workbook
             } else {
                 $this->setExerciseList($exercises->get());
             }
+        }
+        if (isset($user)) {
+            $this->user_id = $user->getKey();
+        } else {
+            $this->user_id = self::ADMIN_USER_ID;
         }
         $this->title = $title;
         $this->explanation = $explanation;
@@ -77,6 +88,9 @@ class Workbook
 
     public function getExerciseList() {
        return $this->exercise_list;
+    }
+    public function getUserId() {
+        return $this->user_id;
     }
 
     public function addExercise(Exercise $exercise) {

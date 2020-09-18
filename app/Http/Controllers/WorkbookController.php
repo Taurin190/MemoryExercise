@@ -31,8 +31,14 @@ class WorkbookController extends Controller
     {
         $workbook_list = $this->workbook_usecase->getAllWorkbook();
 
-        return view("workbook_list")
-            ->with('workbooks', $workbook_list);
+        if (Auth::check()) {
+            return view("workbook_list")
+                ->with('workbooks', $workbook_list)
+                ->with('user_id', Auth::id());
+        } else {
+            return view("workbook_list")
+                ->with('workbooks', $workbook_list);
+        }
     }
     public function detail($uuid)
     {
