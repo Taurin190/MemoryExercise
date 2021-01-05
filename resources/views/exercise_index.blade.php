@@ -3,34 +3,33 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
+            @if(count($exercise_list) == 0)
+                問題集が存在しません。
+            @else
             <div>
-                <h2>学習記録</h2>
-                <div>
-                    <span>目標</span>
-                </div>
+               <span>{{ count($exercise_list) }} 件</span>
             </div>
-            <div>
-                <h2>list</h2>
-                <div>
-                    <ul class="list-group">
-                        @foreach($exercise_list as $exercise)
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ $exercise->question }}
-                            @if($exercise_history_list)
-                                <span class="badge badge-primary badge-pill">
-                                    @if(isset($exercise_history_list[$exercise->exercise_id]))
-                                        {{ $exercise_history_list[$exercise->exercise_id] }}
-                                    @else
-                                        0
-                                    @endif
-                                </span>
-                            @endif
-                        </li>
-                        @endforeach
-                    </ul>
+            @foreach($exercise_list as $exercise)
+                <div class="col-md-3 py-2 px-1 float-left">
+                    <div class="card workbook-card">
+                        <a class="text-body text-decoration-none" href="{{route('workbook.detail', $exercise->exercise_id)}}">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ $exercise->question }}</h4>
+                                <p class="text-break explanation">{!! nl2br(e($exercise->answer)) !!}</p>
+                            </div>
+                        </a>
+                        @if(isset($user_id) && $exercise->user->id == $user_id)
+                            <a class="text-decoration-none" href="{{route('workbook.edit', $exercise->exercise_id)}}">
+                                <div class="workbook-edit">
+                                    <i class="fas fa-pen"></i>
+                                </div>
+                            </a>
+                        @endif
+                    </div>
                 </div>
-            </div>
+            @endforeach
+            @endif
         </div>
     </div>
 </div>

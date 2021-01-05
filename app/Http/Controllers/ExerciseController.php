@@ -39,7 +39,8 @@ class ExerciseController extends Controller
             $exercise_history_list = $this->answerHistoryUsecase->getExerciseHistoryCountByExerciseList(Auth::user(), $exercise_list);
             return view('exercise_index')
                 ->with('exercise_list', $exercise_list)
-                ->with('exercise_history_list', $exercise_history_list);
+                ->with('exercise_history_list', $exercise_history_list)
+                ->with('user_id', Auth::id());
         } else {
             return view('exercise_index')
                 ->with('exercise_list', $exercise_list);

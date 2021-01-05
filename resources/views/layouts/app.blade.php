@@ -58,6 +58,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('workbook.list') }}">{{ __('勉強開始') }}</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('exercise.list') }}">{{ __('問題一覧') }}</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
