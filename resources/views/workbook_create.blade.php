@@ -2,6 +2,18 @@
 
 @section('content')
 <div class="container">
+    @if(count($errors) > 0)
+        <div class="row">
+            <div class="offset-md-2 col-md-10 mx-auto ">
+                <div class="mx-3 col-md-11 float-right alert alert-danger alert-dismissible fade show">
+                    @foreach ($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+            </div>
+        </div>
+    @endif
     <div class="row justify-content-center">
         <div class="col-md-10">
             <h2 class="mb-3">問題集作成</h2>

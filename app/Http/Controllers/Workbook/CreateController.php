@@ -7,10 +7,12 @@
  */
 
 namespace App\Http\Controllers\Workbook;
+use App\Domain\WorkbookDomainException;
 use App\Http\Controllers\Controller;
 use App\Usecase\WorkbookUsecase;
 use App\Usecase\ExerciseUsecase;
 use App\Http\Requests\WorkbookRequest;
+use Illuminate\Support\Facades\Log;
 
 
 class CreateController extends Controller
@@ -39,11 +41,19 @@ class CreateController extends Controller
         if (isset($exercise_id_list)) {
             $exercise_list = $this->exercise_usecase->getAllExercisesWithIdList($exercise_id_list);
         }
-
-        $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
-        return view('workbook_confirm')
-            ->with('workbook', $workbook)
-            ->with('exercise_list', $exercise_list);
+        try {
+            $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
+            return view('workbook_confirm')
+                ->with('workbook', $workbook)
+                ->with('exercise_list', $exercise_list);
+        } catch (WorkbookDomainException $e) {
+            Log::warning($e);
+            return view('workbook_create')
+                ->with('error', $e);
+        } catch (\Exception $e) {
+            return view('workbook_create')
+                ->with('error', $e);
+        }
 
     }
 
