@@ -35,17 +35,16 @@ class CreateController extends Controller
         $title = $request->get('title');
         $explanation = $request->get('explanation');
         $exercise_id_list = $request->get('exercise');
+        $exercise_list = null;
         if (isset($exercise_id_list)) {
             $exercise_list = $this->exercise_usecase->getAllExercisesWithIdList($exercise_id_list);
-            $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
-            return view('workbook_confirm')
-                ->with('workbook', $workbook)
-                ->with('exercise_list', $exercise_list);
-        } else {
-            $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
-            return view('workbook_confirm')
-                ->with('workbook', $workbook);
         }
+
+        $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
+        return view('workbook_confirm')
+            ->with('workbook', $workbook)
+            ->with('exercise_list', $exercise_list);
+
     }
 
     public function complete(WorkbookRequest $request)
