@@ -28,4 +28,13 @@ class ExerciseRequest extends FormRequest
             'answer' => 'required|max:100',
         ];
     }
+
+    public function messages(){
+        return [
+            'question.required' => '質問は必須です。',
+            'question.max' => '質問は最大100文字です。',
+            'answer.required' => '解答は必須です。',
+            'answer.max' => '解答は最大100文字です。',
+        ];
+    }
 }
