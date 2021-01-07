@@ -15,12 +15,12 @@
         </div>
     @endif
     <div class="row justify-content-center">
-        <div class="col-md-10">
-            <h2 class="mb-3">問題集作成</h2>
+        <div class="card py-5 px-5 col-md-10">
+            <h2 class="mb-2"><i class="fas fa-book-open pr-2"></i>問題集作成</h2>
             {{Form::open(['route' => [ 'workbook.confirm']])}}
-            <div class="form-group py-1">
-                <label class="control-label" for="InputTitle">タイトル</label>
-                <div class="py-2">
+            <div class="form-group">
+                <label class="form-label control-label py-2" for="InputTitle">タイトル</label>
+                <div class="">
                     <input type="text"
                            class="form-control "
                            id="InputTitle"
@@ -28,9 +28,9 @@
                            placeholder="タイトル">
                 </div>
             </div>
-            <div class="form-group py-1">
-                <label class="control-label" for="InputExplanation">説明</label>
-                <div class="py-2">
+            <div class="form-group">
+                <label class="form-label control-label py-2" for="InputExplanation">説明</label>
+                <div class="">
                     <textarea rows="5"
                            class="form-control "
                            id="InputExplanation"

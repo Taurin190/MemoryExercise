@@ -1,7 +1,7 @@
 <template>
 <div class="form-group">
     <div class="py-3">
-        <label class="py-2 control-label">選択中の問題</label>
+        <label class="form-label py-2 control-label">選択中の問題</label>
         <p class="py-2" v-if="Object.keys(selected_exercise_list).length == 0">
             選択されている問題はありません。
         </p>
@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="py-3">
-        <label class="control-label">問題の追加</label>
+        <label class="form-label control-label">問題の追加</label>
         <div class="pb-2">
             <input class="form-control" v-model="text" type="text"/>
         </div>
