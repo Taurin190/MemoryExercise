@@ -3,9 +3,9 @@
 @section('content')
 <div class="container">
     @if(count($errors) > 0)
-        <div class="row">
-            <div class="offset-md-2 col-md-10 mx-auto ">
-                <div class="mx-3 col-md-11 float-right alert alert-danger alert-dismissible fade show">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="col-md-12 float-right alert alert-danger alert-dismissible fade show">
                     @foreach ($errors->all() as $error)
                         <p>{{ $error }}</p>
                     @endforeach
@@ -18,9 +18,9 @@
         <div class="col-md-10">
             <h2 class="mb-3">問題集作成</h2>
             {{Form::open(['route' => [ 'workbook.confirm']])}}
-            <div class="form-group py-3">
-                <label class="float-left col-md-2 text-right control-label" for="InputTitle">タイトル</label>
-                <div class="float-left col-md-10">
+            <div class="form-group py-1">
+                <label class="control-label" for="InputTitle">タイトル</label>
+                <div class="py-2">
                     <input type="text"
                            class="form-control "
                            id="InputTitle"
@@ -28,9 +28,9 @@
                            placeholder="タイトル">
                 </div>
             </div>
-            <div class="form-group py-3">
-                <label class="float-left col-md-2 text-right control-label" for="InputExplanation">説明</label>
-                <div class="float-left col-md-10">
+            <div class="form-group py-1">
+                <label class="control-label" for="InputExplanation">説明</label>
+                <div class="py-2">
                     <textarea rows="5"
                            class="form-control "
                            id="InputExplanation"
@@ -43,10 +43,10 @@
                 {{--<button type="submit" class="btn btn-primary btn-block">作成</button>--}}
             {{--</div>--}}
             <div class="py-2 form-group">
-                <div class="offset-md-2 col-md-3 float-left">
+                <div class="px-0 float-left col-md-3">
                     <button type="button" onclick="history.back()" class="btn btn-outline-secondary btn-block">戻る</button>
                 </div>
-                <div class="float-left col-md-3">
+                <div class="px-0 mx-3 float-left col-md-3">
                     <button type="button" onclick="submit()" class="btn btn-primary btn-block">作成</button>
                 </div>
             </div>

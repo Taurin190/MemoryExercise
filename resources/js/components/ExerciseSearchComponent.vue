@@ -1,11 +1,11 @@
 <template>
 <div class="form-group">
-    <div class="py-5">
-        <label class="py-2 float-left col-md-2 text-right control-label">選択中の問題</label>
-        <p class="py-2 float-left col-md-10" v-if="Object.keys(selected_exercise_list).length == 0">
+    <div class="py-3">
+        <label class="py-2 control-label">選択中の問題</label>
+        <p class="py-2" v-if="Object.keys(selected_exercise_list).length == 0">
             選択されている問題はありません。
         </p>
-        <div class="float-left col-md-10 py-2" v-else>
+        <div class="py-2" v-else>
             <ul class="list-group">
                 <li v-for="(exercise, index) in selected_exercise_list"
                     class="list-group-item d-flex justify-content-between align-items-center">
@@ -15,13 +15,13 @@
             </ul>
         </div>
     </div>
-    <div class="py-5">
-        <label class="float-left col-md-2 text-right control-label">問題の追加</label>
-        <div class="pb-2 float-left col-md-10">
+    <div class="py-3">
+        <label class="control-label">問題の追加</label>
+        <div class="pb-2">
             <input class="form-control" v-model="text" type="text"/>
         </div>
     </div>
-    <div class="pb-3 offset-md-2 float-left col-md-10">
+    <div class="pb-3">
         <ul class="list-group">
             <li v-for="(exercise, index) in exercise_list"
             class="list-group-item d-flex justify-content-between align-items-center">
