@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-10 float-left">
+    <div class="">
         <div class="py-2" v-if="label_list.length">
             <div class="px-2 py-1 mr-1 mb-2 badge badge-primary" v-for="(label, index) in label_list">
                 <span>{{ label }}</span>
