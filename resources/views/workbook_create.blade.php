@@ -42,7 +42,7 @@
             {{--<div class="col-sm-offset-2 ">--}}
                 {{--<button type="submit" class="btn btn-primary btn-block">作成</button>--}}
             {{--</div>--}}
-            <div class="py-2 form-group">
+            <div class="form-group">
                 <div class="px-0 float-left col-md-3">
                     <button type="button" onclick="history.back()" class="btn btn-outline-secondary btn-block">戻る</button>
                 </div>
