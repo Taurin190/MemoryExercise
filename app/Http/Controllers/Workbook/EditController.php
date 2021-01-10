@@ -28,6 +28,7 @@ class EditController extends Controller
 
     public function edit($uuid)
     {
+        // TODO 編集権限がない場合にエラーを出す
         $workbook = $this->workbook_usecase->getWorkbook($uuid);
         return view('workbook_edit')
             ->with('workbook', $workbook)

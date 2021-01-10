@@ -33,6 +33,10 @@ class ExerciseUsecase
         return $this->exerciseRepository->findAll();
     }
 
+    public function getExercises($uuid, $user = null) {
+        return $this->exerciseRepository->findByExerciseId($uuid, $user);
+    }
+
     public function getAllExercisesWithIdList($id_list) {
         return $this->exerciseRepository->findAllByExerciseIdList($id_list);
     }

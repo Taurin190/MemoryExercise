@@ -20,7 +20,7 @@
                             </div>
                         </a>
                         @if(isset($user_id) && $exercise->user->id == $user_id)
-                            <a class="text-decoration-none" href="{{route('workbook.edit', $exercise->exercise_id)}}">
+                            <a class="text-decoration-none" href="{{route('exercise.edit', $exercise->exercise_id)}}">
                                 <div class="workbook-edit">
                                     <i class="fas fa-pen"></i>
                                 </div>
