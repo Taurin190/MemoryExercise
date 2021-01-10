@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ExerciseRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 
 class EditController extends Controller
@@ -44,30 +45,31 @@ class EditController extends Controller
 
     /**
      * when post from form
+     * @param $uuid
      * @param ExerciseRequest $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function confirm(ExerciseRequest $request)
+    public function confirm($uuid, ExerciseRequest $request)
     {
         $question = $request->get('question');
         $answer = $request->get('answer');
         $label_list = $request->get('label');
         $permission = $request->get('permission');
-        $exercise = $this->exerciseUsecase->makeExercise($question, $answer, $permission);
+        $exercise = $this->exerciseUsecase->getExercise($uuid, $question, $answer, $permission);
         $request->session()->put('question', $request->get('question'));
         $request->session()->put('answer', $request->get('answer'));
-        return view('exercise_confirm')
+        return view('exercise_edit_confirm')
             ->with("exercise", $exercise);
     }
 
-    public function complete(ExerciseRequest $request)
+    public function complete($uuid, ExerciseRequest $request)
     {
         $question = $request->get('question');
         $answer = $request->get('answer');
         $permission = $request->get('permission');
-        $this->exerciseUsecase->createExercise($question, $answer, $permission);
+        $this->exerciseUsecase->updateExercise($uuid, $question, $answer, $permission);
         $request->session()->forget('question');
         $request->session()->forget('answer');
-        return view('exercise_complete');
+        return view('exercise_edit_complete');
     }
 }

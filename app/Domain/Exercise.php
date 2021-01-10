@@ -44,7 +44,11 @@ class Exercise
         if (isset($parameters['permission'])) {
             $permission = (int) $parameters['permission'];
         }
-        return new Exercise(null, $parameters['question'], $parameters['answer'], $permission);
+        $exercise_id = null;
+        if (isset($parameters['exercise_id'])) {
+            $exercise_id = $parameters['exercise_id'];
+        }
+        return new Exercise($exercise_id, $parameters['question'], $parameters['answer'], $permission);
     }
 
     public static function map(\App\Exercise $model) {

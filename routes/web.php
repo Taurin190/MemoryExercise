@@ -25,6 +25,10 @@ Route::get('/exercise/create', 'Exercise\CreateController@create')->name('exerci
 
 Route::get('/exercise/{uuid}/edit', 'Exercise\EditController@edit')->name('exercise.edit');
 
+Route::post('/exercise/{uuid}/edit/confirm', 'Exercise\EditController@confirm')->name('exercise.edit.confirm');
+
+Route::post('/exercise/{uuid}/edit/complete', 'Exercise\EditController@complete')->name('exercise.edit.complete');
+
 Route::post('/exercise/confirm', 'Exercise\CreateController@confirm')->name('exercise.confirm');
 
 Route::post('/exercise/complete', 'Exercise\CreateController@complete')->name('exercise.complete');

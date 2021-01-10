@@ -24,8 +24,17 @@ class ExerciseUsecase
         return Exercise::create(['question' => $question, 'answer' => $answer, 'permission' => $permission]);
     }
 
+    public function getExercise($uuid, $question, $answer, $permission) {
+        return Exercise::create(['exercise_id' => $uuid,'question' => $question, 'answer' => $answer, 'permission' => $permission]);
+    }
+
     public function createExercise($question, $answer, $permission) {
         $exercise = Exercise::create(['question' => $question, 'answer' => $answer, 'permission' => $permission]);
+        $this->exerciseRepository->save($exercise);
+    }
+
+    public function updateExercise($uuid, $question, $answer, $permission) {
+        $exercise = Exercise::create(['exercise_id' => $uuid, 'question' => $question, 'answer' => $answer, 'permission' => $permission]);
         $this->exerciseRepository->save($exercise);
     }
 
@@ -33,6 +42,7 @@ class ExerciseUsecase
         return $this->exerciseRepository->findAll();
     }
 
+    // TODO 変数名がわかりにくいので変えたい
     public function getExercises($uuid, $user = null) {
         return $this->exerciseRepository->findByExerciseId($uuid, $user);
     }

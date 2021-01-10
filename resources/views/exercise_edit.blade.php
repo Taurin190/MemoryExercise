@@ -14,7 +14,7 @@
             </div>
         </div>
         @endif
-        {{Form::open(['route' => [ 'exercise.confirm'], 'onsubmit' => "return false;"])}}
+        {{Form::open(['route' => [ 'exercise.edit.confirm', $exercise->getExerciseId()], 'onsubmit' => "return false;"])}}
          <div class="row justify-content-center">
              <div class="card col-md-10 py-5 px-5">
                  <h2 class="mb-2"><i class="fas fa-question-circle pr-2"></i>問題編集</h2>
@@ -73,7 +73,7 @@
                          <button type="button" onclick="history.back()" class="btn btn-outline-secondary btn-block">戻る</button>
                      </div>
                      <div class="px-0 mx-2 float-left col-md-3">
-                         <button type="button" onclick="submit()" class="btn btn-primary btn-block">作成</button>
+                         <button type="button" onclick="submit()" class="btn btn-primary btn-block">編集</button>
                      </div>
                  </div>
              </div>
