@@ -4,8 +4,8 @@
     <div class="container">
         @if(count($errors) > 0)
         <div class="row">
-            <div class="offset-md-2 col-md-10 mx-auto ">
-                <div class="mx-3 col-md-11 float-right alert alert-danger alert-dismissible fade show">
+            <div class="col-md-10 px-0 mx-auto">
+                <div class="col-md-12 float-right alert alert-danger alert-dismissible fade show">
                     @foreach ($errors->all() as $error)
                         <p>{{ $error }}</p>
                     @endforeach
