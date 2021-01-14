@@ -18,6 +18,11 @@
          <div class="row justify-content-center">
              <div class="card col-md-10 py-5 px-5">
                  <h2 class="mb-2"><i class="fas fa-question-circle pr-2"></i>問題編集</h2>
+                 <a class="text-decoration-none">
+                     <div class="exercise-delete">
+                         <i class="far fa-trash-alt delete-icon"></i>
+                     </div>
+                 </a>
                  <div class="col-md-12 px-0 align-items-start mx-auto form-group @if(!empty($errors->first('question'))) has-error @endif">
                     <label class="pt-2 my-2 form-label control-label" for="InputQuestion">質問</label>
                     <div>
@@ -31,8 +36,8 @@
                         <span class="text-danger">{{ $error }}</span>
                         @endif
                     </div>
-                </div>
-                <div class="align-items-start py-2 col-md-12 px-0 form-group @if(!empty($errors->first('answer'))) has-error @endif">
+                 </div>
+                 <div class="align-items-start py-2 col-md-12 px-0 form-group @if(!empty($errors->first('answer'))) has-error @endif">
                     <label class="pb-2 form-label control-label" for="InputAnswer">答え</label>
                     <div>
                         <textarea rows="2"
@@ -45,7 +50,7 @@
                             <span class="text-danger">{{ $error }}</span>
                         @endif
                     </div>
-                </div>
+                 </div>
                  <div class="py-2 form-group col-md-12 px-0">
                      <label class="form-label control-label pb-2">公開設定</label>
                      <div>
