@@ -3,9 +3,11 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <p>編集しました。</p>
-            <a class="btn btn-primary btn-block" href="{{route('exercise.list')}}" >問題一覧に戻る</a>
+        <div class="card col-md-10 py-3">
+            <p>作成しました。</p>
+            <div class="col-md-12 px-0 btn-group d-flex">
+                <a class="btn btn-primary btn-block px-0 col-md-3 float-left" href="{{route('exercise.list')}}" >問題集一覧に戻る</a>
+            </div>
         </div>
     </div>
 </div>

@@ -10,7 +10,7 @@
                         <p>{{ $error }}</p>
                     @endforeach
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
-            </div>
+                </div>
             </div>
         </div>
         @endif
