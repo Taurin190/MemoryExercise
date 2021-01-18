@@ -3,10 +3,10 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="card py-5 px-5 col-md-10">
             {{Form::open(['route' => [ 'workbook.edit.confirm', $workbook->getWorkbookId()]])}}
             <div class="form-group">
-                <label class="control-label" for="InputTitle">問題集のタイトル</label>
+                <label class="form-label control-label py-2" for="InputTitle">問題集のタイトル</label>
                 <div class="">
                     <input type="text"
                            class="form-control "
@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label" for="InputExplanation">問題集の説明</label>
+                <label class="form-label control-label py-2" for="InputExplanation">問題集の説明</label>
                 <div class="">
                     <textarea rows="5"
                            class="form-control "
@@ -27,8 +27,13 @@
                 </div>
             </div>
             <exercise-search-component :workbook='@json($workbook_array)'></exercise-search-component>
-            <div class="col-sm-offset-2 ">
-                <button type="submit" class="btn btn-primary btn-block">編集</button>
+            <div class="form-group">
+                <div class="px-0 float-left col-md-3">
+                    <button type="button" onclick="history.back()" class="btn btn-outline-secondary btn-block">戻る</button>
+                </div>
+                <div class="px-0 mx-3 float-left col-md-3">
+                    <button type="button" onclick="submit()" class="btn btn-primary btn-block">編集</button>
+                </div>
             </div>
             {{Form::close()}}
         </div>
