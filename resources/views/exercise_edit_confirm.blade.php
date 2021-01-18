@@ -9,12 +9,12 @@
             <div>
                 <label class="pt-2 my-2 form-label control-label">問題</label>
                 <p>{{ $exercise->getQuestion() }}</p>
-                <input type="hidden" name="title" value="{{ $exercise->getQuestion() }}">
+                <input type="hidden" name="question" value="{{ $exercise->getQuestion() }}">
             </div>
             <div>
                 <label class="pt-2 my-2 form-label control-label">解答</label>
                 <p>{{ $exercise->getAnswer() }}</p>
-                <input type="hidden" name="explanation" value="{{ $exercise->getAnswer() }}">
+                <input type="hidden" name="answer" value="{{ $exercise->getAnswer() }}">
             </div>
             <div class="col-md-12 px-0 pt-3 btn-group d-flex" role="group" aria-label="...">
                 <a href="{{route('exercise.edit', $exercise->getExerciseId())}}"
