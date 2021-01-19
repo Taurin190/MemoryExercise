@@ -5,6 +5,7 @@
     {{Form::open(['route' => [ 'workbook.complete']])}}
     <div class="row justify-content-center">
         <div class="card col-md-10 py-5 px-5">
+            <h2 class="mb-2"><i class="fas fa-book-open pr-2 pb-4"></i>問題集作成</h2>
             <p>以下の内容を作成してよろしいですか？</p>
             <div>
                 <label class="pt-2 my-2 form-label control-label">問題集のタイトル</label>

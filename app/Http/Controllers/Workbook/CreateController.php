@@ -32,6 +32,24 @@ class CreateController extends Controller
         return view('workbook_create');
     }
 
+    public function add_exercise(WorkbookRequest $request)
+    {
+        $title = $request->get('title');
+        $explanation = $request->get('explanation');
+        try {
+            $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
+            return view('workbook_add_exercise')
+                ->with('workbook', $workbook);
+        } catch (WorkbookDomainException $e) {
+            Log::warning($e);
+            return view('workbook_create')
+                ->with('error', $e);
+        } catch (\Exception $e) {
+            return view('workbook_create')
+                ->with('error', $e);
+        }
+    }
+
     public function confirm(WorkbookRequest $request)
     {
         $title = $request->get('title');

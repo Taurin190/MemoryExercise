@@ -39,6 +39,8 @@ Route::get('/workbook/list', 'WorkbookController@list')->name('workbook.list');
 
 Route::get('/workbook/create', 'Workbook\CreateController@create')->name('workbook.create');
 
+Route::post('/workbook/add_exercise', 'Workbook\CreateController@add_exercise')->name('workbook.add.exercise');
+
 Route::post('/workbook/confirm', 'Workbook\CreateController@confirm')->name('workbook.confirm');
 
 Route::post('/workbook/complete', 'Workbook\CreateController@complete')->name('workbook.complete');
