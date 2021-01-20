@@ -29,8 +29,8 @@
             </div>
             @endisset
             <div class="col-md-12 px-0 py-2 btn-group d-flex" role="group" aria-label="...">
-                <a href="{{route('workbook.create')}}"
-                   class="btn btn-outline-secondary px-0 col-md-3 float-left">戻る</a>
+                <button type="button" onclick="history.back()"
+                        class="btn btn-outline-secondary btn-block px-0 float-left col-md-3">戻る</button>
                 <input type="submit"
                        class="btn btn-outline-primary px-0 mx-2 float-left col-md-3" value="作成" />
             </div>

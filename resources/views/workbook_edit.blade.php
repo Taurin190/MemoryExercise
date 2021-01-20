@@ -4,7 +4,8 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="card py-5 px-5 col-md-10">
-            {{Form::open(['route' => [ 'workbook.edit.confirm', $workbook->getWorkbookId()]])}}
+            {{Form::open(['route' => [ 'workbook.edit.exercise', $workbook->getWorkbookId()]])}}
+            <h2 class="mb-2"><i class="fas fa-book-open pr-2"></i>問題集編集</h2>
             <div class="form-group">
                 <label class="form-label control-label py-2" for="InputTitle">問題集のタイトル</label>
                 <div class="">
@@ -26,7 +27,6 @@
                               placeholder="問題集の説明を入れてください。">{{ $workbook->getExplanation() }}</textarea>
                 </div>
             </div>
-            <exercise-search-component :workbook='@json($workbook_array)'></exercise-search-component>
             <div class="form-group">
                 <div class="px-0 float-left col-md-3">
                     <button type="button" onclick="history.back()" class="btn btn-outline-secondary btn-block">戻る</button>

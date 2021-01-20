@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Workbook;
 
 
+use App\Domain\WorkbookDomainException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkbookRequest;
 use App\Usecase\ExerciseUsecase;
@@ -31,6 +32,18 @@ class EditController extends Controller
         // TODO 編集権限がない場合にエラーを出す
         $workbook = $this->workbook_usecase->getWorkbook($uuid);
         return view('workbook_edit')
+            ->with('workbook', $workbook)
+            ->with('workbook_array', $workbook->toArray());
+    }
+
+    public function edit_exercise($uuid, WorkbookRequest $request)
+    {
+        $workbook = $this->workbook_usecase->getWorkbook($uuid);
+        $title = $request->get('title');
+        $explanation = $request->get('explanation');
+        $workbook->modifyTitle($title);
+        $workbook->modifyExplanation($explanation);
+        return view('workbook_edit_exercise')
             ->with('workbook', $workbook)
             ->with('workbook_array', $workbook->toArray());
     }

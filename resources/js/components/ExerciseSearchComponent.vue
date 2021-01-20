@@ -25,7 +25,7 @@
         <ul class="list-group">
             <li v-for="(exercise, index) in exercise_list"
             class="list-group-item d-flex justify-content-between align-items-center">
-                <div class="form-group">
+                <div>
                     <input v-if="should_checked(index)"
                            type="checkbox"
                            :value="exercise.exercise_id"
@@ -62,6 +62,7 @@
             workbook : {}
         },
         mounted: function() {
+            this.loadExercise(this.text);
             if (!this.workbook) return;
             if (this.workbook.exercise_list.length > 0) {
                 for (var i = 0; i < this.workbook.exercise_list.length; i++) {

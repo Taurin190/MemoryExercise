@@ -5,6 +5,7 @@
     {{Form::open(['route' =>  ['workbook.edit.complete', $workbook->getWorkbookId()]])}}
     <div class="row justify-content-center">
         <div class="card col-md-10 py-5 px-5">
+            <h2 class="mb-2"><i class="fas fa-book-open pr-2"></i>問題集編集</h2>
             <p>以下で編集してよろしいですか？</p>
             <div>
                 <label class="form-label control-label py-2">問題集のタイトル</label>
