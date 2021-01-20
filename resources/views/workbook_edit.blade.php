@@ -6,6 +6,11 @@
         <div class="card py-5 px-5 col-md-10">
             {{Form::open(['route' => [ 'workbook.edit.exercise', $workbook->getWorkbookId()]])}}
             <h2 class="mb-2"><i class="fas fa-book-open pr-2"></i>問題集編集</h2>
+            <a class="text-decoration-none">
+                <div class="exercise-delete">
+                    <i class="far fa-trash-alt delete-icon"></i>
+                </div>
+            </a>
             <div class="form-group">
                 <label class="form-label control-label py-2" for="InputTitle">問題集のタイトル</label>
                 <div class="">
