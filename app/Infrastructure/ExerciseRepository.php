@@ -48,12 +48,32 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
 
     function findAll($limit = 10, $user = null)
     {
+        $count = $this->count($user);
+        if (isset($user)) {
+            $exercise_list = \App\Exercise::where('permission', 1)
+                ->orWhere("author_id", $user->getKey())->take($limit)->get();
+            return [
+                'count' => $count,
+                'exercise_list' => $exercise_list,
+                'page' => 1
+            ];
+        } else {
+            $exercise_list = \App\Exercise::where('permission', 1)->take($limit)->get();
+            return [
+                'count' => $count,
+                'exercise_list' => $exercise_list,
+                'page' => 1
+            ];
+        }
+    }
+
+    function count($user = null)
+    {
         if (isset($user)) {
             return \App\Exercise::where('permission', 1)
-                ->orWhere("author_id", $user->getKey())->take($limit)->get();
-        } else {
-            return \App\Exercise::where('permission', 1)->take($limit)->get();
+                ->orWhere("author_id", $user->getKey())->count();
         }
+        return \App\Exercise::where('permission', 1)->count();
     }
 
     function search($text, $page){
