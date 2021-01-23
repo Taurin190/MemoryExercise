@@ -33,17 +33,14 @@
                                v-on:click="setChecked('checked', $event)"
                                checked="checked"
                                autocomplete="off">
-                        <input class="col-md-2" v-else
+                        <input v-else
                                type="checkbox"
                                :value="exercise.exercise_id"
                                v-on:click="setChecked('checked', $event)"
                                autocomplete="off">
                     </div>
                     <div class="btn-group col-md-11 float-left px-0">
-                        <!--<label for="fancy-checkbox-default" class="btn btn-default">-->
-                            <!--<span class="glyphicon glyphicon-ok"></span>-->
-                            <!--<span>&nbsp;</span>-->
-                        <!--</label>-->
+
                         <label for="fancy-checkbox-default" class="btn btn-default text-wrap active py-0 px-0 text-left">
                             {{exercise.question}}
                         </label>
