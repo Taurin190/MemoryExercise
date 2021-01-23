@@ -25,24 +25,26 @@
         <ul class="list-group">
             <li v-for="(exercise, index) in exercise_list"
             class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                    <input v-if="should_checked(index)"
-                           type="checkbox"
-                           :value="exercise.exercise_id"
-                           v-on:click="setChecked('checked', $event)"
-                           checked="checked"
-                           autocomplete="off">
-                    <input v-else
-                           type="checkbox"
-                           :value="exercise.exercise_id"
-                           v-on:click="setChecked('checked', $event)"
-                           autocomplete="off">
-                    <div class="btn-group">
-                        <label for="fancy-checkbox-default" class="btn btn-default">
-                            <span class="glyphicon glyphicon-ok"></span>
-                            <span>&nbsp;</span>
-                        </label>
-                        <label for="fancy-checkbox-default" class="btn btn-default text-wrap active">
+                <div class="col-md-12 px-0">
+                    <div class="col-md-1 py-1 float-left">
+                        <input v-if="should_checked(index)"
+                               type="checkbox"
+                               :value="exercise.exercise_id"
+                               v-on:click="setChecked('checked', $event)"
+                               checked="checked"
+                               autocomplete="off">
+                        <input class="col-md-2" v-else
+                               type="checkbox"
+                               :value="exercise.exercise_id"
+                               v-on:click="setChecked('checked', $event)"
+                               autocomplete="off">
+                    </div>
+                    <div class="btn-group col-md-11 float-left px-0">
+                        <!--<label for="fancy-checkbox-default" class="btn btn-default">-->
+                            <!--<span class="glyphicon glyphicon-ok"></span>-->
+                            <!--<span>&nbsp;</span>-->
+                        <!--</label>-->
+                        <label for="fancy-checkbox-default" class="btn btn-default text-wrap active py-0 px-0 text-left">
                             {{exercise.question}}
                         </label>
                     </div>
