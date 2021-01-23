@@ -37,8 +37,8 @@ class CreateController extends Controller
 
     public function create(Request $request)
     {
-        $question = $request->session()->pull('question', '');
-        $answer = $request->session()->pull('answer', '');
+        $question = $request->session()->pull('question_create', '');
+        $answer = $request->session()->pull('answer_create', '');
         return view('exercise_create')
             ->with('question', $question)
             ->with('answer', $answer);
@@ -56,8 +56,8 @@ class CreateController extends Controller
         $label_list = $request->get('label');
         $permission = $request->get('permission');
         $exercise = $this->exerciseUsecase->makeExercise($question, $answer, $permission);
-        $request->session()->put('question', $request->get('question'));
-        $request->session()->put('answer', $request->get('answer'));
+        $request->session()->put('question_create', $request->get('question'));
+        $request->session()->put('answer_create', $request->get('answer'));
         return view('exercise_confirm')
             ->with("exercise", $exercise);
     }
@@ -68,8 +68,8 @@ class CreateController extends Controller
         $answer = $request->get('answer');
         $permission = $request->get('permission');
         $this->exerciseUsecase->createExercise($question, $answer, $permission);
-        $request->session()->forget('question');
-        $request->session()->forget('answer');
+        $request->session()->forget('question_create');
+        $request->session()->forget('answer_create');
         return view('exercise_complete');
     }
 }
