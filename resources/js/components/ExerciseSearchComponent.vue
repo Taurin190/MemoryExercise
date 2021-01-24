@@ -47,6 +47,20 @@
                     </div>
                 </div>
             </li>
+            <nav class="py-3">
+                <ul class="pagination">
+                    <li class="page-item" v-bind:class="{'disabled': is_previous_active }"><a href="#" class="page-link">Previous</a></li>
+                    <li class="page-item" v-bind:class="{'active': is_page_active(1) }"><a href="#" class="page-link">1</a></li>
+                    <li v-if="show_previous_dot" class="page-item disabled" ><a href="#" class="page-link">...</a></li>
+                    <li v-for="pager in pager_list" class="page-item" v-bind:class="{'active': is_page_active(pager)}">
+                        <a href="#" class="page-link">{{ pager }}</a>
+                    </li>
+                    <li v-if="show_latest_dot" class="page-item disabled" ><a href="#" class="page-link">...</a></li>
+                    <li v-if="show_max_page" class="page-item" v-bind:class="{'active': is_page_active(pager)}">
+                        <a href="#" class="page-link">{{ max_page }}</a></li>
+                    <li class="page-item" v-bind:class="{'disabled': is_next_active }"><a href="#" class="page-link">Next</a></li>
+                </ul>
+            </nav>
         </ul>
     </div>
 </div>
@@ -76,7 +90,10 @@
             return {
                 exercise_list: {},
                 selected_exercise_list: {},
-                text: ""
+                text: "",
+                count: 0,
+                page: 1,
+                pager_list: []
             }
         },
         methods: {
@@ -95,6 +112,7 @@
                             this.$set(this.exercise_list, res.data.exercise_list[i].exercise_id, res.data.exercise_list[i]);
                         }
                     }
+                    this.count = res.data.count;
                 })
             },
             setChecked: function(key, event) {
@@ -134,11 +152,51 @@
                 return function(index) {
                     return Object.keys(self.selected_exercise_list).includes(index);
                 }
+            },
+            is_previous_active: function() {
+                return this.page === 1;
+            },
+            is_next_active: function() {
+                return this.page >= this.max_page;
+
+            },
+            is_page_active: function() {
+                self = this;
+                return function(number) {
+                    return self.page === number;
+                }
+            },
+            show_previous_dot: function() {
+                return this.page > 3;
+            },
+            show_latest_dot: function() {
+                return this.page < this.max_page - 2;
+            },
+            max_page: function() {
+                return Math.ceil(this.count / 10);
+            },
+            show_max_page: function() {
+                return this.max_page - this.page > 2;
             }
         },
         watch: {
             text: function(text) {
                 this.loadExercise(text)
+            },
+            count: function() {
+                this.pager_list = [];
+                if (this.page === 1) {
+                    console.log(this.max_page);
+                    for (let i = 1; i < 3 && i < this.max_page; i ++) {
+                        this.pager_list.push(this.page + i);
+                    }
+                } else {
+                    this.pager_list.push(this.page - 1);
+                    this.pager_list.push(this.page);
+                    if (this.page <= this.max_page) {
+                        this.pager_list.push(this.page);
+                    }
+                }
             }
         }
     }
