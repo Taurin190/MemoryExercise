@@ -53,8 +53,20 @@ class ExerciseUsecase
 
     public function searchExercise($text, $page, $user = null) {
         if (mb_strlen($text) < 2) {
-            return $this->exerciseRepository->findAll(10, $user);
+            $count = $this->exerciseRepository->count($user);
+            $exercise_list = $this->exerciseRepository->findAll(10, $user);
+            return [
+                "count" => $count,
+                "exercise_list" => $exercise_list,
+                "page" => $page
+            ];
         }
-        return $this->exerciseRepository->search($text, $page);
+        $count = $this->exerciseRepository->searchCount($text);
+        $exercise_list = $this->exerciseRepository->search($text, $page);
+        return [
+            "count" => $count,
+            "exercise_list" => $exercise_list,
+            "page" => $page
+        ];
     }
 }
