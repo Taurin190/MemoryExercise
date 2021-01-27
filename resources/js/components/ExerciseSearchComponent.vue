@@ -49,16 +49,22 @@
             </li>
             <nav class="py-3">
                 <ul class="pagination">
-                    <li class="page-item" v-bind:class="{'disabled': is_previous_active }"><a href="#" class="page-link">Previous</a></li>
-                    <li class="page-item" v-bind:class="{'active': is_page_active(1) }"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item" v-bind:class="{'disabled': is_previous_active }">
+                        <a v-on:click="updatePage(page - 1)" class="page-link">Previous</a>
+                    </li>
+                    <li class="page-item" v-bind:class="{'active': is_page_active(1) }">
+                        <a v-on:click="updatePage(1)" class="page-link">1</a>
+                    </li>
                     <li v-if="show_previous_dot" class="page-item disabled" ><a href="#" class="page-link">...</a></li>
                     <li v-for="pager in pager_list" class="page-item" v-bind:class="{'active': is_page_active(pager)}">
-                        <a href="#" class="page-link">{{ pager }}</a>
+                        <a v-on:click="updatePage(pager)" class="page-link">{{ pager }}</a>
                     </li>
                     <li v-if="show_latest_dot" class="page-item disabled" ><a href="#" class="page-link">...</a></li>
                     <li v-if="show_max_page" class="page-item" v-bind:class="{'active': is_page_active(pager)}">
-                        <a href="#" class="page-link">{{ max_page }}</a></li>
-                    <li class="page-item" v-bind:class="{'disabled': is_next_active }"><a href="#" class="page-link">Next</a></li>
+                        <a v-on:click="updatePage(max_page)" class="page-link">{{ max_page }}</a></li>
+                    <li class="page-item" v-bind:class="{'disabled': is_next_active }">
+                        <a v-on:click="updatePage(page + 1)" class="page-link">Next</a>
+                    </li>
                 </ul>
             </nav>
         </ul>
@@ -99,7 +105,7 @@
         methods: {
             loadExercise: function (text) {
                 axios({
-                    url: '/api/exercise?text=' + text,
+                    url: '/api/exercise?text=' + text + '&page=' + this.page,
                     method: 'GET'
                 }).then(res =>  {
                     this.exercise_list = {};
@@ -145,6 +151,9 @@
                     }
                 }
             },
+            updatePage: function(page) {
+                this.page = page;
+            }
         },
         computed: {
             should_checked: function() {
@@ -197,6 +206,9 @@
                         this.pager_list.push(this.page);
                     }
                 }
+            },
+            page: function() {
+                this.loadExercise(this.text)
             }
         }
     }

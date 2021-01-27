@@ -30,7 +30,7 @@ class ExerciseController extends Controller
             $user = User::where('api_token', $token)->first();
         }
         $text = $request->input('text', '');
-        $page = $request->input('page');
+        $page = $request->input('page', 1);
         $result = $this->exerciseUsecase->searchExercise($text, $page, $user);
         $exercise_list = [];
         if (isset($result['exercise_list'])) {

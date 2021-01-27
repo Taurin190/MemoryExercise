@@ -46,13 +46,14 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         \App\Exercise::map($exercise)->save();
     }
 
-    function findAll($limit = 10, $user = null)
+    function findAll($limit = 10, $user = null, $page = 1)
     {
+        // TODO 引数を整える
         if (isset($user)) {
             return $exercise_list = \App\Exercise::where('permission', 1)
-                ->orWhere("author_id", $user->getKey())->take($limit)->get();
+                ->orWhere("author_id", $user->getKey())->skip(10 * ($page - 1))->take($limit)->get();
         } else {
-            return \App\Exercise::where('permission', 1)->take($limit)->get();
+            return \App\Exercise::where('permission', 1)->skip(10 * ($page - 1))->take($limit)->get();
         }
     }
 
@@ -66,7 +67,9 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
     }
 
     function search($text, $page){
-        return \App\Exercise::whereRaw("match(`question`) against (? IN NATURAL LANGUAGE MODE)", $text)->get();
+        // TODO 引数を整える
+        return \App\Exercise::whereRaw("match(`question`) against (? IN NATURAL LANGUAGE MODE)", $text)
+            ->skip(10 * ($page - 1))->take(10)->get();
     }
 
     function searchCount($text) {
