@@ -73,3 +73,31 @@ p.question {
 p.answer {
     font-size: 20px;
 }
+
+div.question-container {
+    height: 120px;
+}
+
+div.answer-container {
+    height: 200px;
+}
+
+.workbook-next {
+    position: absolute;
+    top: 10%;
+    left: 93%;
+}
+
+.workbook-prev {
+    position: absolute;
+    top: 10%;
+    left: 88%;
+}
+
+i.prev-button {
+    font-size: 30px;
+}
+
+i.next-button {
+    font-size: 30px;
+}
