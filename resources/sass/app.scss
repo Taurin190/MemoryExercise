@@ -7,9 +7,6 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-div.component-block {
-    margin-top: 70px;
-}
 div.pager-block {
     margin: 10px 0 50px;
 }
@@ -67,4 +64,12 @@ i.delete-icon {
 label.form-label {
     font-size: 18px;
     font-weight: bold;
+}
+
+p.question {
+    font-size: 20px;
+}
+
+p.answer {
+    font-size: 20px;
 }

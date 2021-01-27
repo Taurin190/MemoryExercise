@@ -9,28 +9,28 @@
                 <p class="py-3">問題が登録されていません。</p>
             </div>
         </div>
-        <div v-else-if="page <= workbook.exercise_list.length" class="component-block">
+        <div v-else-if="page <= workbook.exercise_list.length">
             <div v-for="(exercise, index) in workbook.exercise_list">
-                <div v-show="page - 1 == index" class="py-4">
-                    <b>問題{{index + 1}}</b>
-                    <p>{{ exercise.question }}</p>
+                <div v-show="page - 1 == index">
+                    <h2>問題{{index + 1}}</h2>
+                    <p class="py-3 question">{{ exercise.question }}</p>
                     <div class="pb-3">
                         <a data-toggle="collapse" v-bind:href="'#collapse-' + exercise.exercise_id">解答を表示</a>
                         <div v-bind:id="'collapse-' + exercise.exercise_id" class="collapse card">
                             <div class="card-body">
-                                <b>解答</b>
-                                {{ exercise.answer }}
+                                <label class="form-label">解答</label>
+                                <p class="answer">{{ exercise.answer }}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="btn-group btn-group-toggle py-3" data-toggle="buttons" role="group" :aria-label="exercise.exercise_id">
-                        <label class="btn btn-info">
+                    <div class="btn-group btn-group-toggle py-3 px-0 col-md-12" data-toggle="buttons" role="group" :aria-label="exercise.exercise_id">
+                        <label class="btn btn-info col-md-4">
                             <input type="radio" autocomplete="off" :name="exercise.exercise_id" value="ok"/>覚えた
                         </label>
-                        <label class="btn btn-info">
+                        <label class="btn btn-info col-md-4">
                             <input type="radio" autocomplete="off" :name="exercise.exercise_id" value="studying"/>ちょっと怪しい
                         </label>
-                        <label class="btn btn-info active">
+                        <label class="btn btn-info active col-md-4">
                             <input type="radio" autocomplete="off" :name="exercise.exercise_id" value="ng" checked required/>分からない
                         </label>
                     </div>
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="pager-block">
-            <div v-if="getExerciseCount > 0" class="btn-group d-flex pb-2" role="group" aria-label="...">
+            <div v-if="getExerciseCount > 0" class="btn-group d-flex" role="group" aria-label="...">
                 <button type="button"
                         v-on:click="prevPage"
                         class="btn btn-outline-info w-100"
@@ -49,7 +49,7 @@
                         class="btn btn-outline-info w-100"
                         v-bind:class="{ 'disabled' : isFinalPage }">次へ</button>
             </div>
-            <div v-if="isFinalPage">
+            <div v-if="isFinalPage" class="pt-5">
                 <input v-if="getExerciseCount > 0" type="submit" class="btn btn-primary btn-block" value="回答完了"/>
                 <buttn v-else type="button" onclick="history.back()" class="btn btn-outline-secondary btn-block">戻る</buttn>
             </div>
