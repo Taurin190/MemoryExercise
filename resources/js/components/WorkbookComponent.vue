@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div v-if="page == 0" class="pb-5 title-block">
+        <div v-if="page === 0" class="title-block">
             <h1 class="pb-3">{{ workbook.title }}</h1>
             <div v-if="workbook.explanation" class="card pb-2">
                 <div class="card-body explanation">{{ workbook.explanation }}</div>
             </div>
-            <div v-if="getExerciseCount == 0">
+            <div v-if="getExerciseCount === 0">
                 <p class="py-3">問題が登録されていません。</p>
             </div>
             <div class="py-5">
@@ -16,7 +16,7 @@
         </div>
         <div v-else-if="page <= workbook.exercise_list.length">
             <div v-for="(exercise, index) in workbook.exercise_list">
-                <div v-show="page - 1 == index">
+                <div v-show="page - 1 === index">
                     <h2>問題{{index + 1}}</h2>
                     <a class="text-decoration-none" v-on:click="prevPage">
                         <div class="workbook-prev">
@@ -40,27 +40,40 @@
                             </div>
                         </div>
                     </div>
-                    <div class="btn-group btn-group-toggle py-3 px-0 col-md-12" data-toggle="buttons" role="group" :aria-label="exercise.exercise_id">
+                    <div class="btn-group btn-group-toggle py-5 px-0 col-md-12" data-toggle="buttons" role="group" :aria-label="exercise.exercise_id">
                         <label class="btn btn-info col-md-4">
-                            <input type="radio" v-on:click="nextPage" autocomplete="off" :name="exercise.exercise_id" value="ok"/>覚えた
+                            <input type="radio" v-on:click="setStatus(exercise.exercise_id,'覚えた')" autocomplete="off" :name="exercise.exercise_id" value="ok"/>覚えた
                         </label>
                         <label class="btn btn-info col-md-4">
-                            <input type="radio" v-on:click="nextPage" autocomplete="off" :name="exercise.exercise_id" value="studying"/>ちょっと怪しい
+                            <input type="radio" v-on:click="setStatus(exercise.exercise_id,'ちょっと怪しい')" autocomplete="off" :name="exercise.exercise_id" value="studying"/>ちょっと怪しい
                         </label>
                         <label class="btn btn-info col-md-4">
-                            <input type="radio" v-on:click="nextPage" autocomplete="off" :name="exercise.exercise_id" value="ng" required/>分からない
+                            <input type="radio" v-on:click="setStatus(exercise.exercise_id,'分からない')" autocomplete="off" :name="exercise.exercise_id" value="ng" required/>分からない
                         </label>
                     </div>
                     <input type="hidden" name="exercise_list[]" :value="exercise.exercise_id" />
                 </div>
             </div>
         </div>
-        <div class="pager-block">
-            <div v-if="isFinalPage" class="pt-5">
-                <input v-if="getExerciseCount > 0" type="submit" class="btn btn-primary btn-block" value="回答完了"/>
-                <buttn v-else type="button" onclick="history.back()" class="btn btn-outline-secondary btn-block">戻る</buttn>
+        <div v-else-if="page === workbook.exercise_list.length + 1">
+            <h2>解答</h2>
+            <a class="text-decoration-none" v-on:click="prevPage">
+                <div class="workbook-prev">
+                    <i class="fa fa-angle-left prev-button" aria-hidden="true"></i>
+                </div>
+            </a>
+            <div v-for="(exercise, index) in workbook.exercise_list">
+                <label class="pt-2 my-2 form-label control-label">問題{{index + 1}}</label>
+                <p>{{ getStatus(exercise.exercise_id) }}</p>
+            </div>
+            <div class="pager-block">
+                <div class="pt-5">
+                    <input v-if="getExerciseCount > 0" type="submit" class="btn btn-primary btn-block" value="回答完了"/>
+                    <buttn v-else type="button" onclick="history.back()" class="btn btn-outline-secondary btn-block">戻る</buttn>
+                </div>
             </div>
         </div>
+
     </div>
 </template>
 
@@ -72,12 +85,13 @@
         },
         data: function() {
             return {
-                page: 0
+                page: 0,
+                status_list: {}
             }
         },
         methods: {
             nextPage: function () {
-                if (this.page >= this.workbook.exercise_list.length) {
+                if (this.page >= this.workbook.exercise_list.length + 1) {
                     return;
                 }
                 this.page += 1;
@@ -87,6 +101,10 @@
                     return;
                 }
                 this.page -= 1;
+            },
+            setStatus: function(exercise_id, status) {
+                this.$set(this.status_list, exercise_id, status);
+                this.nextPage();
             }
         },
         computed: {
@@ -98,6 +116,15 @@
             },
             getExerciseCount: function() {
                 return this.workbook.exercise_list.length;
+            },
+            getStatus: function() {
+                self = this;
+                return function(exercise_id) {
+                    if (!Object.keys(self.status_list).includes(exercise_id)) {
+                        return "未解答";
+                    }
+                    return self.status_list[exercise_id];
+                }
             }
         }
     }
