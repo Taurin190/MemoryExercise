@@ -14,7 +14,7 @@
                     class="btn btn-outline-info w-100">スタート</button>
             </div>
         </div>
-        <div v-else-if="page <= workbook.exercise_list.length">
+        <div v-else-if="page <= workbook.exercise_list.length + 1">
             <div v-for="(exercise, index) in workbook.exercise_list">
                 <div v-show="page - 1 === index">
                     <h2>問題{{index + 1}}</h2>
@@ -54,26 +54,25 @@
                     <input type="hidden" name="exercise_list[]" :value="exercise.exercise_id" />
                 </div>
             </div>
-        </div>
-        <div v-else-if="page === workbook.exercise_list.length + 1">
-            <h2>解答</h2>
-            <a class="text-decoration-none" v-on:click="prevPage">
-                <div class="workbook-prev">
-                    <i class="fa fa-angle-left prev-button" aria-hidden="true"></i>
+            <div v-if="page === workbook.exercise_list.length + 1">
+                <h2>解答</h2>
+                <a class="text-decoration-none" v-on:click="prevPage">
+                    <div class="workbook-prev">
+                        <i class="fa fa-angle-left prev-button" aria-hidden="true"></i>
+                    </div>
+                </a>
+                <div v-for="(exercise, index) in workbook.exercise_list">
+                    <label class="pt-2 my-2 form-label control-label">問題{{index + 1}}</label>
+                    <p>{{ getStatus(exercise.exercise_id) }}</p>
                 </div>
-            </a>
-            <div v-for="(exercise, index) in workbook.exercise_list">
-                <label class="pt-2 my-2 form-label control-label">問題{{index + 1}}</label>
-                <p>{{ getStatus(exercise.exercise_id) }}</p>
-            </div>
-            <div class="pager-block">
-                <div class="pt-5">
-                    <input v-if="getExerciseCount > 0" type="submit" class="btn btn-primary btn-block" value="回答完了"/>
-                    <buttn v-else type="button" onclick="history.back()" class="btn btn-outline-secondary btn-block">戻る</buttn>
+                <div class="pager-block">
+                    <div class="pt-5">
+                        <input v-if="getExerciseCount > 0" type="submit" class="btn btn-primary btn-block" value="回答完了"/>
+                        <buttn v-else type="button" onclick="history.back()" class="btn btn-outline-secondary btn-block">戻る</buttn>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 
