@@ -31,7 +31,11 @@ p.banner-text {
 }
 
 div.workbook-card a:hover {
-    box-shadow: 2px 4px 10px 0 rgba(0, 0, 0, .3);;
+    box-shadow: 2px 4px 10px 0 rgba(0, 0, 0, .3);
+}
+
+div.workbook-card {
+    height: 280px;
 }
 
 label {
