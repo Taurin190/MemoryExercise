@@ -45,4 +45,29 @@ class ExerciseController extends Controller
         ];
         return response()->json($response);
     }
+
+    public function list(Request $request)
+    {
+        $token = $request->get('api_token');
+        $user = null;
+        if (isset($token)) {
+            $user = User::where('api_token', $token)->first();
+        }
+        $page = $request->input('page', 1);
+        $limit = $request->input('limit', 10);
+        $result = $this->exerciseUsecase->getAllExercises($limit, $user, $page);
+        $count = $this->exerciseUsecase->getExerciseCount($user);
+        $exercise_list = [];
+        if (isset($result)) {
+            foreach ($result as $exercise) {
+                $exercise_list[] = $exercise->toArray();
+            }
+        }
+        $response = [
+            'exercise_list' => $exercise_list,
+            'count' => $count,
+            'page' => $page
+        ];
+        return response()->json($response);
+    }
 }

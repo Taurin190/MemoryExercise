@@ -51,9 +51,9 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         // TODO 引数を整える
         if (isset($user)) {
             return $exercise_list = \App\Exercise::where('permission', 1)
-                ->orWhere("author_id", $user->getKey())->skip(10 * ($page - 1))->take($limit)->get();
+                ->orWhere("author_id", $user->getKey())->skip($limit * ($page - 1))->take($limit)->get();
         } else {
-            return \App\Exercise::where('permission', 1)->skip(10 * ($page - 1))->take($limit)->get();
+            return \App\Exercise::where('permission', 1)->skip($limit * ($page - 1))->take($limit)->get();
         }
     }
 

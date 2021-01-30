@@ -38,8 +38,8 @@ class ExerciseUsecase
         $this->exerciseRepository->save($exercise);
     }
 
-    public function getAllExercises($limit = 10, $user = null) {
-        return $this->exerciseRepository->findAll($limit, $user);
+    public function getAllExercises($limit = 10, $user = null, $page = 1) {
+        return $this->exerciseRepository->findAll($limit, $user, $page);
     }
 
     public function getExerciseCount($user = null) {
