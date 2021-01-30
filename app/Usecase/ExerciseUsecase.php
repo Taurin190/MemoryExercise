@@ -38,8 +38,12 @@ class ExerciseUsecase
         $this->exerciseRepository->save($exercise);
     }
 
-    public function getAllExercises($limit) {
-        return $this->exerciseRepository->findAll();
+    public function getAllExercises($limit = 10, $user = null) {
+        return $this->exerciseRepository->findAll($limit, $user);
+    }
+
+    public function getExerciseCount($user = null) {
+        return $this->exerciseRepository->count($user);
     }
 
     // TODO 変数名がわかりにくいので変えたい

@@ -8,7 +8,7 @@
                 問題集が存在しません。
             @else
             <div>
-               <span>{{ count($exercise_list) }} 件</span>
+               <span>{{ $count }} 件</span>
             </div>
             @foreach($exercise_list as $exercise)
                 <div class="col-md-3 py-2 px-1 float-left">

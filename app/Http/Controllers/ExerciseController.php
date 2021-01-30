@@ -34,31 +34,41 @@ class ExerciseController extends Controller
      */
     public function index()
     {
-        $exercise_list = $this->exerciseUsecase->getAllExercises(10);
         if (Auth::check()) {
+            $exercise_list = $this->exerciseUsecase->getAllExercises(12, Auth::user());
+            $count = $this->exerciseUsecase->getExerciseCount(Auth::user());
             $exercise_history_list = $this->answerHistoryUsecase->getExerciseHistoryCountByExerciseList(Auth::user(), $exercise_list);
             return view('exercise_index')
                 ->with('exercise_list', $exercise_list)
                 ->with('exercise_history_list', $exercise_history_list)
-                ->with('user_id', Auth::id());
+                ->with('user_id', Auth::id())
+                ->with('count', $count);
         } else {
+            $exercise_list = $this->exerciseUsecase->getAllExercises(12);
+            $count = $this->exerciseUsecase->getExerciseCount();
             return view('exercise_index')
-                ->with('exercise_list', $exercise_list);
+                ->with('exercise_list', $exercise_list)
+                ->with('count', $count);
         }
     }
 
     public function list()
     {
-        $exercise_list = $this->exerciseUsecase->getAllExercises(10);
         if (Auth::check()) {
+            $exercise_list = $this->exerciseUsecase->getAllExercises(12, Auth::user());
+            $count = $this->exerciseUsecase->getExerciseCount(Auth::user());
             $exercise_history_list = $this->answerHistoryUsecase->getExerciseHistoryCountByExerciseList(Auth::user(), $exercise_list);
             return view('exercise_index')
                 ->with('exercise_list', $exercise_list)
                 ->with('exercise_history_list', $exercise_history_list)
-                ->with('user_id', Auth::id());
+                ->with('user_id', Auth::id())
+                ->with('count', $count);
         } else {
+            $exercise_list = $this->exerciseUsecase->getAllExercises(12);
+            $count = $this->exerciseUsecase->getExerciseCount();
             return view('exercise_index')
-                ->with('exercise_list', $exercise_list);
+                ->with('exercise_list', $exercise_list)
+                ->with('count', $count);
         }
     }
 
