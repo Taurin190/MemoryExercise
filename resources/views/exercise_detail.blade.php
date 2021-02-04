@@ -11,12 +11,12 @@
                      </div>
                  </a>
                  <div class="col-md-12 px-0 align-items-start mx-auto form-group @if(!empty($errors->first('question'))) has-error @endif">
-                     <div class="question-container">
+                     <div class="exercise-question-container">
                          <p class="py-3 question">{{ $exercise->getQuestion() }}</p>
                      </div>
                  </div>
                  <div class="align-items-start py-2 col-md-12 px-0 form-group">
-                     <div class="answer-container">
+                     <div class="exercise-answer-container">
                          <a data-toggle="collapse" href="#collapse-{{ $exercise->getExerciseId() }}"
                             aria-controls="collapse-{{ $exercise->getExerciseId() }}">解答を表示</a>
                          <div id="collapse-{{ $exercise->getExerciseId() }}" class="collapse card">
@@ -29,21 +29,15 @@
                  </div>
                  <div class="pb-2 form-group col-md-12 px-0">
                      <label class="form-label control-label pb-2">公開設定</label>
+                     @if($exercise->getPermission() == 1)
                      <div>
-                         <input type="radio"
-                                class=""
-                                name="permission"
-                                value="1"
-                                checked="checked"
-                         >
                          <label for="contactChoice1">公開</label>
-                         <input type="radio"
-                                class=""
-                                name="permission"
-                                value="0"
-                         >
-                         <label for="contactChoice1">非公開</label>
                      </div>
+                     @else
+                     <div>
+                        <label for="contactChoice1">非公開</label>
+                     </div>
+                     @endif
                  </div>
                  <div class="col-md-12 form-group px-0">
                      <label class="pb-2 form-label control-label" for="InputAnswer">カテゴリ</label>
