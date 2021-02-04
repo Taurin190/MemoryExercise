@@ -72,4 +72,11 @@ class ExerciseController extends Controller
         }
     }
 
+    public function detail($uuid)
+    {
+        $exercise = $this->exerciseUsecase->getExercises($uuid, Auth::user());
+        return view('exercise_detail')
+            ->with('exercise', $exercise);
+    }
+
 }
