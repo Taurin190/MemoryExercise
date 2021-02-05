@@ -20,21 +20,43 @@ class ExerciseUsecase
     }
 
 
-    public function makeExercise($question, $answer, $permission) {
-        return Exercise::create(['question' => $question, 'answer' => $answer, 'permission' => $permission]);
+    public function makeExercise($question, $answer, $permission, $user_id) {
+        return Exercise::create([
+            'question' => $question,
+            'answer' => $answer,
+            'permission' => $permission,
+            'author_id' => $user_id
+        ]);
     }
 
-    public function getExercise($uuid, $question, $answer, $permission) {
-        return Exercise::create(['exercise_id' => $uuid,'question' => $question, 'answer' => $answer, 'permission' => $permission]);
+    public function getExercise($uuid, $question, $answer, $permission, $user_id) {
+        return Exercise::create([
+            'exercise_id' => $uuid,
+            'question' => $question,
+            'answer' => $answer,
+            'permission' => $permission,
+            'author_id' => $user_id
+        ]);
     }
 
-    public function createExercise($question, $answer, $permission) {
-        $exercise = Exercise::create(['question' => $question, 'answer' => $answer, 'permission' => $permission]);
+    public function createExercise($question, $answer, $permission, $user_id) {
+        $exercise = Exercise::create([
+            'question' => $question,
+            'answer' => $answer,
+            'permission' => $permission,
+            'author_id' => $user_id
+            ]);
         $this->exerciseRepository->save($exercise);
     }
 
-    public function updateExercise($uuid, $question, $answer, $permission) {
-        $exercise = Exercise::create(['exercise_id' => $uuid, 'question' => $question, 'answer' => $answer, 'permission' => $permission]);
+    public function updateExercise($uuid, $question, $answer, $permission, $user_id) {
+        $exercise = Exercise::create([
+            'exercise_id' => $uuid,
+            'question' => $question,
+            'answer' => $answer,
+            'permission' => $permission,
+            'author_id' => $user_id
+        ]);
         $this->exerciseRepository->save($exercise);
     }
 

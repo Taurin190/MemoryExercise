@@ -15,7 +15,9 @@ class Exercise
 
     private $permission;
 
-    private $lable_list;
+    private $author_id;
+
+    private $label_list;
 
     /**
      * Exerciseドメインモデルのコンストラクタ
@@ -24,13 +26,16 @@ class Exercise
      * @param string $answer 問題の解答
      * @param int $permission 公開範囲の設定
      * @param null $label_list ラベル。任意で設定可能
+     * @param int $author_id
      */
-    private function __construct($exercise_id, $question, $answer, $permission, $label_list = null)
+    private function __construct($exercise_id, $question, $answer, $permission, $label_list = null, $author_id = 0)
     {
         $this->question = $question;
         $this->answer = $answer;
         $this->exercise_id = $exercise_id;
         $this->permission = $permission;
+        $this->label_list = $label_list;
+        $this->author_id = $author_id;
     }
 
     public static function create($parameters) {
@@ -48,7 +53,16 @@ class Exercise
         if (isset($parameters['exercise_id'])) {
             $exercise_id = $parameters['exercise_id'];
         }
-        return new Exercise($exercise_id, $parameters['question'], $parameters['answer'], $permission);
+        $label_list = null;
+        if (isset($parameters['label_list'])) {
+            $label_list = $parameters['label_list'];
+        }
+        $author_id = 0;
+        if (isset($parameters['author_id'])) {
+            $author_id = $parameters['author_id'];
+        }
+
+        return new Exercise($exercise_id, $parameters['question'], $parameters['answer'], $permission, $label_list, $author_id);
     }
 
     public static function map(\App\Exercise $model) {
@@ -56,7 +70,9 @@ class Exercise
             $model->getKey(),
             $model->getAttribute("question"),
             $model->getAttribute("answer"),
-            self::PUBLIC_EXERCISE
+            self::PUBLIC_EXERCISE,
+            null,
+            $model->getAttribute("author_id")
         );
     }
 
@@ -74,6 +90,10 @@ class Exercise
 
     public function getPermission() {
         return $this->permission;
+    }
+
+    public function getUserId() {
+        return $this->author_id;
     }
 
     public function setQuestion($question) {

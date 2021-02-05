@@ -11,7 +11,7 @@ class Exercise extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = [
-        'question', 'answer', 'permission'
+        'question', 'answer', 'permission', 'author_id'
     ];
 
     protected static function boot()
@@ -45,14 +45,16 @@ class Exercise extends Model
             return new Exercise([
                 'question' => $exercise->getQuestion(),
                 'answer' => $exercise->getAnswer(),
-                'permission' => $exercise->getPermission()
+                'permission' => $exercise->getPermission(),
+                'author_id' => $exercise->getUserId()
             ]);
         }
         return $model->fill([
             'exercise_id' => $exercise->getExerciseId(),
             'question' => $exercise->getQuestion(),
             'answer' => $exercise->getAnswer(),
-            'permission' => $exercise->getPermission()
+            'permission' => $exercise->getPermission(),
+            'author_id' => $exercise->getUserId()
         ]);
     }
 }

@@ -55,7 +55,7 @@ class CreateController extends Controller
         $answer = $request->get('answer');
         $label_list = $request->get('label');
         $permission = $request->get('permission');
-        $exercise = $this->exerciseUsecase->makeExercise($question, $answer, $permission);
+        $exercise = $this->exerciseUsecase->makeExercise($question, $answer, $permission, Auth::id());
         $request->session()->put('question_create', $request->get('question'));
         $request->session()->put('answer_create', $request->get('answer'));
         return view('exercise_confirm')
@@ -67,7 +67,7 @@ class CreateController extends Controller
         $question = $request->get('question');
         $answer = $request->get('answer');
         $permission = $request->get('permission');
-        $this->exerciseUsecase->createExercise($question, $answer, $permission);
+        $this->exerciseUsecase->createExercise($question, $answer, $permission, Auth::id());
         $request->session()->forget('question_create');
         $request->session()->forget('answer_create');
         return view('exercise_complete');

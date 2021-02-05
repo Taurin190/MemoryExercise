@@ -55,7 +55,7 @@ class EditController extends Controller
         $answer = $request->get('answer');
         $label_list = $request->get('label');
         $permission = $request->get('permission');
-        $exercise = $this->exerciseUsecase->getExercise($uuid, $question, $answer, $permission);
+        $exercise = $this->exerciseUsecase->getExercise($uuid, $question, $answer, $permission, Auth::id());
         $request->session()->put('question', $request->get('question_edit'));
         $request->session()->put('answer', $request->get('answer_edit'));
         return view('exercise_edit_confirm')
@@ -67,7 +67,7 @@ class EditController extends Controller
         $question = $request->get('question');
         $answer = $request->get('answer');
         $permission = $request->get('permission');
-        $this->exerciseUsecase->updateExercise($uuid, $question, $answer, $permission);
+        $this->exerciseUsecase->updateExercise($uuid, $question, $answer, $permission, Auth::id());
         $request->session()->forget('question_edit');
         $request->session()->forget('answer_edit');
         return view('exercise_edit_complete');
