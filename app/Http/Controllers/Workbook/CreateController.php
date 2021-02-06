@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Usecase\WorkbookUsecase;
 use App\Usecase\ExerciseUsecase;
 use App\Http\Requests\WorkbookRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 
@@ -84,7 +85,7 @@ class CreateController extends Controller
         if (isset($exercise_id_list)) {
             $exercise_list = $this->exercise_usecase->getAllExercisesWithIdList($exercise_id_list);
         }
-        $this->workbook_usecase->createWorkbook($title, $explanation, $exercise_list);
+        $this->workbook_usecase->createWorkbook($title, $explanation, $exercise_list, Auth::user());
 
         return view('workbook_complete');
     }

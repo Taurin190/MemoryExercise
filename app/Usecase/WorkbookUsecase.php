@@ -46,12 +46,13 @@ class WorkbookUsecase
      * @param $name string 問題集名
      * @param $description string
      * @param $exercise_list Array 問題モデルの配列
+     * @param null $user
      * @return int 問題集のID
      * @throws \App\Domain\WorkbookDomainException
      */
-    public function createWorkbook($name, $description, $exercise_list = null) {
-        $workbook = Workbook::create($name, $description);
-        $workbook->setExerciseDomainList($exercise_list);
+    public function createWorkbook($name, $description, $exercise_list = null, $user = null) {
+        $workbook = Workbook::create($name, $description, $exercise_list, null, $user);
+//        $workbook->setExerciseDomainList($exercise_list);
         return $this->workbookRepository->save($workbook);
     }
 
@@ -61,11 +62,12 @@ class WorkbookUsecase
      * @param $description string 問題集の説明
      * @param null $exercise_list
      * @param null $workbook_id
+     * @param null $user
      * @return Workbook 問題集のドメインモデル
      * @throws \App\Domain\WorkbookDomainException
      */
-    public function makeWorkbook($name, $description, $exercise_list = null, $workbook_id = null) {
-        return Workbook::create($name, $description, $exercise_list, $workbook_id);
+    public function makeWorkbook($name, $description, $exercise_list = null, $workbook_id = null, $user = null) {
+        return Workbook::create($name, $description, $exercise_list, $workbook_id, $user);
     }
 
     /**

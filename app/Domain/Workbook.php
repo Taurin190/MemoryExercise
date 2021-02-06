@@ -24,14 +24,15 @@ class Workbook
      * @param $explanation string 問題集の説明
      * @param null $exercise_list
      * @param null $workbook_id
+     * @param null $user
      * @return Workbook 作成した問題集
      * @throws WorkbookDomainException
      */
-    public static function create($title, $explanation, $exercise_list = null, $workbook_id = null) {
+    public static function create($title, $explanation, $exercise_list = null, $workbook_id = null, $user = null) {
         if (empty($title)) {
             throw new WorkbookDomainException("タイトルが空です。");
         }
-        $workbook = new Workbook($title, $explanation,$workbook_id, $exercise_list);
+        $workbook = new Workbook($title, $explanation,$workbook_id, $exercise_list, $user);
         return $workbook;
     }
 
