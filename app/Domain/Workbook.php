@@ -41,7 +41,8 @@ class Workbook
             $workbook_model->getAttribute('title'),
             $workbook_model->getAttribute('explanation'),
             $workbook_model->getKey(),
-            $workbook_model->exercises()
+            $workbook_model->exercises(),
+            $workbook_model->getAttribute('user')
         );
     }
 
