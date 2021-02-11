@@ -54,10 +54,12 @@
                     <div class="modal-body">
                         {{ $workbook->getTitle() }}
                     </div>
+                    {{Form::open(['route' => [ 'workbook.delete.complete', $workbook->getWorkbookId()]])}}
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-dismiss="modal">キャンセル</button>
-                        <button type="button" class="btn btn-danger">削除</button>
+                        <button type="button" onclick="submit()" class="btn btn-danger">削除</button>
                     </div>
+                    {{Form::close()}}
                 </div>
             </div>
         </div>

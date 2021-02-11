@@ -71,8 +71,8 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
         }
     }
 
-    function delete(int $workbook_id)
+    function delete($workbook_id)
     {
-        \App\Workbook::find($workbook_id)->delete();
+        \App\Workbook::where('workbook_id', $workbook_id)->delete();
     }
 }

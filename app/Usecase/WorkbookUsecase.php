@@ -89,7 +89,7 @@ class WorkbookUsecase
 
     /**
      * 問題集を削除する
-     * @param $wordbook_id int 削除する問題集のID
+     * @param $wordbook_id String 削除する問題集のID
      */
     public function deleteWorkbook($wordbook_id) {
         $this->workbookRepository->delete($wordbook_id);

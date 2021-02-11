@@ -31,6 +31,8 @@ Route::post('/exercise/{uuid}/edit/confirm', 'Exercise\EditController@confirm')-
 
 Route::post('/exercise/{uuid}/edit/complete', 'Exercise\EditController@complete')->name('exercise.edit.complete');
 
+Route::post('/exercise/{uuid}/delete/complete', 'Exercise\DeleteController@complete')->name('exercise.delete.complete');
+
 Route::post('/exercise/confirm', 'Exercise\CreateController@confirm')->name('exercise.confirm');
 
 Route::post('/exercise/complete', 'Exercise\CreateController@complete')->name('exercise.complete');
@@ -58,3 +60,5 @@ Route::post('/workbook/{uuid}/edit/exercise', 'Workbook\EditController@edit_exer
 Route::post('/workbook/{uuid}/edit/confirm', 'Workbook\EditController@confirm')->name('workbook.edit.confirm');
 
 Route::post('/workbook/{uuid}/edit/complete', 'Workbook\EditController@complete')->name('workbook.edit.complete');
+
+Route::post('/workbook/{uuid}/delete/complete', 'Workbook\DeleteController@complete')->name('workbook.delete.complete');
