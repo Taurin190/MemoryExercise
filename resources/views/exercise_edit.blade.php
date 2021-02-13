@@ -86,6 +86,7 @@
         {{Form::close()}}
             <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
+                    {{Form::open(['route' => [ 'exercise.delete.complete', $exercise->getExerciseId()], 'onsubmit' => "return false;"])}}
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">削除しますか？</h5>
@@ -98,9 +99,10 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light" data-dismiss="modal">キャンセル</button>
-                            <button type="button" class="btn btn-danger">削除</button>
+                            <button type="button" onclick="submit()" class="btn btn-danger">削除</button>
                         </div>
                     </div>
+                    {{Form::close()}}
                 </div>
             </div>
     </div>

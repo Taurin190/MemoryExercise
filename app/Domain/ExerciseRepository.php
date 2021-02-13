@@ -14,4 +14,6 @@ interface ExerciseRepository
     function search($text, $page);
 
     function count($user = null);
+
+    function delete($exercise_id);
 }

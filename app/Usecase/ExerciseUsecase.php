@@ -87,6 +87,7 @@ class ExerciseUsecase
                 "page" => $page
             ];
         }
+        //TODO 検索した場合に権限のない問題も見れてしまうので修正する
         $count = $this->exerciseRepository->searchCount($text);
         $exercise_list = $this->exerciseRepository->search($text, $page);
         return [
@@ -94,5 +95,9 @@ class ExerciseUsecase
             "exercise_list" => $exercise_list,
             "page" => $page
         ];
+    }
+
+    public function deleteExercise($exercise_id) {
+        $this->exerciseRepository->delete($exercise_id);
     }
 }

@@ -75,4 +75,8 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
     function searchCount($text) {
         return \App\Exercise::whereRaw("match(`question`) against (? IN NATURAL LANGUAGE MODE)", $text)->count();
     }
+
+    function delete($exercise_id) {
+        \App\Exercise::where('exercise_id', $exercise_id)->delete();
+    }
 }
