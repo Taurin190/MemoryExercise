@@ -5,11 +5,13 @@
          <div class="row justify-content-center">
              <div class="card col-md-10 py-5 px-5">
                  <h2 class="mb-2"><i class="fas fa-question-circle pr-2"></i>問題</h2>
+                 @if(isset($user_id) && $exercise->getUserId() == $user_id)
                  <a class="text-decoration-none" href="{{route('exercise.edit', $exercise->getExerciseId())}}">
                      <div class="exercise-delete">
                          <i class="fas fa-pen delete-icon"></i>
                      </div>
                  </a>
+                 @endif
                  <div class="col-md-12 px-0 align-items-start mx-auto form-group @if(!empty($errors->first('question'))) has-error @endif">
                      <div class="exercise-question-container">
                          <p class="py-3 question">{{ $exercise->getQuestion() }}</p>

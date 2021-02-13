@@ -43,6 +43,9 @@ Laravelの練習プロジェクト。
   - [ ] 問題集のページング作成
 - [ ] バグ修正
   - [ ] 問題追加のページ変更時にチェックが残っている
+  - [x] 作成者でなくても詳細画面に編集画面へのリンクが表示される
+  - [ ] 作成者じゃなくても編集画面に移動できる
+  - [ ] 作成者じゃなくても削除できる
 
 ## License
 The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
