@@ -57,12 +57,8 @@ class WorkbookUsecaseTest extends TestCase
     {
         $this->workbookEntityMock
             ->shouldReceive('create')
-            ->with("test workbook", "This is test workbook.")
+            ->with("test workbook", "This is test workbook.", null, null, null)
             ->once()->andReturn($this->workbookEntityMock);
-        $this->workbookEntityMock
-            ->shouldReceive('setExerciseDomainList')
-            ->with(null)
-            ->once()->andReturn();
         $this->workbookRepositoryMock
             ->shouldReceive('save')
             ->with($this->workbookEntityMock)
@@ -76,12 +72,8 @@ class WorkbookUsecaseTest extends TestCase
     {
         $this->workbookEntityMock
             ->shouldReceive('create')
-            ->with("test workbook", "")
+            ->with("test workbook", "", null, null, null)
             ->once()->andReturn($this->workbookEntityMock);
-        $this->workbookEntityMock
-            ->shouldReceive('setExerciseDomainList')
-            ->with(null)
-            ->once()->andReturn();
         $this->workbookRepositoryMock
             ->shouldReceive('save')
             ->with($this->workbookEntityMock)
@@ -98,15 +90,8 @@ class WorkbookUsecaseTest extends TestCase
 
         $this->workbookEntityMock
             ->shouldReceive('create')
-            ->with(
-                "test workbook",
-                "This is test workbook."
-                )
+            ->with("test workbook", "This is test workbook.", [$exercise_mock1, $exercise_mock2, $exercise_mock3], null, null)
             ->once()->andReturn($this->workbookEntityMock);
-        $this->workbookEntityMock
-            ->shouldReceive('setExerciseDomainList')
-            ->with([$exercise_mock1, $exercise_mock2, $exercise_mock3])
-            ->once()->andReturn();
         $this->workbookRepositoryMock
             ->shouldReceive('save')
             ->with($this->workbookEntityMock)
@@ -128,7 +113,8 @@ class WorkbookUsecaseTest extends TestCase
                 "test workbook",
                 "This is test workbook.",
                 null,
-                "workbook1"
+                "workbook1",
+                null
             )
             ->once()->andReturn($this->workbookEntityMock);
         $this->workbookEntityMock

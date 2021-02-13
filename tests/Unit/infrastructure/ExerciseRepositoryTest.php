@@ -58,6 +58,11 @@ class ExerciseRepositoryTest extends TestCase
             ->shouldReceive('where')
             ->once()
             ->with('exercise_id', '999')
+            ->andReturn($this->exerciseMock);
+        $this->exerciseMock
+            ->shouldReceive('where')
+            ->once()
+            ->with('permission', 1)
             ->andReturn();
         $repository = new ExerciseRepository();
         try {

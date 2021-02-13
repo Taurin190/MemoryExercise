@@ -29,7 +29,7 @@ class WorkbookRepositoryTest extends TestCase
             ->andReturn($this->workbookMock);
         $this->workbookMock
             ->shouldReceive('first')
-            ->once()
+            ->twice()
             ->andReturn($this->workbookMock);
         $this->workbookDomainMock
             ->shouldReceive('map')
@@ -76,15 +76,15 @@ class WorkbookRepositoryTest extends TestCase
     public function testDelete()
     {
         $this->workbookMock
-            ->shouldReceive('find')
+            ->shouldReceive('where')
             ->once()
-            ->with(1)
+            ->with('workbook_id', '1')
             ->andReturn($this->workbookMock);
         $this->workbookMock
             ->shouldReceive('delete')
             ->once()
             ->andReturn($this->workbookMock);
         $repository = new WorkbookRepository();
-        $repository->delete(1);
+        $repository->delete('1');
     }
 }
