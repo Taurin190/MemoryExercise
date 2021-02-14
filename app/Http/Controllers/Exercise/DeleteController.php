@@ -37,7 +37,7 @@ class DeleteController extends Controller
 
     public function complete($uuid)
     {
-        $this->exerciseUsecase->deleteExercise($uuid);
+        $this->exerciseUsecase->deleteExercise($uuid, Auth::id());
         return view('exercise_delete_complete');
     }
 }

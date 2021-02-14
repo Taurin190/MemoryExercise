@@ -50,6 +50,9 @@ class Handler extends ExceptionHandler
         if ($exception instanceof DataNotFoundException) {
             return Response::view('home', array(), 404);
         }
+        if ($exception instanceof PermissionException) {
+            return Response::view('error_permission', array(), 403);
+        }
         return parent::render($request, $exception);
     }
 }

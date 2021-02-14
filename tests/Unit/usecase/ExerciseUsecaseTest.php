@@ -124,8 +124,9 @@ class ExerciseUsecaseTest extends TestCase
     }
 
     public function testDeleteExercise() {
+        $this->exerciseRepository->shouldReceive('checkEditPermission')->with('test', 1)->once()->andReturn(true);
         $this->exerciseRepository->shouldReceive('delete')->with('test')->once()->andReturn();
         $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
-        $exercise_usecase->deleteExercise('test');
+        $exercise_usecase->deleteExercise('test', 1);
     }
 }

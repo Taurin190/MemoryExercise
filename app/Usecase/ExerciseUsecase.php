@@ -7,9 +7,9 @@
  */
 
 namespace App\Usecase;
-use App\Domain\Exercise;
-use App\Http\Requests\ExerciseRequest;
+use App\Exceptions\PermissionException;
 use App\Infrastructure\ExerciseRepository;
+use Exception;
 
 class ExerciseUsecase
 {
@@ -97,7 +97,18 @@ class ExerciseUsecase
         ];
     }
 
-    public function deleteExercise($exercise_id) {
-        $this->exerciseRepository->delete($exercise_id);
+    /**
+     * 作成者である場合に問題を削除する
+     * @param $exercise_id
+     * @param $user_id
+     * @throws Exception
+     */
+    public function deleteExercise($exercise_id, $user_id) {
+        $has_permission = $this->exerciseRepository->checkEditPermission($exercise_id, $user_id);
+        if ($has_permission) {
+            $this->exerciseRepository->delete($exercise_id);
+        } else{
+            throw new PermissionException("User doesn't have permission to delete");
+        }
     }
 }
