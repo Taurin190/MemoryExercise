@@ -98,6 +98,22 @@ class ExerciseUsecase
     }
 
     /**
+     * ユーザが編集画面にアクセスする権限があるか確認する。
+     * 権限がない場合はPermissionExceptionを投げる。
+     * @param $exercise_id
+     * @param $user_id
+     * @return bool
+     * @throws PermissionException
+     */
+    public function checkEditPermission($exercise_id, $user_id) {
+        $has_permission = $this->exerciseRepository->checkEditPermission($exercise_id, $user_id);
+        if ($has_permission) {
+            return true;
+        }
+        throw new PermissionException("User doesn't have permission to access edit page");
+    }
+
+    /**
      * 作成者である場合に問題を削除する
      * @param $exercise_id
      * @param $user_id
