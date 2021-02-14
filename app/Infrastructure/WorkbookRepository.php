@@ -75,4 +75,10 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
     {
         \App\Workbook::where('workbook_id', $workbook_id)->delete();
     }
+
+    function checkEditPermission($workbook_id, $user_id) {
+        $target_workbook = \App\Workbook::select(['author_id'])->where('workbook_id', $workbook_id)->first();
+        if ($target_workbook->author_id == $user_id) return true;
+        return false;
+    }
 }

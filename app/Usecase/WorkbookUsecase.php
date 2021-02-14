@@ -12,6 +12,7 @@ namespace App\Usecase;
 use App\Domain\ExerciseRepository;
 use App\Domain\WorkbookRepository;
 use App\Domain\Workbook;
+use App\Exceptions\PermissionException;
 use App\Http\Requests\WorkbookRequest;
 
 class WorkbookUsecase
@@ -109,7 +110,7 @@ class WorkbookUsecase
 
     /**
      * 問題を問題集から削除する
-     * @param $workbook_id int 問題集のID
+     * @param $workbook_id String 問題集のID
      * @param $exercise_id int 削除する問題のID
      */
     public function deleteExercise($workbook_id, $exercise_id) {
@@ -121,7 +122,7 @@ class WorkbookUsecase
 
     /**
      * 問題の順番を変更する
-     * @param $exercise_id int 変更する問題のID
+     * @param $workbook_id String 変更する問題のID
      * @param $order_num int 変更後の順番
      */
     public function modifyExerciseOrder($workbook_id, $exercise_id, $order_num) {
@@ -129,5 +130,11 @@ class WorkbookUsecase
         $exercise = $this->exerciseRepository->findByExerciseId($exercise_id);
         $newWorkbook = $workbook->modifyOrder($exercise, $order_num);
         $this->workbookRepository->save($newWorkbook);
+    }
+
+    public function checkEditPermission($workbook_id, $user_id) {
+        $has_permission = $this->workbookRepository->checkEditPermission($workbook_id, $user_id);
+        if ($has_permission) return;
+        throw new PermissionException("User doesn't have permission to edit workbook.");
     }
 }

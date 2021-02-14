@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkbookRequest;
 use App\Usecase\ExerciseUsecase;
 use App\Usecase\WorkbookUsecase;
+use Illuminate\Support\Facades\Auth;
 
 class EditController extends Controller
 {
@@ -29,7 +30,7 @@ class EditController extends Controller
 
     public function edit($uuid)
     {
-        // TODO 編集権限がない場合にエラーを出す
+        $this->workbook_usecase->checkEditPermission($uuid, Auth::id());
         $workbook = $this->workbook_usecase->getWorkbook($uuid);
         return view('workbook_edit')
             ->with('workbook', $workbook)
