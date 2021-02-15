@@ -46,6 +46,7 @@ Laravelの練習プロジェクト。
   - [x] 作成者でなくても詳細画面に編集画面へのリンクが表示される
   - [x] 作成者じゃなくても編集画面に移動できる
   - [x] 作成者じゃなくても削除できる
+  - [ ] 問題の登録されていない問題集で次のページに行ける
 
 ## License
 The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).

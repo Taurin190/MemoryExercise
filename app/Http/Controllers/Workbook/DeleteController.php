@@ -9,11 +9,10 @@
 namespace App\Http\Controllers\Workbook;
 
 
-use App\Domain\WorkbookDomainException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\WorkbookRequest;
 use App\Usecase\ExerciseUsecase;
 use App\Usecase\WorkbookUsecase;
+use Illuminate\Support\Facades\Auth;
 
 class DeleteController extends Controller
 {
@@ -30,6 +29,7 @@ class DeleteController extends Controller
 
     public function complete($uuid)
     {
+        $this->workbook_usecase->checkEditPermission($uuid, Auth::id());
         $this->workbook_usecase->deleteWorkbook($uuid);
         return view('workbook_delete_complete');
     }
