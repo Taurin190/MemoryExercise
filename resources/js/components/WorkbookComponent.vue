@@ -6,9 +6,9 @@
                 <div class="card-body explanation">{{ workbook.explanation }}</div>
             </div>
             <div v-if="getExerciseCount === 0">
-                <p class="py-3">問題が登録されていません。</p>
+                <p class="py-5">問題が登録されていません。</p>
             </div>
-            <div class="py-5">
+            <div v-if="getExerciseCount !== 0" class="py-5">
                 <button type="button"
                     v-on:click="nextPage"
                     class="btn btn-outline-info w-100">スタート</button>
