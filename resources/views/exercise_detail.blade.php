@@ -46,15 +46,16 @@
                      @if(empty($label_list) || count($label_list) == 0)
                         <p class="py-2">ラベルは登録されていません。</p>
                      @else
-                         <div class="py-2">
-                             @foreach($label_list as $label)
-                             <div class="px-2 py-1 mr-1 mb-2 badge badge-primary">
-                                 <span>{{ $label }}</span>
-                                 <input type="hidden" name="label[]" value="{{ $label }}" />
-                                 <a style="color: white;" href="#" @click="removeTag(index)">x</a>
-                             </div>
-                             @endforeach
-                         </div>
+                         <label-list-component :label_list='@json($label_list)' :show_close_button="false"></label-list-component>
+                         {{--<div class="py-2">--}}
+                             {{--@foreach($label_list as $label)--}}
+                             {{--<div class="px-2 py-1 mr-1 mb-2 badge badge-primary">--}}
+                                 {{--<span>{{ $label }}</span>--}}
+                                 {{--<input type="hidden" name="label[]" value="{{ $label }}" />--}}
+                                 {{--<a style="color: white;" href="#" @click="removeTag(index)">x</a>--}}
+                             {{--</div>--}}
+                             {{--@endforeach--}}
+                         {{--</div>--}}
                      @endif
                  </div>
              </div>
