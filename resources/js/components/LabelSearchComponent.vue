@@ -1,11 +1,7 @@
 <template>
     <div class="">
         <div class="py-2" v-if="label_list.length">
-            <div class="px-2 py-1 mr-1 mb-2 badge badge-primary" v-for="(label, index) in label_list">
-                <span>{{ label }}</span>
-                <input type="hidden" name="label[]" :value="label" />
-                <a style="color: white;" href="#" @click="removeTag(index)">x</a>
-            </div>
+            <label-list-component :label_list="label_list" :show_close_button="true"></label-list-component>
         </div>
         <p v-else class="py-2">ラベルは登録されていません。</p>
         <input class="form-control col-md-8"
@@ -16,9 +12,11 @@
 </template>
 
 <script>
-
     export default {
-        name: "CategorySearchComponent",
+        name: "LabelSearchComponent",
+        props: {
+            registered_label_list : []
+        },
         data: function() {
             return {
                 text: '',
@@ -38,15 +36,6 @@
                     this.label_list.push(this.text);
                 }
                 this.text = '';
-            },
-            removeTag(index) {
-                console.log(index);
-                this.label_list.splice(index, 1);
-            }
-        },
-        watch: {
-            text: function() {
-
             }
         }
     }
