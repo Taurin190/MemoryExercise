@@ -2,22 +2,23 @@
 
 @section('content')
 <div class="container">
-    {{Form::open(['route' =>  ['exercise.edit.complete', $exercise->getExerciseId()]])}}
+    {{Form::open(['route' =>  ['exercise.edit.complete', $exercise->uuid]])}}
     <div class="row justify-content-center">
         <div class="card col-md-10 py-5 px-5">
+            <h2 class="mb-4"><i class="fas fa-question-circle pr-2"></i>問題編集</h2>
             <p>以下で編集してよろしいですか？</p>
             <div>
                 <label class="pt-2 my-2 form-label control-label">問題</label>
-                <p>{{ $exercise->getQuestion() }}</p>
-                <input type="hidden" name="question" value="{{ $exercise->getQuestion() }}">
+                <p>{{ $exercise->question }}</p>
+                <input type="hidden" name="question" value="{{ $exercise->question }}">
             </div>
             <div>
                 <label class="pt-2 my-2 form-label control-label">解答</label>
-                <p>{{ $exercise->getAnswer() }}</p>
-                <input type="hidden" name="answer" value="{{ $exercise->getAnswer() }}">
+                <p>{{ $exercise->answer }}</p>
+                <input type="hidden" name="answer" value="{{ $exercise->answer }}">
             </div>
             <div class="col-md-12 px-0 pt-3 btn-group d-flex" role="group" aria-label="...">
-                <a href="{{route('exercise.edit', $exercise->getExerciseId())}}"
+                <a href="{{route('exercise.edit', $exercise->uuid)}}"
                    class="btn btn-outline-secondary px-0 col-md-3 float-left">戻る</a>
                 <input type="submit"
                        class="btn btn-outline-primary px-0 mx-2 float-left col-md-3" value="編集" />

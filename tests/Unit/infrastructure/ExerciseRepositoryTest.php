@@ -52,6 +52,7 @@ class ExerciseRepositoryTest extends TestCase
         $domain = $repository->findByExerciseId("1");
         self::assertTrue($domain instanceof \App\Domain\Exercise);
     }
+
     public function testFindByExerciseIdNotFound()
     {
         $this->exerciseMock

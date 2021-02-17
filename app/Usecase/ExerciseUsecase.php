@@ -33,8 +33,8 @@ class ExerciseUsecase
         ])->getExerciseDto();
     }
 
-    public function getExerciseDtoById($uuid, $user) {
-        return $this->exerciseRepository->findByExerciseId($uuid, $user)->getExerciseDto();
+    public function getExerciseDtoById($uuid, $user_id) {
+        return $this->exerciseRepository->findByExerciseId($uuid, $user_id)->getExerciseDto();
     }
 
     public function registerExercise(ExerciseRequest $exercise_request, $user_id) {
@@ -97,11 +97,6 @@ class ExerciseUsecase
 
     public function getExerciseCount($user = null) {
         return $this->exerciseRepository->count($user);
-    }
-
-    // TODO 変数名がわかりにくいので変えたい
-    public function getExercises($uuid, $user = null) {
-        return $this->exerciseRepository->findByExerciseId($uuid, $user);
     }
 
     public function getAllExercisesWithIdList($id_list) {

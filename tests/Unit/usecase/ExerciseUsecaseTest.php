@@ -26,6 +26,8 @@ class ExerciseUsecaseTest extends TestCase
 
     protected $exerciseDto;
 
+    protected $user;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -33,6 +35,7 @@ class ExerciseUsecaseTest extends TestCase
         $this->exerciseRequest = m::mock('App\Http\Requests\ExerciseRequest');
         $this->exerciseRepository = m::mock('App\Infrastructure\ExerciseRepository');
         $this->exerciseDto = m::mock('App\Dto\ExerciseDto');
+        $this->user = m::mock('App\User');
     }
     public function tearDown(): void
     {
@@ -157,5 +160,13 @@ class ExerciseUsecaseTest extends TestCase
         $this->exerciseRepository->shouldReceive('save')->with($this->exerciseDomain)->once()->andReturn();
         $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
         $exercise_usecase->registerExercise($this->exerciseRequest, 1);
+    }
+
+    public function testGetExerciseDtoById() {
+        $this->exerciseRepository->shouldReceive('findByExerciseId')->with('test1', 1)->once()->andReturn($this->exerciseDomain);
+        $this->exerciseDomain->shouldReceive('getExerciseDto')->with()->once()->andReturn($this->exerciseDto);
+        $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
+        $actual = $exercise_usecase->getExerciseDtoById('test1', 1);
+        self::assertTrue($actual instanceof ExerciseDto);
     }
 }

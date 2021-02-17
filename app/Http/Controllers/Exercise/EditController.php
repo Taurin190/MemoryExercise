@@ -40,9 +40,9 @@ class EditController extends Controller
     {
         // Permissionがない場合Exceptionでエラーページを表示する
         $this->exerciseUsecase->checkEditPermission($uuid, Auth::id());
-        $exercise = $this->exerciseUsecase->getExercises($uuid, Auth::user());
+        $exercise_dto = $this->exerciseUsecase->getExerciseDtoById($uuid, Auth::id());
         return view('exercise_edit')
-            ->with('exercise', $exercise);
+            ->with('exercise', $exercise_dto);
     }
 
     /**
@@ -53,15 +53,11 @@ class EditController extends Controller
      */
     public function confirm($uuid, ExerciseRequest $request)
     {
-        $question = $request->get('question');
-        $answer = $request->get('answer');
-        $label_list = $request->get('label');
-        $permission = $request->get('permission');
-        $exercise = $this->exerciseUsecase->getExercise($uuid, $question, $answer, $permission, Auth::id());
+        $exercise_dto = $this->exerciseUsecase->getExerciseDtoByRequest($request, Auth::id(), $uuid);
         $request->session()->put('question', $request->get('question_edit'));
         $request->session()->put('answer', $request->get('answer_edit'));
         return view('exercise_edit_confirm')
-            ->with("exercise", $exercise);
+            ->with("exercise", $exercise_dto);
     }
 
     public function complete($uuid, ExerciseRequest $request)

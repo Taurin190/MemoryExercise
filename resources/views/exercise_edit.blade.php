@@ -14,7 +14,7 @@
             </div>
         </div>
         @endif
-        {{Form::open(['route' => [ 'exercise.edit.confirm', $exercise->getExerciseId()], 'onsubmit' => "return false;"])}}
+        {{Form::open(['route' => [ 'exercise.edit.confirm', $exercise->uuid ], 'onsubmit' => "return false;"])}}
          <div class="row justify-content-center">
              <div class="card col-md-10 py-5 px-5">
                  <h2 class="mb-2"><i class="fas fa-question-circle pr-2"></i>問題編集</h2>
@@ -31,7 +31,7 @@
                                id="InputQuestion"
                                name="question"
                                placeholder="パンはパンでも食べられないパンは何だ？"
-                        >{{ $exercise->getQuestion() }}</textarea>
+                        >{{ $exercise->question }}</textarea>
                         @if(!empty($errors->first('question')))
                         <span class="text-danger">{{ $error }}</span>
                         @endif
@@ -45,7 +45,7 @@
                                id="InputAnswer"
                                name="answer"
                                placeholder="フライパン"
-                        >{{ $exercise->getAnswer() }}</textarea>
+                        >{{ $exercise->answer }}</textarea>
                         @if(!empty($errors->first('answer')))
                             <span class="text-danger">{{ $error }}</span>
                         @endif
@@ -86,7 +86,7 @@
         {{Form::close()}}
             <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    {{Form::open(['route' => [ 'exercise.delete.complete', $exercise->getExerciseId()], 'onsubmit' => "return false;"])}}
+                    {{Form::open(['route' => [ 'exercise.delete.complete', $exercise->uuid ], 'onsubmit' => "return false;"])}}
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">削除しますか？</h5>
@@ -95,7 +95,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            {{ $exercise->getQuestion() }}
+                            {{ $exercise->question }}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light" data-dismiss="modal">キャンセル</button>

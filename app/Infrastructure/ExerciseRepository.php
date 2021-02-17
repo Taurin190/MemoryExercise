@@ -6,14 +6,14 @@ use App\Exceptions\DataNotFoundException;
 
 class ExerciseRepository implements \App\Domain\ExerciseRepository
 {
-    function findByExerciseId($exercise_id, $user = null)
+    function findByExerciseId($exercise_id, $user_id = null)
     {
         $domain = null;
-        if (isset($user)) {
+        if (isset($user_id)) {
             $domain = \App\Exercise::where('exercise_id', $exercise_id)
-                ->where('permission', 1)->orWhere(function ($query) use ($user, $exercise_id) {
+                ->where('permission', 1)->orWhere(function ($query) use ($user_id, $exercise_id) {
                     $query->where('exercise_id', $exercise_id)
-                        ->where('author_id', $user->getKey());
+                        ->where('author_id', $user_id);
                 });
         } else {
             $domain = \App\Exercise::where('exercise_id', $exercise_id)->where('permission', 1);

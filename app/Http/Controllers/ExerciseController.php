@@ -74,9 +74,9 @@ class ExerciseController extends Controller
 
     public function detail($uuid)
     {
-        $exercise = $this->exerciseUsecase->getExercises($uuid, Auth::user());
+        $exercise_dto = $this->exerciseUsecase->getExerciseDtoById($uuid, Auth::id());
         return view('exercise_detail')
-            ->with('exercise', $exercise)
+            ->with('exercise', $exercise_dto)
             ->with('user_id', Auth::id());
     }
 

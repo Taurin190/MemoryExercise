@@ -5,7 +5,7 @@ namespace App\Domain;
 
 interface ExerciseRepository
 {
-    function findByExerciseId($exercise_id);
+    function findByExerciseId($exercise_id, $user_id = null);
 
     function findAllByExerciseIdList($exercise_id_list, $user = null);
 
