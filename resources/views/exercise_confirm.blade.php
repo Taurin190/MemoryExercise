@@ -9,22 +9,22 @@
             <p>以下の内容を作成してよろしいですか？</p>
             <div>
                 <label class="pt-2 my-2 form-label control-label">問題</label>
-                <p>{{ $exercise->getQuestion() }}</p>
-                <input type="hidden" name="question" value="{{ $exercise->getQuestion() }}">
+                <p>{{ $exercise->question }}</p>
+                <input type="hidden" name="question" value="{{ $exercise->question }}">
             </div>
             <div>
                 <label class="pt-2 my-2 form-label control-label">解答</label>
-                <p>{{ $exercise->getAnswer() }}</p>
-                <input type="hidden" name="answer" value="{{ $exercise->getAnswer() }}">
+                <p>{{ $exercise->answer }}</p>
+                <input type="hidden" name="answer" value="{{ $exercise->answer }}">
             </div>
             <div class="mb-3">
                 <label class="pt-2 my-2 form-label control-label">公開設定</label>
-                @if ($exercise->getPermission() === 1)
+                @if ($exercise->permission === 1)
                 <p>公開</p>
-                <input type="hidden" name="permission" value="{{ $exercise->getPermission() }}">
+                <input type="hidden" name="permission" value="{{ $exercise->permission }}">
                 @else
                 <p>非公開</p>
-                <input type="hidden" name="permission" value="{{ $exercise->getPermission() }}">
+                <input type="hidden" name="permission" value="{{ $exercise->permission }}">
                 @endif
             </div>
             <div class="col-md-12 px-0 btn-group d-flex" role="group" aria-label="...">

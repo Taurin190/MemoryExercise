@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Exercise;
 
+use App\Dto\ExerciseDto;
 use App\Usecase\AnswerHistoryUsecase;
 use App\Usecase\ExerciseUsecase;
 use App\Http\Controllers\Controller;
@@ -51,23 +52,16 @@ class CreateController extends Controller
      */
     public function confirm(ExerciseRequest $request)
     {
-        $question = $request->get('question');
-        $answer = $request->get('answer');
-        $label_list = $request->get('label');
-        $permission = $request->get('permission');
-        $exercise = $this->exerciseUsecase->makeExercise($question, $answer, $permission, Auth::id());
-        $request->session()->put('question_create', $request->get('question'));
-        $request->session()->put('answer_create', $request->get('answer'));
+        $exercise_dto = $this->exerciseUsecase->getExerciseDtoByRequest($request, Auth::id());
+        $request->session()->put('question_create', $exercise_dto->question);
+        $request->session()->put('answer_create', $exercise_dto->answer);
         return view('exercise_confirm')
-            ->with("exercise", $exercise);
+            ->with("exercise", $exercise_dto);
     }
 
     public function complete(ExerciseRequest $request)
     {
-        $question = $request->get('question');
-        $answer = $request->get('answer');
-        $permission = $request->get('permission');
-        $this->exerciseUsecase->createExercise($question, $answer, $permission, Auth::id());
+        $this->exerciseUsecase->registerExercise($request, Auth::id());
         $request->session()->forget('question_create');
         $request->session()->forget('answer_create');
         return view('exercise_complete');

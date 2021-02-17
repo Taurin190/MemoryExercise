@@ -7,6 +7,7 @@
  */
 
 namespace Tests\Unit\usecase;
+use App\Dto\ExerciseDto;
 use Tests\TestCase;
 use App\Domain\Exercise;
 use App\Http\Requests\ExerciseRequest;
@@ -23,12 +24,15 @@ class ExerciseUsecaseTest extends TestCase
 
     protected $exerciseRepository;
 
+    protected $exerciseDto;
+
     public function setUp(): void
     {
         parent::setUp();
         $this->exerciseDomain = m::mock('alias:App\Domain\Exercise');
         $this->exerciseRequest = m::mock('App\Http\Requests\ExerciseRequest');
         $this->exerciseRepository = m::mock('App\Infrastructure\ExerciseRepository');
+        $this->exerciseDto = m::mock('App\Dto\ExerciseDto');
     }
     public function tearDown(): void
     {
@@ -44,19 +48,6 @@ class ExerciseUsecaseTest extends TestCase
         $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
         $actual = $exercise_usecase->makeExercise('How are you?','I\'m fine. thank you.', 1, 1);
         self::assertTrue($actual instanceof Exercise);
-    }
-
-    public function testCreateExercise() {
-        $this->exerciseDomain
-            ->shouldReceive('create')
-            ->with(['question' => 'How are you?', 'answer' =>'I\'m fine. thank you.', 'permission' => 1, 'author_id' => 1])
-            ->once()->andReturn($this->exerciseDomain);
-        $this->exerciseRepository
-            ->shouldReceive('save')
-            ->with($this->exerciseDomain)
-            ->once()->andReturn();
-        $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
-        $exercise_usecase->createExercise('How are you?','I\'m fine. thank you.', 1, 1);
     }
 
     public function testSearchExercise() {
@@ -128,5 +119,43 @@ class ExerciseUsecaseTest extends TestCase
         $this->exerciseRepository->shouldReceive('delete')->with('test')->once()->andReturn();
         $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
         $exercise_usecase->deleteExercise('test', 1);
+    }
+
+    public function testGetExerciseDtoByRequest() {
+        $this->exerciseRequest->shouldReceive('get')->with('question')->once()->andReturn('Is this dog?');
+        $this->exerciseRequest->shouldReceive('get')->with('answer')->once()->andReturn('Yes, it is.');
+        $this->exerciseRequest->shouldReceive('get')->with('permission')->once()->andReturn(1);
+        $this->exerciseRequest->shouldReceive('get')->with('label')->once()->andReturn(['animal', 'dog']);
+        $parameter = [
+            'exercise_id' => null,
+            'question' => 'Is this dog?',
+            'answer' => 'Yes, it is.',
+            'permission' => 1,
+            'author_id' => 1,
+            'label' => ['animal', 'dog']
+        ];
+        $this->exerciseDomain->shouldReceive('create')->with($parameter)->once()->andReturn($this->exerciseDomain);
+        $this->exerciseDomain->shouldReceive('getExerciseDto')->with()->once()->andReturn($this->exerciseDto);
+        $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
+        $actual = $exercise_usecase->getExerciseDtoByRequest($this->exerciseRequest, 1);
+        self::assertTrue($actual instanceof ExerciseDto);
+    }
+
+    public function testRegisterExercise() {
+        $this->exerciseRequest->shouldReceive('get')->with('question')->once()->andReturn('Is this dog?');
+        $this->exerciseRequest->shouldReceive('get')->with('answer')->once()->andReturn('Yes, it is.');
+        $this->exerciseRequest->shouldReceive('get')->with('permission')->once()->andReturn(1);
+        $this->exerciseRequest->shouldReceive('get')->with('label')->once()->andReturn(['animal', 'dog']);
+        $parameter = [
+            'question' => 'Is this dog?',
+            'answer' => 'Yes, it is.',
+            'permission' => 1,
+            'author_id' => 1,
+            'label' => ['animal', 'dog']
+        ];
+        $this->exerciseDomain->shouldReceive('create')->with($parameter)->once()->andReturn($this->exerciseDomain);
+        $this->exerciseRepository->shouldReceive('save')->with($this->exerciseDomain)->once()->andReturn();
+        $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
+        $exercise_usecase->registerExercise($this->exerciseRequest, 1);
     }
 }

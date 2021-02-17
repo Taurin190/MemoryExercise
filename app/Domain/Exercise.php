@@ -1,6 +1,8 @@
 <?php
 namespace App\Domain;
 
+use App\Dto\ExerciseDto;
+
 class Exercise
 {
     const PUBLIC_EXERCISE = 1;
@@ -73,6 +75,17 @@ class Exercise
             self::PUBLIC_EXERCISE,
             null,
             $model->getAttribute("author_id")
+        );
+    }
+
+    public function getExerciseDto() {
+        return new ExerciseDto(
+            $this->question,
+            $this->answer,
+            $this->permission,
+            $this->author_id,
+            $this->exercise_id,
+            $this->label_list
         );
     }
 

@@ -7,7 +7,10 @@
  */
 
 namespace App\Usecase;
+use App\Domain\Exercise;
+use App\Dto\ExerciseDto;
 use App\Exceptions\PermissionException;
+use App\Http\Requests\ExerciseRequest;
 use App\Infrastructure\ExerciseRepository;
 use Exception;
 
@@ -19,7 +22,44 @@ class ExerciseUsecase
         $this->exerciseRepository = $repository;
     }
 
+    public function getExerciseDtoByRequest(ExerciseRequest $exercise_request, $user_id, $uuid = null) {
+        return Exercise::create([
+            'exercise_id' => $uuid,
+            'question' => $exercise_request->get('question'),
+            'answer' => $exercise_request->get('answer'),
+            'permission' => $exercise_request->get('permission'),
+            'author_id' => $user_id,
+            'label' => $exercise_request->get('label')
+        ])->getExerciseDto();
+    }
 
+    public function getExerciseDtoById($uuid, $user) {
+        return $this->exerciseRepository->findByExerciseId($uuid, $user)->getExerciseDto();
+    }
+
+    public function registerExercise(ExerciseRequest $exercise_request, $user_id) {
+        $exercise = Exercise::create([
+            'question' => $exercise_request->get('question'),
+            'answer' => $exercise_request->get('answer'),
+            'permission' => $exercise_request->get('permission'),
+            'author_id' => $user_id,
+            'label' => $exercise_request->get('label')
+        ]);
+        $this->exerciseRepository->save($exercise);
+    }
+
+    public function getExerciseDomain(ExerciseDto $exercise_dto) {
+        return Exercise::create([
+            'exercise_id' => $exercise_dto->uuid,
+            'question' => $exercise_dto->question,
+            'answer' => $exercise_dto->answer,
+            'permission' => $exercise_dto->permission,
+            'author_id' => $exercise_dto->user_id,
+            'label' => $exercise_dto->label_list
+        ]);
+    }
+
+    //TODO メソッド名がわかりにくいので修正したい
     public function makeExercise($question, $answer, $permission, $user_id) {
         return Exercise::create([
             'question' => $question,
@@ -29,6 +69,7 @@ class ExerciseUsecase
         ]);
     }
 
+    //TODO メソッド名がわかりにくいので修正したい
     public function getExercise($uuid, $question, $answer, $permission, $user_id) {
         return Exercise::create([
             'exercise_id' => $uuid,
@@ -37,16 +78,6 @@ class ExerciseUsecase
             'permission' => $permission,
             'author_id' => $user_id
         ]);
-    }
-
-    public function createExercise($question, $answer, $permission, $user_id) {
-        $exercise = Exercise::create([
-            'question' => $question,
-            'answer' => $answer,
-            'permission' => $permission,
-            'author_id' => $user_id
-            ]);
-        $this->exerciseRepository->save($exercise);
     }
 
     public function updateExercise($uuid, $question, $answer, $permission, $user_id) {
