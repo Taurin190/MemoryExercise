@@ -95,6 +95,11 @@ class ExerciseUsecase
         return $this->exerciseRepository->count($user);
     }
 
+    /**
+     * 指定されたIDの配列より対象のExerciseのドメインモデル格納した配列を取得する
+     * @param $id_list
+     * @return array
+     */
     public function getAllExercisesWithIdList($id_list) {
         return $this->exerciseRepository->findAllByExerciseIdList($id_list);
     }

@@ -34,7 +34,7 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
         foreach ($exercise_history_list as $exercise_history) {
             $exercise_history_model = ExerciseHistory::map($exercise_history);
             $exercise_history_model->user()->associate($exercise_history->getUser());
-            $exercise_history_model->exercise()->associate(\App\Exercise::map($exercise_history->getExercise()));
+            $exercise_history_model->exercise()->associate(\App\Exercise::convertOrm($exercise_history->getExercise()));
             $exercise_history_model->save();
         }
     }

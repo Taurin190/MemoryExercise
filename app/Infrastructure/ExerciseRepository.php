@@ -21,7 +21,7 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         if (is_null($domain)) {
             throw new DataNotFoundException("Data not found in exercises by id: " . $exercise_id);
         }
-        return Exercise::map($domain->first());
+        return Exercise::convertDomain($domain->first());
     }
 
     function findAllByExerciseIdList($exercise_id_list, $user = null)
@@ -36,14 +36,14 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
             $exercise_list = \App\Exercise::whereIn('exercise_id', $exercise_id_list)->where('permission', 1)->get();
         }
         foreach ($exercise_list as $exercise) {
-            $domain_list[] = Exercise::map($exercise);
+            $domain_list[] = Exercise::convertDomain($exercise);
         }
         return $domain_list;
     }
 
     function save(Exercise $exercise)
     {
-        \App\Exercise::map($exercise)->save();
+        \App\Exercise::convertOrm($exercise)->save();
     }
 
     function findAll($limit = 10, $user = null, $page = 1)

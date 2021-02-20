@@ -39,22 +39,12 @@ class Exercise extends Model
         return $this->belongsToMany('App\Label');
     }
 
-    public static function map(\App\Domain\Exercise $exercise) {
-        $model = Exercise::find($exercise->getExerciseId());
-        if (is_null($model)) {
-            return new Exercise([
-                'question' => $exercise->getQuestion(),
-                'answer' => $exercise->getAnswer(),
-                'permission' => $exercise->getPermission(),
-                'author_id' => $exercise->getUserId()
-            ]);
+    public static function convertOrm(Domain\Exercise $exercise) {
+        $dto = $exercise->getExerciseDto();
+        $exercise_orm = Exercise::find($dto->exercise_id);
+        if (is_null($exercise_orm)) {
+            return new Exercise($dto->toArray());
         }
-        return $model->fill([
-            'exercise_id' => $exercise->getExerciseId(),
-            'question' => $exercise->getQuestion(),
-            'answer' => $exercise->getAnswer(),
-            'permission' => $exercise->getPermission(),
-            'author_id' => $exercise->getUserId()
-        ]);
+        return $exercise_orm->fill($dto->toArray());
     }
 }

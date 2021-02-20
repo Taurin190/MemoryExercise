@@ -148,7 +148,7 @@ class Workbook
             if ($model instanceof Exercise) {
                 $domain_list[] = $model;
             } else {
-                $domain_list[] = Exercise::map($model);
+                $domain_list[] = Exercise::convertDomain($model);
             }
         }
         $this->exercise_list = $domain_list;

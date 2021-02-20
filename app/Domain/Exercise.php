@@ -67,15 +67,15 @@ class Exercise
         return new Exercise($exercise_id, $parameters['question'], $parameters['answer'], $permission, $label_list, $author_id);
     }
 
-    public static function map(\App\Exercise $model) {
-        return new Exercise(
-            $model->getKey(),
-            $model->getAttribute("question"),
-            $model->getAttribute("answer"),
-            self::PUBLIC_EXERCISE,
-            null,
-            $model->getAttribute("author_id")
-        );
+    public static function convertDomain(\App\Exercise $exercise_orm) {
+        return Exercise::create([
+            "exercise_id" => $exercise_orm->getKey(),
+            "question" => $exercise_orm->getAttribute("question"),
+            "answer" => $exercise_orm->getAttribute("answer"),
+            "permission" => $exercise_orm->getAttribute("permission"),
+            "label_list" => $exercise_orm->getAttribute("label_list"),
+            "author_id" => $exercise_orm->getAttribute("author_id")
+        ]);
     }
 
     public function getExerciseDto() {
