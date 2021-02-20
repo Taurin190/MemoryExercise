@@ -62,10 +62,7 @@ class EditController extends Controller
 
     public function complete($uuid, ExerciseRequest $request)
     {
-        $question = $request->get('question');
-        $answer = $request->get('answer');
-        $permission = $request->get('permission');
-        $this->exerciseUsecase->updateExercise($uuid, $question, $answer, $permission, Auth::id());
+        $this->exerciseUsecase->updateExerciseByRequest($request, Auth::id(), $uuid);
         $request->session()->forget('question_edit');
         $request->session()->forget('answer_edit');
         return view('exercise_edit_complete');

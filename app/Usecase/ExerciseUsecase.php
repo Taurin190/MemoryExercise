@@ -48,6 +48,18 @@ class ExerciseUsecase
         $this->exerciseRepository->save($exercise);
     }
 
+    public function updateExerciseByRequest(ExerciseRequest $exercise_request, $user_id, $uuid) {
+        $exercise = Exercise::create([
+            'exercise_id' => $uuid,
+            'question' => $exercise_request->get('question'),
+            'answer' => $exercise_request->get('answer'),
+            'permission' => $exercise_request->get('permission'),
+            'author_id' => $user_id,
+            'label' => $exercise_request->get('label')
+        ]);
+        $this->exerciseRepository->save($exercise);
+    }
+
     public function getExerciseDomain(ExerciseDto $exercise_dto) {
         return Exercise::create([
             'exercise_id' => $exercise_dto->uuid,
@@ -57,38 +69,6 @@ class ExerciseUsecase
             'author_id' => $exercise_dto->user_id,
             'label' => $exercise_dto->label_list
         ]);
-    }
-
-    //TODO メソッド名がわかりにくいので修正したい
-    public function makeExercise($question, $answer, $permission, $user_id) {
-        return Exercise::create([
-            'question' => $question,
-            'answer' => $answer,
-            'permission' => $permission,
-            'author_id' => $user_id
-        ]);
-    }
-
-    //TODO メソッド名がわかりにくいので修正したい
-    public function getExercise($uuid, $question, $answer, $permission, $user_id) {
-        return Exercise::create([
-            'exercise_id' => $uuid,
-            'question' => $question,
-            'answer' => $answer,
-            'permission' => $permission,
-            'author_id' => $user_id
-        ]);
-    }
-
-    public function updateExercise($uuid, $question, $answer, $permission, $user_id) {
-        $exercise = Exercise::create([
-            'exercise_id' => $uuid,
-            'question' => $question,
-            'answer' => $answer,
-            'permission' => $permission,
-            'author_id' => $user_id
-        ]);
-        $this->exerciseRepository->save($exercise);
     }
 
     public function getAllExercises($limit = 10, $user = null, $page = 1) {
