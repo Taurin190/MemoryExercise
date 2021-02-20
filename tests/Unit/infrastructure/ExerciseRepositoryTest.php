@@ -89,7 +89,7 @@ class ExerciseRepositoryTest extends TestCase
         $repository->save($this->exerciseDomainMock);
     }
 
-    public function testFindAllByExerciseIdList()
+    public function testFindAllByExerciseIdListWithoutUser()
     {
         $exerciseMock1 = m::mock('alias:\App\Exercise');
         $exerciseMock2 = m::mock('alias:\App\Exercise');

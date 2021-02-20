@@ -101,6 +101,7 @@ class ExerciseUsecase
      * @return array
      */
     public function getAllExercisesWithIdList($id_list) {
+        //TODO user_idを渡して自分が作成したprivateの問題を見れるようにする。
         return $this->exerciseRepository->findAllByExerciseIdList($id_list);
     }
 

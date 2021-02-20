@@ -7,7 +7,7 @@ interface ExerciseRepository
 {
     function findByExerciseId($exercise_id, $user_id = null);
 
-    function findAllByExerciseIdList($exercise_id_list, $user = null);
+    function findAllByExerciseIdList($exercise_id_list, $user_id = null);
 
     function save(Exercise $exercise);
 

@@ -24,13 +24,13 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         return Exercise::convertDomain($domain->first());
     }
 
-    function findAllByExerciseIdList($exercise_id_list, $user = null)
+    function findAllByExerciseIdList($exercise_id_list, $user_id = null)
     {
         $domain_list = [];
-        if (isset($user)) {
+        if (isset($user_id)) {
             $exercise_list = \App\Exercise::whereIn('exercise_id', $exercise_id_list)->where('permission', 1)
-                ->orWhere(function ($query) use ($user, $exercise_id_list){
-                    $query->whereIn('exercise_id', $exercise_id_list)->where('author_id', $user->getKey());
+                ->orWhere(function ($query) use ($user_id, $exercise_id_list){
+                    $query->whereIn('exercise_id', $exercise_id_list)->where('author_id', $user_id);
                 })->get();
         } else {
             $exercise_list = \App\Exercise::whereIn('exercise_id', $exercise_id_list)->where('permission', 1)->get();
