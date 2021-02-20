@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: koichi.taura
- * Date: 2020/05/21
- * Time: 6:32
- */
 
 namespace App\Usecase;
 use App\Domain\Exercise;
@@ -22,6 +16,16 @@ class ExerciseUsecase
         $this->exerciseRepository = $repository;
     }
 
+    /**
+     * リクエストからドメイン層に問い合わせてDTOを取得する
+     * インスタンス作成のみでInfra層への問い合わせは行わない
+     *
+     * @param ExerciseRequest $exercise_request
+     * @param $user_id
+     * @param null $uuid 既存のExerciseの場合のみ指定する
+     * @return ExerciseDto
+     * @throws \App\Domain\DomainException リクエストの情報が不適当な場合に例外を投げる
+     */
     public function getExerciseDtoByRequest(ExerciseRequest $exercise_request, $user_id, $uuid = null) {
         return Exercise::create([
             'exercise_id' => $uuid,
@@ -33,10 +37,25 @@ class ExerciseUsecase
         ])->getExerciseDto();
     }
 
-    public function getExerciseDtoById($uuid, $user_id) {
-        return $this->exerciseRepository->findByExerciseId($uuid, $user_id)->getExerciseDto();
+    /**
+     * ExerciseのIDからInfra層に問い合わせてDTOを取得する
+     *
+     * @param $exercise_id
+     * @param $user_id
+     * @return ExerciseDto
+     * @throws \App\Exceptions\DataNotFoundException exercise_idが存在しない場合に例外を投げる
+     */
+    public function getExerciseDtoById($exercise_id, $user_id) {
+        return $this->exerciseRepository->findByExerciseId($exercise_id, $user_id)->getExerciseDto();
     }
 
+    /**
+     * リクエストからExerciseを登録する
+     *
+     * @param ExerciseRequest $exercise_request
+     * @param $user_id
+     * @throws \App\Domain\DomainException リクエストの情報が不適当な場合に例外を投げる
+     */
     public function registerExercise(ExerciseRequest $exercise_request, $user_id) {
         $exercise = Exercise::create([
             'question' => $exercise_request->get('question'),
@@ -48,9 +67,17 @@ class ExerciseUsecase
         $this->exerciseRepository->save($exercise);
     }
 
-    public function updateExerciseByRequest(ExerciseRequest $exercise_request, $user_id, $uuid) {
+    /**
+     * 指定したIDのExerciseをリクエストの情報を元に更新する
+     *
+     * @param ExerciseRequest $exercise_request
+     * @param $user_id
+     * @param $exercise_id
+     * @throws \App\Domain\DomainException リクエストの情報が不適当な場合に例外を投げる
+     */
+    public function updateExerciseByRequest(ExerciseRequest $exercise_request, $user_id, $exercise_id) {
         $exercise = Exercise::create([
-            'exercise_id' => $uuid,
+            'exercise_id' => $exercise_id,
             'question' => $exercise_request->get('question'),
             'answer' => $exercise_request->get('answer'),
             'permission' => $exercise_request->get('permission'),
@@ -58,17 +85,6 @@ class ExerciseUsecase
             'label' => $exercise_request->get('label')
         ]);
         $this->exerciseRepository->save($exercise);
-    }
-
-    public function getExerciseDomain(ExerciseDto $exercise_dto) {
-        return Exercise::create([
-            'exercise_id' => $exercise_dto->uuid,
-            'question' => $exercise_dto->question,
-            'answer' => $exercise_dto->answer,
-            'permission' => $exercise_dto->permission,
-            'author_id' => $exercise_dto->user_id,
-            'label' => $exercise_dto->label_list
-        ]);
     }
 
     public function getAllExercises($limit = 10, $user = null, $page = 1) {
