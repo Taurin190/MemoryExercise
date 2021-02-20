@@ -52,8 +52,12 @@ class WorkbookUsecase
      * @throws \App\Domain\WorkbookDomainException
      */
     public function createWorkbook($name, $description, $exercise_list = null, $user = null) {
-        $workbook = Workbook::create($name, $description, $exercise_list, null, $user);
-//        $workbook->setExerciseDomainList($exercise_list);
+        $workbook = Workbook::create([
+            'title' => $name,
+            'explanation' => $description,
+            'exercise_list' => $exercise_list,
+            'user' =>$user
+        ]);
         return $this->workbookRepository->save($workbook);
     }
 
@@ -68,7 +72,17 @@ class WorkbookUsecase
      * @throws \App\Domain\WorkbookDomainException
      */
     public function makeWorkbook($name, $description, $exercise_list = null, $workbook_id = null, $user = null) {
-        return Workbook::create($name, $description, $exercise_list, $workbook_id, $user);
+        return $workbook = Workbook::create([
+            'title' => $name,
+            'explanation' => $description,
+            'exercise_list' => $exercise_list,
+            'workbook_id' => $workbook_id,
+            'user' =>$user
+        ]);
+    }
+
+    public function getWorkbookDtoByRequest(WorkbookRequest $request, $user_id, $uuid = null) {
+
     }
 
     /**

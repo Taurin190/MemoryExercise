@@ -2,6 +2,8 @@
 
 namespace App\Domain;
 
+use App\Dto\WorkbookDto;
+use App\Http\Requests\WorkbookRequest;
 use App\User;
 
 class Workbook
@@ -20,20 +22,31 @@ class Workbook
 
     /**
      * 問題集を作成するFactoryMethod
-     * @param $title string 問題集のタイトル
-     * @param $explanation string 問題集の説明
-     * @param null $exercise_list
-     * @param null $workbook_id
-     * @param null $user
+     * @param $parameters array 問題集の情報を入れた連想配列
      * @return Workbook 作成した問題集
      * @throws WorkbookDomainException
      */
-    public static function create($title, $explanation, $exercise_list = null, $workbook_id = null, $user = null) {
-        if (empty($title)) {
+    public static function create($parameters) {
+        if (empty($parameters['title'])) {
             throw new WorkbookDomainException("タイトルが空です。");
         }
-        $workbook = new Workbook($title, $explanation,$workbook_id, $exercise_list, $user);
-        return $workbook;
+        $explanation = null;
+        if (isset($parameters['explanation'])) {
+            $explanation = $parameters['explanation'];
+        }
+        $exercise_list = null;
+        if (isset($parameters['exercise_list'])) {
+            $exercise_list = $parameters['exercise_list'];
+        }
+        $workbook_id = null;
+        if (isset($parameters['workbook_id'])) {
+            $workbook_id = $parameters['workbook_id'];
+        }
+        $user = null;
+        if (isset($parameters['user'])) {
+            $user = $parameters['user'];
+        }
+        return new Workbook($parameters['title'], $explanation, $workbook_id, $exercise_list, $user);
     }
 
     public static function map(\App\Workbook $workbook_model) {
@@ -64,6 +77,16 @@ class Workbook
         }
         $this->title = $title;
         $this->explanation = $explanation;
+    }
+
+    public function getWorkbookDto() {
+        return new WorkbookDto(
+            $this->title,
+            $this->explanation,
+            $this->exercise_list,
+            $this->user_id,
+            $this->workbook_id
+        );
     }
 
     public function getWorkbookId() {

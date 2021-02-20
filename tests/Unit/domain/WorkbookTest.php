@@ -23,7 +23,7 @@ class WorkbookTest extends TestCase
     }
     public function testCreate() {
         try {
-            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+            $workbook = Workbook::create(['title' => "test workbook", 'explanation' => "This is an example of workbook."]);
             self::assertTrue($workbook instanceof Workbook);
             $actual = $workbook->getTitle();
             self::assertSame("test workbook", $actual);
@@ -50,6 +50,10 @@ class WorkbookTest extends TestCase
         $model_mock->shouldReceive('exercises')
             ->once()
             ->andReturn(null);
+        $model_mock->shouldReceive('getAttribute')
+            ->once()
+            ->with('user')
+            ->andReturn(null);
         $workbook = Workbook::map($model_mock);
         self::assertTrue($workbook instanceof Workbook);
         self::assertSame("test workbook", $workbook->getTitle());
@@ -59,7 +63,7 @@ class WorkbookTest extends TestCase
 
     public function testCreateWithoutTitle() {
         try {
-            Workbook::create("", "This is an example of workbook.");
+            Workbook::create(['title' => "", 'explanation' => "This is an example of workbook."]);
             self::fail("例外が発生しませんでした。");
         } catch (WorkbookDomainException $e) {
             self::assertSame("タイトルが空です。", $e->getMessage());
@@ -67,7 +71,12 @@ class WorkbookTest extends TestCase
     }
 
     public function testCreateWithWorkbookId() {
-        $actual = Workbook::create("test title", "This is an example of workbook", null, "workbook1");
+        $actual = Workbook::create([
+            'title' => "test title",
+            'explanation' => "This is an example of workbook",
+            'exercise_list' => null,
+            'workbook_id' => "workbook1"
+        ]);
         self::assertSame("workbook1", $actual->getWorkbookId());
         self::assertSame("test title", $actual->getTitle());
         self::assertSame("This is an example of workbook", $actual->getExplanation());
@@ -76,7 +85,10 @@ class WorkbookTest extends TestCase
 
     public function testModifyTitle() {
         try {
-            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+            $workbook = Workbook::create([
+                'title' => "test workbook",
+                'explanation' => "This is an example of workbook."
+            ]);
             self::assertTrue($workbook instanceof Workbook);
             $actual = $workbook->getTitle();
             self::assertSame("test workbook", $actual);
@@ -91,7 +103,10 @@ class WorkbookTest extends TestCase
 
     public function testModifyTitleToEmpty() {
         try {
-            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+            $workbook = Workbook::create([
+                'title' => "test workbook",
+                'explanation' => "This is an example of workbook."
+            ]);
             self::assertTrue($workbook instanceof Workbook);
             $actual = $workbook->getTitle();
             self::assertSame("test workbook", $actual);
@@ -107,7 +122,10 @@ class WorkbookTest extends TestCase
 
     public function testModifyExplanation() {
         try {
-            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+            $workbook = Workbook::create([
+                'title' => "test workbook",
+                'explanation' => "This is an example of workbook."
+            ]);
             self::assertTrue($workbook instanceof Workbook);
             $actual = $workbook->getExplanation();
             self::assertSame("This is an example of workbook.", $actual);
@@ -123,7 +141,10 @@ class WorkbookTest extends TestCase
     public function testAddExercise() {
         $workbook = null;
         try {
-            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+            $workbook = Workbook::create([
+                'title' => "test workbook",
+                'explanation' => "This is an example of workbook."
+            ]);
         } catch (\Exception $e) {
             self::fail("予期しない例外が発生しました。");
         }
@@ -136,7 +157,10 @@ class WorkbookTest extends TestCase
     public function testDeleteExercise() {
         $workbook = null;
         try {
-            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+            $workbook = Workbook::create([
+                'title' => "test workbook",
+                'explanation' => "This is an example of workbook."
+            ]);
         } catch (\Exception $e) {
             self::fail("予期しない例外が発生しました。");
         }
@@ -158,7 +182,10 @@ class WorkbookTest extends TestCase
     public function testDeleteExerciseNotIncludedValue() {
         $workbook = null;
         try {
-            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+            $workbook = Workbook::create([
+                'title' => "test workbook",
+                'explanation' => "This is an example of workbook."
+            ]);
         } catch (\Exception $e) {
             self::fail("予期しない例外が発生しました。");
         }
@@ -180,7 +207,10 @@ class WorkbookTest extends TestCase
 
         $workbook = null;
         try {
-            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+            $workbook = Workbook::create([
+                'title' => "test workbook",
+                'explanation' => "This is an example of workbook."
+            ]);
             for ($i = 0; $i < 5; $i++) {
                 $workbook->addExercise($exercise_mock_list[$i]);
             }
@@ -215,7 +245,10 @@ class WorkbookTest extends TestCase
 
         $workbook = null;
         try {
-            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+            $workbook = Workbook::create([
+                'title' => "test workbook",
+                'explanation' => "This is an example of workbook."
+            ]);
             for ($i = 0; $i < 5; $i++) {
                 $workbook->addExercise($exercise_mock_list[$i]);
             }
@@ -245,7 +278,10 @@ class WorkbookTest extends TestCase
 
         $workbook = null;
         try {
-            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+            $workbook = Workbook::create([
+                'title' => "test workbook",
+                'explanation' => "This is an example of workbook."
+            ]);
             for ($i = 0; $i < 5; $i++) {
                 $workbook->addExercise($exercise_mock_list[$i]);
             }
@@ -277,7 +313,10 @@ class WorkbookTest extends TestCase
 
         $workbook = null;
         try {
-            $workbook = Workbook::create("test workbook", "This is an example of workbook.");
+            $workbook = Workbook::create([
+                'title' =>"test workbook",
+                'explanation' => "This is an example of workbook."
+            ]);
             for ($i = 0; $i < 5; $i++) {
                 $workbook->addExercise($exercise_mock_list[$i]);
             }
