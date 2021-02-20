@@ -14,7 +14,7 @@
             </div>
         </div>
         @endif
-        {{Form::open(['route' => [ 'exercise.edit.confirm', $exercise->uuid ], 'onsubmit' => "return false;"])}}
+        {{Form::open(['route' => [ 'exercise.edit.confirm', $exercise->exercise_id ], 'onsubmit' => "return false;"])}}
          <div class="row justify-content-center">
              <div class="card col-md-10 py-5 px-5">
                  <h2 class="mb-2"><i class="fas fa-question-circle pr-2"></i>問題編集</h2>
@@ -86,7 +86,7 @@
         {{Form::close()}}
             <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    {{Form::open(['route' => [ 'exercise.delete.complete', $exercise->uuid ], 'onsubmit' => "return false;"])}}
+                    {{Form::open(['route' => [ 'exercise.delete.complete', $exercise->exercise_id ], 'onsubmit' => "return false;"])}}
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">削除しますか？</h5>

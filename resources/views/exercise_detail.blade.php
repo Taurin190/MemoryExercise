@@ -6,7 +6,7 @@
              <div class="card col-md-10 py-5 px-5">
                  <h2 class="mb-2"><i class="fas fa-question-circle pr-2"></i>問題</h2>
                  @if(isset($user_id) && $exercise->user_id == $user_id)
-                 <a class="text-decoration-none" href="{{route('exercise.edit', $exercise->uuid)}}">
+                 <a class="text-decoration-none" href="{{route('exercise.edit', $exercise->exercise_id)}}">
                      <div class="exercise-delete">
                          <i class="fas fa-pen delete-icon"></i>
                      </div>
@@ -19,9 +19,9 @@
                  </div>
                  <div class="align-items-start py-2 col-md-12 px-0 form-group">
                      <div class="exercise-answer-container">
-                         <a data-toggle="collapse" href="#collapse-{{ $exercise->uuid }}"
-                            aria-controls="collapse-{{ $exercise->uuid }}">解答を表示</a>
-                         <div id="collapse-{{ $exercise->uuid }}" class="collapse card">
+                         <a data-toggle="collapse" href="#collapse-{{ $exercise->exercise_id }}"
+                            aria-controls="collapse-{{ $exercise->exercise_id }}">解答を表示</a>
+                         <div id="collapse-{{ $exercise->exercise_id }}" class="collapse card">
                              <div class="card-body">
                                  <label class="form-label">解答</label>
                                  <p class="answer">{{ $exercise->answer }}</p>

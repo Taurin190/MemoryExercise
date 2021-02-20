@@ -13,7 +13,7 @@ namespace App\Dto;
  */
 class ExerciseDto
 {
-    public $uuid;
+    public $exercise_id;
 
     public $question;
 
@@ -25,13 +25,25 @@ class ExerciseDto
 
     public $user_id;
 
-    function __construct($question, $answer, $permission, $user_id, $uuid=null, $label_list = [])
+    function __construct($question, $answer, $permission, $user_id, $exercise_id=null, $label_list = [])
     {
-        $this->uuid = $uuid;
+        $this->exercise_id = $exercise_id;
         $this->question = $question;
         $this->answer = $answer;
         $this->permission = $permission;
         $this->user_id = $user_id;
         $this->label_list = $label_list;
+    }
+
+    public function toArray() {
+        return [
+            "exercise_id" => $this->exercise_id,
+            "question" => $this->question,
+            "answer" => $this->answer,
+            "permission" => $this->permission,
+            "author_id" => $this->user_id,
+            "user_id" => $this->user_id,
+            "label_list" => $this->label_list
+        ];
     }
 }
