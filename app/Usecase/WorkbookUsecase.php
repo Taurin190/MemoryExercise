@@ -81,8 +81,25 @@ class WorkbookUsecase
         ]);
     }
 
-    public function getWorkbookDtoByRequest(WorkbookRequest $request, $user_id, $uuid = null) {
-
+    /**
+     * リクエストよりWorkbookのDTOを取得する
+     * infra層への問い合わせを行わない
+     * @param WorkbookRequest $request
+     * @param $user_id
+     * @param null $workbook_id
+     * @return \App\Dto\WorkbookDto
+     * @throws \App\Domain\WorkbookDomainException
+     */
+    public function getWorkbookDtoByRequest(WorkbookRequest $request, $user_id, $workbook_id = null) {
+        $exercise_id_list = $request->get('exercise');
+        $exercise_list = $this->exerciseRepository->findAllByExerciseIdList($exercise_id_list);
+        return $workbook = Workbook::create([
+            "title" => $request->get('title'),
+            "explanation" => $request->get('explanation'),
+            "exercise_list" => $exercise_list,
+            "author_id" => $user_id,
+            'workbook_id' => $workbook_id
+        ])->getWorkbookDto();
     }
 
     /**

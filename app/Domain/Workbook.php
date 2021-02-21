@@ -59,6 +59,7 @@ class Workbook
         );
     }
 
+    //TODO user出なくてuser_idで作成したい。
     private function __construct($title, $explanation, $workbook_id = null, $exercises = null, User $user = null) {
         if (isset($workbook_id)) {
             $this->workbook_id = $workbook_id;
