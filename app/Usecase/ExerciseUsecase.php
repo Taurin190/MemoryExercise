@@ -2,6 +2,7 @@
 
 namespace App\Usecase;
 use App\Domain\Exercise;
+use App\Domain\SearchExerciseList;
 use App\Dto\ExerciseDto;
 use App\Exceptions\PermissionException;
 use App\Http\Requests\ExerciseRequest;
@@ -131,23 +132,8 @@ class ExerciseUsecase
     }
 
     public function searchExercise($text, $page, $user = null) {
-        if (mb_strlen($text) < 2) {
-            $count = $this->exerciseRepository->count($user);
-            $exercise_list = $this->exerciseRepository->findAll(10, $user, $page);
-            return [
-                "count" => $count,
-                "exercise_list" => $exercise_list,
-                "page" => $page
-            ];
-        }
-        //TODO 検索した場合に権限のない問題も見れてしまうので修正する
-        $count = $this->exerciseRepository->searchCount($text);
-        $exercise_list = $this->exerciseRepository->search($text, $page);
-        return [
-            "count" => $count,
-            "exercise_list" => $exercise_list,
-            "page" => $page
-        ];
+        $searchDomain = new SearchExerciseList($this->exerciseRepository, $text, 10, $page, $user);
+        return $searchDomain->getResult();
     }
 
     /**

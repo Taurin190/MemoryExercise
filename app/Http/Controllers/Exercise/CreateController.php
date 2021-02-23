@@ -1,14 +1,7 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: koichi.taura
- * Date: 2020/08/11
- * Time: 17:14
- */
 
 namespace App\Http\Controllers\Exercise;
 
-use App\Dto\ExerciseDto;
 use App\Usecase\AnswerHistoryUsecase;
 use App\Usecase\ExerciseUsecase;
 use App\Http\Controllers\Controller;
@@ -47,6 +40,7 @@ class CreateController extends Controller
      * when post from form
      * @param ExerciseRequest $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \App\Domain\DomainException
      */
     public function confirm(ExerciseRequest $request)
     {
