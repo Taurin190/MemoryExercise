@@ -10,24 +10,28 @@
             <div>
                 <label class="pt-2 my-2 form-label control-label">問題</label>
                 <p>{{ $exercise->question }}</p>
-                <input type="hidden" name="question" value="{{ $exercise->question }}">
             </div>
             <div>
                 <label class="pt-2 my-2 form-label control-label">解答</label>
                 <p>{{ $exercise->answer }}</p>
-                <input type="hidden" name="answer" value="{{ $exercise->answer }}">
             </div>
-            <div class="mb-3">
+            <div>
                 <label class="pt-2 my-2 form-label control-label">公開設定</label>
                 @if ($exercise->permission === 1)
                 <p>公開</p>
-                <input type="hidden" name="permission" value="{{ $exercise->permission }}">
                 @else
                 <p>非公開</p>
-                <input type="hidden" name="permission" value="{{ $exercise->permission }}">
                 @endif
             </div>
-            <div class="col-md-12 px-0 btn-group d-flex" role="group" aria-label="...">
+            @isset($exercise->label_list)
+            <div>
+                <label class="pt-2 my-2 form-label control-label">ラベル</label>
+                @foreach($exercise->label_list as $label)
+                    <li>{{ $label }}</li>
+                @endforeach
+            </div>
+            @endisset
+            <div class="col-md-12 mt-5 px-0 btn-group d-flex" role="group" aria-label="...">
                 <a href="{{route('exercise.create')}}"
                    class="btn btn-outline-secondary px-0 col-md-3 float-left">戻る</a>
                 <input type="submit"

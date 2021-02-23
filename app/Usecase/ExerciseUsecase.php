@@ -7,6 +7,8 @@ use App\Exceptions\PermissionException;
 use App\Http\Requests\ExerciseRequest;
 use App\Infrastructure\ExerciseRepository;
 use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ExerciseUsecase
 {
@@ -22,19 +24,41 @@ class ExerciseUsecase
      *
      * @param ExerciseRequest $exercise_request
      * @param $user_id
-     * @param null $uuid 既存のExerciseの場合のみ指定する
+     * @param null $exercise_id 既存のExerciseの場合のみ指定する
      * @return ExerciseDto
      * @throws \App\Domain\DomainException リクエストの情報が不適当な場合に例外を投げる
      */
-    public function getExerciseDtoByRequest(ExerciseRequest $exercise_request, $user_id, $uuid = null) {
+    public function getExerciseDtoByRequest(ExerciseRequest $exercise_request, $user_id, $exercise_id = null) {
         return Exercise::create([
-            'exercise_id' => $uuid,
+            'exercise_id' => $exercise_id,
             'question' => $exercise_request->get('question'),
             'answer' => $exercise_request->get('answer'),
             'permission' => $exercise_request->get('permission'),
             'author_id' => $user_id,
-            'label' => $exercise_request->get('label')
+            'label_list' => $exercise_request->get('label')
         ])->getExerciseDto();
+    }
+
+    /**
+     * SessionからExerciseDtoを取得する
+     * 作成画面で出すためにDTOに値を渡し値の確認を行わない
+     * DB登録などバリデーションが必要な時に使わない
+     *
+     * @param Request $exercise_request
+     * @param $user_id
+     * @param string $post_fix
+     * @param null $exercise_id
+     * @return ExerciseDto
+     */
+    public function getExerciseDtoBySession(Request $exercise_request, $user_id, $post_fix = '', $exercise_id = null) {
+        return new ExerciseDto(
+            $exercise_request->session()->pull('question' . $post_fix),
+            $exercise_request->session()->pull('answer' . $post_fix),
+            $exercise_request->session()->pull('permission' . $post_fix),
+            $user_id,
+            $exercise_id,
+            $exercise_request->session()->pull('label' . $post_fix)
+        );
     }
 
     /**
@@ -52,17 +76,18 @@ class ExerciseUsecase
     /**
      * リクエストからExerciseを登録する
      *
-     * @param ExerciseRequest $exercise_request
+     * @param Request $exercise_request
      * @param $user_id
      * @throws \App\Domain\DomainException リクエストの情報が不適当な場合に例外を投げる
      */
-    public function registerExercise(ExerciseRequest $exercise_request, $user_id) {
+    public function registerExerciseByRequest(Request $exercise_request, $user_id) {
+        Log::error($exercise_request);
         $exercise = Exercise::create([
-            'question' => $exercise_request->get('question'),
-            'answer' => $exercise_request->get('answer'),
-            'permission' => $exercise_request->get('permission'),
+            'question' => $exercise_request->session()->pull('question_create', ''),
+            'answer' => $exercise_request->session()->pull('answer_create', ''),
+            'permission' => $exercise_request->session()->pull('permission_create'),
             'author_id' => $user_id,
-            'label' => $exercise_request->get('label')
+            'label' => $exercise_request>session()->pull('label_create')
         ]);
         $this->exerciseRepository->save($exercise);
     }

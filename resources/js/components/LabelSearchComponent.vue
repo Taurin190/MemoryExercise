@@ -17,6 +17,11 @@
         props: {
             registered_label_list : []
         },
+        mounted: function() {
+            for (let i = 0; i < this.registered_label_list.length; i ++) {
+                this.label_list.push(this.registered_label_list[i]);
+            }
+        },
         data: function() {
             return {
                 text: '',

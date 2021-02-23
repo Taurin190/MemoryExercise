@@ -26,7 +26,7 @@
                                id="InputQuestion"
                                name="question"
                                placeholder="パンはパンでも食べられないパンは何だ？"
-                        >{{ $question }}</textarea>
+                        >{{ $exercise->question }}</textarea>
                         @if(!empty($errors->first('question')))
                         <span class="text-danger">{{ $error }}</span>
                         @endif
@@ -40,7 +40,7 @@
                                id="InputAnswer"
                                name="answer"
                                placeholder="フライパン"
-                        >{{ $answer }}</textarea>
+                        >{{ $exercise->answer }}</textarea>
                         @if(!empty($errors->first('answer')))
                             <span class="text-danger">{{ $error }}</span>
                         @endif
@@ -53,20 +53,25 @@
                                 class=""
                                 name="permission"
                                 value="1"
+                                @if(is_null($exercise->permission) || $exercise->permission === 1)
                                 checked="checked"
+                                @endif
                          >
                          <label for="contactChoice1">公開</label>
                          <input type="radio"
                                 class=""
                                 name="permission"
                                 value="0"
+                                @if($exercise->permission === 0)
+                                checked="checked"
+                                @endif
                          >
                          <label for="contactChoice1">非公開</label>
                      </div>
                  </div>
                  <div class="col-md-12 form-group px-0">
-                     <label class="pb-2 form-label control-label" for="InputAnswer">カテゴリ</label>
-                     <label-search-component></label-search-component>
+                     <label class="pb-2 form-label control-label" for="InputAnswer">ラベル</label>
+                     <label-search-component :registered_label_list=@json($exercise->label_list) ></label-search-component>
                  </div>
                  <div class="py-2 col-md-12 form-group px-0">
                      <div class="px-0 col-md-3 float-left">

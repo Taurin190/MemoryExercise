@@ -8,20 +8,20 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
 {
     function findByExerciseId($exercise_id, $user_id = null)
     {
-        $domain = null;
+        $orm = null;
         if (isset($user_id)) {
-            $domain = \App\Exercise::where('exercise_id', $exercise_id)
+            $orm = \App\Exercise::where('exercise_id', $exercise_id)
                 ->where('permission', 1)->orWhere(function ($query) use ($user_id, $exercise_id) {
                     $query->where('exercise_id', $exercise_id)
                         ->where('author_id', $user_id);
                 });
         } else {
-            $domain = \App\Exercise::where('exercise_id', $exercise_id)->where('permission', 1);
+            $orm = \App\Exercise::where('exercise_id', $exercise_id)->where('permission', 1);
         }
-        if (is_null($domain)) {
+        if (is_null($orm->first())) {
             throw new DataNotFoundException("Data not found in exercises by id: " . $exercise_id);
         }
-        return Exercise::convertDomain($domain->first());
+        return Exercise::convertDomain($orm->first());
     }
 
     function findAllByExerciseIdList($exercise_id_list, $user_id = null)

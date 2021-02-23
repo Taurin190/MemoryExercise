@@ -38,11 +38,9 @@ class CreateController extends Controller
 
     public function create(Request $request)
     {
-        $question = $request->session()->pull('question_create', '');
-        $answer = $request->session()->pull('answer_create', '');
+        $exercise_dto = $this->exerciseUsecase->getExerciseDtoBySession($request, Auth::id(), '_create');
         return view('exercise_create')
-            ->with('question', $question)
-            ->with('answer', $answer);
+            ->with('exercise', $exercise_dto);
     }
 
     /**
@@ -55,13 +53,15 @@ class CreateController extends Controller
         $exercise_dto = $this->exerciseUsecase->getExerciseDtoByRequest($request, Auth::id());
         $request->session()->put('question_create', $exercise_dto->question);
         $request->session()->put('answer_create', $exercise_dto->answer);
+        $request->session()->put('permission_create', $exercise_dto->permission);
+        $request->session()->put('label_create', $exercise_dto->label_list);
         return view('exercise_confirm')
             ->with("exercise", $exercise_dto);
     }
 
-    public function complete(ExerciseRequest $request)
+    public function complete(Request $request)
     {
-        $this->exerciseUsecase->registerExercise($request, Auth::id());
+        $this->exerciseUsecase->registerExerciseByRequest($request, Auth::id());
         $request->session()->forget('question_create');
         $request->session()->forget('answer_create');
         return view('exercise_complete');
