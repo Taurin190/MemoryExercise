@@ -79,36 +79,19 @@ class ExerciseUsecase
      *
      * @param Request $exercise_request
      * @param $user_id
+     * @param string $post_fix
+     * @param null $exercise_id
      * @throws \App\Domain\DomainException リクエストの情報が不適当な場合に例外を投げる
      */
-    public function registerExerciseByRequest(Request $exercise_request, $user_id) {
+    public function registerExerciseByRequestSession(Request $exercise_request, $user_id, $post_fix = '', $exercise_id = null) {
         Log::error($exercise_request);
         $exercise = Exercise::create([
-            'question' => $exercise_request->session()->pull('question_create', ''),
-            'answer' => $exercise_request->session()->pull('answer_create', ''),
-            'permission' => $exercise_request->session()->pull('permission_create'),
-            'author_id' => $user_id,
-            'label' => $exercise_request>session()->pull('label_create')
-        ]);
-        $this->exerciseRepository->save($exercise);
-    }
-
-    /**
-     * 指定したIDのExerciseをリクエストの情報を元に更新する
-     *
-     * @param ExerciseRequest $exercise_request
-     * @param $user_id
-     * @param $exercise_id
-     * @throws \App\Domain\DomainException リクエストの情報が不適当な場合に例外を投げる
-     */
-    public function updateExerciseByRequest(ExerciseRequest $exercise_request, $user_id, $exercise_id) {
-        $exercise = Exercise::create([
             'exercise_id' => $exercise_id,
-            'question' => $exercise_request->get('question'),
-            'answer' => $exercise_request->get('answer'),
-            'permission' => $exercise_request->get('permission'),
+            'question' => $exercise_request->session()->pull('question' . $post_fix, ''),
+            'answer' => $exercise_request->session()->pull('answer' . $post_fix, ''),
+            'permission' => $exercise_request->session()->pull('permission' . $post_fix),
             'author_id' => $user_id,
-            'label' => $exercise_request->get('label')
+            'label' => $exercise_request>session()->pull('label' . $post_fix)
         ]);
         $this->exerciseRepository->save($exercise);
     }

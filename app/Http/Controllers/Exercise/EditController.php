@@ -54,17 +54,21 @@ class EditController extends Controller
     public function confirm($uuid, ExerciseRequest $request)
     {
         $exercise_dto = $this->exerciseUsecase->getExerciseDtoByRequest($request, Auth::id(), $uuid);
-        $request->session()->put('question', $request->get('question_edit'));
-        $request->session()->put('answer', $request->get('answer_edit'));
+        $request->session()->put('question_edit', $exercise_dto->question);
+        $request->session()->put('answer_edit', $exercise_dto->answer);
+        $request->session()->put('permission_edit', $exercise_dto->permission);
+        $request->session()->put('label_edit', $exercise_dto->label_list);
         return view('exercise_edit_confirm')
             ->with("exercise", $exercise_dto);
     }
 
-    public function complete($uuid, ExerciseRequest $request)
+    public function complete($uuid, Request $request)
     {
-        $this->exerciseUsecase->updateExerciseByRequest($request, Auth::id(), $uuid);
+        $this->exerciseUsecase->registerExerciseByRequestSession($request, Auth::id(), '_edit', $uuid);
         $request->session()->forget('question_edit');
         $request->session()->forget('answer_edit');
+        $request->session()->forget('permission_edit');
+        $request->session()->forget('label_edit');
         return view('exercise_edit_complete');
     }
 }

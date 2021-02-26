@@ -159,7 +159,7 @@ class ExerciseUsecaseTest extends TestCase
         $this->exerciseDomain->shouldReceive('create')->with($parameter)->once()->andReturn($this->exerciseDomain);
         $this->exerciseRepository->shouldReceive('save')->with($this->exerciseDomain)->once()->andReturn();
         $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
-        $exercise_usecase->registerExerciseByRequest($this->exerciseRequest, 1);
+        $exercise_usecase->registerExerciseByRequestSession($this->exerciseRequest, 1);
     }
 
     public function testGetExerciseDtoById() {
