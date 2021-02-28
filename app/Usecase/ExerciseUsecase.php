@@ -2,6 +2,7 @@
 
 namespace App\Usecase;
 use App\Domain\Exercise;
+use App\Domain\ExerciseOperator;
 use App\Domain\SearchExerciseList;
 use App\Dto\ExerciseDto;
 use App\Exceptions\PermissionException;
@@ -15,8 +16,11 @@ class ExerciseUsecase
 {
     protected $exerciseRepository;
 
+    protected $exerciseOperator;
+
     public function __construct(ExerciseRepository $repository) {
         $this->exerciseRepository = $repository;
+        $this->exerciseOperator = new ExerciseOperator($repository);
     }
 
     /**
@@ -71,7 +75,12 @@ class ExerciseUsecase
      * @throws \App\Exceptions\DataNotFoundException exercise_idが存在しない場合に例外を投げる
      */
     public function getExerciseDtoById($exercise_id, $user_id) {
-        return $this->exerciseRepository->findByExerciseId($exercise_id, $user_id)->getExerciseDto();
+        return $this->exerciseOperator->getDomain($exercise_id, $user_id)->getExerciseDto();
+
+    }
+
+    public function getExerciseDtoByIdForEdit($exercise_id, $user_id) {
+        return $this->exerciseOperator->getEditableDomain($exercise_id, $user_id)->getExerciseDto();
     }
 
     /**
@@ -84,8 +93,7 @@ class ExerciseUsecase
      * @throws \App\Domain\DomainException リクエストの情報が不適当な場合に例外を投げる
      */
     public function registerExerciseByRequestSession(Request $exercise_request, $user_id, $post_fix = '', $exercise_id = null) {
-        Log::error($exercise_request);
-        $exercise = Exercise::create([
+        $this->exerciseOperator->create([
             'exercise_id' => $exercise_id,
             'question' => $exercise_request->session()->pull('question' . $post_fix, ''),
             'answer' => $exercise_request->session()->pull('answer' . $post_fix, ''),
@@ -93,7 +101,8 @@ class ExerciseUsecase
             'author_id' => $user_id,
             'label' => $exercise_request>session()->pull('label' . $post_fix)
         ]);
-        $this->exerciseRepository->save($exercise);
+        $this->exerciseOperator->save($user_id);
+
     }
 
     public function getAllExercises($limit = 10, $user = null, $page = 1) {
@@ -142,11 +151,6 @@ class ExerciseUsecase
      * @throws Exception
      */
     public function deleteExercise($exercise_id, $user_id) {
-        $has_permission = $this->exerciseRepository->checkEditPermission($exercise_id, $user_id);
-        if ($has_permission) {
-            $this->exerciseRepository->delete($exercise_id);
-        } else{
-            throw new PermissionException("User doesn't have permission to delete");
-        }
+        $this->exerciseOperator->delete($user_id, $exercise_id);
     }
 }

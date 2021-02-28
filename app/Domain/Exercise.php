@@ -105,7 +105,7 @@ class Exercise
         return $this->permission;
     }
 
-    public function getUserId() {
+    public function getAuthorId() {
         return $this->author_id;
     }
 

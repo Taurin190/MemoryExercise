@@ -38,9 +38,7 @@ class EditController extends Controller
 
     public function edit($uuid)
     {
-        // Permissionがない場合Exceptionでエラーページを表示する
-        $this->exerciseUsecase->checkEditPermission($uuid, Auth::id());
-        $exercise_dto = $this->exerciseUsecase->getExerciseDtoById($uuid, Auth::id());
+        $exercise_dto = $this->exerciseUsecase->getExerciseDtoByIdForEdit($uuid, Auth::id());
         return view('exercise_edit')
             ->with('exercise', $exercise_dto);
     }

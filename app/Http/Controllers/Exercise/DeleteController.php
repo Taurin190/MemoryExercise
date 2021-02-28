@@ -35,6 +35,11 @@ class DeleteController extends Controller
         $this->exerciseUsecase = $exerciseUsecase;
     }
 
+    /**
+     * @param $uuid
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception 編集権限がない場合は例外を出す
+     */
     public function complete($uuid)
     {
         $this->exerciseUsecase->deleteExercise($uuid, Auth::id());
