@@ -14,7 +14,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ExerciseRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 
 class EditController extends Controller
@@ -62,7 +61,7 @@ class EditController extends Controller
 
     public function complete($uuid, Request $request)
     {
-        $this->exerciseUsecase->registerExerciseByRequestSession($request, Auth::id(), '_edit', $uuid);
+        $this->exerciseUsecase->editExerciseByRequestSession($uuid, $request, Auth::id(), '_edit');
         $request->session()->forget('question_edit');
         $request->session()->forget('answer_edit');
         $request->session()->forget('permission_edit');

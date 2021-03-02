@@ -101,12 +101,25 @@ class Exercise
         return $this->answer;
     }
 
-    public function getPermission() {
-        return $this->permission;
+    public function isRegisteredDomain() {
+        return isset($this->exercise_id);
     }
 
-    public function getAuthorId() {
-        return $this->author_id;
+    public function hasEditPermission($user_id) {
+        return $this->author_id == $user_id;
+    }
+
+    public function edit($parameters) {
+        if (empty($parameters['question'])) {
+            throw new DomainException("質問が空です。");
+        }
+        if (empty($parameters['answer'])) {
+            throw new DomainException("解答が空です。");
+        }
+        $this->question = $parameters['question'];
+        $this->answer = $parameters['answer'];
+        $this->permission = $parameters['permission'];
+        $this->label_list = $parameters['label_list'];
     }
 
     public function setQuestion($question) {

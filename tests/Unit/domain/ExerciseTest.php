@@ -54,8 +54,8 @@ class ExerciseTest extends TestCase
     public function testCreateWithoutPermission() {
         try {
             $exercise = Exercise::create(["question" => "Do you like dog?", "answer" => "yes, I like."]);
-            $actual = $exercise->getPermission();
-            self::assertSame(1, $actual);
+            $actual = $exercise->getExerciseDto();
+            self::assertSame(1, $actual->permission);
         } catch (\Exception $e) {
             self::fail("予期しない例外が発生しました。" . $e);
         }
@@ -67,14 +67,14 @@ class ExerciseTest extends TestCase
                 "answer" => "yes, I like.",
                 "permission" => 0
             ]);
-            $actual = $exercise->getPermission();
-            self::assertSame(0, $actual);
+            $actual = $exercise->getExerciseDto();
+            self::assertSame(0, $actual->permission);
         } catch (\Exception $e) {
             self::fail("予期しない例外が発生しました。" . $e);
         }
     }
 
-    public function testMap()
+    public function testConvertDomain()
     {
         $this->exerciseModelMock
             ->shouldReceive('getKey')
@@ -90,7 +90,22 @@ class ExerciseTest extends TestCase
             ->with('answer')
             ->once()
             ->andReturn('Yes, it is.');
-        $actual = Exercise::map($this->exerciseModelMock);
+        $this->exerciseModelMock
+            ->shouldReceive('getAttribute')
+            ->with('permission')
+            ->once()
+            ->andReturn(1);
+        $this->exerciseModelMock
+            ->shouldReceive('getAttribute')
+            ->with('label_list')
+            ->once()
+            ->andReturn([]);
+        $this->exerciseModelMock
+            ->shouldReceive('getAttribute')
+            ->with('author_id')
+            ->once()
+            ->andReturn(1);
+        $actual = Exercise::convertDomain($this->exerciseModelMock);
         self::assertSame(1, $actual->getExerciseId());
         self::assertSame('Is this an apple?', $actual->getQuestion());
         self::assertSame('Yes, it is.', $actual->getAnswer());

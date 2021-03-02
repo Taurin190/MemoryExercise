@@ -2,25 +2,23 @@
 
 namespace App\Usecase;
 use App\Domain\Exercise;
-use App\Domain\ExerciseOperator;
-use App\Domain\SearchExerciseList;
+use App\Domain\ExerciseQuery;
 use App\Dto\ExerciseDto;
 use App\Exceptions\PermissionException;
 use App\Http\Requests\ExerciseRequest;
 use App\Infrastructure\ExerciseRepository;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ExerciseUsecase
 {
     protected $exerciseRepository;
 
-    protected $exerciseOperator;
+    protected $exerciseQuery;
 
     public function __construct(ExerciseRepository $repository) {
         $this->exerciseRepository = $repository;
-        $this->exerciseOperator = new ExerciseOperator($repository);
+        $this->exerciseQuery = new ExerciseQuery($repository);
     }
 
     /**
@@ -75,12 +73,22 @@ class ExerciseUsecase
      * @throws \App\Exceptions\DataNotFoundException exercise_idが存在しない場合に例外を投げる
      */
     public function getExerciseDtoById($exercise_id, $user_id) {
-        return $this->exerciseOperator->getDomain($exercise_id, $user_id)->getExerciseDto();
-
+        return $this->exerciseRepository->findByExerciseId($exercise_id, $user_id)->getExerciseDto();
     }
 
+    /**
+     * @param $exercise_id
+     * @param $user_id
+     * @return ExerciseDto
+     * @throws PermissionException
+     * @throws \App\Exceptions\DataNotFoundException
+     */
     public function getExerciseDtoByIdForEdit($exercise_id, $user_id) {
-        return $this->exerciseOperator->getEditableDomain($exercise_id, $user_id)->getExerciseDto();
+        $exercise_domain = $this->exerciseRepository->findByExerciseId($exercise_id, $user_id);
+        if ($exercise_domain->hasEditPermission($user_id)) {
+            return $exercise_domain->getExerciseDto();
+        }
+        throw new PermissionException("User doesn't have permission to edit");
     }
 
     /**
@@ -89,20 +97,40 @@ class ExerciseUsecase
      * @param Request $exercise_request
      * @param $user_id
      * @param string $post_fix
-     * @param null $exercise_id
      * @throws \App\Domain\DomainException リクエストの情報が不適当な場合に例外を投げる
      */
-    public function registerExerciseByRequestSession(Request $exercise_request, $user_id, $post_fix = '', $exercise_id = null) {
-        $this->exerciseOperator->create([
-            'exercise_id' => $exercise_id,
+    public function registerExerciseByRequestSession(Request $exercise_request, $user_id, $post_fix = '') {
+        $exercise_domain = Exercise::create([
             'question' => $exercise_request->session()->pull('question' . $post_fix, ''),
             'answer' => $exercise_request->session()->pull('answer' . $post_fix, ''),
             'permission' => $exercise_request->session()->pull('permission' . $post_fix),
             'author_id' => $user_id,
-            'label' => $exercise_request>session()->pull('label' . $post_fix)
+            'label_list' => $exercise_request>session()->pull('label' . $post_fix)
         ]);
-        $this->exerciseOperator->save($user_id);
+        $this->exerciseRepository->save($exercise_domain);
+    }
 
+    /**
+     * @param $exercise_id
+     * @param Request $exercise_request
+     * @param $user_id
+     * @param string $post_fix
+     * @throws \App\Domain\DomainException
+     * @throws \App\Exceptions\DataNotFoundException
+     * @throws PermissionException
+     */
+    public function editExerciseByRequestSession($exercise_id, Request $exercise_request, $user_id, $post_fix = '') {
+        $exercise_domain = $this->exerciseRepository->findByExerciseId($exercise_id, $user_id);
+        if ($exercise_domain->hasEditPermission($user_id)) {
+            $exercise_domain->edit([
+                'question' => $exercise_request->session()->pull('question' . $post_fix, ''),
+                'answer' => $exercise_request->session()->pull('answer' . $post_fix, ''),
+                'permission' => $exercise_request->session()->pull('permission' . $post_fix),
+                'label_list' => $exercise_request > session()->pull('label' . $post_fix)
+            ]);
+            $this->exerciseRepository->save($exercise_domain);
+        }
+        throw new PermissionException("User doesn't have permission to edit");
     }
 
     public function getAllExercises($limit = 10, $user = null, $page = 1) {
@@ -124,8 +152,7 @@ class ExerciseUsecase
     }
 
     public function searchExercise($text, $page, $user = null) {
-        $searchDomain = new SearchExerciseList($this->exerciseRepository, $text, 10, $page, $user);
-        return $searchDomain->getResult();
+        return $this->exerciseQuery->search($text, 10, $page, $user);
     }
 
     /**
@@ -151,6 +178,10 @@ class ExerciseUsecase
      * @throws Exception
      */
     public function deleteExercise($exercise_id, $user_id) {
-        $this->exerciseOperator->delete($user_id, $exercise_id);
+        $exercise_domain = $this->exerciseRepository->findByExerciseId($exercise_id, $user_id);
+        if ($exercise_domain->hasEditPermission($user_id)) {
+            $this->exerciseRepository->delete($exercise_id);
+        }
+        throw new PermissionException("User doesn't have permission to delete");
     }
 }
