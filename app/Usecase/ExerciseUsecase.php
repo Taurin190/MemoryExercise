@@ -27,19 +27,40 @@ class ExerciseUsecase
      *
      * @param ExerciseRequest $exercise_request
      * @param $user_id
-     * @param null $exercise_id 既存のExerciseの場合のみ指定する
      * @return ExerciseDto
      * @throws \App\Domain\DomainException リクエストの情報が不適当な場合に例外を投げる
      */
-    public function getExerciseDtoByRequest(ExerciseRequest $exercise_request, $user_id, $exercise_id = null) {
+    public function getExerciseDtoByRequest(ExerciseRequest $exercise_request, $user_id) {
         return Exercise::create([
-            'exercise_id' => $exercise_id,
             'question' => $exercise_request->get('question'),
             'answer' => $exercise_request->get('answer'),
             'permission' => $exercise_request->get('permission'),
             'author_id' => $user_id,
             'label_list' => $exercise_request->get('label')
         ])->getExerciseDto();
+    }
+
+    /**
+     * @param $exercise_id
+     * @param ExerciseRequest $exercise_request
+     * @param $user_id
+     * @return ExerciseDto
+     * @throws PermissionException
+     * @throws \App\Domain\DomainException
+     * @throws \App\Exceptions\DataNotFoundException
+     */
+    public function getEditedExerciseDtoByRequest($exercise_id, ExerciseRequest $exercise_request, $user_id) {
+        $exercise_domain = $this->exerciseRepository->findByExerciseId($exercise_id, $user_id);
+        if ($exercise_domain->hasEditPermission($user_id)) {
+            $exercise_domain->edit([
+                'question' => $exercise_request->get('question'),
+                'answer' => $exercise_request->get('answer'),
+                'permission' => $exercise_request->get('permission'),
+                'label_list' => $exercise_request->get('label')
+            ]);
+            return $exercise_domain->getExerciseDto();
+        }
+        throw new PermissionException("User doesn't have permission to edit");
     }
 
     /**

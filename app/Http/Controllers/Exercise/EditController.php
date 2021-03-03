@@ -47,10 +47,13 @@ class EditController extends Controller
      * @param $uuid
      * @param ExerciseRequest $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \App\Domain\DomainException
+     * @throws \App\Exceptions\DataNotFoundException
+     * @throws \App\Exceptions\PermissionException
      */
     public function confirm($uuid, ExerciseRequest $request)
     {
-        $exercise_dto = $this->exerciseUsecase->getExerciseDtoByRequest($request, Auth::id(), $uuid);
+        $exercise_dto = $this->exerciseUsecase->getEditedExerciseDtoByRequest($uuid, $request, Auth::id());
         $request->session()->put('question_edit', $exercise_dto->question);
         $request->session()->put('answer_edit', $exercise_dto->answer);
         $request->session()->put('permission_edit', $exercise_dto->permission);
