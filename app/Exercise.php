@@ -41,7 +41,10 @@ class Exercise extends Model
 
     public static function convertOrm(Domain\Exercise $exercise) {
         $dto = $exercise->getExerciseDto();
-        $exercise_orm = Exercise::find($dto->exercise_id);
+        $exercise_orm = null;
+        if (isset($dto->exercise_id)) {
+            $exercise_orm = Exercise::find($dto->exercise_id);
+        }
         if (is_null($exercise_orm)) {
             return new Exercise($dto->toArray());
         }
