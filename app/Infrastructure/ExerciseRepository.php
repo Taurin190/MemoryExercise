@@ -2,6 +2,8 @@
 namespace App\Infrastructure;
 
 use App\Domain\Exercise;
+use App\Domain\ExerciseList;
+use App\Domain\SearchExerciseList;
 use App\Exceptions\DataNotFoundException;
 
 class ExerciseRepository implements \App\Domain\ExerciseRepository
@@ -66,10 +68,27 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         return \App\Exercise::where('permission', 1)->count();
     }
 
-    function search($text, $page){
-        // TODO 引数を整える
-        return \App\Exercise::whereRaw("match(`question`) against (? IN NATURAL LANGUAGE MODE)", $text)
-            ->skip(10 * ($page - 1))->take(10)->get();
+    function search($text, $user = null, $page = 1, $limit = 10){
+        if (mb_strlen($text) < 2) {
+            $count = $this->count($user);
+            $exercise_orm_list = $this->findAll($limit, $user, $page);
+            return new SearchExerciseList(
+                new ExerciseList($exercise_orm_list),
+                $count,
+                $page,
+                $text
+            );
+
+        }
+        $count = $this->searchCount($text);
+        $exercise_orm_list = \App\Exercise::whereRaw("match(`question`) against (? IN NATURAL LANGUAGE MODE)", $text)
+            ->skip($limit * ($page - 1))->take($limit)->get();
+        return new SearchExerciseList(
+            new ExerciseList($exercise_orm_list),
+            $count,
+            $page,
+            $text
+        );
     }
 
     function searchCount($text) {

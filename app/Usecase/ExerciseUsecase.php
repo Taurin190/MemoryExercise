@@ -2,7 +2,7 @@
 
 namespace App\Usecase;
 use App\Domain\Exercise;
-use App\Domain\ExerciseQuery;
+use App\Domain\SearchExerciseList;
 use App\Dto\ExerciseDto;
 use App\Exceptions\PermissionException;
 use App\Http\Requests\ExerciseRequest;
@@ -14,11 +14,8 @@ class ExerciseUsecase
 {
     protected $exerciseRepository;
 
-    protected $exerciseQuery;
-
     public function __construct(ExerciseRepository $repository) {
         $this->exerciseRepository = $repository;
-        $this->exerciseQuery = new ExerciseQuery($repository);
     }
 
     /**
@@ -182,7 +179,8 @@ class ExerciseUsecase
     }
 
     public function searchExercise($text, $page, $user = null) {
-        return $this->exerciseQuery->search($text, 10, $page, $user);
+        $search_domain = $this->exerciseRepository->search($text, $user, $page, 10);
+        return $search_domain->getExerciseListDto();
     }
 
     /**

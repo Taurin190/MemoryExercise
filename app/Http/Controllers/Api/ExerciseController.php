@@ -31,17 +31,17 @@ class ExerciseController extends Controller
         }
         $text = $request->input('text', '');
         $page = $request->input('page', 1);
-        $result = $this->exerciseUsecase->searchExercise($text, $page, $user);
+        $search_exercise_list_dto = $this->exerciseUsecase->searchExercise($text, $page, $user);
         $exercise_list = [];
-        if (isset($result['exercise_list'])) {
-            foreach ($result['exercise_list'] as $exercise) {
+        if (isset($search_exercise_list_dto->exercise_dto_list)) {
+            foreach ($search_exercise_list_dto->exercise_dto_list as $exercise) {
                 $exercise_list[] = $exercise->toArray();
             }
         }
         $response = [
             'exercise_list' => $exercise_list,
-            'count' => $result['count'],
-            'page' => $result['page']
+            'count' => $search_exercise_list_dto->total_count,
+            'page' => $search_exercise_list_dto->page
         ];
         return response()->json($response);
     }

@@ -13,7 +13,7 @@ interface ExerciseRepository
 
     function save(Exercise $exercise);
 
-    function search($text, $page);
+    function search($text, $page, $limit = 10);
 
     function searchCount($text);
 
