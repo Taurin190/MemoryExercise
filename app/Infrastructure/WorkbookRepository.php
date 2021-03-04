@@ -13,7 +13,7 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
         if (is_null($model->first())) {
             throw new DataNotFoundException("Data Not Fount: Invalid Workbook Id.");
         }
-        return Workbook::map($model->first());
+        return Workbook::convertDomain($model->first());
     }
 
     function findAll()
@@ -21,7 +21,7 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
         $domain_list = [];
         $all_model = \App\Workbook::all();
         foreach ($all_model as $model) {
-            $domain_list[] = Workbook::map($model);
+            $domain_list[] = Workbook::convertDomain($model);
         }
         return $domain_list;
     }

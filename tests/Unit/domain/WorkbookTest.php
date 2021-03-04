@@ -34,7 +34,7 @@ class WorkbookTest extends TestCase
         }
     }
 
-    public function testMap() {
+    public function testConvertDomain() {
         $model_mock = m::mock('\App\Workbook');
         $model_mock->shouldReceive('getKey')
             ->once()
@@ -54,7 +54,7 @@ class WorkbookTest extends TestCase
             ->once()
             ->with('user')
             ->andReturn(null);
-        $workbook = Workbook::map($model_mock);
+        $workbook = Workbook::convertDomain($model_mock);
         self::assertTrue($workbook instanceof Workbook);
         self::assertSame("test workbook", $workbook->getTitle());
         self::assertSame("this is a test workbook", $workbook->getExplanation());

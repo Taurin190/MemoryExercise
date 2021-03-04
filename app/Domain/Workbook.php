@@ -3,7 +3,6 @@
 namespace App\Domain;
 
 use App\Dto\WorkbookDto;
-use App\Http\Requests\WorkbookRequest;
 use App\User;
 
 class Workbook
@@ -49,13 +48,13 @@ class Workbook
         return new Workbook($parameters['title'], $explanation, $workbook_id, $exercise_list, $user);
     }
 
-    public static function map(\App\Workbook $workbook_model) {
+    public static function convertDomain(\App\Workbook $workbook_orm) {
         return new Workbook(
-            $workbook_model->getAttribute('title'),
-            $workbook_model->getAttribute('explanation'),
-            $workbook_model->getKey(),
-            $workbook_model->exercises(),
-            $workbook_model->getAttribute('user')
+            $workbook_orm->getAttribute('title'),
+            $workbook_orm->getAttribute('explanation'),
+            $workbook_orm->getKey(),
+            $workbook_orm->exercises(),
+            $workbook_orm->getAttribute('user')
         );
     }
 
