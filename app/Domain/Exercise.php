@@ -110,16 +110,18 @@ class Exercise
     }
 
     public function edit($parameters) {
-        if (empty($parameters['question'])) {
-            throw new DomainException("質問が空です。");
+        if (!empty($parameters['question'])) {
+            $this->question = $parameters['question'];
         }
-        if (empty($parameters['answer'])) {
-            throw new DomainException("解答が空です。");
+        if (!empty($parameters['answer'])) {
+            $this->answer = $parameters['answer'];
         }
-        $this->question = $parameters['question'];
-        $this->answer = $parameters['answer'];
-        $this->permission = $parameters['permission'];
-        $this->label_list = $parameters['label_list'];
+        if (!empty($parameters['permission'])) {
+            $this->answer = $parameters['permission'];
+        }
+        if (!empty($parameters['label_list'])) {
+            $this->answer = $parameters['label_list'];
+        }
     }
 
     public function setQuestion($question) {

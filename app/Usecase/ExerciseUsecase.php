@@ -100,16 +100,25 @@ class ExerciseUsecase
     /**
      * @param $exercise_id
      * @param $user_id
+     * @param $request
+     * @param string $post_fix
      * @return ExerciseDto
      * @throws PermissionException
      * @throws \App\Exceptions\DataNotFoundException
      */
-    public function getExerciseDtoByIdForEdit($exercise_id, $user_id) {
+    public function getExerciseDtoByIdWithSessionModification($exercise_id, $user_id, Request $request, $post_fix = '') {
         $exercise_domain = $this->exerciseRepository->findByExerciseId($exercise_id, $user_id);
-        if ($exercise_domain->hasEditPermission($user_id)) {
-            return $exercise_domain->getExerciseDto();
+        if (!$exercise_domain->hasEditPermission($user_id)) {
+            throw new PermissionException("User doesn't have permission to edit");
         }
-        throw new PermissionException("User doesn't have permission to edit");
+        $exercise_domain->edit([
+            'question' => $request->session()->pull('question' . $post_fix, ''),
+            'answer' => $request->session()->pull('answer' . $post_fix, ''),
+            'permission' => $request->session()->pull('permission' . $post_fix, ''),
+            'label_list' => $request>session()->pull('label' . $post_fix, '')
+        ]);
+        return $exercise_domain->getExerciseDto();
+
     }
 
     /**
@@ -146,8 +155,8 @@ class ExerciseUsecase
             $exercise_domain->edit([
                 'question' => $exercise_request->session()->pull('question' . $post_fix, ''),
                 'answer' => $exercise_request->session()->pull('answer' . $post_fix, ''),
-                'permission' => $exercise_request->session()->pull('permission' . $post_fix),
-                'label_list' => $exercise_request > session()->pull('label' . $post_fix)
+                'permission' => $exercise_request->session()->pull('permission' . $post_fix, ''),
+                'label_list' => $exercise_request->session()->pull('label' . $post_fix, '')
             ]);
             $this->exerciseRepository->save($exercise_domain);
         }

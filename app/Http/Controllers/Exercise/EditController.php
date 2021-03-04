@@ -35,9 +35,9 @@ class EditController extends Controller
         $this->answerHistoryUsecase = $answerHistoryUsecase;
     }
 
-    public function edit($uuid)
+    public function edit($uuid, Request $request)
     {
-        $exercise_dto = $this->exerciseUsecase->getExerciseDtoByIdForEdit($uuid, Auth::id());
+        $exercise_dto = $this->exerciseUsecase->getExerciseDtoByIdWithSessionModification($uuid, Auth::id(), $request, '_edit');
         return view('exercise_edit')
             ->with('exercise', $exercise_dto);
     }
