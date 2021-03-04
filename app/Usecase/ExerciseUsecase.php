@@ -115,7 +115,7 @@ class ExerciseUsecase
             'question' => $request->session()->pull('question' . $post_fix, ''),
             'answer' => $request->session()->pull('answer' . $post_fix, ''),
             'permission' => $request->session()->pull('permission' . $post_fix, ''),
-            'label_list' => $request>session()->pull('label' . $post_fix, '')
+            'label_list' => $request->session()->pull('label' . $post_fix, '')
         ]);
         return $exercise_domain->getExerciseDto();
 
