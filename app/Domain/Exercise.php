@@ -93,14 +93,6 @@ class Exercise
         return $this->exercise_id;
     }
 
-    public function getQuestion() {
-        return $this->question;
-    }
-
-    public function getAnswer() {
-        return $this->answer;
-    }
-
     public function isRegisteredDomain() {
         return isset($this->exercise_id);
     }
@@ -122,20 +114,6 @@ class Exercise
         if (!empty($parameters['label_list'])) {
             $this->label_list = $parameters['label_list'];
         }
-    }
-
-    public function setQuestion($question) {
-        if (empty($question)) {
-            throw new DomainException("質問が空です。");
-        }
-        $this->question = $question;
-    }
-
-    public function setAnswer($answer) {
-        if (empty($answer)) {
-            throw new DomainException("解答が空です。");
-        }
-        $this->answer = $answer;
     }
 
     public function toArray() {
