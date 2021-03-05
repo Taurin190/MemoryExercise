@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Usecase\WorkbookUsecase;
 use App\Usecase\ExerciseUsecase;
 use App\Http\Requests\WorkbookRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -28,15 +29,19 @@ class CreateController extends Controller
         $this->exercise_usecase = $exercise_usecase;
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('workbook_create');
+        $workbook_dto = $this->workbook_usecase->getWorkbookDtoByRequestSession($request, '_create');
+        return view('workbook_create')
+            ->with('workbook', $workbook_dto);
     }
 
     public function add_exercise(WorkbookRequest $request)
     {
         $title = $request->get('title');
         $explanation = $request->get('explanation');
+        $request->session()->put('title_create', $title);
+        $request->session()->put('explanation_create', $explanation);
         try {
             $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
             return view('workbook_add_exercise')
@@ -80,6 +85,8 @@ class CreateController extends Controller
     {
         $title = $request->get('title');
         $explanation = $request->get('explanation');
+        $request->session()->forget('title_create');
+        $request->session()->forget('explanation_create');
         $exercise_id_list = $request->get('exercise');
         $exercise_list = null;
         if (isset($exercise_id_list)) {

@@ -12,8 +12,10 @@ namespace App\Usecase;
 use App\Domain\ExerciseRepository;
 use App\Domain\WorkbookRepository;
 use App\Domain\Workbook;
+use App\Dto\WorkbookDto;
 use App\Exceptions\PermissionException;
 use App\Http\Requests\WorkbookRequest;
+use Illuminate\Http\Request;
 
 class WorkbookUsecase
 {
@@ -100,6 +102,16 @@ class WorkbookUsecase
             "author_id" => $user_id,
             'workbook_id' => $workbook_id
         ])->getWorkbookDto();
+    }
+
+    public function getWorkbookDtoByRequestSession(Request $request, $postfix = '') {
+        return new WorkbookDto(
+            $request->session()->pull('title' . $postfix, ''),
+            $request->session()->pull('explanation' . $postfix, ''),
+            $request->session()->pull('exercise_list' . $postfix, ''),
+            $request->session()->pull('author_id' . $postfix, ''),
+            $request->session()->pull('workbook_id' . $postfix, '')
+        );
     }
 
     /**
