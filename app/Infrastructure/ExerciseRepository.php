@@ -28,18 +28,16 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
 
     function findAllByExerciseIdList($exercise_id_list, $user_id = null)
     {
-        $domain_list = [];
         if (isset($user_id)) {
-            $exercise_list = \App\Exercise::whereIn('exercise_id', $exercise_id_list)->where('permission', 1)
+            $exercise_orm_list = \App\Exercise::whereIn('exercise_id', $exercise_id_list)->where('permission', 1)
                 ->orWhere(function ($query) use ($user_id, $exercise_id_list){
                     $query->whereIn('exercise_id', $exercise_id_list)->where('author_id', $user_id);
                 })->get();
         } else {
-            $exercise_list = \App\Exercise::whereIn('exercise_id', $exercise_id_list)->where('permission', 1)->get();
+            $exercise_orm_list = \App\Exercise::whereIn('exercise_id', $exercise_id_list)->where('permission', 1)->get();
         }
-        foreach ($exercise_list as $exercise) {
-            $domain_list[] = Exercise::convertDomain($exercise);
-        }
+
+        $domain_list = new ExerciseList($exercise_orm_list);
         return $domain_list;
     }
 

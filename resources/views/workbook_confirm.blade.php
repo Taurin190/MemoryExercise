@@ -9,21 +9,21 @@
             <p>以下の内容を作成してよろしいですか？</p>
             <div>
                 <label class="pt-2 my-2 form-label control-label">問題集のタイトル</label>
-                <p>{{ $workbook->getTitle() }}</p>
-                <input type="hidden" name="title" value="{{ $workbook->getTitle() }}">
+                <p>{{ $workbook->title }}</p>
+                <input type="hidden" name="title" value="{{ $workbook->title }}">
             </div>
             <div>
                 <label class="pt-2 my-2 form-label control-label">問題集の説明</label>
-                <p>{!! nl2br(e($workbook->getExplanation())) !!}</p>
-                <input type="hidden" name="explanation" value="{{ $workbook->getExplanation() }}">
+                <p>{!! nl2br(e($workbook->explanation)) !!}</p>
+                <input type="hidden" name="explanation" value="{{ $workbook->explanation }}">
             </div>
             @isset($exercise_list)
             <div>
                 <label class="pt-2 my-2 form-label control-label">問題</label>
                 <ul>
                     @foreach($exercise_list as $exercise)
-                        <li>{{ $exercise->getQuestion() }}</li>
-                        <input type="hidden" name="exercise[]" value="{{ $exercise->getExerciseId() }}" />
+                        <li>{{ $exercise->question }}</li>
+                        <input type="hidden" name="exercise[]" value="{{ $exercise->exercise_id }}" />
                     @endforeach
                 </ul>
             </div>

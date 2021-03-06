@@ -66,6 +66,8 @@ class Workbook
         if (isset($exercises)) {
             if (is_array($exercises)) {
                 $this->setExerciseList($exercises);
+            } else if ($exercises instanceof ExerciseList) {
+                $this->setExerciseDomainList($exercises->getDomainList());
             } else {
                 $this->setExerciseList($exercises->get());
             }

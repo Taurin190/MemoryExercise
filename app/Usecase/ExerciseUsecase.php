@@ -171,11 +171,22 @@ class ExerciseUsecase
     /**
      * 指定されたIDの配列より対象のExerciseのドメインモデル格納した配列を取得する
      * @param $id_list
-     * @return array
+     * @return \App\Domain\ExerciseList
      */
     public function getAllExercisesWithIdList($id_list) {
         //TODO user_idを渡して自分が作成したprivateの問題を見れるようにする。
         return $this->exerciseRepository->findAllByExerciseIdList($id_list);
+    }
+
+    public function getExerciseDtoListByIdListOfRequest(Request $request) {
+        $exercise_dto_list = [];
+        $exercise_id_list = $request->get('exercise');
+        if (is_null($exercise_id_list)) {
+            return $exercise_dto_list;
+        }
+        $exercise_list_domain = $this->exerciseRepository->findAllByExerciseIdList($exercise_id_list);
+
+        return $exercise_list_domain->getExerciseDtoList();
     }
 
     public function searchExercise($text, $page, $user = null) {

@@ -94,7 +94,11 @@ class WorkbookUsecase
      */
     public function getWorkbookDtoByRequest(WorkbookRequest $request, $user_id, $workbook_id = null) {
         $exercise_id_list = $request->get('exercise');
-        $exercise_list = $this->exerciseRepository->findAllByExerciseIdList($exercise_id_list);
+        $exercise_list = null;
+        if (isset($exercise_id_list)) {
+            $exercise_list_domain = $this->exerciseRepository->findAllByExerciseIdList($exercise_id_list);
+            $exercise_list = $exercise_list_domain->getDomainList();
+        }
         return $workbook = Workbook::create([
             "title" => $request->get('title'),
             "explanation" => $request->get('explanation'),

@@ -22,4 +22,8 @@ class ExerciseList
     public function getExerciseDtoList(){
         return $this->exercise_dto_list;
     }
+
+    public function getDomainList(){
+        return $this->exercise_list;
+    }
 }

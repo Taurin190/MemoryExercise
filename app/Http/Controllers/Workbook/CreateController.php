@@ -38,47 +38,19 @@ class CreateController extends Controller
 
     public function add_exercise(WorkbookRequest $request)
     {
-        $title = $request->get('title');
-        $explanation = $request->get('explanation');
-        $request->session()->put('title_create', $title);
-        $request->session()->put('explanation_create', $explanation);
-        try {
-            $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
-            return view('workbook_add_exercise')
-                ->with('workbook', $workbook);
-        } catch (WorkbookDomainException $e) {
-            Log::warning($e);
-            return view('workbook_create')
-                ->with('error', $e);
-        } catch (\Exception $e) {
-            return view('workbook_create')
-                ->with('error', $e);
-        }
+        $workbook_dto = $this->workbook_usecase->getWorkbookDtoByRequest($request, Auth::id());
+        $request->session()->put('title_create', $workbook_dto->title);
+        $request->session()->put('explanation_create', $workbook_dto->explanation);
+        return view('workbook_add_exercise');
     }
 
-    public function confirm(WorkbookRequest $request)
+    public function confirm(Request $request)
     {
-        $title = $request->get('title');
-        $explanation = $request->get('explanation');
-        $exercise_id_list = $request->get('exercise');
-        $exercise_list = null;
-        if (isset($exercise_id_list)) {
-            $exercise_list = $this->exercise_usecase->getAllExercisesWithIdList($exercise_id_list);
-        }
-        try {
-            $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation);
-            return view('workbook_confirm')
-                ->with('workbook', $workbook)
-                ->with('exercise_list', $exercise_list);
-        } catch (WorkbookDomainException $e) {
-            Log::warning($e);
-            return view('workbook_create')
-                ->with('error', $e);
-        } catch (\Exception $e) {
-            return view('workbook_create')
-                ->with('error', $e);
-        }
-
+        $exercise_list = $this->exercise_usecase->getExerciseDtoListByIdListOfRequest($request);
+        $workbook_dto = $this->workbook_usecase->getWorkbookDtoByRequestSession($request, '_create');
+        return view('workbook_confirm')
+            ->with('workbook', $workbook_dto)
+            ->with('exercise_list', $exercise_list);
     }
 
     public function complete(WorkbookRequest $request)
