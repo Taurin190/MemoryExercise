@@ -7,14 +7,13 @@
  */
 
 namespace App\Http\Controllers\Workbook;
-use App\Domain\WorkbookDomainException;
+
 use App\Http\Controllers\Controller;
-use App\Usecase\WorkbookUsecase;
-use App\Usecase\ExerciseUsecase;
 use App\Http\Requests\WorkbookRequest;
+use App\Usecase\ExerciseUsecase;
+use App\Usecase\WorkbookUsecase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 
 class CreateController extends Controller
@@ -23,7 +22,8 @@ class CreateController extends Controller
 
     protected $exercise_usecase;
 
-    public function __construct(WorkbookUsecase $workbook_usecase, ExerciseUsecase $exercise_usecase) {
+    public function __construct(WorkbookUsecase $workbook_usecase, ExerciseUsecase $exercise_usecase)
+    {
         $this->middleware('auth');
         $this->workbook_usecase = $workbook_usecase;
         $this->exercise_usecase = $exercise_usecase;
@@ -59,7 +59,6 @@ class CreateController extends Controller
     public function complete(Request $request)
     {
         $this->workbook_usecase->registerWorkbookByRequestSession($request, Auth::user(), '_create');
-
         return view('workbook_complete');
     }
 }
