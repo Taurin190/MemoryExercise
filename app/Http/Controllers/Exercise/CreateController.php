@@ -56,10 +56,6 @@ class CreateController extends Controller
     public function complete(Request $request)
     {
         $this->exerciseUsecase->registerExerciseByRequestSession($request, Auth::id(), '_create');
-        $request->session()->forget('question_create');
-        $request->session()->forget('answer_create');
-        $request->session()->forget('permission_create');
-        $request->session()->forget('label_create');
         return view('exercise_complete');
     }
 }
