@@ -16,6 +16,7 @@ use App\Dto\WorkbookDto;
 use App\Exceptions\PermissionException;
 use App\Http\Requests\WorkbookRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class WorkbookUsecase
 {
@@ -58,6 +59,19 @@ class WorkbookUsecase
             'title' => $name,
             'explanation' => $description,
             'exercise_list' => $exercise_list,
+            'user' =>$user
+        ]);
+        return $this->workbookRepository->save($workbook);
+    }
+
+    public function registerWorkbookByRequestSession(Request $request, $user, $post_fix = '') {
+        $exercise_list_domain = $this->exerciseRepository->findAllByExerciseIdList(
+            $request->session()->pull('exercise_id_list' . $post_fix,[]), $user->getKey()
+        );
+        $workbook = Workbook::create([
+            'title' => $request->session()->pull('title' . $post_fix,''),
+            'explanation' => $request->session()->pull('explanation' . $post_fix,''),
+            'exercise_list' => $exercise_list_domain,
             'user' =>$user
         ]);
         return $this->workbookRepository->save($workbook);

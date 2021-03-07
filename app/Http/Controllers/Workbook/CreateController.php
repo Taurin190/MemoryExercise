@@ -48,23 +48,17 @@ class CreateController extends Controller
     {
         $exercise_list = $this->exercise_usecase->getExerciseDtoListByIdListOfRequest($request);
         $workbook_dto = $this->workbook_usecase->getWorkbookDtoByRequestSession($request, '_create');
+        $request->session()->put('title_create', $workbook_dto->title);
+        $request->session()->put('explanation_create', $workbook_dto->explanation);
+        $request->session()->put('exercise_id_list_create', $request->get('exercise', []));
         return view('workbook_confirm')
             ->with('workbook', $workbook_dto)
             ->with('exercise_list', $exercise_list);
     }
 
-    public function complete(WorkbookRequest $request)
+    public function complete(Request $request)
     {
-        $title = $request->get('title');
-        $explanation = $request->get('explanation');
-        $request->session()->forget('title_create');
-        $request->session()->forget('explanation_create');
-        $exercise_id_list = $request->get('exercise');
-        $exercise_list = null;
-        if (isset($exercise_id_list)) {
-            $exercise_list = $this->exercise_usecase->getAllExercisesWithIdList($exercise_id_list);
-        }
-        $this->workbook_usecase->createWorkbook($title, $explanation, $exercise_list, Auth::user());
+        $this->workbook_usecase->registerWorkbookByRequestSession($request, Auth::user(), '_create');
 
         return view('workbook_complete');
     }
