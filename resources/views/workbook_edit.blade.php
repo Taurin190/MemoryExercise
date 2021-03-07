@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="card py-5 px-5 col-md-10">
-            {{Form::open(['route' => [ 'workbook.edit.exercise', $workbook->getWorkbookId()]])}}
+            {{Form::open(['route' => [ 'workbook.edit.exercise', $workbook->workbook_id ]])}}
             <h2 class="mb-2"><i class="fas fa-book-open pr-2"></i>問題集編集</h2>
             <a class="text-decoration-none" data-toggle="modal" data-target="#deleteModal">
                 <div class="exercise-delete">
@@ -18,7 +18,7 @@
                            class="form-control "
                            id="InputTitle"
                            name="title"
-                           value="{{ $workbook->getTitle() }}"
+                           value="{{ $workbook->title }}"
                            placeholder="タイトル">
                 </div>
             </div>
@@ -29,7 +29,7 @@
                            class="form-control "
                            id="InputExplanation"
                            name="explanation"
-                              placeholder="問題集の説明を入れてください。">{{ $workbook->getExplanation() }}</textarea>
+                              placeholder="問題集の説明を入れてください。">{{ $workbook->explanation }}</textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -52,9 +52,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        {{ $workbook->getTitle() }}
+                        {{ $workbook->title }}
                     </div>
-                    {{Form::open(['route' => [ 'workbook.delete.complete', $workbook->getWorkbookId()]])}}
+                    {{Form::open(['route' => [ 'workbook.delete.complete', $workbook->workbook_id]])}}
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-dismiss="modal">キャンセル</button>
                         <button type="button" onclick="submit()" class="btn btn-danger">削除</button>

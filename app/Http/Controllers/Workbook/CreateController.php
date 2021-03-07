@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: koichi.taura
- * Date: 2020/07/09
- * Time: 18:02
- */
 
 namespace App\Http\Controllers\Workbook;
 

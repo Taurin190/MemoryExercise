@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkbookRequest;
 use App\Usecase\ExerciseUsecase;
 use App\Usecase\WorkbookUsecase;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class EditController extends Controller
@@ -30,23 +31,21 @@ class EditController extends Controller
 
     public function edit($uuid)
     {
-        $this->workbook_usecase->checkEditPermission($uuid, Auth::id());
-        $workbook = $this->workbook_usecase->getWorkbook($uuid);
+        $workbook = $this->workbook_usecase->getWorkbookDtoByIdForEdit($uuid, Auth::id());
         return view('workbook_edit')
-            ->with('workbook', $workbook)
-            ->with('workbook_array', $workbook->toArray());
+            ->with('workbook', $workbook);
     }
 
     public function edit_exercise($uuid, WorkbookRequest $request)
     {
-        $workbook = $this->workbook_usecase->getWorkbook($uuid);
-        $title = $request->get('title');
-        $explanation = $request->get('explanation');
-        $workbook->modifyTitle($title);
-        $workbook->modifyExplanation($explanation);
+        $workbook_dto = $this->workbook_usecase->getEditedWorkbookDtoByRequest($uuid, $request, Auth::id());
+        $request->session()->put('title_edit', $workbook_dto->title);
+        $request->session()->put('explanation_edit', $workbook_dto->explanation);
+
         return view('workbook_edit_exercise')
-            ->with('workbook', $workbook)
-            ->with('workbook_array', $workbook->toArray());
+            ->with('workbook', $workbook_dto)
+            //TODO Vue.jsで表示するworkbook_arrayを調整する
+            ->with('workbook_array', $workbook_dto);
     }
 
     public function confirm($uuid, WorkbookRequest $request)
@@ -67,7 +66,7 @@ class EditController extends Controller
         }
     }
 
-    public function complete($uuid, WorkbookRequest $request)
+    public function complete($uuid, Request $request)
     {
         $title = $request->get('title');
         $explanation = $request->get('explanation');

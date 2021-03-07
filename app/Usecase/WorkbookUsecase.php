@@ -24,7 +24,8 @@ class WorkbookUsecase
 
     private $exerciseRepository;
 
-    public function __construct(WorkbookRepository $workbookRepository, ExerciseRepository $exerciseRepository) {
+    public function __construct(WorkbookRepository $workbookRepository, ExerciseRepository $exerciseRepository)
+    {
         $this->workbookRepository = $workbookRepository;
         $this->exerciseRepository = $exerciseRepository;
     }
@@ -34,14 +35,38 @@ class WorkbookUsecase
      * @param $workbook_id string 問題集のID
      * @return Workbook 取得した問題集
      */
-    public function getWorkbook($workbook_id) {
+    public function getWorkbook($workbook_id)
+    {
         return $this->workbookRepository->findByWorkbookId($workbook_id);
+    }
+
+    public function getWorkbookDtoByIdForEdit($workbook_id, $user_id)
+    {
+        $workbook_domain = $this->workbookRepository->findByWorkbookId($workbook_id);
+        if (!$workbook_domain->hasEditPermission($user_id)) {
+            throw new PermissionException("User doesn't have permission to edit");
+        }
+        return $workbook_domain->getWorkbookDto();
+    }
+
+    public function getEditedWorkbookDtoByRequest($workbook_id, Request $request, $user_id)
+    {
+        $workbook_domain = $this->workbookRepository->findByWorkbookId($workbook_id);
+        if (!$workbook_domain->hasEditPermission($user_id)) {
+            throw new PermissionException("User doesn't have permission to edit");
+        }
+        $workbook_domain->edit([
+            'title' => $request->get('title', ''),
+            'explanation' => $request->get('explanation', '')
+        ]);
+        return $workbook_domain->getWorkbookDto();
     }
 
     /**
      * 問題集を全て取得する
      */
-    public function getAllWorkbook() {
+    public function getAllWorkbook()
+    {
         return $this->workbookRepository->findAll();
     }
 
@@ -54,25 +79,27 @@ class WorkbookUsecase
      * @return int 問題集のID
      * @throws \App\Domain\WorkbookDomainException
      */
-    public function createWorkbook($name, $description, $exercise_list = null, $user = null) {
+    public function createWorkbook($name, $description, $exercise_list = null, $user = null)
+    {
         $workbook = Workbook::create([
             'title' => $name,
             'explanation' => $description,
             'exercise_list' => $exercise_list,
-            'user' =>$user
+            'user' => $user
         ]);
         return $this->workbookRepository->save($workbook);
     }
 
-    public function registerWorkbookByRequestSession(Request $request, $user, $post_fix = '') {
+    public function registerWorkbookByRequestSession(Request $request, $user, $post_fix = '')
+    {
         $exercise_list_domain = $this->exerciseRepository->findAllByExerciseIdList(
-            $request->session()->pull('exercise_id_list' . $post_fix,[]), $user->getKey()
+            $request->session()->pull('exercise_id_list' . $post_fix, []), $user->getKey()
         );
         $workbook = Workbook::create([
-            'title' => $request->session()->pull('title' . $post_fix,''),
-            'explanation' => $request->session()->pull('explanation' . $post_fix,''),
+            'title' => $request->session()->pull('title' . $post_fix, ''),
+            'explanation' => $request->session()->pull('explanation' . $post_fix, ''),
             'exercise_list' => $exercise_list_domain,
-            'user' =>$user
+            'user' => $user
         ]);
         return $this->workbookRepository->save($workbook);
     }
@@ -87,13 +114,14 @@ class WorkbookUsecase
      * @return Workbook 問題集のドメインモデル
      * @throws \App\Domain\WorkbookDomainException
      */
-    public function makeWorkbook($name, $description, $exercise_list = null, $workbook_id = null, $user = null) {
+    public function makeWorkbook($name, $description, $exercise_list = null, $workbook_id = null, $user = null)
+    {
         return $workbook = Workbook::create([
             'title' => $name,
             'explanation' => $description,
             'exercise_list' => $exercise_list,
             'workbook_id' => $workbook_id,
-            'user' =>$user
+            'user' => $user
         ]);
     }
 
@@ -106,7 +134,8 @@ class WorkbookUsecase
      * @return \App\Dto\WorkbookDto
      * @throws \App\Domain\WorkbookDomainException
      */
-    public function getWorkbookDtoByRequest(WorkbookRequest $request, $user_id, $workbook_id = null) {
+    public function getWorkbookDtoByRequest(WorkbookRequest $request, $user_id, $workbook_id = null)
+    {
         $exercise_id_list = $request->get('exercise');
         $exercise_list = null;
         if (isset($exercise_id_list)) {
@@ -122,7 +151,8 @@ class WorkbookUsecase
         ])->getWorkbookDto();
     }
 
-    public function getWorkbookDtoByRequestSession(Request $request, $postfix = '') {
+    public function getWorkbookDtoByRequestSession(Request $request, $postfix = '')
+    {
         return new WorkbookDto(
             $request->session()->pull('title' . $postfix, ''),
             $request->session()->pull('explanation' . $postfix, ''),
@@ -139,7 +169,8 @@ class WorkbookUsecase
      * @param $description string 問題集の説明
      * @param null $exercise_list
      */
-    public function modifyWorkbook($wordbook_id, $title, $description, $exercise_list = null) {
+    public function modifyWorkbook($wordbook_id, $title, $description, $exercise_list = null)
+    {
         $workbook = $this->workbookRepository->findByWorkbookId($wordbook_id);
         $workbook->modifyTitle($title);
         $workbook->modifyExplanation($description);
@@ -153,7 +184,8 @@ class WorkbookUsecase
      * 問題集を削除する
      * @param $wordbook_id String 削除する問題集のID
      */
-    public function deleteWorkbook($wordbook_id) {
+    public function deleteWorkbook($wordbook_id)
+    {
         $this->workbookRepository->delete($wordbook_id);
     }
 
@@ -162,7 +194,8 @@ class WorkbookUsecase
      * @param $workbook_id int 問題集のID
      * @param $exercise_id int 登録する問題のID
      */
-    public function addExercise($workbook_id, $exercise_id) {
+    public function addExercise($workbook_id, $exercise_id)
+    {
         $workbook = $this->workbookRepository->findByWorkbookId($workbook_id);
         $exercise = $this->exerciseRepository->findByExerciseId($exercise_id);
         $newWorkbook = $workbook->addExercise($exercise);
@@ -174,7 +207,8 @@ class WorkbookUsecase
      * @param $workbook_id String 問題集のID
      * @param $exercise_id int 削除する問題のID
      */
-    public function deleteExercise($workbook_id, $exercise_id) {
+    public function deleteExercise($workbook_id, $exercise_id)
+    {
         $workbook = $this->workbookRepository->findByWorkbookId($workbook_id);
         $exercise = $this->exerciseRepository->findByExerciseId($exercise_id);
         $newWorkbook = $workbook->deleteExercise($exercise);
@@ -186,14 +220,16 @@ class WorkbookUsecase
      * @param $workbook_id String 変更する問題のID
      * @param $order_num int 変更後の順番
      */
-    public function modifyExerciseOrder($workbook_id, $exercise_id, $order_num) {
+    public function modifyExerciseOrder($workbook_id, $exercise_id, $order_num)
+    {
         $workbook = $this->workbookRepository->findByWorkbookId($workbook_id);
         $exercise = $this->exerciseRepository->findByExerciseId($exercise_id);
         $newWorkbook = $workbook->modifyOrder($exercise, $order_num);
         $this->workbookRepository->save($newWorkbook);
     }
 
-    public function checkEditPermission($workbook_id, $user_id) {
+    public function checkEditPermission($workbook_id, $user_id)
+    {
         $has_permission = $this->workbookRepository->checkEditPermission($workbook_id, $user_id);
         if ($has_permission) return;
         throw new PermissionException("User doesn't have permission to edit workbook.");

@@ -58,6 +58,10 @@ class Workbook
         );
     }
 
+    public function hasEditPermission($user_id) {
+    return $this->user_id == $user_id;
+}
+
     //TODO user出なくてuser_idで作成したい。
     private function __construct($title, $explanation, $workbook_id = null, $exercises = null, User $user = null) {
         if (isset($workbook_id)) {
@@ -101,6 +105,18 @@ class Workbook
 
     public function getExplanation() {
         return $this->explanation;
+    }
+
+    public function edit($parameters) {
+        if (!empty($parameters['title'])) {
+            $this->title = $parameters['title'];
+        }
+        if (!empty($parameters['explanation'])) {
+            $this->explanation = $parameters['explanation'];
+        }
+//        if (!empty($parameters['exercise_list'])) {
+//            $this->exercise_list = $parameters['exercise_list'];
+//        }
     }
 
     public function modifyTitle($title) {
