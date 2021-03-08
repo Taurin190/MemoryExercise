@@ -151,14 +151,14 @@ class WorkbookUsecase
         ])->getWorkbookDto();
     }
 
-    public function getWorkbookDtoByRequestSession(Request $request, $postfix = '')
+    public function getWorkbookDtoByRequestSession(Request $request, $postfix = '', $workbook_id = null)
     {
         return new WorkbookDto(
             $request->session()->pull('title' . $postfix, ''),
             $request->session()->pull('explanation' . $postfix, ''),
             $request->session()->pull('exercise_list' . $postfix, ''),
             $request->session()->pull('author_id' . $postfix, ''),
-            $request->session()->pull('workbook_id' . $postfix, '')
+            $workbook_id
         );
     }
 

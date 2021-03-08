@@ -49,20 +49,13 @@ class EditController extends Controller
 
     public function confirm($uuid, WorkbookRequest $request)
     {
-        $title = $request->get('title');
-        $explanation = $request->get('explanation');
-        $exercise_id_list = $request->get('exercise');
-        if (isset($exercise_id_list)) {
-            $exercise_list = $this->exercise_usecase->getAllExercisesWithIdList($exercise_id_list);
-            $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation, $exercise_list, $uuid);
-            return view('workbook_edit_confirm')
-                ->with('workbook', $workbook)
-                ->with('exercise_list', $exercise_list);
-        } else {
-            $workbook = $this->workbook_usecase->makeWorkbook($title, $explanation, null, $uuid);
-            return view('workbook_edit_confirm')
-                ->with('workbook', $workbook);
-        }
+        $workbook_dto = $this->workbook_usecase->getWorkbookDtoByRequestSession($request, '_edit', $uuid);
+        $exercise_list = $this->exercise_usecase->getExerciseDtoListByIdListOfRequest($request);
+        $request->session()->put('exercise_id_list_edit', $request->get('exercise', []));
+
+        return view('workbook_edit_confirm')
+            ->with('workbook', $workbook_dto)
+            ->with('exercise_list', $exercise_list);
     }
 
     public function complete($uuid, Request $request)

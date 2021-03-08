@@ -132,6 +132,10 @@ class Workbook
     public function getExerciseList() {
        return $this->exercise_list;
     }
+
+    public function getCountOfExercise() {
+        return count($this->exercise_list->getDomainList());
+    }
     public function getUserId() {
         return $this->user_id;
     }
