@@ -124,26 +124,6 @@ class ExerciseUsecaseTest extends TestCase
         $exercise_usecase->deleteExercise('test', 1);
     }
 
-    public function testGetExerciseDtoByRequest() {
-        $this->exerciseRequest->shouldReceive('get')->with('question')->once()->andReturn('Is this dog?');
-        $this->exerciseRequest->shouldReceive('get')->with('answer')->once()->andReturn('Yes, it is.');
-        $this->exerciseRequest->shouldReceive('get')->with('permission')->once()->andReturn(1);
-        $this->exerciseRequest->shouldReceive('get')->with('label')->once()->andReturn(['animal', 'dog']);
-        $parameter = [
-            'exercise_id' => null,
-            'question' => 'Is this dog?',
-            'answer' => 'Yes, it is.',
-            'permission' => 1,
-            'author_id' => 1,
-            'label' => ['animal', 'dog']
-        ];
-        $this->exerciseDomain->shouldReceive('create')->with($parameter)->once()->andReturn($this->exerciseDomain);
-        $this->exerciseDomain->shouldReceive('getExerciseDto')->with()->once()->andReturn($this->exerciseDto);
-        $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
-        $actual = $exercise_usecase->getExerciseDtoByRequest($this->exerciseRequest, 1);
-        self::assertTrue($actual instanceof ExerciseDto);
-    }
-
     public function testRegisterExercise() {
         $this->exerciseDto->question = 'Is this dog?';
         $this->exerciseDto->answer = 'Is this dog?';

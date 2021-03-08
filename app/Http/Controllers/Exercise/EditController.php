@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Exercise;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExerciseFormRequest;
+use App\Http\Requests\ExerciseRequest;
 use App\Usecase\ExerciseUsecase;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -24,9 +24,10 @@ class EditController extends Controller
         $this->exerciseUsecase = $exerciseUsecase;
     }
 
-    public function edit($uuid, Request $request)
+    public function edit($uuid, ExerciseRequest $request)
     {
-        $exercise_dto = $this->exerciseUsecase->getExerciseDtoByIdWithSessionModification($uuid, Auth::id(), $request, '_edit');
+        $session_exercise_dto = $request->convertDtoBySession(Auth::id(), '_edit', $uuid);
+        $exercise_dto = $this->exerciseUsecase->getMergedExercise($uuid, Auth::id(), $session_exercise_dto);
         return view('exercise_edit')
             ->with('exercise', $exercise_dto);
     }
@@ -36,24 +37,28 @@ class EditController extends Controller
      * @param $uuid
      * @param ExerciseFormRequest $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \App\Domain\DomainException
-     * @throws \App\Exceptions\DataNotFoundException
      * @throws \App\Exceptions\PermissionException
      */
     public function confirm($uuid, ExerciseFormRequest $request)
     {
-        $exercise_dto = $this->exerciseUsecase->getEditedExerciseDtoByRequest($uuid, $request, Auth::id());
-        $request->session()->put('question_edit', $exercise_dto->question);
-        $request->session()->put('answer_edit', $exercise_dto->answer);
-        $request->session()->put('permission_edit', $exercise_dto->permission);
-        $request->session()->put('label_edit', $exercise_dto->label_list);
+        $request_exercise_dto = $request->convertFromRequest(Auth::id(), $uuid);
+        $exercise_dto = $this->exerciseUsecase->getMergedExercise($uuid, Auth::id(), $request_exercise_dto);
+        $request->storeSessions($exercise_dto, '_edit');
         return view('exercise_edit_confirm')
             ->with("exercise", $exercise_dto);
     }
 
-    public function complete($uuid, Request $request)
+    /**
+     * @param $uuid
+     * @param ExerciseRequest $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \App\Exceptions\DataNotFoundException
+     * @throws \App\Exceptions\PermissionException
+     */
+    public function complete($uuid, ExerciseRequest $request)
     {
-        $this->exerciseUsecase->editExerciseByRequestSession($uuid, $request, Auth::id(), '_edit');
+        $session_exercise_dto = $request->convertDtoBySession(Auth::id(), '_edit', $uuid);
+        $this->exerciseUsecase->editExercise($uuid, Auth::id(), $session_exercise_dto);
         return view('exercise_edit_complete');
     }
 }

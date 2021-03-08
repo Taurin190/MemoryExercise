@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ExerciseFormRequest;
 use App\Http\Requests\ExerciseRequest;
 use App\Usecase\ExerciseUsecase;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -40,11 +39,10 @@ class CreateController extends Controller
      */
     public function confirm(ExerciseFormRequest $request)
     {
-        $exercise_dto = $this->exerciseUsecase->getExerciseDtoByRequest($request, Auth::id());
-        $request->session()->put('question_create', $exercise_dto->question);
-        $request->session()->put('answer_create', $exercise_dto->answer);
-        $request->session()->put('permission_create', $exercise_dto->permission);
-        $request->session()->put('label_create', $exercise_dto->label_list);
+        $exercise_dto = $request->convertFromRequest(Auth::id());
+        // ドメインで整合性が取れるか問い合わせる
+        $this->exerciseUsecase->validate($exercise_dto, Auth::id());
+        $request->storeSessions($exercise_dto, '_create');
         return view('exercise_confirm')
             ->with("exercise", $exercise_dto);
     }

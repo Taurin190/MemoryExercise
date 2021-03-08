@@ -18,7 +18,6 @@ class DeleteController extends Controller
      * Create a new controller instance.
      *
      * @param ExerciseUsecase $exerciseUsecase
-     * @param AnswerHistoryUsecase $answerHistoryUsecase
      */
     public function __construct(ExerciseUsecase $exerciseUsecase)
     {
