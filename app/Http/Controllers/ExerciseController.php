@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Usecase\AnswerHistoryUsecase;
 use App\Usecase\ExerciseUsecase;
 use Illuminate\Http\Request;
-use App\Http\Requests\ExerciseRequest;
+use App\Http\Requests\ExerciseFormRequest;
 use Illuminate\Support\Facades\Auth;
 
 class ExerciseController extends Controller

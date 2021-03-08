@@ -1,40 +1,27 @@
 <?php
 
+
 namespace App\Http\Requests;
 
+use App\Dto\ExerciseDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ExerciseRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
-        return [
-            'question' => 'required|max:100',
-            'answer' => 'required|max:100',
-        ];
+        return [];
     }
 
-    public function messages(){
-        return [
-            'question.required' => '質問は必須です。',
-            'question.max' => '質問は最大100文字です。',
-            'answer.required' => '解答は必須です。',
-            'answer.max' => '解答は最大100文字です。',
-        ];
+    public function convertDtoBySession($user_id, $post_fix = '', $exercise_id = null)
+    {
+        return new ExerciseDto(
+            $this->session()->pull('question' . $post_fix, ''),
+            $this->session()->pull('answer' . $post_fix, ''),
+            $this->session()->pull('permission' . $post_fix, 1),
+            $user_id,
+            $exercise_id,
+            $this->session()->pull('label' . $post_fix, [])
+        );
     }
 }

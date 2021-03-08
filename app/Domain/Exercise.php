@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Domain;
 
 use App\Dto\ExerciseDto;
@@ -40,7 +41,8 @@ class Exercise
         $this->author_id = $author_id;
     }
 
-    public static function create($parameters) {
+    public static function create($parameters)
+    {
         if (empty($parameters['question'])) {
             throw new DomainException("質問が空です。");
         }
@@ -49,7 +51,7 @@ class Exercise
         }
         $permission = self::PUBLIC_EXERCISE;
         if (isset($parameters['permission'])) {
-            $permission = (int) $parameters['permission'];
+            $permission = (int)$parameters['permission'];
         }
         $exercise_id = null;
         if (isset($parameters['exercise_id'])) {
@@ -67,7 +69,20 @@ class Exercise
         return new Exercise($exercise_id, $parameters['question'], $parameters['answer'], $permission, $label_list, $author_id);
     }
 
-    public static function convertDomain(\App\Exercise $exercise_orm) {
+    public static function createFromDto(ExerciseDto $exercise_dto)
+    {
+        return Exercise::create([
+            "exercise_id" => $exercise_dto->exercise_id,
+            "question" => $exercise_dto->question,
+            "answer" => $exercise_dto->answer,
+            "permission" => $exercise_dto->permission,
+            "label_list" => $exercise_dto->label_list,
+            "author_id" => $exercise_dto->user_id
+        ]);
+    }
+
+    public static function convertDomain(\App\Exercise $exercise_orm)
+    {
         return Exercise::create([
             "exercise_id" => $exercise_orm->getKey(),
             "question" => $exercise_orm->getAttribute("question"),
@@ -78,7 +93,8 @@ class Exercise
         ]);
     }
 
-    public function getExerciseDto() {
+    public function getExerciseDto()
+    {
         return new ExerciseDto(
             $this->question,
             $this->answer,
@@ -89,19 +105,23 @@ class Exercise
         );
     }
 
-    public function getExerciseId() {
+    public function getExerciseId()
+    {
         return $this->exercise_id;
     }
 
-    public function isRegisteredDomain() {
+    public function isRegisteredDomain()
+    {
         return isset($this->exercise_id);
     }
 
-    public function hasEditPermission($user_id) {
+    public function hasEditPermission($user_id)
+    {
         return $this->author_id == $user_id;
     }
 
-    public function edit($parameters) {
+    public function edit($parameters)
+    {
         if (!empty($parameters['question'])) {
             $this->question = $parameters['question'];
         }
@@ -116,7 +136,8 @@ class Exercise
         }
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return $exercise_array = [
             'exercise_id' => $this->exercise_id,
             'question' => $this->question,

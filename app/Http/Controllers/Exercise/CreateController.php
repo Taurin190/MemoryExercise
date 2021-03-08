@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Exercise;
 
-use App\Usecase\AnswerHistoryUsecase;
-use App\Usecase\ExerciseUsecase;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\ExerciseFormRequest;
 use App\Http\Requests\ExerciseRequest;
+use App\Usecase\ExerciseUsecase;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -14,35 +14,31 @@ class CreateController extends Controller
 {
     protected $exerciseUsecase;
 
-    protected $answerHistoryUsecase;
-
     /**
      * Create a new controller instance.
      *
      * @param ExerciseUsecase $exerciseUsecase
-     * @param AnswerHistoryUsecase $answerHistoryUsecase
      */
-    public function __construct(ExerciseUsecase $exerciseUsecase, AnswerHistoryUsecase $answerHistoryUsecase)
+    public function __construct(ExerciseUsecase $exerciseUsecase)
     {
         $this->middleware('auth');
         $this->exerciseUsecase = $exerciseUsecase;
-        $this->answerHistoryUsecase = $answerHistoryUsecase;
     }
 
-    public function create(Request $request)
+    public function create(ExerciseRequest $request)
     {
-        $exercise_dto = $this->exerciseUsecase->getExerciseDtoBySession($request, Auth::id(), '_create');
+        $exercise_dto = $request->convertDtoBySession(Auth::id(), '_create');
         return view('exercise_create')
             ->with('exercise', $exercise_dto);
     }
 
     /**
      * when post from form
-     * @param ExerciseRequest $request
+     * @param ExerciseFormRequest $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \App\Domain\DomainException
      */
-    public function confirm(ExerciseRequest $request)
+    public function confirm(ExerciseFormRequest $request)
     {
         $exercise_dto = $this->exerciseUsecase->getExerciseDtoByRequest($request, Auth::id());
         $request->session()->put('question_create', $exercise_dto->question);
@@ -53,9 +49,9 @@ class CreateController extends Controller
             ->with("exercise", $exercise_dto);
     }
 
-    public function complete(Request $request)
+    public function complete(ExerciseRequest $request)
     {
-        $this->exerciseUsecase->registerExerciseByRequestSession($request, Auth::id(), '_create');
+        $this->exerciseUsecase->registerExercise($request->convertDtoBySession(Auth::id(), '_create'));
         return view('exercise_complete');
     }
 }

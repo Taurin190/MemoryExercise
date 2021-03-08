@@ -10,7 +10,7 @@ namespace Tests\Unit\usecase;
 use App\Dto\ExerciseDto;
 use Tests\TestCase;
 use App\Domain\Exercise;
-use App\Http\Requests\ExerciseRequest;
+use App\Http\Requests\ExerciseFormRequest;
 use App\Infrastructure\ExerciseRepository;
 use App\Usecase\ExerciseUsecase;
 
@@ -32,7 +32,7 @@ class ExerciseUsecaseTest extends TestCase
     {
         parent::setUp();
         $this->exerciseDomain = m::mock('alias:App\Domain\Exercise');
-        $this->exerciseRequest = m::mock('App\Http\Requests\ExerciseRequest');
+        $this->exerciseRequest = m::mock('App\Http\Requests\ExerciseFormRequest');
         $this->exerciseRepository = m::mock('App\Infrastructure\ExerciseRepository');
         $this->exerciseDto = m::mock('App\Dto\ExerciseDto');
         $this->user = m::mock('App\User');
@@ -145,21 +145,14 @@ class ExerciseUsecaseTest extends TestCase
     }
 
     public function testRegisterExercise() {
-        $this->exerciseRequest->shouldReceive('get')->with('question')->once()->andReturn('Is this dog?');
-        $this->exerciseRequest->shouldReceive('get')->with('answer')->once()->andReturn('Yes, it is.');
-        $this->exerciseRequest->shouldReceive('get')->with('permission')->once()->andReturn(1);
-        $this->exerciseRequest->shouldReceive('get')->with('label')->once()->andReturn(['animal', 'dog']);
-        $parameter = [
-            'question' => 'Is this dog?',
-            'answer' => 'Yes, it is.',
-            'permission' => 1,
-            'author_id' => 1,
-            'label' => ['animal', 'dog']
-        ];
-        $this->exerciseDomain->shouldReceive('create')->with($parameter)->once()->andReturn($this->exerciseDomain);
+        $this->exerciseDto->question = 'Is this dog?';
+        $this->exerciseDto->answer = 'Is this dog?';
+        $this->exerciseDto->permission = 1;
+        $this->exerciseDto->label = ['animal', 'dog'];
+        $this->exerciseDomain->shouldReceive('createFromDto')->with($this->exerciseDto)->once()->andReturn($this->exerciseDomain);
         $this->exerciseRepository->shouldReceive('save')->with($this->exerciseDomain)->once()->andReturn();
         $exercise_usecase = new ExerciseUsecase($this->exerciseRepository);
-        $exercise_usecase->registerExerciseByRequestSession($this->exerciseRequest, 1);
+        $exercise_usecase->registerExercise($this->exerciseDto, 1);
     }
 
     public function testGetExerciseDtoById() {
