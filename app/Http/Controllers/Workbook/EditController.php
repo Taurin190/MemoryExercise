@@ -44,8 +44,7 @@ class EditController extends Controller
 
         return view('workbook_edit_exercise')
             ->with('workbook', $workbook_dto)
-            //TODO Vue.jsで表示するworkbook_arrayを調整する
-            ->with('workbook_array', $workbook_dto);
+            ->with('workbook_array', $workbook_dto->toArray());
     }
 
     public function confirm($uuid, WorkbookRequest $request)
