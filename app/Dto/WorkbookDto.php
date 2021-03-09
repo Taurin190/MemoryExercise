@@ -3,6 +3,8 @@
 namespace App\Dto;
 
 
+use Illuminate\Support\Facades\Log;
+
 class WorkbookDto
 {
     public $workbook_id;
@@ -27,6 +29,7 @@ class WorkbookDto
     public function toArray()
     {
         $exercise_list_array = [];
+        Log::error($this->exercise_list);
         foreach ($this->exercise_list as $exercise) {
             $exercise_list_array[] = $exercise->toArray();
         }

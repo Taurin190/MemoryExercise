@@ -26,6 +26,7 @@ Vue.component('exercise-append-component', require('./components/ExerciseAppendC
 Vue.component('study-history-graph-component', require('./components/StudyHistoryGraphComponent.vue').default);
 Vue.component('label-search-component', require('./components/LabelSearchComponent.vue').default);
 Vue.component('label-list-component', require('./components/LabelListComponent.vue').default);
+Vue.component('workbook-create-component', require('./components/WorkbookCreateComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

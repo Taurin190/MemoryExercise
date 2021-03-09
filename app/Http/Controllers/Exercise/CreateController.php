@@ -39,7 +39,7 @@ class CreateController extends Controller
      */
     public function confirm(ExerciseFormRequest $request)
     {
-        $exercise_dto = $request->convertFromRequest(Auth::id());
+        $exercise_dto = $request->convertDtoByRequest(Auth::id());
         // ドメインで整合性が取れるか問い合わせる
         $this->exerciseUsecase->validate($exercise_dto, Auth::id());
         $request->storeSessions($exercise_dto, '_create');

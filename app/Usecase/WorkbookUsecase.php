@@ -14,7 +14,7 @@ use App\Domain\WorkbookRepository;
 use App\Domain\Workbook;
 use App\Dto\WorkbookDto;
 use App\Exceptions\PermissionException;
-use App\Http\Requests\WorkbookRequest;
+use App\Http\Requests\WorkbookFormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -128,13 +128,13 @@ class WorkbookUsecase
     /**
      * リクエストよりWorkbookのDTOを取得する
      * infra層への問い合わせを行わない
-     * @param WorkbookRequest $request
+     * @param WorkbookFormRequest $request
      * @param $user_id
      * @param null $workbook_id
      * @return \App\Dto\WorkbookDto
      * @throws \App\Domain\WorkbookDomainException
      */
-    public function getWorkbookDtoByRequest(WorkbookRequest $request, $user_id, $workbook_id = null)
+    public function getWorkbookDtoByRequest(WorkbookFormRequest $request, $user_id, $workbook_id = null)
     {
         $exercise_id_list = $request->get('exercise');
         $exercise_list = null;

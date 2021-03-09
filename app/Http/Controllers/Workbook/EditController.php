@@ -11,7 +11,7 @@ namespace App\Http\Controllers\Workbook;
 
 use App\Domain\WorkbookDomainException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\WorkbookRequest;
+use App\Http\Requests\WorkbookFormRequest;
 use App\Usecase\ExerciseUsecase;
 use App\Usecase\WorkbookUsecase;
 use Illuminate\Http\Request;
@@ -36,7 +36,7 @@ class EditController extends Controller
             ->with('workbook', $workbook);
     }
 
-    public function edit_exercise($uuid, WorkbookRequest $request)
+    public function edit_exercise($uuid, WorkbookFormRequest $request)
     {
         $workbook_dto = $this->workbook_usecase->getEditedWorkbookDtoByRequest($uuid, $request, Auth::id());
         $request->session()->put('title_edit', $workbook_dto->title);
@@ -47,7 +47,7 @@ class EditController extends Controller
             ->with('workbook_array', $workbook_dto->toArray());
     }
 
-    public function confirm($uuid, WorkbookRequest $request)
+    public function confirm($uuid, WorkbookFormRequest $request)
     {
         $workbook_dto = $this->workbook_usecase->getWorkbookDtoByRequestSession($request, '_edit', $uuid);
         $exercise_list = $this->exercise_usecase->getExerciseDtoListByIdListOfRequest($request);

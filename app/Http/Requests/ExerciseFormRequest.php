@@ -40,7 +40,7 @@ class ExerciseFormRequest extends FormRequest
         ];
     }
 
-    public function convertFromRequest($user_id, $exercise_id = null)
+    public function convertDtoByRequest($user_id, $exercise_id = null)
     {
         $validated = $this->validated();
         return new ExerciseDto(

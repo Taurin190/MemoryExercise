@@ -17,36 +17,8 @@
     <div class="row justify-content-center">
         <div class="card py-5 px-5 col-md-10">
             <h2 class="mb-2"><i class="fas fa-book-open pr-2"></i>問題集作成</h2>
-            {{Form::open(['route' => [ 'workbook.add.exercise']])}}
-            <div class="form-group">
-                <label class="form-label control-label py-2" for="InputTitle">タイトル</label>
-                <div class="">
-                    <input type="text"
-                           class="form-control "
-                           id="InputTitle"
-                           name="title"
-                           placeholder="タイトル"
-                           value="{{ $workbook->title }}"
-                    >
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label control-label py-2" for="InputExplanation">説明</label>
-                <div class="">
-                    <textarea rows="5"
-                           class="form-control "
-                           id="InputExplanation"
-                           name="explanation"
-                              placeholder="問題集の説明を入れてください。">{{ $workbook->explanation }}</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="px-0 float-left col-md-3">
-                    <button type="button" onclick="history.back()" class="btn btn-outline-secondary btn-block">戻る</button>
-                </div>
-                <div class="px-0 mx-3 float-left col-md-3">
-                    <button type="button" onclick="submit()" class="btn btn-primary btn-block">作成</button>
-                </div>
+            {{Form::open(['route' => [ 'workbook.confirm']])}}
+            <workbook-create-component :workbook='@json($workbook->toArray())'></workbook-create-component>
             </div>
             {{Form::close()}}
         </div>

@@ -41,7 +41,7 @@ class EditController extends Controller
      */
     public function confirm($uuid, ExerciseFormRequest $request)
     {
-        $request_exercise_dto = $request->convertFromRequest(Auth::id(), $uuid);
+        $request_exercise_dto = $request->convertDtoByRequest(Auth::id(), $uuid);
         $exercise_dto = $this->exerciseUsecase->getMergedExercise($uuid, Auth::id(), $request_exercise_dto);
         $request->storeSessions($exercise_dto, '_edit');
         return view('exercise_edit_confirm')
