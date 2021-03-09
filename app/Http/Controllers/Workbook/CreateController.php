@@ -33,20 +33,25 @@ class CreateController extends Controller
 
     public function confirm(WorkbookFormRequest $request)
     {
-        $exercise_list = $this->exercise_usecase->getExerciseDtoListByIdListOfRequest($request);
-        $workbook_dto = $request->convertDtoByRequest(Auth::id());
-        $request->session()->put('title_create', $workbook_dto->title);
-        $request->session()->put('explanation_create', $workbook_dto->explanation);
-        $request->session()->put('exercise_id_list_create', $request->get('exercise', []));
+        $exercise_id_list = $request->get('exercise', []);
+        $request_workbook_dto = $request->convertDtoByRequest(Auth::id());
+        $workbook_dto = $this->workbook_usecase->getWorkbookWithExerciseIdList(
+            $request_workbook_dto,
+            $exercise_id_list,
+            Auth::user()
+        );
+
+        $request->storeSessions($workbook_dto, '_create');
+        $request->session()->put('exercise_id_list_create', $exercise_id_list);
         return view('workbook_confirm')
             ->with('workbook', $workbook_dto)
-            ->with('exercise_list', $exercise_list);
+            ->with('exercise_list', $workbook_dto->exercise_list);
     }
 
     public function complete(WorkbookRequest $request)
     {
         $workbook_dto = $request->convertDtoBySession(Auth::id(), '_create');
-        $this->workbook_usecase->registerWorkbookByRequestSession($request, Auth::user(), '_create');
+        $this->workbook_usecase->registerWorkbook($workbook_dto, Auth::user());
         return view('workbook_complete');
     }
 }

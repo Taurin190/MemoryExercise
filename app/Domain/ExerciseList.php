@@ -10,20 +10,60 @@ class ExerciseList
 
     private $exercise_dto_list;
 
-    public function __construct($exercise_orm_list)
-    {
-        foreach ($exercise_orm_list as $exercise_orm) {
-            $domain = Exercise::convertDomain($exercise_orm);
-            $this->exercise_list[] = $domain;
-            $this->exercise_dto_list[] = $domain->getExerciseDto();
-        }
-    }
+    private function __construct() {}
 
-    public function getExerciseDtoList(){
+    public function getExerciseDtoList()
+    {
         return $this->exercise_dto_list;
     }
 
-    public function getDomainList(){
+    public function getDomainList()
+    {
         return $this->exercise_list;
+    }
+
+    public static function convertByOrmList($exercise_orm_list)
+    {
+        $exercise_list = [];
+        $exercise_dto_list = [];
+        foreach ($exercise_orm_list as $exercise_orm) {
+            $domain = Exercise::convertDomain($exercise_orm);
+            $exercise_list[] = $domain;
+            $exercise_dto_list[] = $domain->getExerciseDto();
+        }
+        $instance = new ExerciseList();
+        $instance->setExerciseList($exercise_list);
+        $instance->setExerciseDtoList($exercise_dto_list);
+        return $instance;
+    }
+
+    public static function convertByDtoList(array $exercise_dto_list)
+    {
+        $exercise_list = [];
+        foreach ($exercise_dto_list as $exercise_dto) {
+            $domain = Exercise::create([
+                'question' => $exercise_dto->question,
+                'answer' => $exercise_dto->answer,
+                'permission' => $exercise_dto->permission,
+                'author_id' => $exercise_dto->user_id,
+                'label_list' => $exercise_dto->label_list,
+                'exercise_id' => $exercise_dto->exercise_id
+            ]);
+            $exercise_list[] = $domain;
+        }
+        $instance = new ExerciseList();
+        $instance->setExerciseList($exercise_list);
+        $instance->setExerciseDtoList($exercise_dto_list);
+        return $instance;
+    }
+
+    private function setExerciseList($exercise_list)
+    {
+        $this->exercise_list = $exercise_list;
+    }
+
+    private function setExerciseDtoList($exercise_dto_list)
+    {
+        $this->exercise_dto_list = $exercise_dto_list;
     }
 }

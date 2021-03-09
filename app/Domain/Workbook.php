@@ -2,6 +2,7 @@
 
 namespace App\Domain;
 
+use App\Dto\ExerciseDto;
 use App\Dto\WorkbookDto;
 use App\User;
 
@@ -86,10 +87,14 @@ class Workbook
     }
 
     public function getWorkbookDto() {
+        $exercise_dto_list = [];
+        foreach($this->exercise_list as $exercise) {
+            $exercise_dto_list[] = $exercise->getExerciseDto();
+        }
         return new WorkbookDto(
             $this->title,
             $this->explanation,
-            $this->exercise_list,
+            $exercise_dto_list,
             $this->user_id,
             $this->workbook_id
         );

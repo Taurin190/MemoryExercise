@@ -9,6 +9,7 @@
 namespace App\Usecase;
 
 
+use App\Domain\ExerciseList;
 use App\Domain\ExerciseRepository;
 use App\Domain\WorkbookRepository;
 use App\Domain\Workbook;
@@ -62,6 +63,18 @@ class WorkbookUsecase
         return $workbook_domain->getWorkbookDto();
     }
 
+    public function getWorkbookWithExerciseIdList(WorkbookDto $workbook_dto, array $exercise_id_list, $user, $workbook_id = null)
+    {
+        $exercise_list_domain = $this->exerciseRepository->findAllByExerciseIdList($exercise_id_list, $user->getKey());
+        return Workbook::create([
+            'title' => $workbook_dto->title,
+            'explanation' => $workbook_dto->explanation,
+            'exercise_list' => $exercise_list_domain,
+            'user' => $user,
+            'workbook_id' => $workbook_id
+        ])->getWorkbookDto();
+    }
+
     /**
      * 問題集を全て取得する
      */
@@ -102,6 +115,17 @@ class WorkbookUsecase
             'user' => $user
         ]);
         return $this->workbookRepository->save($workbook);
+    }
+
+    public function registerWorkbook(WorkbookDto $workbook_dto, $user)
+    {
+        $workbook_domain = Workbook::create([
+            'title' => $workbook_dto->title,
+            'explanation' => $workbook_dto->explanation,
+            'exercise_list' => ExerciseList::convertByDtoList($workbook_dto->exercise_list),
+            'user' => $user
+        ]);
+        return $this->workbookRepository->save($workbook_domain);
     }
 
     /**

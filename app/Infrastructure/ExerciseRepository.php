@@ -37,7 +37,7 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
             $exercise_orm_list = \App\Exercise::whereIn('exercise_id', $exercise_id_list)->where('permission', 1)->get();
         }
 
-        $domain_list = new ExerciseList($exercise_orm_list);
+        $domain_list = ExerciseList::convertByOrmList($exercise_orm_list);
         return $domain_list;
     }
 
@@ -71,7 +71,7 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
             $count = $this->count($user);
             $exercise_orm_list = $this->findAll($limit, $user, $page);
             return new SearchExerciseList(
-                new ExerciseList($exercise_orm_list),
+                ExerciseList::convertByOrmList($exercise_orm_list),
                 $count,
                 $page,
                 $text
@@ -82,7 +82,7 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         $exercise_orm_list = \App\Exercise::whereRaw("match(`question`) against (? IN NATURAL LANGUAGE MODE)", $text)
             ->skip($limit * ($page - 1))->take($limit)->get();
         return new SearchExerciseList(
-            new ExerciseList($exercise_orm_list),
+            ExerciseList::convertByOrmList($exercise_orm_list),
             $count,
             $page,
             $text
