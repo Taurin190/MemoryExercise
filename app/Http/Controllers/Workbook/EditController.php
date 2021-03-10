@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Workbook;
 use App\Domain\WorkbookDomainException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkbookFormRequest;
+use App\Http\Requests\WorkbookRequest;
 use App\Usecase\ExerciseUsecase;
 use App\Usecase\WorkbookUsecase;
 use Illuminate\Http\Request;
@@ -29,22 +30,12 @@ class EditController extends Controller
         $this->exercise_usecase = $exercise_usecase;
     }
 
-    public function edit($uuid)
+    public function edit($uuid, WorkbookRequest $request)
     {
-        $workbook = $this->workbook_usecase->getWorkbookDtoByIdForEdit($uuid, Auth::id());
+        $session_workbook_dto = $request->convertDtoBySession(Auth::id(), '_edit', $uuid);
+        $workbook_dto = $this->workbook_usecase->getMergedWorkbook($uuid, Auth::id(), $session_workbook_dto);
         return view('workbook_edit')
-            ->with('workbook', $workbook);
-    }
-
-    public function edit_exercise($uuid, WorkbookFormRequest $request)
-    {
-        $workbook_dto = $this->workbook_usecase->getEditedWorkbookDtoByRequest($uuid, $request, Auth::id());
-        $request->session()->put('title_edit', $workbook_dto->title);
-        $request->session()->put('explanation_edit', $workbook_dto->explanation);
-
-        return view('workbook_edit_exercise')
-            ->with('workbook', $workbook_dto)
-            ->with('workbook_array', $workbook_dto->toArray());
+            ->with('workbook', $workbook_dto);
     }
 
     public function confirm($uuid, WorkbookFormRequest $request)
@@ -58,7 +49,7 @@ class EditController extends Controller
             ->with('exercise_list', $exercise_list);
     }
 
-    public function complete($uuid, Request $request)
+    public function complete($uuid, WorkbookRequest $request)
     {
         $title = $request->get('title');
         $explanation = $request->get('explanation');

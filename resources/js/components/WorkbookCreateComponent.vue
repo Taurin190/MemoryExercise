@@ -22,7 +22,7 @@
                               placeholder="問題集の説明を入れてください。">{{ workbook.explanation }}</textarea>
         </div>
     </div>
-    <exercise-search-component v-show="this.page === 2"></exercise-search-component>
+    <exercise-search-component v-show="this.page === 2" :workbook='workbook'></exercise-search-component>
     <div v-if="this.page === 1" class="form-group">
         <div class="px-0 float-left col-md-3">
             <button type="button" onclick="history.back()" class="btn btn-outline-secondary btn-block">戻る</button>

@@ -50,6 +50,20 @@ class WorkbookUsecase
         return $workbook_domain->getWorkbookDto();
     }
 
+    public function getMergedWorkbook($workbook_id, $user_id, WorkbookDto $workbook_dto)
+    {
+        $workbook_domain = $this->workbookRepository->findByWorkbookId($workbook_id);
+        if (!$workbook_domain->hasEditPermission($user_id)) {
+            throw new PermissionException("User doesn't have permission to edit");
+        }
+        $workbook_domain->edit([
+            'title' => $workbook_dto->title,
+            'explanation' => $workbook_dto->explanation,
+            'exercise_list' => ExerciseList::convertByDtoList($workbook_dto->exercise_list)->getDomainList()
+        ]);
+        return $workbook_domain->getWorkbookDto();
+    }
+
     public function getEditedWorkbookDtoByRequest($workbook_id, Request $request, $user_id)
     {
         $workbook_domain = $this->workbookRepository->findByWorkbookId($workbook_id);

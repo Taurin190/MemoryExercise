@@ -53,8 +53,6 @@ Route::post('/workbook/{uuid}/result', 'WorkbookController@result')->name('workb
 
 Route::get('/workbook/{uuid}/edit', 'Workbook\EditController@edit')->name('workbook.edit');
 
-Route::post('/workbook/{uuid}/edit/exercise', 'Workbook\EditController@edit_exercise')->name('workbook.edit.exercise');
-
 Route::post('/workbook/{uuid}/edit/confirm', 'Workbook\EditController@confirm')->name('workbook.edit.confirm');
 
 Route::post('/workbook/{uuid}/edit/complete', 'Workbook\EditController@complete')->name('workbook.edit.complete');

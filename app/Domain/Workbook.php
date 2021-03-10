@@ -16,6 +16,7 @@ class Workbook
 
     private $explanation;
 
+    //TODO Arrayなど混在しているのでExerciseListのクラスに統一する
     private $exercise_list = [];
 
     private $user_id;
@@ -119,9 +120,9 @@ class Workbook
         if (!empty($parameters['explanation'])) {
             $this->explanation = $parameters['explanation'];
         }
-//        if (!empty($parameters['exercise_list'])) {
-//            $this->exercise_list = $parameters['exercise_list'];
-//        }
+        if (!empty($parameters['exercise_list'])) {
+            $this->exercise_list = $parameters['exercise_list'];
+        }
     }
 
     public function modifyTitle($title) {
