@@ -1,23 +1,16 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: koichi.taura
- * Date: 2020/04/24
- * Time: 18:13
- */
 
 namespace App\Usecase;
 
 
 use App\Domain\ExerciseList;
 use App\Domain\ExerciseRepository;
-use App\Domain\WorkbookRepository;
 use App\Domain\Workbook;
+use App\Domain\WorkbookRepository;
 use App\Dto\WorkbookDto;
 use App\Exceptions\PermissionException;
 use App\Http\Requests\WorkbookFormRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class WorkbookUsecase
 {
@@ -50,16 +43,21 @@ class WorkbookUsecase
         return $workbook_domain->getWorkbookDto();
     }
 
-    public function getMergedWorkbook($workbook_id, $user_id, WorkbookDto $workbook_dto)
+    public function getMergedWorkbook($workbook_id, $user_id, WorkbookDto $workbook_dto, array $exercise_id_list = null)
     {
         $workbook_domain = $this->workbookRepository->findByWorkbookId($workbook_id);
         if (!$workbook_domain->hasEditPermission($user_id)) {
             throw new PermissionException("User doesn't have permission to edit");
         }
+        $exercise_domain_list = [];
+        if (isset($exercise_id_list)) {
+            $exercise_list_domain = $this->exerciseRepository->findAllByExerciseIdList($exercise_id_list);
+            $exercise_domain_list = $exercise_list_domain->getDomainList();
+        }
         $workbook_domain->edit([
             'title' => $workbook_dto->title,
             'explanation' => $workbook_dto->explanation,
-            'exercise_list' => ExerciseList::convertByDtoList($workbook_dto->exercise_list)->getDomainList()
+            'exercise_list' => $exercise_domain_list
         ]);
         return $workbook_domain->getWorkbookDto();
     }

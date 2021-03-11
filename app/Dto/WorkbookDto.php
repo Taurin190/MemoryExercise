@@ -2,9 +2,6 @@
 
 namespace App\Dto;
 
-
-use Illuminate\Support\Facades\Log;
-
 class WorkbookDto
 {
     public $workbook_id;

@@ -1,21 +1,13 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: koichi.taura
- * Date: 2020/08/06
- * Time: 22:32
- */
 
 namespace App\Http\Controllers\Workbook;
 
 
-use App\Domain\WorkbookDomainException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkbookFormRequest;
 use App\Http\Requests\WorkbookRequest;
 use App\Usecase\ExerciseUsecase;
 use App\Usecase\WorkbookUsecase;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class EditController extends Controller
@@ -24,7 +16,8 @@ class EditController extends Controller
 
     protected $exercise_usecase;
 
-    public function __construct(WorkbookUsecase $workbook_usecase, ExerciseUsecase $exercise_usecase) {
+    public function __construct(WorkbookUsecase $workbook_usecase, ExerciseUsecase $exercise_usecase)
+    {
         $this->middleware('auth');
         $this->workbook_usecase = $workbook_usecase;
         $this->exercise_usecase = $exercise_usecase;
@@ -40,13 +33,14 @@ class EditController extends Controller
 
     public function confirm($uuid, WorkbookFormRequest $request)
     {
-        $workbook_dto = $this->workbook_usecase->getWorkbookDtoByRequestSession($request, '_edit', $uuid);
-        $exercise_list = $this->exercise_usecase->getExerciseDtoListByIdListOfRequest($request);
-        $request->session()->put('exercise_id_list_edit', $request->get('exercise', []));
+        $request_workbook_dto = $request->convertDtoByRequest(Auth::id(), $uuid);
+        $exercise_id_list = $request->get('exercise', []);
+        $workbook_dto = $this->workbook_usecase->getMergedWorkbook($uuid, Auth::id(), $request_workbook_dto, $exercise_id_list);
+        $request->storeSessions($workbook_dto);
 
         return view('workbook_edit_confirm')
             ->with('workbook', $workbook_dto)
-            ->with('exercise_list', $exercise_list);
+            ->with('exercise_list', $workbook_dto->exercise_list);
     }
 
     public function complete($uuid, WorkbookRequest $request)
