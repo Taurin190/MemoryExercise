@@ -11,6 +11,7 @@ use App\Dto\WorkbookDto;
 use App\Exceptions\PermissionException;
 use App\Http\Requests\WorkbookFormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class WorkbookUsecase
 {
@@ -138,6 +139,21 @@ class WorkbookUsecase
             'user' => $user
         ]);
         return $this->workbookRepository->save($workbook_domain);
+    }
+
+    public function editWorkbook($workbook_id, WorkbookDto $workbook_dto, $user)
+    {
+        $workbook_domain = $this->workbookRepository->findByWorkbookId($workbook_id);
+        if (!$workbook_domain->hasEditPermission($user->getKey())) {
+            throw new PermissionException("User doesn't have permission to edit");
+        }
+        $workbook_domain->edit([
+            'title' => $workbook_dto->title,
+            'explanation' => $workbook_dto->explanation,
+            'exercise_list' => ExerciseList::convertByDtoList($workbook_dto->exercise_list)->getDomainList()
+        ]);
+        Log::error($workbook_domain->toArray());
+        return $this->workbookRepository->update($workbook_domain);
     }
 
     /**

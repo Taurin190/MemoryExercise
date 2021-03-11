@@ -140,7 +140,12 @@ class Workbook
     }
 
     public function getCountOfExercise() {
-        return count($this->exercise_list->getDomainList());
+        //TODO コレクションリストに統一して分岐を無くす。
+        if ($this->exercise_list instanceof ExerciseList) {
+            return count($this->exercise_list->getDomainList());
+        }
+        return count($this->exercise_list);
+
     }
     public function getUserId() {
         return $this->user_id;

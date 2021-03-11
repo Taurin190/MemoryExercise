@@ -10,12 +10,10 @@
             <div>
                 <label class="form-label control-label py-2">問題集のタイトル</label>
                 <p>{{ $workbook->title }}</p>
-                <input type="hidden" name="title" value="{{ $workbook->title }}">
             </div>
             <div>
                 <label class="form-label control-label py-2">問題集の説明</label>
                 <p>{{ $workbook->explanation }}</p>
-                <input type="hidden" name="explanation" value="{{ $workbook->explanation }}">
             </div>
             @isset($exercise_list)
             <div>
@@ -23,7 +21,6 @@
                 <ul>
                     @foreach($exercise_list as $exercise)
                         <li>{{ $exercise->question }}</li>
-                        <input type="hidden" name="exercise[]" value="{{ $exercise->exercise_id }}" />
                     @endforeach
                 </ul>
             </div>

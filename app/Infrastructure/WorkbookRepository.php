@@ -59,7 +59,7 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
             $workbook_model->exercises()->detach();
             if ($workbook->getExerciseList() != null && $workbook->getCountOfExercise() > 0) {
                 //TODO コレクションオブジェクトの使い方を改善する
-                foreach ($workbook->getExerciseList()->getDomainList() as $exercise) {
+                foreach ($workbook->getExerciseList() as $exercise) {
                     $workbook_model->exercises()->attach(
                         ['workbook_id' => $uuid],
                         ['exercise_id' => $exercise->getExerciseId()]
