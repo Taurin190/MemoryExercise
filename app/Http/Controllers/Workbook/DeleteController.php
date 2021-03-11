@@ -29,8 +29,7 @@ class DeleteController extends Controller
 
     public function complete($uuid)
     {
-        $this->workbook_usecase->checkEditPermission($uuid, Auth::id());
-        $this->workbook_usecase->deleteWorkbook($uuid);
+        $this->workbook_usecase->deleteWorkbook($uuid, Auth::id());
         return view('workbook_delete_complete');
     }
 }
