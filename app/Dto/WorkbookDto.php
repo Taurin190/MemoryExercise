@@ -26,8 +26,10 @@ class WorkbookDto
     public function toArray()
     {
         $exercise_list_array = [];
-        foreach ($this->exercise_list as $exercise) {
-            $exercise_list_array[] = $exercise->toArray();
+        if (!is_null($this->exercise_list)) {
+            foreach ($this->exercise_list as $exercise) {
+                $exercise_list_array[] = $exercise->toArray();
+            }
         }
         return [
             'title' => $this->title,

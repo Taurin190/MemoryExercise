@@ -3,7 +3,7 @@
 namespace App\Usecase;
 
 
-use App\Domain\ExerciseList;
+use App\Domain\Exercises;
 use App\Domain\ExerciseRepository;
 use App\Domain\Workbook;
 use App\Domain\WorkbookRepository;
@@ -38,15 +38,14 @@ class WorkbookUsecase
         if (!$workbook_domain->hasEditPermission($user_id)) {
             throw new PermissionException("User doesn't have permission to edit");
         }
-        $exercise_domain_list = null;
+        $exercises_domain = null;
         if (isset($exercise_id_list)) {
-            $exercise_list_domain = $this->exerciseRepository->findAllByExerciseIdList($exercise_id_list);
-            $exercise_domain_list = $exercise_list_domain->getDomainList();
+            $exercises_domain = $this->exerciseRepository->findAllByExerciseIdList($exercise_id_list);
         }
         $workbook_domain->edit([
             'title' => $workbook_dto->title,
             'explanation' => $workbook_dto->explanation,
-            'exercise_list' => $exercise_domain_list
+            'exercise_list' => $exercises_domain
         ]);
 
         return $workbook_domain->getWorkbookDto();
@@ -77,7 +76,7 @@ class WorkbookUsecase
         $workbook_domain = Workbook::create([
             'title' => $workbook_dto->title,
             'explanation' => $workbook_dto->explanation,
-            'exercise_list' => ExerciseList::convertByDtoList($workbook_dto->exercise_list),
+            'exercise_list' => Exercises::convertByDtoList($workbook_dto->exercise_list),
             'user' => $user
         ]);
         return $this->workbookRepository->save($workbook_domain);
@@ -92,7 +91,7 @@ class WorkbookUsecase
         $workbook_domain->edit([
             'title' => $workbook_dto->title,
             'explanation' => $workbook_dto->explanation,
-            'exercise_list' => ExerciseList::convertByDtoList($workbook_dto->exercise_list)->getDomainList()
+            'exercise_list' => Exercises::convertByDtoList($workbook_dto->exercise_list)
         ]);
         return $this->workbookRepository->update($workbook_domain);
     }

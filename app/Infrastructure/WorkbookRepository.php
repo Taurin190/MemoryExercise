@@ -34,11 +34,11 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
                 $workbook_model = \App\Workbook::convertOrm($workbook);
                 $workbook_model->save();
                 $uuid = $workbook_model->getKey();
-                $workbook_model->exercises()->attach(
-                    $workbook->getWorkbookExerciseRelationList($uuid)
-                );
+                $relations = $workbook->getWorkbookExerciseRelationList($uuid);
+                $workbook_model->exercises()->attach($relations);
                 DB::commit();
             } catch (\Exception $e) {
+                DB::rollBack();
                 Log::error("DB Exception: " . $e);
             }
         } else {

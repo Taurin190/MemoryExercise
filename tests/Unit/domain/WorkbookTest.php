@@ -83,61 +83,6 @@ class WorkbookTest extends TestCase
         self::assertSame([], $actual->getExerciseList());
     }
 
-    public function testModifyTitle() {
-        try {
-            $workbook = Workbook::create([
-                'title' => "test workbook",
-                'explanation' => "This is an example of workbook."
-            ]);
-            self::assertTrue($workbook instanceof Workbook);
-            $actual = $workbook->getTitle();
-            self::assertSame("test workbook", $actual);
-
-            $workbook->modifyTitle("modified test workbook");
-            $actual = $workbook->getTitle();
-            self::assertSame("modified test workbook", $actual);
-        } catch (\Exception $e) {
-            self::fail("予期しない例外が発生しました。" . $e);
-        }
-    }
-
-    public function testModifyTitleToEmpty() {
-        try {
-            $workbook = Workbook::create([
-                'title' => "test workbook",
-                'explanation' => "This is an example of workbook."
-            ]);
-            self::assertTrue($workbook instanceof Workbook);
-            $actual = $workbook->getTitle();
-            self::assertSame("test workbook", $actual);
-
-            $workbook->modifyTitle("");
-            self::fail("例外が発生しませんでした。");
-        } catch (WorkbookDomainException $e) {
-            self::assertSame("タイトルが空です。", $e->getMessage());
-        } catch (\Exception $e) {
-            self::fail($e);
-        }
-    }
-
-    public function testModifyExplanation() {
-        try {
-            $workbook = Workbook::create([
-                'title' => "test workbook",
-                'explanation' => "This is an example of workbook."
-            ]);
-            self::assertTrue($workbook instanceof Workbook);
-            $actual = $workbook->getExplanation();
-            self::assertSame("This is an example of workbook.", $actual);
-
-            $workbook->modifyExplanation("modified example of workbook.");
-            $actual = $workbook->getExplanation();
-            self::assertSame("modified example of workbook.", $actual);
-        } catch (\Exception $e) {
-            self::fail("予期しない例外が発生しました。" . $e);
-        }
-    }
-
     public function testAddExercise() {
         $workbook = null;
         try {
@@ -152,49 +97,6 @@ class WorkbookTest extends TestCase
         $exercise_list = $workbook->getExerciseList();
         self::assertIsArray($exercise_list);
         self::assertTrue(in_array($this->exerciseMock, $exercise_list));
-    }
-
-    public function testDeleteExercise() {
-        $workbook = null;
-        try {
-            $workbook = Workbook::create([
-                'title' => "test workbook",
-                'explanation' => "This is an example of workbook."
-            ]);
-        } catch (\Exception $e) {
-            self::fail("予期しない例外が発生しました。");
-        }
-        $workbook->addExercise($this->exerciseMock);
-        $exercise_list = $workbook->getExerciseList();
-        self::assertIsArray($exercise_list);
-        self::assertTrue(in_array($this->exerciseMock, $exercise_list));
-
-        try {
-            $workbook->deleteExercise($this->exerciseMock);
-        } catch (\Exception $e) {
-            self::fail("予期しない例外が発生しました。");
-        }
-        $exercise_list = $workbook->getExerciseList();
-        self::assertIsArray($exercise_list);
-        self::assertFalse(in_array($this->exerciseMock, $exercise_list));
-    }
-
-    public function testDeleteExerciseNotIncludedValue() {
-        $workbook = null;
-        try {
-            $workbook = Workbook::create([
-                'title' => "test workbook",
-                'explanation' => "This is an example of workbook."
-            ]);
-        } catch (\Exception $e) {
-            self::fail("予期しない例外が発生しました。");
-        }
-        try {
-            $workbook->deleteExercise($this->exerciseMock);
-            self::fail("予期した例外が発生しませんでした。");
-        } catch (WorkbookDomainException $e) {
-            self::assertSame("削除対象の要素が配列に存在しません。", $e->getMessage());
-        }
     }
 
     public function testModifyOrder() {

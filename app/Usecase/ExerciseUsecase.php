@@ -104,7 +104,7 @@ class ExerciseUsecase
     /**
      * 指定されたIDの配列より対象のExerciseのドメインモデル格納した配列を取得する
      * @param $id_list
-     * @return \App\Domain\ExerciseList
+     * @return \App\Domain\Exercises
      */
     public function getAllExercisesWithIdList($id_list)
     {
