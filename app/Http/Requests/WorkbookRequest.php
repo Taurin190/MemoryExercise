@@ -24,7 +24,7 @@ class WorkbookRequest extends FormRequest
         return new WorkbookDto(
             $this->session()->pull('title' . $post_fix, ''),
             $this->session()->pull('explanation' . $post_fix, ''),
-            $this->session()->pull('exercise_list' . $post_fix, []),
+            $this->session()->pull('exercise_list' . $post_fix, null),
             $user_id,
             $workbook_id
         );

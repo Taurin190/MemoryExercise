@@ -38,7 +38,7 @@ class WorkbookUsecase
         if (!$workbook_domain->hasEditPermission($user_id)) {
             throw new PermissionException("User doesn't have permission to edit");
         }
-        $exercise_domain_list = [];
+        $exercise_domain_list = null;
         if (isset($exercise_id_list)) {
             $exercise_list_domain = $this->exerciseRepository->findAllByExerciseIdList($exercise_id_list);
             $exercise_domain_list = $exercise_list_domain->getDomainList();
@@ -48,6 +48,7 @@ class WorkbookUsecase
             'explanation' => $workbook_dto->explanation,
             'exercise_list' => $exercise_domain_list
         ]);
+
         return $workbook_domain->getWorkbookDto();
     }
 

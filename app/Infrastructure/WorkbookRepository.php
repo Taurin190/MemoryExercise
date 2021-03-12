@@ -28,18 +28,15 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
 
     function save(Workbook $workbook)
     {
-        if ($workbook->getExerciseList() != null && count($workbook->getExerciseList()) > 0) {
+        if ($workbook->getCountOfExercise() > 0) {
             DB::beginTransaction();
             try {
                 $workbook_model = \App\Workbook::map($workbook);
                 $workbook_model->save();
                 $uuid = $workbook_model->getKey();
-                foreach ($workbook->getExerciseList() as $exercise) {
-                    $workbook_model->exercises()->attach(
-                        ['workbook_id' => $uuid],
-                        ['exercise_id' => $exercise->getExerciseId()]
-                    );
-                }
+                $workbook_model->exercises()->attach(
+                    $workbook->getWorkbookExerciseRelationList($uuid)
+                );
                 DB::commit();
             } catch (\Exception $e) {
                 Log::error("DB Exception: " . $e);
@@ -57,14 +54,14 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
             $workbook_model->save();
             $uuid = $workbook_model->getKey();
             $workbook_model->exercises()->detach();
-            if ($workbook->getExerciseList() != null && $workbook->getCountOfExercise() > 0) {
-                //TODO コレクションオブジェクトの使い方を改善する
-                foreach ($workbook->getExerciseList() as $exercise) {
-                    $workbook_model->exercises()->attach(
-                        ['workbook_id' => $uuid],
-                        ['exercise_id' => $exercise->getExerciseId()]
-                    );
-                }
+            // 紐付いたExerciseを多対多で登録する
+            if ($workbook->getCountOfExercise() > 0) {
+                $workbook_model->exercises()->attach(
+                    $workbook->getWorkbookExerciseRelationList($uuid)
+                );
+            } else {
+                // 一つも登録されていない場合にRelationを削除する
+                $workbook_model->exercises()->detach();
             }
             DB::commit();
         } catch (\Exception $e) {

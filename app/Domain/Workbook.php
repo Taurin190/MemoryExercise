@@ -120,7 +120,7 @@ class Workbook
         if (!empty($parameters['explanation'])) {
             $this->explanation = $parameters['explanation'];
         }
-        if (!empty($parameters['exercise_list'])) {
+        if (isset($parameters['exercise_list'])) {
             $this->exercise_list = $parameters['exercise_list'];
         }
     }
@@ -135,12 +135,29 @@ class Workbook
         $this->explanation = $explanation;
     }
 
+    public function getWorkbookExerciseRelationList($workbook_id)
+    {
+        if ($this->exercise_list instanceof ExerciseList) {
+            return $this->exercise_list->getWorkbookExerciseRelationList($workbook_id);
+        }
+        //TODO コレクションオブジェクトに統一して以下の処理を削除する
+        $workbook_exercise_relation_list = [];
+        foreach ($this->exercise_list as $exercise) {
+            $workbook_exercise_relation_list[] = [
+                'exercise_id' => $exercise->getExerciseId(),
+                'workbook_id' => $workbook_id
+            ];
+        }
+        return $workbook_exercise_relation_list;
+    }
+
     public function getExerciseList() {
        return $this->exercise_list;
     }
 
     public function getCountOfExercise() {
-        //TODO コレクションリストに統一して分岐を無くす。
+        if ($this->exercise_list == null) return 0;
+        //TODO コレクションオブジェクトに統一して分岐を無くす。
         if ($this->exercise_list instanceof ExerciseList) {
             return count($this->exercise_list->getDomainList());
         }

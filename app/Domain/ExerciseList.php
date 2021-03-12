@@ -57,6 +57,18 @@ class ExerciseList
         return $instance;
     }
 
+    public function getWorkbookExerciseRelationList($workbook_id)
+    {
+        $workbook_exercise_relation_list = [];
+        foreach ($this->exercise_dto_list as $exercise_dto) {
+            $workbook_exercise_relation_list[] = [
+                ['workbook_id' => $workbook_id],
+                ['exercise_id' => $exercise_dto->exercise_id]
+            ];
+        }
+        return $workbook_exercise_relation_list;
+    }
+
     private function setExerciseList($exercise_list)
     {
         $this->exercise_list = $exercise_list;
