@@ -31,7 +31,7 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
         if ($workbook->getCountOfExercise() > 0) {
             DB::beginTransaction();
             try {
-                $workbook_model = \App\Workbook::map($workbook);
+                $workbook_model = \App\Workbook::convertOrm($workbook);
                 $workbook_model->save();
                 $uuid = $workbook_model->getKey();
                 $workbook_model->exercises()->attach(
@@ -42,7 +42,7 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
                 Log::error("DB Exception: " . $e);
             }
         } else {
-            \App\Workbook::map($workbook)->save();
+            \App\Workbook::convertOrm($workbook)->save();
         }
     }
 
@@ -50,7 +50,7 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
     {
         DB::beginTransaction();
         try {
-            $workbook_model = \App\Workbook::map($workbook);
+            $workbook_model = \App\Workbook::convertOrm($workbook);
             $workbook_model->save();
             $uuid = $workbook_model->getKey();
             $workbook_model->exercises()->detach();
