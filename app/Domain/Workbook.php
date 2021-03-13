@@ -15,7 +15,6 @@ class Workbook
 
     private $explanation;
 
-    //TODO Arrayなど混在しているのでExerciseListのクラスに統一する
     private $exercises = null;
 
     private $user_id;
@@ -66,7 +65,13 @@ class Workbook
     }
 
     //TODO user出なくてuser_idで作成したい。
-    private function __construct($title, $explanation, $workbook_id = null, $exercises = null, User $user = null) {
+    private function __construct(
+        string $title,
+        string $explanation,
+        string $workbook_id = null,
+        Exercises $exercises = null,
+        User $user = null
+    ) {
         if (isset($workbook_id)) {
             $this->workbook_id = $workbook_id;
         }
@@ -153,7 +158,7 @@ class Workbook
      */
     public function modifyOrder(Exercise $exercise, int $order_num) {
         $insert_num = $order_num - 1;
-        $exercise_amount = count($this->exercises);
+        $exercise_amount = $this->exercises->count();
         // 要素が1つ以下の場合は、例外を返さないように処理を行わない。
         if ($exercise_amount <= 1) {
             return;

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: koichi.taura
- * Date: 2020/05/03
- * Time: 7:15
- */
 
 namespace App\Http\Controllers;
 use App\Usecase\AnswerHistoryUsecase;
