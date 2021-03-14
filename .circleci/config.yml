@@ -29,7 +29,11 @@ jobs:
 
       - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       - run: sudo docker-php-ext-install zip
-
+      - run:
+        name: Install PHP extensions
+        command: |
+          sudo docker-php-ext-install pdo_mysql
+          sudo docker-php-ext-enable pdo_mysql
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -55,7 +59,6 @@ jobs:
             - node_modules
 
       # prepare the database
-      - run: touch storage/testing.sqlite
       - run: php artisan migrate --env=testing --database=mysql_testing --force
 
       # run tests with phpunit or codecept
