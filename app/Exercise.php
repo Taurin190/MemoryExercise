@@ -11,7 +11,7 @@ class Exercise extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = [
-        'question', 'answer', 'permission'
+        'question', 'answer', 'permission', 'author_id'
     ];
 
     protected static function boot()
@@ -39,20 +39,15 @@ class Exercise extends Model
         return $this->belongsToMany('App\Label');
     }
 
-    public static function map(\App\Domain\Exercise $exercise) {
-        $model = Exercise::find($exercise->getExerciseId());
-        if (is_null($model)) {
-            return new Exercise([
-                'question' => $exercise->getQuestion(),
-                'answer' => $exercise->getAnswer(),
-                'permission' => $exercise->getPermission()
-            ]);
+    public static function convertOrm(Domain\Exercise $exercise) {
+        $dto = $exercise->getExerciseDto();
+        $exercise_orm = null;
+        if (isset($dto->exercise_id)) {
+            $exercise_orm = Exercise::find($dto->exercise_id);
         }
-        return $model->fill([
-            'exercise_id' => $exercise->getExerciseId(),
-            'question' => $exercise->getQuestion(),
-            'answer' => $exercise->getAnswer(),
-            'permission' => $exercise->getPermission()
-        ]);
+        if (is_null($exercise_orm)) {
+            return new Exercise($dto->toArray());
+        }
+        return $exercise_orm->fill($dto->toArray());
     }
 }

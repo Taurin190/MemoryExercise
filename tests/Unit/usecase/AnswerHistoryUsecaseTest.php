@@ -21,6 +21,8 @@ class AnswerHistoryUsecaseTest extends TestCase
 
     protected $exerciseRepositoryMock;
 
+    protected $userMock;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -28,6 +30,7 @@ class AnswerHistoryUsecaseTest extends TestCase
         $this->workbookMock = m::mock('alias:\App\Domain\Workbook');
         $this->answerHistoryMock = m::mock('alias:\App\Domain\AnswerHistory');
         $this->answerHistoryRepositoryMock = m::mock('\App\Domain\AnswerHistoryRepository');
+        $this->userMock = m::mock('\App\User');
 
     }
 
@@ -40,8 +43,8 @@ class AnswerHistoryUsecaseTest extends TestCase
     public function testAddAnswerHistory()
     {
         $this->answerHistoryMock
-            ->shouldReceive('create')
-            ->with($this->answerMock, $this->workbookMock, 1)
+            ->shouldReceive('map')
+            ->with($this->answerMock, $this->workbookMock, $this->userMock)
             ->once()
             ->andReturn($this->answerHistoryMock);
         $this->answerHistoryRepositoryMock
@@ -50,7 +53,7 @@ class AnswerHistoryUsecaseTest extends TestCase
             ->once()
             ->andReturn();
         $answer_history = new AnswerHistoryUsecase($this->answerHistoryRepositoryMock);
-        $answer_history->addAnswerHistory($this->answerMock, $this->workbookMock, 1);
+        $answer_history->addAnswerHistory($this->answerMock, $this->workbookMock, $this->userMock);
         self::assertTrue(true);
     }
 

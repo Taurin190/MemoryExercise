@@ -3,34 +3,15 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div>
-                <h2>学習記録</h2>
+        <div class="col-md-12">
+            @if(count($exercise_list) == 0)
+                問題集が存在しません。
+            @else
                 <div>
-                    <span>目標</span>
+                   <span>{{ $count }} 件</span>
                 </div>
-            </div>
-            <div>
-                <h2>list</h2>
-                <div>
-                    <ul class="list-group">
-                        @foreach($exercise_list as $exercise)
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ $exercise->question }}
-                            @if($exercise_history_list)
-                                <span class="badge badge-primary badge-pill">
-                                    @if(isset($exercise_history_list[$exercise->exercise_id]))
-                                        {{ $exercise_history_list[$exercise->exercise_id] }}
-                                    @else
-                                        0
-                                    @endif
-                                </span>
-                            @endif
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
+                <exercise-append-component :user_id='@json($user_id)' :exercise_list='@json($exercise_list)' :count='@json($count)'></exercise-append-component>
+            @endif
         </div>
     </div>
 </div>

@@ -13,7 +13,7 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
         if (is_null($model->first())) {
             throw new DataNotFoundException("Data Not Fount: Invalid Workbook Id.");
         }
-        return Workbook::map($model->first());
+        return Workbook::convertDomain($model->first());
     }
 
     function findAll()
@@ -21,31 +21,28 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
         $domain_list = [];
         $all_model = \App\Workbook::all();
         foreach ($all_model as $model) {
-            $domain_list[] = Workbook::map($model);
+            $domain_list[] = Workbook::convertDomain($model);
         }
         return $domain_list;
     }
 
     function save(Workbook $workbook)
     {
-        if ($workbook->getExerciseList() != null && count($workbook->getExerciseList()) > 0) {
+        if ($workbook->getCountOfExercise() > 0) {
             DB::beginTransaction();
             try {
-                $workbook_model = \App\Workbook::map($workbook);
+                $workbook_model = \App\Workbook::convertOrm($workbook);
                 $workbook_model->save();
                 $uuid = $workbook_model->getKey();
-                foreach ($workbook->getExerciseList() as $exercise) {
-                    $workbook_model->exercises()->attach(
-                        ['workbook_id' => $uuid],
-                        ['exercise_id' => $exercise->getExerciseId()]
-                    );
-                }
+                $relations = $workbook->getWorkbookExerciseRelationList($uuid);
+                $workbook_model->exercises()->attach($relations);
                 DB::commit();
             } catch (\Exception $e) {
+                DB::rollBack();
                 Log::error("DB Exception: " . $e);
             }
         } else {
-            \App\Workbook::map($workbook)->save();
+            \App\Workbook::convertOrm($workbook)->save();
         }
     }
 
@@ -53,17 +50,18 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
     {
         DB::beginTransaction();
         try {
-            $workbook_model = \App\Workbook::map($workbook);
+            $workbook_model = \App\Workbook::convertOrm($workbook);
             $workbook_model->save();
             $uuid = $workbook_model->getKey();
             $workbook_model->exercises()->detach();
-            if ($workbook->getExerciseList() != null && count($workbook->getExerciseList()) > 0) {
-                foreach ($workbook->getExerciseList() as $exercise) {
-                    $workbook_model->exercises()->attach(
-                        ['workbook_id' => $uuid],
-                        ['exercise_id' => $exercise->getExerciseId()]
-                    );
-                }
+            // 紐付いたExerciseを多対多で登録する
+            if ($workbook->getCountOfExercise() > 0) {
+                $workbook_model->exercises()->attach(
+                    $workbook->getWorkbookExerciseRelationList($uuid)
+                );
+            } else {
+                // 一つも登録されていない場合にRelationを削除する
+                $workbook_model->exercises()->detach();
             }
             DB::commit();
         } catch (\Exception $e) {
@@ -71,8 +69,14 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
         }
     }
 
-    function delete(int $workbook_id)
+    function delete($workbook_id)
     {
-        \App\Workbook::find($workbook_id)->delete();
+        \App\Workbook::where('workbook_id', $workbook_id)->delete();
+    }
+
+    function checkEditPermission($workbook_id, $user_id) {
+        $target_workbook = \App\Workbook::select(['author_id'])->where('workbook_id', $workbook_id)->first();
+        if ($target_workbook->author_id == $user_id) return true;
+        return false;
     }
 }

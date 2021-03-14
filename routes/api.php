@@ -18,3 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/exercise', 'Api\ExerciseController@search')->name('exercise.search');
+
+Route::get('/exercise/list', 'Api\ExerciseController@list')->name('exercise.list');

@@ -7,9 +7,12 @@ interface WorkbookRepository
 
     function update(Workbook $workbook);
 
+    //TODO privateを取得するためにUserの追加が必要
     function findByWorkbookId($workbook_id);
 
     function findAll();
 
-    function delete(int $workbook_id);
+    function delete($workbook_id);
+
+    function checkEditPermission($workbook_id, $user_id);
 }

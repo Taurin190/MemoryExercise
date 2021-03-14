@@ -2,6 +2,7 @@
 
 namespace App\Domain;
 
+use App\Dto\WorkbookDto;
 use App\User;
 
 class Workbook
@@ -14,46 +15,68 @@ class Workbook
 
     private $explanation;
 
-    private $exercise_list = [];
+    private $exercises = null;
 
     private $user_id;
 
     /**
      * 問題集を作成するFactoryMethod
-     * @param $title string 問題集のタイトル
-     * @param $explanation string 問題集の説明
-     * @param null $exercise_list
-     * @param null $workbook_id
+     * @param $parameters array 問題集の情報を入れた連想配列
      * @return Workbook 作成した問題集
      * @throws WorkbookDomainException
      */
-    public static function create($title, $explanation, $exercise_list = null, $workbook_id = null) {
-        if (empty($title)) {
+    public static function create($parameters) {
+        if (empty($parameters['title'])) {
             throw new WorkbookDomainException("タイトルが空です。");
         }
-        $workbook = new Workbook($title, $explanation,$workbook_id, $exercise_list);
-        return $workbook;
+        $explanation = null;
+        if (isset($parameters['explanation'])) {
+            $explanation = $parameters['explanation'];
+        }
+        $exercise_list = null;
+        if (isset($parameters['exercise_list'])) {
+            if (!($parameters['exercise_list'] instanceof Exercises))
+                throw new WorkbookDomainException("Invalid Type Error.");
+            $exercise_list = $parameters['exercise_list'];
+        }
+        $workbook_id = null;
+        if (isset($parameters['workbook_id'])) {
+            $workbook_id = $parameters['workbook_id'];
+        }
+        $user = null;
+        if (isset($parameters['user'])) {
+            $user = $parameters['user'];
+        }
+        return new Workbook($parameters['title'], $explanation, $workbook_id, $exercise_list, $user);
     }
 
-    public static function map(\App\Workbook $workbook_model) {
+    public static function convertDomain(\App\Workbook $workbook_orm) {
         return new Workbook(
-            $workbook_model->getAttribute('title'),
-            $workbook_model->getAttribute('explanation'),
-            $workbook_model->getKey(),
-            $workbook_model->exercises()
+            $workbook_orm->getAttribute('title'),
+            $workbook_orm->getAttribute('explanation'),
+            $workbook_orm->getKey(),
+            Exercises::convertByOrmList($workbook_orm->exercises()->get()),
+            $workbook_orm->getAttribute('user')
         );
     }
 
-    private function __construct($title, $explanation, $workbook_id = null, $exercises = null, User $user = null) {
+    public function hasEditPermission($user_id) {
+        return $this->user_id == $user_id;
+    }
+
+    //TODO user出なくてuser_idで作成したい。
+    private function __construct(
+        string $title,
+        string $explanation,
+        string $workbook_id = null,
+        Exercises $exercises = null,
+        User $user = null
+    ) {
         if (isset($workbook_id)) {
             $this->workbook_id = $workbook_id;
         }
         if (isset($exercises)) {
-            if (is_array($exercises)) {
-                $this->setExerciseList($exercises);
-            } else {
-                $this->setExerciseList($exercises->get());
-            }
+            $this->exercises = $exercises;
         }
         if (isset($user)) {
             $this->user_id = $user->getKey();
@@ -62,6 +85,21 @@ class Workbook
         }
         $this->title = $title;
         $this->explanation = $explanation;
+    }
+
+    public function getWorkbookDto() {
+        $exercise_dto_list = [];
+        if (isset($this->exercises)) {
+            $exercise_dto_list = $this->exercises->getExerciseDtoList();
+        }
+
+        return new WorkbookDto(
+            $this->title,
+            $this->explanation,
+            $exercise_dto_list,
+            $this->user_id,
+            $this->workbook_id
+        );
     }
 
     public function getWorkbookId() {
@@ -76,25 +114,40 @@ class Workbook
         return $this->explanation;
     }
 
-    public function modifyTitle($title) {
-        if (empty($title)) {
-            throw new WorkbookDomainException("タイトルが空です。");
+    public function edit($parameters) {
+        if (!empty($parameters['title'])) {
+            $this->title = $parameters['title'];
         }
-        $this->title = $title;
-    }
-    public function modifyExplanation($explanation) {
-        $this->explanation = $explanation;
+        if (!empty($parameters['explanation'])) {
+            $this->explanation = $parameters['explanation'];
+        }
+        if (isset($parameters['exercise_list'])) {
+            if (!($parameters['exercise_list'] instanceof Exercises))
+                throw new DomainException("Invalid Type Error.");
+            $this->exercises = $parameters['exercise_list'];
+        }
     }
 
+    public function getWorkbookExerciseRelationList($workbook_id)
+    {
+        return $this->exercises->getWorkbookExerciseRelationList($workbook_id);
+    }
+
+    //TODO 消したい
     public function getExerciseList() {
-       return $this->exercise_list;
+       return $this->exercises;
+    }
+
+    public function getCountOfExercise() {
+        if ($this->exercises == null) return 0;
+        return $this->exercises->count();
     }
     public function getUserId() {
         return $this->user_id;
     }
 
     public function addExercise(Exercise $exercise) {
-        $this->exercise_list[] = $exercise;
+        $this->exercises[] = $exercise;
     }
 
     /**
@@ -105,7 +158,7 @@ class Workbook
      */
     public function modifyOrder(Exercise $exercise, int $order_num) {
         $insert_num = $order_num - 1;
-        $exercise_amount = count($this->exercise_list);
+        $exercise_amount = $this->exercises->count();
         // 要素が1つ以下の場合は、例外を返さないように処理を行わない。
         if ($exercise_amount <= 1) {
             return;
@@ -113,7 +166,7 @@ class Workbook
         if ($insert_num < 0 || $exercise_amount <= $insert_num) {
             throw new WorkbookDomainException("指定された順番が不正です。");
         }
-        $tmp_exercise_list = array_diff($this->exercise_list, [$exercise]);
+        $tmp_exercise_list = array_diff($this->exercises, [$exercise]);
         $new_exercise_list = [];
 
         for ($i = 0; $i < $exercise_amount; $i++) {
@@ -124,43 +177,11 @@ class Workbook
             $new_exercise_list[] = $tmp_exercise_list[0];
             array_shift($tmp_exercise_list);
         }
-        $this->exercise_list = $new_exercise_list;
-    }
-
-    /**
-     * 問題集から登録した問題を削除する
-     *  登録されていない問題を削除しようとした場合は、想定外の挙動であるため例外を返す
-     * @param Exercise $exercise
-     * @throws WorkbookDomainException
-     */
-    public function deleteExercise(Exercise $exercise) {
-        if (!in_array($exercise, $this->exercise_list)) {
-            throw new WorkbookDomainException("削除対象の要素が配列に存在しません。");
-        }
-        $this->exercise_list = array_diff($this->exercise_list, [$exercise]);
-    }
-
-    private function setExerciseList($exercise_list) {
-        $domain_list = [];
-        foreach($exercise_list as $model) {
-            if ($model instanceof Exercise) {
-                $domain_list[] = $model;
-            } else {
-                $domain_list[] = Exercise::map($model);
-            }
-        }
-        $this->exercise_list = $domain_list;
-    }
-
-    public function setExerciseDomainList($exercise_domain_list) {
-        $this->exercise_list = $exercise_domain_list;
+        $this->exercises = $new_exercise_list;
     }
 
     public function toArray() {
-        $exercise_json_array = [];
-        foreach ($this->exercise_list as $exercise) {
-            $exercise_json_array[] = $exercise->toArray();
-        }
+        $exercise_json_array = $this->exercises->toArray();
         $workbook_array = [
             'workbook_id' => $this->workbook_id,
             'title' => $this->title,

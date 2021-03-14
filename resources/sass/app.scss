@@ -7,9 +7,6 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-div.component-block {
-    margin-top: 70px;
-}
 div.pager-block {
     margin: 10px 0 50px;
 }
@@ -33,8 +30,13 @@ p.banner-text {
     margin-bottom: 0;
 }
 
-div.workbook-card a:hover {
-    box-shadow: 2px 4px 10px 0 rgba(0, 0, 0, .3);;
+div.workbook-card a.text-body:hover {
+    height: 280px;
+    box-shadow: 2px 4px 10px 0 rgba(0, 0, 0, .3);
+}
+
+div.workbook-card {
+    height: 280px;
 }
 
 label {
@@ -52,4 +54,69 @@ div.workbook-edit {
     position: absolute;
     top: 2%;
     left: 91%;
+}
+
+div.exercise-delete {
+    position: absolute;
+    top: 8%;
+    left: 92%;
+}
+
+i.delete-icon {
+    font-size: 20px;
+}
+
+label.form-label {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+p.question {
+    font-size: 20px;
+}
+
+p.answer {
+    font-size: 20px;
+}
+
+div.question-container {
+    height: 120px;
+}
+
+div.answer-container {
+    height: 200px;
+}
+
+div.exercise-question-container {
+    height: 80px;
+}
+
+div.exercise-answer-container {
+    height: 160px;
+}
+
+div.error-container {
+    height: 200px;
+}
+
+
+
+.workbook-next {
+    position: absolute;
+    top: 40px;
+    left: 93%;
+}
+
+.workbook-prev {
+    position: absolute;
+    top: 40px;
+    left: 88%;
+}
+
+i.prev-button {
+    font-size: 30px;
+}
+
+i.next-button {
+    font-size: 30px;
 }

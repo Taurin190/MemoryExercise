@@ -11,7 +11,7 @@ class Workbook extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = [
-        'title', 'explanation', 'permission'
+        'title', 'explanation', 'permission', 'author_id'
     ];
 
     protected static function boot()
@@ -31,18 +31,20 @@ class Workbook extends Model
         return $this->belongsToMany('App\Exercise', 'workbook_exercise', 'workbook_id', 'exercise_id');
     }
 
-    public static function map(\App\Domain\Workbook $workbook) {
+    public static function convertOrm(\App\Domain\Workbook $workbook) {
         $model = Workbook::find($workbook->getWorkbookId());
         if (is_null($model)) {
             return new Workbook([
                 'title' => $workbook->getTitle(),
-                'explanation' => $workbook->getExplanation()
+                'explanation' => $workbook->getExplanation(),
+                'author_id' => $workbook->getUserId()
             ]);
         }
         return $model->fill([
             'workbook_id' => $workbook->getWorkbookId(),
             'title' => $workbook->getTitle(),
-            'explanation' => $workbook->getExplanation()
+            'explanation' => $workbook->getExplanation(),
+            'author_id' => $workbook->getUserId()
         ]);
     }
 }

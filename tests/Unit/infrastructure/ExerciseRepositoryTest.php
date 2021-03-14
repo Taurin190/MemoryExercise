@@ -44,7 +44,7 @@ class ExerciseRepositoryTest extends TestCase
             ->once()
             ->andReturn($this->exerciseMock);
         $this->exerciseDomainMock
-            ->shouldReceive('map')
+            ->shouldReceive('convertDomain')
             ->once()
             ->with($this->exerciseMock)
             ->andReturn($this->exerciseDomainMock);
@@ -52,12 +52,18 @@ class ExerciseRepositoryTest extends TestCase
         $domain = $repository->findByExerciseId("1");
         self::assertTrue($domain instanceof \App\Domain\Exercise);
     }
+
     public function testFindByExerciseIdNotFound()
     {
         $this->exerciseMock
             ->shouldReceive('where')
             ->once()
             ->with('exercise_id', '999')
+            ->andReturn($this->exerciseMock);
+        $this->exerciseMock
+            ->shouldReceive('where')
+            ->once()
+            ->with('permission', 1)
             ->andReturn();
         $repository = new ExerciseRepository();
         try {
@@ -71,7 +77,7 @@ class ExerciseRepositoryTest extends TestCase
     public function testSave()
     {
         $this->exerciseMock
-            ->shouldReceive('map')
+            ->shouldReceive('convertOrm')
             ->once()
             ->with($this->exerciseDomainMock)
             ->andReturn($this->exerciseMock);
@@ -81,5 +87,51 @@ class ExerciseRepositoryTest extends TestCase
             ->andReturn();
         $repository = new ExerciseRepository();
         $repository->save($this->exerciseDomainMock);
+    }
+
+    public function testFindAllByExerciseIdListWithoutUser()
+    {
+        $exerciseMock1 = m::mock('alias:\App\Exercise');
+        $exerciseMock2 = m::mock('alias:\App\Exercise');
+        $exerciseMock3 = m::mock('alias:\App\Exercise');
+        $exerciseDomainMock1 = m::mock('alias:\App\Domain\Exercise');
+        $exerciseDomainMock2 = m::mock('alias:\App\Domain\Exercise');
+        $exerciseDomainMock3 = m::mock('alias:\App\Domain\Exercise');
+        $this->exerciseMock
+            ->shouldReceive('whereIn')
+            ->once()
+            ->with('exercise_id', ["test1", "test2", "test3"])
+            ->andReturn($this->exerciseMock);
+        $this->exerciseMock
+            ->shouldReceive('where')
+            ->once()
+            ->with('permission', 1)
+            ->andReturn($this->exerciseMock);
+        $this->exerciseMock
+            ->shouldReceive('get')
+            ->once()
+            ->with()
+            ->andReturn([$exerciseMock1, $exerciseMock2, $exerciseMock3]);
+        $this->exerciseDomainMock
+            ->shouldReceive('convertDomain')
+            ->once()
+            ->with($exerciseMock1)
+            ->andReturn($exerciseDomainMock1);
+        $this->exerciseDomainMock
+            ->shouldReceive('convertDomain')
+            ->once()
+            ->with($exerciseMock2)
+            ->andReturn($exerciseDomainMock2);
+        $this->exerciseDomainMock
+            ->shouldReceive('convertDomain')
+            ->once()
+            ->with($exerciseMock3)
+            ->andReturn($exerciseDomainMock3);
+        $repository = new ExerciseRepository();
+        $actual = $repository->findAllByExerciseIdList(["test1", "test2", "test3"]);
+        self::assertSame(3, count($actual));
+        self::assertTrue($actual[0] instanceof \App\Domain\Exercise);
+        self::assertTrue($actual[1] instanceof \App\Domain\Exercise);
+        self::assertTrue($actual[2] instanceof \App\Domain\Exercise);
     }
 }

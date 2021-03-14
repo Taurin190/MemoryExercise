@@ -17,11 +17,21 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/exercise', 'ExerciseController@index')->name('exercise.index');
+Route::get('/exercise', 'ExerciseController@list')->name('exercise.index');
 
 Route::get('/exercise/list', 'ExerciseController@list')->name('exercise.list');
 
 Route::get('/exercise/create', 'Exercise\CreateController@create')->name('exercise.create');
+
+Route::get('/exercise/{uuid}', 'ExerciseController@detail')->name('exercise.detail');
+
+Route::get('/exercise/{uuid}/edit', 'Exercise\EditController@edit')->name('exercise.edit');
+
+Route::post('/exercise/{uuid}/edit/confirm', 'Exercise\EditController@confirm')->name('exercise.edit.confirm');
+
+Route::post('/exercise/{uuid}/edit/complete', 'Exercise\EditController@complete')->name('exercise.edit.complete');
+
+Route::post('/exercise/{uuid}/delete/complete', 'Exercise\DeleteController@complete')->name('exercise.delete.complete');
 
 Route::post('/exercise/confirm', 'Exercise\CreateController@confirm')->name('exercise.confirm');
 
@@ -46,3 +56,5 @@ Route::get('/workbook/{uuid}/edit', 'Workbook\EditController@edit')->name('workb
 Route::post('/workbook/{uuid}/edit/confirm', 'Workbook\EditController@confirm')->name('workbook.edit.confirm');
 
 Route::post('/workbook/{uuid}/edit/complete', 'Workbook\EditController@complete')->name('workbook.edit.complete');
+
+Route::post('/workbook/{uuid}/delete/complete', 'Workbook\DeleteController@complete')->name('workbook.delete.complete');

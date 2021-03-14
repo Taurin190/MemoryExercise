@@ -24,10 +24,9 @@ class ExerciseTest extends TestCase
     public function testCreate() {
         try {
             $exercise = Exercise::create(["question" => "Do you like dog?", "answer" => "yes, I like."]);
-            $actual = $exercise->getQuestion();
-            self::assertSame("Do you like dog?", $actual);
-            $actual = $exercise->getAnswer();
-            self::assertSame("yes, I like.", $actual);
+            $actual = $exercise->getExerciseDto();
+            self::assertSame("Do you like dog?", $actual->question);
+            self::assertSame("yes, I like.", $actual->answer);
         } catch (\Exception $e) {
             self::fail("予期しない例外が発生しました。" . $e);
         }
@@ -54,8 +53,8 @@ class ExerciseTest extends TestCase
     public function testCreateWithoutPermission() {
         try {
             $exercise = Exercise::create(["question" => "Do you like dog?", "answer" => "yes, I like."]);
-            $actual = $exercise->getPermission();
-            self::assertSame(1, $actual);
+            $actual = $exercise->getExerciseDto();
+            self::assertSame(1, $actual->permission);
         } catch (\Exception $e) {
             self::fail("予期しない例外が発生しました。" . $e);
         }
@@ -67,14 +66,14 @@ class ExerciseTest extends TestCase
                 "answer" => "yes, I like.",
                 "permission" => 0
             ]);
-            $actual = $exercise->getPermission();
-            self::assertSame(0, $actual);
+            $actual = $exercise->getExerciseDto();
+            self::assertSame(0, $actual->permission);
         } catch (\Exception $e) {
             self::fail("予期しない例外が発生しました。" . $e);
         }
     }
 
-    public function testMap()
+    public function testConvertDomain()
     {
         $this->exerciseModelMock
             ->shouldReceive('getKey')
@@ -90,60 +89,25 @@ class ExerciseTest extends TestCase
             ->with('answer')
             ->once()
             ->andReturn('Yes, it is.');
-        $actual = Exercise::map($this->exerciseModelMock);
-        self::assertSame(1, $actual->getExerciseId());
-        self::assertSame('Is this an apple?', $actual->getQuestion());
-        self::assertSame('Yes, it is.', $actual->getAnswer());
-    }
-
-    public function testSetQuestion() {
-        try {
-            $exercise = Exercise::create(["question" => "Do you like dog?", "answer" => "yes, I like."]);
-            $actual = $exercise->getQuestion();
-            self::assertSame("Do you like dog?", $actual);
-            $exercise->setQuestion("Do you like cat?");
-            $actual = $exercise->getQuestion();
-            self::assertSame("Do you like cat?", $actual);
-        } catch (DomainException $e) {
-            self::fail("予期しない例外が発生しました。" . $e);
-        }
-    }
-
-    public function testSetQuestionWithEmpty() {
-        try {
-            $exercise = Exercise::create(["question" => "Do you like dog?", "answer" => "yes, I like."]);
-            $actual = $exercise->getQuestion();
-            self::assertSame("Do you like dog?", $actual);
-            $exercise->setQuestion("");
-            self::fail("例外が発生しませんでした。");
-        } catch (DomainException $e) {
-            self::assertSame("質問が空です。", $e->getMessage());
-        }
-    }
-
-    public function testSetAnswer() {
-        try {
-            $exercise = Exercise::create(["question" => "Do you like dog?", "answer" => "yes, I like."]);
-            $actual = $exercise->getAnswer();
-            self::assertSame("yes, I like.", $actual);
-            $exercise->setAnswer("No, I don\'t.");
-            $actual = $exercise->getAnswer();
-            self::assertSame("No, I don\'t.", $actual);
-        } catch (DomainException $e) {
-            self::fail("予期しない例外が発生しました。" . $e);
-        }
-    }
-
-    public function testSetAnswerWithEmpty() {
-        try {
-            $exercise = Exercise::create(["question" => "Do you like dog?", "answer" => "yes, I like."]);
-            $actual = $exercise->getAnswer();
-            self::assertSame("yes, I like.", $actual);
-            $exercise->setAnswer("");
-            self::fail("例外が発生しませんでした。");
-        } catch (DomainException $e) {
-            self::assertSame("解答が空です。", $e->getMessage());
-        }
+        $this->exerciseModelMock
+            ->shouldReceive('getAttribute')
+            ->with('permission')
+            ->once()
+            ->andReturn(1);
+        $this->exerciseModelMock
+            ->shouldReceive('getAttribute')
+            ->with('label_list')
+            ->once()
+            ->andReturn([]);
+        $this->exerciseModelMock
+            ->shouldReceive('getAttribute')
+            ->with('author_id')
+            ->once()
+            ->andReturn(1);
+        $actual = Exercise::convertDomain($this->exerciseModelMock)->getExerciseDto();
+        self::assertSame(1, $actual->exercise_id);
+        self::assertSame('Is this an apple?', $actual->question);
+        self::assertSame('Yes, it is.', $actual->answer);
     }
 
     public function testToArray() {

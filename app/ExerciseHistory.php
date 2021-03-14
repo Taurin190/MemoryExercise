@@ -25,17 +25,16 @@ class ExerciseHistory extends Model
         return $this->belongsTo('\App\User', 'user_id', 'id');
     }
 
-    public static function map(\App\Domain\ExerciseHistory $exerciseHistory) {
+    public static function convertOrm(\App\Domain\ExerciseHistory $exerciseHistory) {
         $model = ExerciseHistory::find($exerciseHistory->getExerciseHistoryId());
         if (is_null($model)) {
             return new ExerciseHistory([
                 'score' => $exerciseHistory->getScore()
             ]);
-        } else {
-            return $model->fill([
-                'exercise_history_id' => $exerciseHistory->getExerciseHistoryId(),
-                'score' => $exerciseHistory->getScore()
-            ]);
         }
+        return $model->fill([
+            'exercise_history_id' => $exerciseHistory->getExerciseHistoryId(),
+            'score' => $exerciseHistory->getScore()
+        ]);
     }
 }

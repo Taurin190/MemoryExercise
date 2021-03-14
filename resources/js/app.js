@@ -22,8 +22,11 @@ Vue.config.devtools = true;
 Vue.component('workbook-component', require('./components/WorkbookComponent.vue').default);
 Vue.component('answer-graph-component', require('./components/AnswerGraphComponent.vue').default);
 Vue.component('exercise-search-component', require('./components/ExerciseSearchComponent.vue').default);
+Vue.component('exercise-append-component', require('./components/ExerciseAppendComponent.vue').default);
 Vue.component('study-history-graph-component', require('./components/StudyHistoryGraphComponent.vue').default);
 Vue.component('label-search-component', require('./components/LabelSearchComponent.vue').default);
+Vue.component('label-list-component', require('./components/LabelListComponent.vue').default);
+Vue.component('workbook-create-component', require('./components/WorkbookCreateComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

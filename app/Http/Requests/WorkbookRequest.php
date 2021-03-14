@@ -1,21 +1,14 @@
 <?php
 
+
 namespace App\Http\Requests;
 
+
+use App\Dto\WorkbookDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class WorkbookRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,9 +16,17 @@ class WorkbookRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'title' => 'required|max:256',
-            'explanation' => 'max:3000',
-        ];
+        return [];
+    }
+
+    public function convertDtoBySession($user_id, $post_fix = '', $workbook_id = null)
+    {
+        return new WorkbookDto(
+            $this->session()->pull('title' . $post_fix, ''),
+            $this->session()->pull('explanation' . $post_fix, ''),
+            $this->session()->pull('exercise_list' . $post_fix, null),
+            $user_id,
+            $workbook_id
+        );
     }
 }

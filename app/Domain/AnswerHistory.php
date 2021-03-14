@@ -28,6 +28,7 @@ class AnswerHistory
         $this->workbook_history = WorkbookHistory::map($answer, $workbook, $user);
         $this->exercise_history_list = [];
         $exercise_map = $answer->getExerciseMap();
+        //TODO ExerciseListの使い方を修正する
         foreach ($workbook->getExerciseList() as $exercise) {
             $this->exercise_history_list[] = ExerciseHistory::create($user, $exercise, $exercise_map[$exercise->getExerciseId()]);
         }
