@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Constant;
 use App\Usecase\AnswerHistoryUsecase;
 use App\Usecase\ExerciseUsecase;
-use Illuminate\Http\Request;
-use App\Http\Requests\ExerciseFormRequest;
 use Illuminate\Support\Facades\Auth;
 
 class ExerciseController extends Controller
@@ -35,7 +34,7 @@ class ExerciseController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            $exercise_list = $this->exerciseUsecase->getAllExercises(12, Auth::user());
+            $exercise_list = $this->exerciseUsecase->getAllExercises(Constant::$INIT_EXERCISE_LOAD_NUMBER, Auth::user());
             $count = $this->exerciseUsecase->getExerciseCount(Auth::user());
             $exercise_history_list = $this->answerHistoryUsecase->getExerciseHistoryCountByExerciseList(Auth::user(), $exercise_list);
             return view('exercise_index')
@@ -44,7 +43,7 @@ class ExerciseController extends Controller
                 ->with('user_id', Auth::id())
                 ->with('count', $count);
         } else {
-            $exercise_list = $this->exerciseUsecase->getAllExercises(12);
+            $exercise_list = $this->exerciseUsecase->getAllExercises(Constant::$INIT_EXERCISE_LOAD_NUMBER);
             $count = $this->exerciseUsecase->getExerciseCount();
             return view('exercise_index')
                 ->with('exercise_list', $exercise_list)
@@ -55,7 +54,7 @@ class ExerciseController extends Controller
     public function list()
     {
         if (Auth::check()) {
-            $exercise_list = $this->exerciseUsecase->getAllExercises(12, Auth::user());
+            $exercise_list = $this->exerciseUsecase->getAllExercises(Constant::$INIT_EXERCISE_LOAD_NUMBER, Auth::user());
             $count = $this->exerciseUsecase->getExerciseCount(Auth::user());
             $exercise_history_list = $this->answerHistoryUsecase->getExerciseHistoryCountByExerciseList(Auth::user(), $exercise_list);
             return view('exercise_index')
@@ -64,7 +63,7 @@ class ExerciseController extends Controller
                 ->with('user_id', Auth::id())
                 ->with('count', $count);
         } else {
-            $exercise_list = $this->exerciseUsecase->getAllExercises(12);
+            $exercise_list = $this->exerciseUsecase->getAllExercises(Constant::$INIT_EXERCISE_LOAD_NUMBER);
             $count = $this->exerciseUsecase->getExerciseCount();
             return view('exercise_index')
                 ->with('exercise_list', $exercise_list)
