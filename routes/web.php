@@ -17,7 +17,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/exercise', 'ExerciseController@index')->name('exercise.index');
+Route::get('/exercise', 'ExerciseController@list')->name('exercise.index');
 
 Route::get('/exercise/list', 'ExerciseController@list')->name('exercise.list');
 
