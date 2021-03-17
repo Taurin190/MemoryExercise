@@ -39,13 +39,6 @@ class ExerciseControllerTest extends TestCase
         $response->assertLocation("/login");
     }
 
-    public function testList()
-    {
-        $response = $this->actingAs($this->userMock)
-            ->get(route('exercise.list'));
-        $response->assertOk();
-    }
-
     public function testForm()
     {
         $response = $this->actingAs($this->userMock)
