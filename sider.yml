@@ -6,15 +6,15 @@
 #     dir: app/
 #     standard: CakePHP
 
-   # https://help.sider.review/tools/php/phpmd
-   phpmd:
-     target:
-       - index.php
-       - wp-content
-     rule: codesize,unusedcode
-     minimumpriority: 3
-     suffixes: php,phtml
-     exclude: app/Vendor/
+#   # https://help.sider.review/tools/php/phpmd
+#   phpmd:
+#     target:
+#       - index.php
+#       - wp-content
+#     rule: codesize,unusedcode
+#     minimumpriority: 3
+#     suffixes: php,phtml
+#     exclude: app/Vendor/
 #     strict: true
 #     custom_rule_path:
 #       - Custom_PHPMD_Rule.php
