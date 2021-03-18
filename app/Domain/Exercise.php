@@ -66,7 +66,14 @@ class Exercise
             $author_id = $parameters['author_id'];
         }
 
-        return new Exercise($exercise_id, $parameters['question'], $parameters['answer'], $permission, $label_list, $author_id);
+        return new Exercise(
+            $exercise_id,
+            $parameters['question'],
+            $parameters['answer'],
+            $permission,
+            $label_list,
+            $author_id
+        );
     }
 
     public static function createFromDto(ExerciseDto $exercise_dto)
