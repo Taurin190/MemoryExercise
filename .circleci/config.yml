@@ -65,7 +65,7 @@ jobs:
           name: Coding rules check
           command: |
             mkdir -p ~/phpcs
-            ./vendor/bin/phpcs --warning-severity=0 --runtime-set ignore_warnings_on_exit 1 --report=checkstyle --report-file=~/phpcs/test_phpcs.xml ./app
+            ./vendor/bin/phpcs --warning-severity=0 --runtime-set ignore_warnings_on_exit 1 --report=checkstyle --report-file=~/phpcs/test_phpcs.xml ./app || true
       - store_test_results:
           path: ~/phpcs
       - store_artifacts:
