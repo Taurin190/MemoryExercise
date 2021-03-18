@@ -34,7 +34,9 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
                     $query->whereIn('exercise_id', $exercise_id_list)->where('author_id', $user_id);
                 })->get();
         } else {
-            $exercise_orm_list = \App\Exercise::whereIn('exercise_id', $exercise_id_list)->where('permission', 1)->get();
+            $exercise_orm_list = \App\Exercise::whereIn('exercise_id', $exercise_id_list)
+                ->where('permission', 1)
+                ->get();
         }
 
         $domain_list = Exercises::convertByOrmList($exercise_orm_list);

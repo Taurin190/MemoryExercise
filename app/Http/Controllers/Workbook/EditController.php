@@ -31,7 +31,12 @@ class EditController extends Controller
     {
         $request_workbook_dto = $request->convertDtoByRequest(Auth::id(), $uuid);
         $exercise_id_list = $request->get('exercise', []);
-        $workbook_dto = $this->workbook_usecase->getMergedWorkbook($uuid, Auth::id(), $request_workbook_dto, $exercise_id_list);
+        $workbook_dto = $this->workbook_usecase->getMergedWorkbook(
+            $uuid,
+            Auth::id(),
+            $request_workbook_dto,
+            $exercise_id_list
+        );
         $request->storeSessions($workbook_dto, '_edit');
 
         return view('workbook_edit_confirm')

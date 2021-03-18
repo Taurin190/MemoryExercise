@@ -51,7 +51,12 @@ class WorkbookUsecase
         return $workbook_domain->getWorkbookDto();
     }
 
-    public function getWorkbookWithExerciseIdList(WorkbookDto $workbook_dto, array $exercise_id_list, $user, $workbook_id = null)
+    public function getWorkbookWithExerciseIdList(
+        WorkbookDto $workbook_dto,
+        array $exercise_id_list,
+        $user,
+        $workbook_id = null
+    )
     {
         $exercise_list_domain = $this->exerciseRepository->findAllByExerciseIdList($exercise_id_list, $user->getKey());
         return Workbook::create([
