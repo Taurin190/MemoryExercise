@@ -64,10 +64,8 @@ jobs:
       - run:
           name: Coding rules check
           command: |
-          #  curl -fSL https://github.com/haya14busa/reviewdog/releases/download/$REVIEWDOG_VERSION/reviewdog_linux_amd64 -o reviewdog && chmod +x ./reviewdog
             mkdir -p ~/phpcs
             ./vendor/bin/phpcs --warning-severity=0 --runtime-set ignore_warnings_on_exit 1 --report=checkstyle --report-file=~/phpcs/test_phpcs.xml ./app
-          # ./vendor/bin/phpcs --error-severity=0 --runtime-set ignore_warnings_on_exit 1 --standard=PSR2 --report=emacs ./app | ./reviewdog -efm="%f:%l:%c: %m" -reporter=github-pr-review
       - store_test_results:
           path: ~/phpcs
       - store_artifacts:
