@@ -8,7 +8,6 @@ use App\Http\Requests\ExerciseRequest;
 use App\Usecase\ExerciseUsecase;
 use Illuminate\Support\Facades\Auth;
 
-
 class CreateController extends Controller
 {
     protected $exerciseUsecase;

@@ -7,7 +7,7 @@
  */
 
 namespace App\Domain;
-use App\User;
+
 use DateTime;
 
 interface AnswerHistoryRepository

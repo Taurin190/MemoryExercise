@@ -39,7 +39,6 @@ class AnswerHistoryUsecase
 
     public function getAnswerHistoryForWorkbook(string $workbook_id)
     {
-
     }
 
     /**

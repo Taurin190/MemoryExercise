@@ -12,15 +12,18 @@ class WorkbookHistory extends Model
         'exercise_count', 'ok_count', 'ng_count', 'studying_count'
     ];
 
-    public function workbook() {
+    public function workbook()
+    {
         return $this->belongsTo('\App\Workbook', 'workbook_id', 'workbook_id');
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo('\App\User', 'user_id', 'id');
     }
 
-    public static function convertOrm(\App\Domain\WorkbookHistory $workbookHistory) {
+    public static function convertOrm(\App\Domain\WorkbookHistory $workbookHistory)
+    {
         $model = WorkbookHistory::find($workbookHistory->getWorkbookHistoryId());
         if (is_null($model)) {
             return new WorkbookHistory([

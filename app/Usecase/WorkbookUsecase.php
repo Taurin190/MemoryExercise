@@ -2,9 +2,8 @@
 
 namespace App\Usecase;
 
-
-use App\Domain\Exercises;
 use App\Domain\ExerciseRepository;
+use App\Domain\Exercises;
 use App\Domain\Workbook;
 use App\Domain\WorkbookRepository;
 use App\Dto\WorkbookDto;

@@ -25,7 +25,8 @@ class Workbook
      * @return Workbook 作成した問題集
      * @throws WorkbookDomainException
      */
-    public static function create($parameters) {
+    public static function create($parameters)
+    {
         if (empty($parameters['title'])) {
             throw new WorkbookDomainException("タイトルが空です。");
         }
@@ -35,8 +36,9 @@ class Workbook
         }
         $exercise_list = null;
         if (isset($parameters['exercise_list'])) {
-            if (!($parameters['exercise_list'] instanceof Exercises))
+            if (!($parameters['exercise_list'] instanceof Exercises)) {
                 throw new WorkbookDomainException("Invalid Type Error.");
+            }
             $exercise_list = $parameters['exercise_list'];
         }
         $workbook_id = null;
@@ -50,7 +52,8 @@ class Workbook
         return new Workbook($parameters['title'], $explanation, $workbook_id, $exercise_list, $user);
     }
 
-    public static function convertDomain(\App\Workbook $workbook_orm) {
+    public static function convertDomain(\App\Workbook $workbook_orm)
+    {
         return new Workbook(
             $workbook_orm->getAttribute('title'),
             $workbook_orm->getAttribute('explanation'),
@@ -60,7 +63,8 @@ class Workbook
         );
     }
 
-    public function hasEditPermission($user_id) {
+    public function hasEditPermission($user_id)
+    {
         return $this->user_id == $user_id;
     }
 
@@ -87,7 +91,8 @@ class Workbook
         $this->explanation = $explanation;
     }
 
-    public function getWorkbookDto() {
+    public function getWorkbookDto()
+    {
         $exercise_dto_list = [];
         if (isset($this->exercises)) {
             $exercise_dto_list = $this->exercises->getExerciseDtoList();
@@ -102,19 +107,23 @@ class Workbook
         );
     }
 
-    public function getWorkbookId() {
+    public function getWorkbookId()
+    {
         return $this->workbook_id;
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->title;
     }
 
-    public function getExplanation() {
+    public function getExplanation()
+    {
         return $this->explanation;
     }
 
-    public function edit($parameters) {
+    public function edit($parameters)
+    {
         if (!empty($parameters['title'])) {
             $this->title = $parameters['title'];
         }
@@ -122,8 +131,9 @@ class Workbook
             $this->explanation = $parameters['explanation'];
         }
         if (isset($parameters['exercise_list'])) {
-            if (!($parameters['exercise_list'] instanceof Exercises))
+            if (!($parameters['exercise_list'] instanceof Exercises)) {
                 throw new DomainException("Invalid Type Error.");
+            }
             $this->exercises = $parameters['exercise_list'];
         }
     }
@@ -134,19 +144,26 @@ class Workbook
     }
 
     //TODO 消したい
-    public function getExerciseList() {
-       return $this->exercises;
+    public function getExerciseList()
+    {
+        return $this->exercises;
     }
 
-    public function getCountOfExercise() {
-        if ($this->exercises == null) return 0;
+    public function getCountOfExercise()
+    {
+        if ($this->exercises == null) {
+            return 0;
+        }
         return $this->exercises->count();
     }
-    public function getUserId() {
+
+    public function getUserId()
+    {
         return $this->user_id;
     }
 
-    public function addExercise(Exercise $exercise) {
+    public function addExercise(Exercise $exercise)
+    {
         $this->exercises[] = $exercise;
     }
 
@@ -156,7 +173,8 @@ class Workbook
      * @param int $order_num
      * @throws WorkbookDomainException
      */
-    public function modifyOrder(Exercise $exercise, int $order_num) {
+    public function modifyOrder(Exercise $exercise, int $order_num)
+    {
         $insert_num = $order_num - 1;
         $exercise_amount = $this->exercises->count();
         // 要素が1つ以下の場合は、例外を返さないように処理を行わない。
@@ -180,7 +198,8 @@ class Workbook
         $this->exercises = $new_exercise_list;
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         $exercise_json_array = $this->exercises->toArray();
         $workbook_array = [
             'workbook_id' => $this->workbook_id,

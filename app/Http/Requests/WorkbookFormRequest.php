@@ -30,7 +30,8 @@ class WorkbookFormRequest extends FormRequest
         ];
     }
 
-    public function messages(){
+    public function messages()
+    {
         return [
             'title.required' => 'タイトルは必須です。',
             'title.max' => 'タイトルは最大256文字です。',

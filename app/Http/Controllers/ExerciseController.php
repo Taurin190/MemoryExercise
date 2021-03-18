@@ -59,5 +59,4 @@ class ExerciseController extends Controller
             ->with('exercise', $exercise_dto)
             ->with('user_id', Auth::id());
     }
-
 }

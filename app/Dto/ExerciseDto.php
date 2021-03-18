@@ -25,7 +25,7 @@ class ExerciseDto
 
     public $user_id;
 
-    function __construct($question, $answer, $permission, $user_id, $exercise_id=null, $label_list = [])
+    function __construct($question, $answer, $permission, $user_id, $exercise_id = null, $label_list = [])
     {
         $this->exercise_id = $exercise_id;
         $this->question = $question;
@@ -35,7 +35,8 @@ class ExerciseDto
         $this->label_list = $label_list;
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return [
             "exercise_id" => $this->exercise_id,
             "question" => $this->question,

@@ -8,7 +8,6 @@
 
 namespace App\Domain;
 
-
 class Label
 {
     private $label_id;

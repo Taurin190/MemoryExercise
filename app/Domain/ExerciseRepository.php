@@ -2,7 +2,6 @@
 
 namespace App\Domain;
 
-
 interface ExerciseRepository
 {
     function findAll($limit = 10, $user = null, $page = 1);

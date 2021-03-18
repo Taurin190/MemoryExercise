@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Domain\Answer;
 use App\Usecase\AnswerHistoryUsecase;
 use App\Usecase\WorkbookUsecase;

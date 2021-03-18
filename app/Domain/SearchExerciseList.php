@@ -3,7 +3,6 @@
 
 namespace App\Domain;
 
-
 use App\Dto\ExerciseListDto;
 
 class SearchExerciseList

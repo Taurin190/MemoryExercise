@@ -39,7 +39,8 @@ class Exercise extends Model
         return $this->belongsToMany('App\Label');
     }
 
-    public static function convertOrm(Domain\Exercise $exercise) {
+    public static function convertOrm(Domain\Exercise $exercise)
+    {
         $dto = $exercise->getExerciseDto();
         $exercise_orm = null;
         if (isset($dto->exercise_id)) {

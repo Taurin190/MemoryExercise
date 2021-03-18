@@ -3,7 +3,6 @@
 
 namespace App\Dto;
 
-
 class ExerciseListDto
 {
     public $total_count;

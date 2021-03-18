@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Exercise;
 
 use App\Http\Controllers\Controller;
-use App\Usecase\AnswerHistoryUsecase;
 use App\Usecase\ExerciseUsecase;
 use Illuminate\Support\Facades\Auth;
-
 
 class DeleteController extends Controller
 {
