@@ -59,6 +59,17 @@ jobs:
       # prepare the database
       - run: php artisan migrate --env=testing --database=mysql_testing --force
 
+      # run PHP_CodeSniffier
+      - run:
+          name: Coding rules check
+          command: |
+            mkdir -p ~/phpcs
+            ./vendor/bin/phpcs --standard=phpcs.xml --report=checkstyle --report-file=~/phpcs/test_phpcs.xml .
+      - store_test_results:
+          path: ~/phpcs
+      - store_artifacts:
+          path: ~/phpcs
+
       # run tests with phpunit or codecept
       - run:
           command: |
