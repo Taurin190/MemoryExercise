@@ -14,7 +14,8 @@ class WorkbookController extends Controller
     protected $history_usecase;
 
     public function __construct(
-        WorkbookUsecase $workbook_usecase, AnswerHistoryUsecase $history_usecase
+        WorkbookUsecase $workbook_usecase,
+        AnswerHistoryUsecase $history_usecase
     ) {
         $this->workbook_usecase = $workbook_usecase;
         $this->history_usecase = $history_usecase;

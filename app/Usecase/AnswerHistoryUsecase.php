@@ -7,20 +7,21 @@
  */
 
 namespace App\Usecase;
-use App\Dto\StudyHistoryDto;
-use App\User;
+
 use App\Domain\Answer;
-use App\Domain\Workbook;
 use App\Domain\AnswerHistory;
 use App\Domain\AnswerHistoryRepository;
-
+use App\Domain\Workbook;
+use App\Dto\StudyHistoryDto;
+use App\User;
 use DateTime;
 
 class AnswerHistoryUsecase
 {
     private $answerHistoryRepository;
 
-    public function __construct(AnswerHistoryRepository $answerHistoryRepository) {
+    public function __construct(AnswerHistoryRepository $answerHistoryRepository)
+    {
         $this->answerHistoryRepository = $answerHistoryRepository;
     }
 
@@ -30,12 +31,14 @@ class AnswerHistoryUsecase
      * @param Workbook $workbook
      * @param User $user
      */
-    public function addAnswerHistory(Answer $answer, Workbook $workbook, User $user) {
+    public function addAnswerHistory(Answer $answer, Workbook $workbook, User $user)
+    {
         $answer_history = AnswerHistory::map($answer, $workbook, $user);
         $this->answerHistoryRepository->save($answer_history);
     }
 
-    public function getAnswerHistoryForWorkbook(string $workbook_id) {
+    public function getAnswerHistoryForWorkbook(string $workbook_id)
+    {
 
     }
 
@@ -46,7 +49,8 @@ class AnswerHistoryUsecase
      * @param $date_until
      * @return StudyHistoryDto
      */
-    public function getStudyHistoryOfUser($user_id, $date_since, $date_until) {
+    public function getStudyHistoryOfUser($user_id, $date_since, $date_until)
+    {
         $graph_date_since = new DateTime('first day of this month');
         $graph_date_until = new DateTime('last day of this month');
         $exercise_history_table = $this->answerHistoryRepository
@@ -72,7 +76,8 @@ class AnswerHistoryUsecase
      * @param $exercise_list
      * @return array
      */
-    public function getExerciseHistoryCountByExerciseList($user, $exercise_list) {
+    public function getExerciseHistoryCountByExerciseList($user, $exercise_list)
+    {
         $exercise_history_list = $this->answerHistoryRepository
             ->getExerciseHistoryByList(
                 $user->getKey(),

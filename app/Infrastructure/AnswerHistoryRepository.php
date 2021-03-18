@@ -11,10 +11,8 @@ namespace App\Infrastructure;
 
 use App\Domain\AnswerHistory;
 use App\Domain\ExerciseDailyTable;
-use App\Exercise;
 use App\ExerciseHistory;
 use App\WorkbookHistory;
-use App\User;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 
@@ -22,7 +20,7 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
 {
     const DATE_FORMAT = "Y-m-d H:i:s";
 
-    function save(AnswerHistory $answerHistory)
+    public function save(AnswerHistory $answerHistory)
     {
         $workbook_history = $answerHistory->getWorkbookHistory();
         $exercise_history_list = $answerHistory->getExerciseHistoryList();
@@ -39,7 +37,8 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
         }
     }
 
-    function getExerciseHistoryByList($user_id, $exercise_list) {
+    public function getExerciseHistoryByList($user_id, $exercise_list)
+    {
         $exercise_id_list = [];
         foreach ($exercise_list as $exercise) {
             $exercise_id_list[] = $exercise->getKey();
@@ -47,11 +46,13 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
         return ExerciseHistory::where('user_id', $user_id)->whereIn('exercise_id', $exercise_id_list)->get();
     }
 
-    private function createQueryByUserWithinTerm($user_id, DateTime $date_since = null, DateTime $date_until = null) {
+    private function createQueryByUserWithinTerm($user_id, DateTime $date_since = null, DateTime $date_until = null)
+    {
         $query = ExerciseHistory::where('user_id', $user_id);
         if (isset($date_since) and isset($date_until)) {
             $query->whereBetween(
-                'created_at', [
+                'created_at',
+                [
                     $date_since->format(self::DATE_FORMAT),
                     $date_until->format(self::DATE_FORMAT)
                 ]
@@ -60,7 +61,8 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
             $last_month_from_target = $date_since;
             $last_month_from_target->modify('-1 month');
             $query->whereBetween(
-                'created_at', [
+                'created_at',
+                [
                     $date_since->format(self::DATE_FORMAT),
                     $last_month_from_target->format(self::DATE_FORMAT)
                 ]
@@ -72,7 +74,8 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
             $last_month = new DateTime();
             $last_month->modify('-1 month');
             $query->whereBetween(
-                'created_at', [
+                'created_at',
+                [
                     $last_month->format(self::DATE_FORMAT),
                     $now->format(self::DATE_FORMAT)
                 ]
@@ -81,7 +84,7 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
         return $query;
     }
 
-    function getExerciseHistoryByUserIdWithinTerm($user_id, DateTime $date_since = null, DateTime $date_until = null)
+    public function getExerciseHistoryByUserIdWithinTerm($user_id, DateTime $date_since = null, DateTime $date_until = null)
     {
         $query = $this->createQueryByUserWithinTerm($user_id, $date_since, $date_until);
         $exercise_history_list = $query->get();
@@ -92,7 +95,7 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
         return $exercise_history_domain_list;
     }
 
-    function getExerciseHistoryCountByUserIdWithinTerm(
+    public function getExerciseHistoryCountByUserIdWithinTerm(
         $user_id,
         DateTime $date_since = null,
         DateTime $date_until = null
@@ -102,7 +105,7 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
         return $query->count();
     }
 
-    function getExerciseHistoryDailyCountTableWithinTerm(
+    public function getExerciseHistoryDailyCountTableWithinTerm(
         $user_id,
         DateTime $date_since = null,
         DateTime $date_until = null
@@ -127,12 +130,13 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
         return $exercise_daily_table;
     }
 
-    function getExerciseHistoryTotalCount($user_id)
+    public function getExerciseHistoryTotalCount($user_id)
     {
         $query = ExerciseHistory::where('user_id', $user_id);
         return $query->count();
     }
-    function getExerciseHistoryTotalDays($user_id)
+
+    public function getExerciseHistoryTotalDays($user_id)
     {
         $raw_query_to_count = "DATE_FORMAT(created_at, '%Y-%m-%d') as Date, count(created_at) as days";
         $query = ExerciseHistory::select(DB::raw($raw_query_to_count))
