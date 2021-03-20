@@ -12,17 +12,17 @@ use DateTime;
 
 interface AnswerHistoryRepository
 {
-    function save(AnswerHistory $answerHistory);
+    public function save(AnswerHistory $answerHistory);
 
-    function getExerciseHistoryByList($user_id, $exercise_list);
+    public function getExerciseHistoryByList($user_id, $exercise_list);
 
-    function getExerciseHistoryByUserIdWithinTerm($user_id, DateTime $date_since, DateTime $date_until);
+    public function getExerciseHistoryByUserIdWithinTerm($user_id, DateTime $date_since, DateTime $date_until);
 
-    function getExerciseHistoryCountByUserIdWithinTerm($user_id, DateTime $date_since, DateTime $date_until);
+    public function getExerciseHistoryCountByUserIdWithinTerm($user_id, DateTime $date_since, DateTime $date_until);
 
-    function getExerciseHistoryDailyCountTableWithinTerm($user_id, DateTime $date_since, DateTime $date_until);
+    public function getExerciseHistoryDailyCountTableWithinTerm($user_id, DateTime $date_since, DateTime $date_until);
 
-    function getExerciseHistoryTotalCount($user_id);
+    public function getExerciseHistoryTotalCount($user_id);
 
-    function getExerciseHistoryTotalDays($user_id);
+    public function getExerciseHistoryTotalDays($user_id);
 }

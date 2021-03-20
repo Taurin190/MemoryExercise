@@ -4,21 +4,21 @@ namespace App\Domain;
 
 interface ExerciseRepository
 {
-    function findAll($limit = 10, $user = null, $page = 1);
+    public function findAll($limit = 10, $user = null, $page = 1);
 
-    function findByExerciseId($exercise_id, $user_id = null);
+    public function findByExerciseId($exercise_id, $user_id = null);
 
-    function findAllByExerciseIdList($exercise_id_list, $user_id = null);
+    public function findAllByExerciseIdList($exercise_id_list, $user_id = null);
 
-    function save(Exercise $exercise);
+    public function save(Exercise $exercise);
 
-    function search($text, $page, $limit = 10);
+    public function search($text, $page, $limit = 10);
 
-    function searchCount($text);
+    public function searchCount($text);
 
-    function count($user = null);
+    public function count($user = null);
 
-    function checkEditPermission($exercise_id, $user_id);
+    public function checkEditPermission($exercise_id, $user_id);
 
-    function delete($exercise_id);
+    public function delete($exercise_id);
 }

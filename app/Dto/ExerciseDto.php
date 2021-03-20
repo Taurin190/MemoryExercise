@@ -25,7 +25,7 @@ class ExerciseDto
 
     public $user_id;
 
-    function __construct($question, $answer, $permission, $user_id, $exercise_id = null, $label_list = [])
+    public function __construct($question, $answer, $permission, $user_id, $exercise_id = null, $label_list = [])
     {
         $this->exercise_id = $exercise_id;
         $this->question = $question;
