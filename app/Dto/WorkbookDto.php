@@ -14,7 +14,7 @@ class WorkbookDto
 
     public $user_id;
 
-    function __construct($title, $explanation, $exercise_list, $user_id, $workbook_id = null)
+    public function __construct($title, $explanation, $exercise_list, $user_id, $workbook_id = null)
     {
         $this->title = $title;
         $this->explanation = $explanation;

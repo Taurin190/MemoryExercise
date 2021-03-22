@@ -8,7 +8,6 @@
 
 namespace App\Domain;
 
-
 class AnswerHistory
 {
     private $answer_history_id;
@@ -38,15 +37,18 @@ class AnswerHistory
         }
     }
 
-    public static function map(Answer $answer, Workbook $workbook, $user) {
+    public static function map(Answer $answer, Workbook $workbook, $user)
+    {
         return new AnswerHistory($answer, $workbook, $user);
     }
 
-    public function getWorkbookHistory() {
+    public function getWorkbookHistory()
+    {
         return $this->workbook_history;
     }
 
-    public function getExerciseHistoryList() {
+    public function getExerciseHistoryList()
+    {
         return $this->exercise_history_list;
     }
 }

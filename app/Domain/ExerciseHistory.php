@@ -8,7 +8,6 @@
 
 namespace App\Domain;
 
-
 class ExerciseHistory
 {
     private $exercise_history_id;
@@ -21,11 +20,13 @@ class ExerciseHistory
 
     private $createdAt;
 
-    public static function create($user, $exercise, $score) {
+    public static function create($user, $exercise, $score)
+    {
         return new ExerciseHistory(null, $user, $exercise, $score);
     }
 
-    private function __construct($exercise_history_id, $user, $exercise, $score, $createdAt = null) {
+    private function __construct($exercise_history_id, $user, $exercise, $score, $createdAt = null)
+    {
         $this->user = $user;
         $this->exercise = $exercise;
         switch ($score) {
@@ -50,32 +51,39 @@ class ExerciseHistory
         }
     }
 
-    public static function map(\App\ExerciseHistory $exerciseHistory) {
+    public static function map(\App\ExerciseHistory $exerciseHistory)
+    {
         return new ExerciseHistory(
             $exerciseHistory->getKey(),
             $exerciseHistory->user(),
             $exerciseHistory->exercise(),
             $exerciseHistory->getAttribute("score"),
-            $exerciseHistory->created_at->format('Y-m-d'));
+            $exerciseHistory->created_at->format('Y-m-d')
+        );
     }
 
-    public function getExerciseHistoryId() {
+    public function getExerciseHistoryId()
+    {
         return $this->exercise_history_id;
     }
 
-    public function getScore() {
+    public function getScore()
+    {
         return $this->score;
     }
 
-    public function getUser() {
+    public function getUser()
+    {
         return $this->user;
     }
 
-    public function getExercise() {
+    public function getExercise()
+    {
         return $this->exercise;
     }
 
-    public function getCreatedAt() {
+    public function getCreatedAt()
+    {
         return $this->createdAt;
     }
 }

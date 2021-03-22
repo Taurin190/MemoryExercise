@@ -8,7 +8,6 @@
 
 namespace App\Domain;
 
-
 class WorkbookDomainException extends \Exception
 {
 

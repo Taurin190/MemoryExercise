@@ -8,7 +8,7 @@ use App\Exceptions\DataNotFoundException;
 
 class ExerciseRepository implements \App\Domain\ExerciseRepository
 {
-    function findByExerciseId($exercise_id, $user_id = null)
+    public function findByExerciseId($exercise_id, $user_id = null)
     {
         $orm = null;
         if (isset($user_id)) {
@@ -26,11 +26,11 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         return Exercise::convertDomain($orm->first());
     }
 
-    function findAllByExerciseIdList($exercise_id_list, $user_id = null)
+    public function findAllByExerciseIdList($exercise_id_list, $user_id = null)
     {
         if (isset($user_id)) {
             $exercise_orm_list = \App\Exercise::whereIn('exercise_id', $exercise_id_list)->where('permission', 1)
-                ->orWhere(function ($query) use ($user_id, $exercise_id_list){
+                ->orWhere(function ($query) use ($user_id, $exercise_id_list) {
                     $query->whereIn('exercise_id', $exercise_id_list)->where('author_id', $user_id);
                 })->get();
         } else {
@@ -43,12 +43,12 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         return $domain_list;
     }
 
-    function save(Exercise $exercise)
+    public function save(Exercise $exercise)
     {
         \App\Exercise::convertOrm($exercise)->save();
     }
 
-    function findAll($limit = 10, $user = null, $page = 1)
+    public function findAll($limit = 10, $user = null, $page = 1)
     {
         // TODO 引数を整える
         if (isset($user)) {
@@ -59,7 +59,7 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         }
     }
 
-    function count($user = null)
+    public function count($user = null)
     {
         if (isset($user)) {
             return \App\Exercise::where('permission', 1)
@@ -68,7 +68,8 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         return \App\Exercise::where('permission', 1)->count();
     }
 
-    function search($text, $user = null, $page = 1, $limit = 10){
+    public function search($text, $user = null, $page = 1, $limit = 10)
+    {
         if (mb_strlen($text) < 2) {
             $count = $this->count($user);
             $exercise_orm_list = $this->findAll($limit, $user, $page);
@@ -78,7 +79,6 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
                 $page,
                 $text
             );
-
         }
         $count = $this->searchCount($text);
         $exercise_orm_list = \App\Exercise::whereRaw("match(`question`) against (? IN NATURAL LANGUAGE MODE)", $text)
@@ -91,18 +91,23 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         );
     }
 
-    function searchCount($text) {
+    public function searchCount($text)
+    {
         return \App\Exercise::whereRaw("match(`question`) against (? IN NATURAL LANGUAGE MODE)", $text)->count();
     }
 
-    function checkEditPermission($exercise_id, $user_id) {
+    public function checkEditPermission($exercise_id, $user_id)
+    {
         $target_exercise = \App\Exercise::select(['author_id'])->where('exercise_id', $exercise_id)->first();
         //TODO 判断をインフラ層で行っているためドメインに移す
-        if ($target_exercise->author_id == $user_id) return true;
+        if ($target_exercise->author_id == $user_id) {
+            return true;
+        }
         return false;
     }
 
-    function delete($exercise_id) {
+    public function delete($exercise_id)
+    {
         \App\Exercise::where('exercise_id', $exercise_id)->delete();
     }
 }

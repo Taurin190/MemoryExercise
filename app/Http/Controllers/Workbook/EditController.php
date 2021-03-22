@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Workbook;
 
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkbookFormRequest;
 use App\Http\Requests\WorkbookRequest;

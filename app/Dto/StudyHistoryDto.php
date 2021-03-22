@@ -29,23 +29,28 @@ class StudyHistoryDto
         $this->totalDays = $totalDays;
     }
 
-    public static function map($exercise_history_table, $monthly_count, $total_count, $total_days) {
+    public static function map($exercise_history_table, $monthly_count, $total_count, $total_days)
+    {
         return new StudyHistoryDto($exercise_history_table, $monthly_count, $total_count, $total_days);
     }
 
-    public function getMonthlyCount() {
+    public function getMonthlyCount()
+    {
         return $this->monthlyCount;
     }
 
-    public function getTotalCount() {
+    public function getTotalCount()
+    {
         return $this->totalCount;
     }
 
-    public function getTotalDays() {
+    public function getTotalDays()
+    {
         return $this->totalDays;
     }
 
-    public function getGraphData() {
+    public function getGraphData()
+    {
         $data_list = [];
         foreach ($this->exerciseDateCountMap as $count) {
             $data_list[] = $count;

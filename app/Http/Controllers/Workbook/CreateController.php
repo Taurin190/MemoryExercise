@@ -7,9 +7,7 @@ use App\Http\Requests\WorkbookFormRequest;
 use App\Http\Requests\WorkbookRequest;
 use App\Usecase\ExerciseUsecase;
 use App\Usecase\WorkbookUsecase;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 
 class CreateController extends Controller
 {

@@ -3,7 +3,6 @@
 
 namespace App\Domain;
 
-
 class Exercises
 {
     private $exercise_list;

@@ -8,7 +8,6 @@
 
 namespace App\Infrastructure;
 
-
 use App\Domain\AnswerHistory;
 use App\Domain\ExerciseDailyTable;
 use App\ExerciseHistory;

@@ -60,22 +60,23 @@ jobs:
       # prepare the database
       - run: php artisan migrate --env=testing --database=mysql_testing --force
 
-      # run PHP_CodeSniffier
-      - run:
-          name: Coding rules check
-          command: |
-            mkdir -p ~/phpcs
-            ./vendor/bin/phpcs --warning-severity=0 --runtime-set ignore_warnings_on_exit 1 --report=checkstyle --report-file=~/phpcs/test_phpcs.xml ./app || true
-      - store_test_results:
-          path: ~/phpcs
-      - store_artifacts:
-          path: ~/phpcs
+    #      # run PHP_CodeSniffier
+    #      - run:
+    #          name: Coding rules check
+    #          command: |
+    #            mkdir -p ~/phpcs
+    #            ./vendor/bin/phpcs --warning-severity=0 --runtime-set ignore_warnings_on_exit 1 --report=checkstyle --report-file=~/phpcs/test_phpcs.xml ./app || true
+    #      - store_test_results:
+    #          path: ~/phpcs
+    #      - store_artifacts:
+    #          path: ~/phpcs
 
       # run tests with phpunit or codecept
       - run:
           command: |
             mkdir -p ~/phpunit
             ./vendor/bin/phpunit --log-junit ~/phpunit/junit.xml tests
+            phpdbg -qrr vendor/bin/phpunit --coverage-html ~/phpunit/coverage-report
           when: always
       - store_test_results:
           path: ~/phpunit

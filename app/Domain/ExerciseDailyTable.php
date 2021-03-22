@@ -8,7 +8,6 @@
 
 namespace App\Domain;
 
-
 class ExerciseDailyTable
 {
     private $daily_count_table;
@@ -19,7 +18,7 @@ class ExerciseDailyTable
     {
         $this->daily_count_table = [];
         $this->label_list = [];
-        for ($i = $date_start; $i <= $date_end; $i->modify('+1 day')){
+        for ($i = $date_start; $i <= $date_end; $i->modify('+1 day')) {
             $this->daily_count_table[$i->format('Y-m-d')] = 0;
             $this->label_list[] = $i->format('m/d');
         }
@@ -30,11 +29,13 @@ class ExerciseDailyTable
         $this->daily_count_table[$exerciseHistory->getAttribute('Date')] = (int) $exerciseHistory->getAttribute('days');
     }
 
-    public function getDailyCountTable() {
+    public function getDailyCountTable()
+    {
         return $this->daily_count_table;
     }
 
-    public function getDateLabelList() {
+    public function getDateLabelList()
+    {
         return $this->label_list;
     }
 }

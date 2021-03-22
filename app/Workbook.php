@@ -31,7 +31,8 @@ class Workbook extends Model
         return $this->belongsToMany('App\Exercise', 'workbook_exercise', 'workbook_id', 'exercise_id');
     }
 
-    public static function convertOrm(\App\Domain\Workbook $workbook) {
+    public static function convertOrm(\App\Domain\Workbook $workbook)
+    {
         $model = Workbook::find($workbook->getWorkbookId());
         if (is_null($model)) {
             return new Workbook([

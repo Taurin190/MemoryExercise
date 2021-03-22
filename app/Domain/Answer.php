@@ -8,7 +8,6 @@
 
 namespace App\Domain;
 
-
 class Answer
 {
     protected $exercise_list = [];
@@ -79,7 +78,9 @@ class Answer
     {
         return $this->studying_count;
     }
-    public function toGraphData() {
+
+    public function toGraphData()
+    {
         return [
             'labels' => ['OK', 'Studying', 'NG'],
             'datasets' => [
