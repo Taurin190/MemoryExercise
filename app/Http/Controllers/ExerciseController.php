@@ -30,7 +30,7 @@ class ExerciseController extends Controller
     {
         if (Auth::check()) {
             $exercise_list = $this->exerciseUsecase->getAllExercises(
-                Constant::$INIT_EXERCISE_LOAD_NUMBER,
+                Constant::INIT_EXERCISE_LOAD_NUMBER,
                 Auth::user()
             );
             $count = $this->exerciseUsecase->getExerciseCount(Auth::user());
@@ -44,7 +44,7 @@ class ExerciseController extends Controller
                 ->with('user_id', Auth::id())
                 ->with('count', $count);
         } else {
-            $exercise_list = $this->exerciseUsecase->getAllExercises(Constant::$INIT_EXERCISE_LOAD_NUMBER);
+            $exercise_list = $this->exerciseUsecase->getAllExercises(Constant::INIT_EXERCISE_LOAD_NUMBER);
             $count = $this->exerciseUsecase->getExerciseCount();
             return view('exercise_index')
                 ->with('exercise_list', $exercise_list)
