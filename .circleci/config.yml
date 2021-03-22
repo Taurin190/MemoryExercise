@@ -75,9 +75,8 @@ jobs:
       - run:
           command: |
             mkdir -p ~/phpunit
-            mkdir -p ~/coverage
             ./vendor/bin/phpunit --log-junit ~/phpunit/junit.xml tests
-            ./vendor/bin/phpunit --coverage-html ~/coverage
+            phpdbg -qrr vendor/bin/phpunit --coverage-html phpunit/coverage-report
           when: always
       - store_test_results:
           path: ~/phpunit
