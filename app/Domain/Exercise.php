@@ -135,10 +135,10 @@ class Exercise
         if (!empty($parameters['answer'])) {
             $this->answer = $parameters['answer'];
         }
-        if (!empty($parameters['permission'])) {
+        if (isset($parameters['permission'])) {
             $this->permission = $parameters['permission'];
         }
-        if (!empty($parameters['label_list'])) {
+        if (isset($parameters['label_list'])) {
             $this->label_list = $parameters['label_list'];
         }
     }
