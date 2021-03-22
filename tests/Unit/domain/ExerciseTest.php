@@ -72,6 +72,67 @@ class ExerciseTest extends TestCase
         }
     }
 
+    public function testCreateExceptionWithNullAnswer()
+    {
+        try {
+            Exercise::create(["question" => "Do you like dog?"]);
+        } catch (DomainException $e) {
+            self::assertSame('解答が空です。', $e->getMessage());
+        } catch (\Exception $e) {
+            self::fail("予期しない例外が発生しました。" . $e);
+        }
+    }
+
+    public function testCreateExceptionWithEmptyAnswer()
+    {
+        try {
+            Exercise::create(["question" => "Do you like dog?", "answer" => ""]);
+        } catch (DomainException $e) {
+            self::assertSame('解答が空です。', $e->getMessage());
+        } catch (\Exception $e) {
+            self::fail("予期しない例外が発生しました。" . $e);
+        }
+    }
+
+    public function testGetExerciseId()
+    {
+        $exercise = Exercise::create([
+            "exercise_id" => "test-exercise1",
+            "question" => "Do you like dog?",
+            "answer" => "Yes, I like."
+        ]);
+        self::assertSame("test-exercise1", $exercise->getExerciseId());
+    }
+
+    public function testGetExerciseIdWithoutId()
+    {
+        $exercise = Exercise::create([
+            "question" => "Do you like dog?",
+            "answer" => "Yes, I like."
+        ]);
+        self::assertNull($exercise->getExerciseId());
+    }
+
+    public function testHasPermission()
+    {
+        $exercise = Exercise::create([
+            "question" => "Do you like dog?",
+            "answer" => "Yes, I like.",
+            "author_id" => 10
+        ]);
+        self::assertTrue($exercise->hasEditPermission(10));
+    }
+
+    public function testHasPermissionWithDifferentUser()
+    {
+        $exercise = Exercise::create([
+            "question" => "Do you like dog?",
+            "answer" => "Yes, I like.",
+            "author_id" => 10
+        ]);
+        self::assertFalse($exercise->hasEditPermission(15));
+    }
+
     public function testEdit()
     {
         $exercise = Exercise::create([
