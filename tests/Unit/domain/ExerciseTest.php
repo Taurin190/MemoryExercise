@@ -4,6 +4,7 @@ namespace Tests\Unit\domain;
 
 use App\Domain\DomainException;
 use App\Domain\Exercise;
+use App\Dto\ExerciseDto;
 use Tests\TestCase;
 
 class ExerciseTest extends TestCase
@@ -207,5 +208,40 @@ class ExerciseTest extends TestCase
             "answer" => "yes, I like."
         ]);
         self::assertFalse($exercise->isRegisteredDomain());
+    }
+
+    public function testCreateFromDto()
+    {
+        $exercise_dto = new ExerciseDto(
+            "Do you like dog?",
+            "yes, I like.",
+            Exercise::PUBLIC_EXERCISE,
+            10
+        );
+
+        $exercise = Exercise::createFromDto($exercise_dto);
+        $actual = $exercise->getExerciseDto();
+        self::assertSame("Do you like dog?", $actual->question);
+        self::assertSame("yes, I like.", $actual->answer);
+        self::assertSame(Exercise::PUBLIC_EXERCISE, $actual->permission);
+        self::assertSame([], $actual->label_list);
+    }
+
+    public function testConvertDomain()
+    {
+        $exercise_orm = factory(\App\Exercise::class)->make([
+            "exercise_id" => "exercise1",
+            "question" => "Do you like dog?",
+            "answer" => "yes, I like.",
+            "permission" => Exercise::PUBLIC_EXERCISE,
+            "author_id" => 10
+        ]);
+
+        $exercise = Exercise::convertDomain($exercise_orm);
+        $actual = $exercise->getExerciseDto();
+        self::assertSame("Do you like dog?", $actual->question);
+        self::assertSame("yes, I like.", $actual->answer);
+        self::assertSame(Exercise::PUBLIC_EXERCISE, $actual->permission);
+        self::assertSame([], $actual->label_list);
     }
 }
