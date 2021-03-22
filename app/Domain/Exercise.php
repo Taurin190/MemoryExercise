@@ -28,10 +28,10 @@ class Exercise
      * @param string $question 問題の質問
      * @param string $answer 問題の解答
      * @param int $permission 公開範囲の設定
-     * @param null $label_list ラベル。任意で設定可能
+     * @param array $label_list ラベル。任意で設定可能
      * @param int $author_id
      */
-    private function __construct($exercise_id, $question, $answer, $permission, $label_list = null, $author_id = 0)
+    private function __construct($exercise_id, $question, $answer, $permission, $label_list, $author_id)
     {
         $this->question = $question;
         $this->answer = $answer;
@@ -57,7 +57,7 @@ class Exercise
         if (isset($parameters['exercise_id'])) {
             $exercise_id = $parameters['exercise_id'];
         }
-        $label_list = null;
+        $label_list = [];
         if (isset($parameters['label_list'])) {
             $label_list = $parameters['label_list'];
         }
