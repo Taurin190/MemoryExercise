@@ -13,6 +13,4 @@ interface WorkbookRepository
     public function findAll();
 
     public function delete($workbook_id);
-
-    public function checkEditPermission($workbook_id, $user_id);
 }

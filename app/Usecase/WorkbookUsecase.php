@@ -75,6 +75,12 @@ class WorkbookUsecase
         return $this->workbookRepository->findAll();
     }
 
+    public function getWorkbookDtoList()
+    {
+        $workbook_domain_list = $this->workbookRepository->findAll();
+
+    }
+
     public function registerWorkbook(WorkbookDto $workbook_dto, $user)
     {
         $workbook_domain = Workbook::create([

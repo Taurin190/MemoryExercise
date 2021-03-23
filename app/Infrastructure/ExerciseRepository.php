@@ -96,16 +96,6 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         return \App\Exercise::whereRaw("match(`question`) against (? IN NATURAL LANGUAGE MODE)", $text)->count();
     }
 
-    public function checkEditPermission($exercise_id, $user_id)
-    {
-        $target_exercise = \App\Exercise::select(['author_id'])->where('exercise_id', $exercise_id)->first();
-        //TODO 判断をインフラ層で行っているためドメインに移す
-        if ($target_exercise->author_id == $user_id) {
-            return true;
-        }
-        return false;
-    }
-
     public function delete($exercise_id)
     {
         \App\Exercise::where('exercise_id', $exercise_id)->delete();

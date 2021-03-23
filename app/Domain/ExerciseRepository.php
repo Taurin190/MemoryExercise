@@ -18,7 +18,5 @@ interface ExerciseRepository
 
     public function count($user = null);
 
-    public function checkEditPermission($exercise_id, $user_id);
-
     public function delete($exercise_id);
 }
