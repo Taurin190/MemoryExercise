@@ -35,17 +35,19 @@ class Workbook extends Model
     {
         $model = Workbook::find($workbook->getWorkbookId());
         if (is_null($model)) {
+            $workbook_dto = $workbook->getWorkbookDto();
             return new Workbook([
-                'title' => $workbook->getTitle(),
-                'explanation' => $workbook->getExplanation(),
-                'author_id' => $workbook->getUserId()
+                'title' => $workbook_dto->title,
+                'explanation' => $workbook_dto->explanation,
+                'author_id' => $workbook_dto->user_id
             ]);
         }
+        $workbook_dto = $workbook->getWorkbookDto();
         return $model->fill([
-            'workbook_id' => $workbook->getWorkbookId(),
-            'title' => $workbook->getTitle(),
-            'explanation' => $workbook->getExplanation(),
-            'author_id' => $workbook->getUserId()
+            'workbook_id' => $workbook_dto->workbook_id,
+            'title' => $workbook_dto->title,
+            'explanation' => $workbook_dto->explanation,
+            'author_id' => $workbook_dto->user_id
         ]);
     }
 }

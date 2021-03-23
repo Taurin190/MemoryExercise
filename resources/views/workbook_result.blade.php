@@ -4,10 +4,10 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="card col-md-10 pt-5 px-5 mx-auto component-block">
-            <h2>{{ $workbook->getTitle() }}</h2>
-            @if(!empty($workbook->getExplanation()))
+            <h2>{{ $workbook->title }}</h2>
+            @if(!empty($workbook->explanation))
                 <div class="card pb-2">
-                    <div class="card-body">{{ $workbook->getExplanation() }}</div>
+                    <div class="card-body">{{ $workbook->explanation }}</div>
                 </div>
             @endif
             <div class="my-5">

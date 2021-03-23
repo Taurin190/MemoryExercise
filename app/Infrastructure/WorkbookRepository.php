@@ -10,59 +10,59 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
 {
     public function findByWorkbookId($workbook_id)
     {
-        $model = \App\Workbook::where('workbook_id', $workbook_id);
-        if (is_null($model->first())) {
+        $workbook_orm = \App\Workbook::where('workbook_id', $workbook_id);
+        if (is_null($workbook_orm->first())) {
             throw new DataNotFoundException("Data Not Fount: Invalid Workbook Id.");
         }
-        return Workbook::convertDomain($model->first());
+        return Workbook::convertDomain($workbook_orm->first());
     }
 
     public function findAll()
     {
         $domain_list = [];
-        $all_model = \App\Workbook::all();
-        foreach ($all_model as $model) {
-            $domain_list[] = Workbook::convertDomain($model);
+        $all_orm = \App\Workbook::all();
+        foreach ($all_orm as $orm) {
+            $domain_list[] = Workbook::convertDomain($orm);
         }
         return $domain_list;
     }
 
-    public function save(Workbook $workbook)
+    public function save(Workbook $workbook_domain)
     {
-        if ($workbook->getCountOfExercise() > 0) {
+        if ($workbook_domain->getCountOfExercise() > 0) {
             DB::beginTransaction();
             try {
-                $workbook_model = \App\Workbook::convertOrm($workbook);
-                $workbook_model->save();
-                $uuid = $workbook_model->getKey();
-                $relations = $workbook->getWorkbookExerciseRelationList($uuid);
-                $workbook_model->exercises()->attach($relations);
+                $workbook_orm = \App\Workbook::convertOrm($workbook_domain);
+                $workbook_orm->save();
+                $uuid = $workbook_orm->getKey();
+                $relations = $workbook_domain->getWorkbookExerciseRelationList($uuid);
+                $workbook_orm->exercises()->attach($relations);
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollBack();
                 Log::error("DB Exception: " . $e);
             }
         } else {
-            \App\Workbook::convertOrm($workbook)->save();
+            \App\Workbook::convertOrm($workbook_domain)->save();
         }
     }
 
-    public function update(Workbook $workbook)
+    public function update(Workbook $workbook_domain)
     {
         DB::beginTransaction();
         try {
-            $workbook_model = \App\Workbook::convertOrm($workbook);
-            $workbook_model->save();
-            $uuid = $workbook_model->getKey();
-            $workbook_model->exercises()->detach();
+            $workbook_orm = \App\Workbook::convertOrm($workbook_domain);
+            $workbook_orm->save();
+            $uuid = $workbook_orm->getKey();
+            $workbook_orm->exercises()->detach();
             // 紐付いたExerciseを多対多で登録する
-            if ($workbook->getCountOfExercise() > 0) {
-                $workbook_model->exercises()->attach(
-                    $workbook->getWorkbookExerciseRelationList($uuid)
+            if ($workbook_domain->getCountOfExercise() > 0) {
+                $workbook_orm->exercises()->attach(
+                    $workbook_domain->getWorkbookExerciseRelationList($uuid)
                 );
             } else {
                 // 一つも登録されていない場合にRelationを削除する
-                $workbook_model->exercises()->detach();
+                $workbook_orm->exercises()->detach();
             }
             DB::commit();
         } catch (\Exception $e) {
