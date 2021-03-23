@@ -2,10 +2,12 @@
 
 namespace Tests\Unit\domain;
 
-use App\Domain\WorkbookDomainException;
-use Tests\TestCase;
+use App\Domain\DomainException;
+use App\Domain\Exercises;
 use App\Domain\Workbook;
-use \Mockery as m;
+use App\Dto\ExerciseDto;
+use Mockery as m;
+use Tests\TestCase;
 
 class WorkbookTest extends TestCase
 {
@@ -13,21 +15,65 @@ class WorkbookTest extends TestCase
     {
         parent::setUp();
     }
+
     public function tearDown(): void
     {
         parent::tearDown();
         m::close();
     }
-    public function testCreate() {
+
+    public function testCreate()
+    {
+        $workbook = Workbook::create(['title' => "test workbook", 'explanation' => "This is an example of workbook."]);
+        self::assertTrue($workbook instanceof Workbook);
+        $actual = $workbook->getWorkbookDto();
+        self::assertSame("test workbook", $actual->title);
+        self::assertSame("This is an example of workbook.", $actual->explanation);
+    }
+
+    public function testCreateWithFullParameters()
+    {
+        $exercise_dto_list = [];
+        for ($i = 0; $i < 10; $i++) {
+            $exercise_dto_list[] = new ExerciseDto('question' . $i, 'answer' . $i, 1, 10);
+        }
+        $user = factory(\App\User::class)->make();
+        $workbook = Workbook::create([
+            'title' => "test workbook",
+            'explanation' => "This is an example of workbook.",
+            'exercise_list' => Exercises::convertByDtoList($exercise_dto_list),
+            'workbook_id' => 'test-workbook',
+            'user' => $user
+        ]);
+        self::assertTrue($workbook instanceof Workbook);
+        $actual = $workbook->getWorkbookDto();
+        self::assertSame("test workbook", $actual->title);
+        self::assertSame("This is an example of workbook.", $actual->explanation);
+        self::assertTrue(is_array($actual->exercise_list));
+        self::assertSame("test-workbook", $actual->workbook_id);
+    }
+
+    public function testCreateWithoutTitle()
+    {
         try {
-            $workbook = Workbook::create(['title' => "test workbook", 'explanation' => "This is an example of workbook."]);
-            self::assertTrue($workbook instanceof Workbook);
-            $actual = $workbook->getTitle();
-            self::assertSame("test workbook", $actual);
-            $actual = $workbook->getExplanation();
-            self::assertSame("This is an example of workbook.", $actual);
-        } catch (\Exception $e) {
-            self::fail("予期しない例外が発生しました。");
+            Workbook::create(['explanation' => "This is an example of workbook."]);
+            self::fail("タイトルが未入力時に例外が発生しませんでした。");
+        } catch (DomainException $e) {
+            self::assertSame("タイトルが空です。", $e->getMessage());
+        }
+    }
+
+    public function testCreateInvalidTypeOfExerciseList()
+    {
+        try {
+            Workbook::create([
+                'title' => "test workbook",
+                'explanation' => "This is an example of workbook.",
+                'exercise_list' => []
+            ]);
+            self::fail("不正なExercises型で時に例外が発生しませんでした。");
+        } catch (DomainException $e) {
+            self::assertSame("Invalid Type Error.", $e->getMessage());
         }
     }
 }

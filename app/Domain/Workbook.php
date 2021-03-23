@@ -23,12 +23,12 @@ class Workbook
      * 問題集を作成するFactoryMethod
      * @param $parameters array 問題集の情報を入れた連想配列
      * @return Workbook 作成した問題集
-     * @throws WorkbookDomainException
+     * @throws DomainException
      */
     public static function create($parameters)
     {
         if (empty($parameters['title'])) {
-            throw new WorkbookDomainException("タイトルが空です。");
+            throw new DomainException("タイトルが空です。");
         }
         $explanation = null;
         if (isset($parameters['explanation'])) {
@@ -37,7 +37,7 @@ class Workbook
         $exercise_list = null;
         if (isset($parameters['exercise_list'])) {
             if (!($parameters['exercise_list'] instanceof Exercises)) {
-                throw new WorkbookDomainException("Invalid Type Error.");
+                throw new DomainException("Invalid Type Error.");
             }
             $exercise_list = $parameters['exercise_list'];
         }
