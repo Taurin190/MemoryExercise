@@ -5,9 +5,9 @@ namespace App\Domain;
 
 class Exercises
 {
-    private $exercise_list;
+    private $exercise_list = [];
 
-    private $exercise_dto_list;
+    private $exercise_dto_list = [];
 
     private function __construct()
     {
@@ -38,8 +38,9 @@ class Exercises
         return $instance;
     }
 
-    public static function convertByDtoList(array $exercise_dto_list)
+    public static function convertByDtoList($exercise_dto_list)
     {
+        if (is_null($exercise_dto_list)) return new Exercises();
         $exercise_list = [];
         foreach ($exercise_dto_list as $exercise_dto) {
             $domain = Exercise::create([
