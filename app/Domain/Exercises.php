@@ -40,7 +40,9 @@ class Exercises
 
     public static function convertByDtoList($exercise_dto_list)
     {
-        if (is_null($exercise_dto_list)) return new Exercises();
+        if (is_null($exercise_dto_list)) {
+            return new Exercises();
+        }
         $exercise_list = [];
         foreach ($exercise_dto_list as $exercise_dto) {
             $domain = Exercise::create([
