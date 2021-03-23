@@ -76,7 +76,7 @@ class Exercise
         );
     }
 
-    public static function createFromDto(ExerciseDto $exercise_dto)
+    public static function createFromDto(ExerciseDto $exercise_dto): Exercise
     {
         return Exercise::create([
             "exercise_id" => $exercise_dto->exercise_id,
@@ -88,7 +88,7 @@ class Exercise
         ]);
     }
 
-    public static function convertDomain(\App\Exercise $exercise_orm)
+    public static function convertDomain(\App\Exercise $exercise_orm): Exercise
     {
         return Exercise::create([
             "exercise_id" => $exercise_orm->getKey(),
@@ -100,7 +100,7 @@ class Exercise
         ]);
     }
 
-    public function getExerciseDto()
+    public function getExerciseDto(): ExerciseDto
     {
         return new ExerciseDto(
             $this->question,
@@ -127,7 +127,7 @@ class Exercise
         return $this->author_id == $user_id;
     }
 
-    public function edit($parameters)
+    public function edit($parameters): void
     {
         if (!empty($parameters['question'])) {
             $this->question = $parameters['question'];

@@ -50,7 +50,7 @@ class WorkbookController extends Controller
         }
 
         return view('workbook_result')
-            ->with('workbook', $workbook)
+            ->with('workbook', $workbook->getWorkbookDto())
             ->with('answer', $answer)
             ->with('answer_graph_data', $answer->toGraphData())
             ->with('exercise_count', $answer->getExerciseCount());
