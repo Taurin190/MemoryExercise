@@ -76,4 +76,30 @@ class WorkbookTest extends TestCase
             self::assertSame("Invalid Type Error.", $e->getMessage());
         }
     }
+
+    public function testConvertByOrmList()
+    {
+        $workbook_orm = factory(\App\Workbook::class)->make([
+            'title' => "test workbook",
+            'explanation' => "This is an example of workbook."
+        ]);
+        $workbook = Workbook::convertDomain($workbook_orm);
+        self::assertTrue($workbook instanceof Workbook);
+        $actual = $workbook->getWorkbookDto();
+        self::assertSame("test workbook", $actual->title);
+        self::assertSame("This is an example of workbook.", $actual->explanation);
+    }
+
+    public function testHasEditPermission()
+    {
+        $user = factory(\App\User::class)->make(['id' => 10]);
+        $workbook = Workbook::create([
+            'title' => "test workbook",
+            'explanation' => "This is an example of workbook.",
+            'workbook_id' => 'test-workbook',
+            'user' => $user
+        ]);
+        self::assertTrue($workbook->hasEditPermission(10));
+        self::assertFalse($workbook->hasEditPermission(15));
+    }
 }
