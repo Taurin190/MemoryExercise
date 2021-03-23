@@ -12,5 +12,7 @@ interface WorkbookRepository
 
     public function findAll();
 
+    public function findWorkbooks();
+
     public function delete($workbook_id);
 }

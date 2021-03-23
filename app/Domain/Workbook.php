@@ -112,16 +112,6 @@ class Workbook
         return $this->workbook_id;
     }
 
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    public function getExplanation()
-    {
-        return $this->explanation;
-    }
-
     public function edit($parameters)
     {
         if (!empty($parameters['title'])) {

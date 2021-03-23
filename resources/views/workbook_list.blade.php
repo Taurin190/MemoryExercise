@@ -13,14 +13,15 @@
             @foreach($workbooks as $workbook)
             <div class="col-md-3 py-2 px-1 float-left">
                 <div class="card workbook-card">
-                    <a class="text-body text-decoration-none" href="{{route('workbook.detail', $workbook->getWorkbookId())}}">
+                    <a class="text-body text-decoration-none"
+                       href="{{route('workbook.detail', $workbook->workbook_id)}}">
                     <div class="card-body">
-                        <h4 class="card-title">{{ $workbook->getTitle() }}</h4>
-                        <p class="text-break explanation">{!! nl2br(e($workbook->getExplanation())) !!}</p>
+                        <h4 class="card-title">{{ $workbook->title }}</h4>
+                        <p class="text-break explanation">{!! nl2br(e($workbook->explanation)) !!}</p>
                     </div>
                     </a>
-                    @if(isset($user_id) && $workbook->getUserId() == $user_id)
-                    <a class="text-decoration-none" href="{{route('workbook.edit', $workbook->getWorkbookId())}}">
+                    @if(isset($user_id) && $workbook->user_id == $user_id)
+                        <a class="text-decoration-none" href="{{route('workbook.edit', $workbook->workbook_id)}}">
                         <div class="workbook-edit">
                             <i class="fas fa-pen"></i>
                         </div>

@@ -23,23 +23,21 @@ class WorkbookController extends Controller
     }
     public function list()
     {
-        $workbook_list = $this->workbook_usecase->getAllWorkbook();
-
+        $workbook_dto_list = $this->workbook_usecase->getWorkbookDtoList();
+        $user_id = null;
         if (Auth::check()) {
-            return view("workbook_list")
-                ->with('workbooks', $workbook_list)
-                ->with('user_id', Auth::id());
-        } else {
-            return view("workbook_list")
-                ->with('workbooks', $workbook_list);
+            $user_id = Auth::id();
         }
+        return view("workbook_list")
+            ->with('workbooks', $workbook_dto_list)
+            ->with('user_id', $user_id);
     }
     public function detail($uuid)
     {
-        $workbook = $this->workbook_usecase->getWorkbook($uuid);
+        $workbook_dto = $this->workbook_usecase->getWorkbook($uuid)->getWorkbookDto();
         return view('workbook_detail')
-            ->with('workbook', $workbook)
-            ->with('workbook_array', $workbook->toArray());
+            ->with('workbook', $workbook_dto)
+            ->with('workbook_array', $workbook_dto->toArray());
     }
     public function result($uuid, Request $request)
     {

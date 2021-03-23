@@ -77,8 +77,8 @@ class WorkbookUsecase
 
     public function getWorkbookDtoList()
     {
-        $workbook_domain_list = $this->workbookRepository->findAll();
-
+        $workbooks_domain = $this->workbookRepository->findWorkbooks();
+        return $workbooks_domain->getWorkbookDtoList();
     }
 
     public function registerWorkbook(WorkbookDto $workbook_dto, $user)
