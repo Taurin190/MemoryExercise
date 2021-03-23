@@ -25,6 +25,7 @@ class ExerciseTest extends TestCase
             "question" => "Do you like dog?",
             "answer" => "yes, I like."
         ]);
+        self::assertTrue($exercise instanceof Exercise);
         $actual = $exercise->getExerciseDto();
         self::assertSame("Do you like dog?", $actual->question);
         self::assertSame("yes, I like.", $actual->answer);
@@ -43,6 +44,7 @@ class ExerciseTest extends TestCase
             "label_list" => ["animal", "dog"],
             "author_id" => 20,
         ]);
+        self::assertTrue($exercise instanceof Exercise);
         $actual = $exercise->getExerciseDto();
         self::assertSame("Do you like dog?", $actual->question);
         self::assertSame("yes, I like.", $actual->answer);
@@ -220,6 +222,7 @@ class ExerciseTest extends TestCase
         );
 
         $exercise = Exercise::createFromDto($exercise_dto);
+        self::assertTrue($exercise instanceof Exercise);
         $actual = $exercise->getExerciseDto();
         self::assertSame("Do you like dog?", $actual->question);
         self::assertSame("yes, I like.", $actual->answer);
@@ -238,10 +241,22 @@ class ExerciseTest extends TestCase
         ]);
 
         $exercise = Exercise::convertDomain($exercise_orm);
+        self::assertTrue($exercise instanceof Exercise);
         $actual = $exercise->getExerciseDto();
         self::assertSame("Do you like dog?", $actual->question);
         self::assertSame("yes, I like.", $actual->answer);
         self::assertSame(Exercise::PUBLIC_EXERCISE, $actual->permission);
         self::assertSame([], $actual->label_list);
+    }
+
+    public function testGetExerciseDto()
+    {
+        $exercise = Exercise::create([
+            "exercise_id" => "exercise1",
+            "question" => "Do you like dog?",
+            "answer" => "yes, I like."
+        ]);
+        $actual = $exercise->getExerciseDto();
+        self::assertTrue($actual instanceof ExerciseDto);
     }
 }
