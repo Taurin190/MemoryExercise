@@ -67,7 +67,11 @@
                 </div>
                 <div class="pager-block">
                     <div class="pt-5">
-                        <input v-if="getExerciseCount > 0" type="submit" class="btn btn-primary btn-block" value="回答完了"/>
+                        <button
+                            v-if="getExerciseCount > 0"
+                            type="button" onclick="submit()"
+                            class="btn btn-primary btn-block">回答完了
+                        </button>
                         <buttn v-else type="button" onclick="history.back()" class="btn btn-outline-secondary btn-block">戻る</buttn>
                     </div>
                 </div>

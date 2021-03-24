@@ -18,16 +18,6 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
         return Workbook::convertDomain($workbook_orm->first());
     }
 
-    public function findAll()
-    {
-        $domain_list = [];
-        $all_orm = \App\Workbook::all();
-        foreach ($all_orm as $orm) {
-            $domain_list[] = Workbook::convertDomain($orm);
-        }
-        return $domain_list;
-    }
-
     public function findWorkbooks(): Workbooks
     {
         $workbook_list_orm = \App\Workbook::all();

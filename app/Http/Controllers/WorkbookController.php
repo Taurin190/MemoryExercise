@@ -34,7 +34,7 @@ class WorkbookController extends Controller
     }
     public function detail($uuid)
     {
-        $workbook_dto = $this->workbook_usecase->getWorkbook($uuid)->getWorkbookDto();
+        $workbook_dto = $this->workbook_usecase->getWorkbookDto($uuid);
         return view('workbook_detail')
             ->with('workbook', $workbook_dto)
             ->with('workbook_array', $workbook_dto->toArray());

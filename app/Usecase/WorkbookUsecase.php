@@ -31,6 +31,12 @@ class WorkbookUsecase
         return $this->workbookRepository->findByWorkbookId($workbook_id);
     }
 
+    public function getWorkbookDto($workbook_id)
+    {
+        $workbook_domain = $this->workbookRepository->findByWorkbookId($workbook_id);
+        return $workbook_domain->getWorkbookDto();
+    }
+
     public function getMergedWorkbook($workbook_id, $user_id, WorkbookDto $workbook_dto, array $exercise_id_list = null)
     {
         $workbook_domain = $this->workbookRepository->findByWorkbookId($workbook_id);
@@ -65,14 +71,6 @@ class WorkbookUsecase
             'user' => $user,
             'workbook_id' => $workbook_id
         ])->getWorkbookDto();
-    }
-
-    /**
-     * 問題集を全て取得する
-     */
-    public function getAllWorkbook()
-    {
-        return $this->workbookRepository->findAll();
     }
 
     public function getWorkbookDtoList()
