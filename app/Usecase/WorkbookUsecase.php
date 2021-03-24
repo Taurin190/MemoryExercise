@@ -122,19 +122,6 @@ class WorkbookUsecase
     }
 
     /**
-     * 問題を問題集に登録する
-     * @param $workbook_id int 問題集のID
-     * @param $exercise_id int 登録する問題のID
-     */
-    public function addExercise($workbook_id, $exercise_id)
-    {
-        $workbook = $this->workbookRepository->findByWorkbookId($workbook_id);
-        $exercise = $this->exerciseRepository->findByExerciseId($exercise_id);
-        $newWorkbook = $workbook->addExercise($exercise);
-        $this->workbookRepository->update($newWorkbook);
-    }
-
-    /**
      * 問題を問題集から削除する
      * @param $workbook_id String 問題集のID
      * @param $exercise_id int 削除する問題のID
@@ -147,16 +134,4 @@ class WorkbookUsecase
         $this->workbookRepository->save($newWorkbook);
     }
 
-    /**
-     * 問題の順番を変更する
-     * @param $workbook_id String 変更する問題のID
-     * @param $order_num int 変更後の順番
-     */
-    public function modifyExerciseOrder($workbook_id, $exercise_id, $order_num)
-    {
-        $workbook = $this->workbookRepository->findByWorkbookId($workbook_id);
-        $exercise = $this->exerciseRepository->findByExerciseId($exercise_id);
-        $newWorkbook = $workbook->modifyOrder($exercise, $order_num);
-        $this->workbookRepository->save($newWorkbook);
-    }
 }
