@@ -2,6 +2,7 @@
 namespace App\Infrastructure;
 
 use App\Domain\Workbook;
+use App\Domain\Workbooks;
 use App\Exceptions\DataNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -25,6 +26,12 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
             $domain_list[] = Workbook::convertDomain($orm);
         }
         return $domain_list;
+    }
+
+    public function findWorkbooks(): Workbooks
+    {
+        $workbook_list_orm = \App\Workbook::all();
+        return Workbooks::convertByOrmList($workbook_list_orm);
     }
 
     public function save(Workbook $workbook_domain)
@@ -75,12 +82,4 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
         \App\Workbook::where('workbook_id', $workbook_id)->delete();
     }
 
-    public function checkEditPermission($workbook_id, $user_id)
-    {
-        $target_workbook = \App\Workbook::select(['author_id'])->where('workbook_id', $workbook_id)->first();
-        if ($target_workbook->author_id == $user_id) {
-            return true;
-        }
-        return false;
-    }
 }

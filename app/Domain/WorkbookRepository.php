@@ -12,7 +12,7 @@ interface WorkbookRepository
 
     public function findAll();
 
-    public function delete($workbook_id);
+    public function findWorkbooks();
 
-    public function checkEditPermission($workbook_id, $user_id);
+    public function delete($workbook_id);
 }

@@ -5,7 +5,6 @@ namespace App\Usecase;
 use App\Domain\Exercise;
 use App\Dto\ExerciseDto;
 use App\Exceptions\PermissionException;
-use App\Http\Requests\ExerciseFormRequest;
 use App\Infrastructure\ExerciseRepository;
 use Exception;
 use Illuminate\Http\Request;
@@ -128,23 +127,6 @@ class ExerciseUsecase
     {
         $search_domain = $this->exerciseRepository->search($text, $user, $page, 10);
         return $search_domain->getExerciseListDto();
-    }
-
-    /**
-     * ユーザが編集画面にアクセスする権限があるか確認する。
-     * 権限がない場合はPermissionExceptionを投げる。
-     * @param $exercise_id
-     * @param $user_id
-     * @return bool
-     * @throws PermissionException
-     */
-    public function checkEditPermission($exercise_id, $user_id)
-    {
-        $has_permission = $this->exerciseRepository->checkEditPermission($exercise_id, $user_id);
-        if ($has_permission) {
-            return true;
-        }
-        throw new PermissionException("User doesn't have permission to access edit page");
     }
 
     /**
