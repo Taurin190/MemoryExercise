@@ -135,7 +135,9 @@ class WorkbookTest extends TestCase
         $exercise_list_orm = factory(\App\Exercise::class, 10)->make();
         $workbook = Workbook::create([
             'title' => "test workbook",
-            'explanation' => "This is an example of workbook.",
+            'explanation' => "This is an example of workbook."
+        ]);
+        $workbook->edit([
             'exercise_list' => Exercises::convertByOrmList($exercise_list_orm)
         ]);
         $actual = $workbook->getExerciseList();
@@ -146,9 +148,11 @@ class WorkbookTest extends TestCase
     {
         $exercise_list_orm = factory(\App\Exercise::class, 10)->make();
         try {
-            Workbook::create([
+            $workbook = Workbook::create([
                 'title' => "test workbook",
                 'explanation' => "This is an example of workbook.",
+            ]);
+            $workbook->edit([
                 'exercise_list' => $exercise_list_orm
             ]);
             self::fail("不正なExercisesオブジェクトに例外が発生しませんでした。");
