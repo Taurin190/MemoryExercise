@@ -51,6 +51,8 @@ class WorkbookTest extends TestCase
         self::assertSame("This is an example of workbook.", $actual->explanation);
         self::assertTrue(is_array($actual->exercise_list));
         self::assertSame("test-workbook", $actual->workbook_id);
+        $id = $workbook->getWorkbookId();
+        self::assertSame("test-workbook", $id);
     }
 
     public function testCreateWithoutTitle()
@@ -101,5 +103,29 @@ class WorkbookTest extends TestCase
         ]);
         self::assertTrue($workbook->hasEditPermission(10));
         self::assertFalse($workbook->hasEditPermission(15));
+    }
+
+    public function testEdit()
+    {
+        $user = factory(\App\User::class)->make(['id' => 10]);
+        $workbook = Workbook::create([
+            'title' => "test workbook",
+            'explanation' => "This is an example of workbook.",
+            'workbook_id' => 'test-workbook',
+            'user' => $user
+        ]);
+        $different_user = factory(\App\User::class)->make(['id' => 20]);
+        $workbook->edit([
+            'title' => "modified test workbook",
+            'explanation' => "This is an example of modified workbook.",
+            'workbook_id' => 'modified-test-workbook',
+            'user' => $different_user
+        ]);
+        $actual = $workbook->getWorkbookDto();
+        self::assertSame("modified test workbook", $actual->title);
+        self::assertSame("This is an example of modified workbook.", $actual->explanation);
+        // Cannot edit workbook_id and user
+        self::assertSame("test-workbook", $actual->workbook_id);
+        self::assertSame(10, $actual->user_id);
     }
 }
