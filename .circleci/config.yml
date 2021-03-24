@@ -72,6 +72,8 @@ jobs:
     #          path: ~/phpcs
 
       # run tests with phpunit or codecept
+      - run: sudo sh -c "echo \"memory_limit = 2048M\" > /usr/local/etc/php/conf.d/memory.ini"
+      - run: php -i | grep memory_limit
       - run:
           command: |
             mkdir -p ~/phpunit
