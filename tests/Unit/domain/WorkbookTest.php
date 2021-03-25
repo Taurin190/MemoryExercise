@@ -101,6 +101,7 @@ class WorkbookTest extends TestCase
             'workbook_id' => 'test-workbook',
             'user' => $user
         ]);
+        self::assertSame(10, $workbook->getUserId());
         self::assertTrue($workbook->hasEditPermission(10));
         self::assertFalse($workbook->hasEditPermission(15));
     }
@@ -127,5 +128,58 @@ class WorkbookTest extends TestCase
         // Cannot edit workbook_id and user
         self::assertSame("test-workbook", $actual->workbook_id);
         self::assertSame(10, $actual->user_id);
+    }
+
+    public function testEditWithExerciseList()
+    {
+        $exercise_list_orm = factory(\App\Exercise::class, 10)->make();
+        $workbook = Workbook::create([
+            'title' => "test workbook",
+            'explanation' => "This is an example of workbook."
+        ]);
+        $workbook->edit([
+            'exercise_list' => Exercises::convertByOrmList($exercise_list_orm)
+        ]);
+        $actual = $workbook->getExerciseList();
+        self::assertTrue($actual instanceof Exercises);
+    }
+
+    public function testEditWithInvalidExerciseList()
+    {
+        $exercise_list_orm = factory(\App\Exercise::class, 10)->make();
+        try {
+            $workbook = Workbook::create([
+                'title' => "test workbook",
+                'explanation' => "This is an example of workbook.",
+            ]);
+            $workbook->edit([
+                'exercise_list' => $exercise_list_orm
+            ]);
+            self::fail("不正なExercisesオブジェクトに例外が発生しませんでした。");
+        } catch (DomainException $e) {
+            self::assertSame('Invalid Type Error.', $e->getMessage());
+        }
+    }
+
+    public function testGetCountOfExercise()
+    {
+        $exercise_list_orm = factory(\App\Exercise::class, 10)->make();
+        $workbook = Workbook::create([
+            'title' => "test workbook",
+            'explanation' => "This is an example of workbook.",
+            'exercise_list' => Exercises::convertByOrmList($exercise_list_orm)
+        ]);
+        $actual = $workbook->getCountOfExercise();
+        self::assertSame(10, $actual);
+    }
+
+    public function testGetCountOfExerciseWithoutExerciseList()
+    {
+        $workbook = Workbook::create([
+            'title' => "test workbook",
+            'explanation' => "This is an example of workbook.",
+        ]);
+        $actual = $workbook->getCountOfExercise();
+        self::assertSame(0, $actual);
     }
 }

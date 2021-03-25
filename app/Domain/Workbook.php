@@ -52,6 +52,17 @@ class Workbook
         return new Workbook($parameters['title'], $explanation, $workbook_id, $exercise_list, $user);
     }
 
+    public static function createByDto(WorkbookDto $workbook_dto, $user)
+    {
+        return self::create([
+            'title' => $workbook_dto->title,
+            'explanation' => $workbook_dto->explanation,
+            'exercise_list' => Exercises::convertByDtoList($workbook_dto->exercise_list),
+            'workbook_id' => $workbook_dto->workbook_id,
+            'user' => $user
+        ]);
+    }
+
     public static function convertDomain(\App\Workbook $workbook_orm)
     {
         return new Workbook(
@@ -150,42 +161,6 @@ class Workbook
     public function getUserId()
     {
         return $this->user_id;
-    }
-
-    public function addExercise(Exercise $exercise)
-    {
-        $this->exercises[] = $exercise;
-    }
-
-    /**
-     * 問題集に登録している問題の順番を入れ替える
-     * @param Exercise $exercise
-     * @param int $order_num
-     * @throws WorkbookDomainException
-     */
-    public function modifyOrder(Exercise $exercise, int $order_num)
-    {
-        $insert_num = $order_num - 1;
-        $exercise_amount = $this->exercises->count();
-        // 要素が1つ以下の場合は、例外を返さないように処理を行わない。
-        if ($exercise_amount <= 1) {
-            return;
-        }
-        if ($insert_num < 0 || $exercise_amount <= $insert_num) {
-            throw new WorkbookDomainException("指定された順番が不正です。");
-        }
-        $tmp_exercise_list = array_diff($this->exercises, [$exercise]);
-        $new_exercise_list = [];
-
-        for ($i = 0; $i < $exercise_amount; $i++) {
-            if ($i == $insert_num) {
-                $new_exercise_list[] = $exercise;
-                continue;
-            }
-            $new_exercise_list[] = $tmp_exercise_list[0];
-            array_shift($tmp_exercise_list);
-        }
-        $this->exercises = $new_exercise_list;
     }
 
     public function toArray()

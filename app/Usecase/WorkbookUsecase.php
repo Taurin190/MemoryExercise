@@ -21,14 +21,10 @@ class WorkbookUsecase
         $this->exerciseRepository = $exerciseRepository;
     }
 
-    /**
-     * 指定した問題集を取得する
-     * @param $workbook_id string 問題集のID
-     * @return Workbook 取得した問題集
-     */
-    public function getWorkbook($workbook_id)
+    public function getWorkbook($workbook_id): WorkbookDto
     {
-        return $this->workbookRepository->findByWorkbookId($workbook_id);
+        $workbook_domain = $this->workbookRepository->findByWorkbookId($workbook_id);
+        return $workbook_domain->getWorkbookDto();
     }
 
     public function getMergedWorkbook($workbook_id, $user_id, WorkbookDto $workbook_dto, array $exercise_id_list = null)
@@ -65,14 +61,6 @@ class WorkbookUsecase
             'user' => $user,
             'workbook_id' => $workbook_id
         ])->getWorkbookDto();
-    }
-
-    /**
-     * 問題集を全て取得する
-     */
-    public function getAllWorkbook()
-    {
-        return $this->workbookRepository->findAll();
     }
 
     public function getWorkbookDtoList()
@@ -121,42 +109,4 @@ class WorkbookUsecase
         $this->workbookRepository->delete($wordbook_id);
     }
 
-    /**
-     * 問題を問題集に登録する
-     * @param $workbook_id int 問題集のID
-     * @param $exercise_id int 登録する問題のID
-     */
-    public function addExercise($workbook_id, $exercise_id)
-    {
-        $workbook = $this->workbookRepository->findByWorkbookId($workbook_id);
-        $exercise = $this->exerciseRepository->findByExerciseId($exercise_id);
-        $newWorkbook = $workbook->addExercise($exercise);
-        $this->workbookRepository->update($newWorkbook);
-    }
-
-    /**
-     * 問題を問題集から削除する
-     * @param $workbook_id String 問題集のID
-     * @param $exercise_id int 削除する問題のID
-     */
-    public function deleteExercise($workbook_id, $exercise_id)
-    {
-        $workbook = $this->workbookRepository->findByWorkbookId($workbook_id);
-        $exercise = $this->exerciseRepository->findByExerciseId($exercise_id);
-        $newWorkbook = $workbook->deleteExercise($exercise);
-        $this->workbookRepository->save($newWorkbook);
-    }
-
-    /**
-     * 問題の順番を変更する
-     * @param $workbook_id String 変更する問題のID
-     * @param $order_num int 変更後の順番
-     */
-    public function modifyExerciseOrder($workbook_id, $exercise_id, $order_num)
-    {
-        $workbook = $this->workbookRepository->findByWorkbookId($workbook_id);
-        $exercise = $this->exerciseRepository->findByExerciseId($exercise_id);
-        $newWorkbook = $workbook->modifyOrder($exercise, $order_num);
-        $this->workbookRepository->save($newWorkbook);
-    }
 }

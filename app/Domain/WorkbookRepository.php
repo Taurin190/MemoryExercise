@@ -10,8 +10,6 @@ interface WorkbookRepository
     //TODO privateを取得するためにUserの追加が必要
     public function findByWorkbookId($workbook_id);
 
-    public function findAll();
-
     public function findWorkbooks();
 
     public function delete($workbook_id);

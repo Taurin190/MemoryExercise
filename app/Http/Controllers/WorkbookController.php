@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\Answer;
+use App\Dto\AnswerDto;
 use App\Usecase\AnswerHistoryUsecase;
 use App\Usecase\WorkbookUsecase;
 use Illuminate\Http\Request;
@@ -34,23 +34,26 @@ class WorkbookController extends Controller
     }
     public function detail($uuid)
     {
-        $workbook_dto = $this->workbook_usecase->getWorkbook($uuid)->getWorkbookDto();
+        $workbook_dto = $this->workbook_usecase->getWorkbook($uuid);
         return view('workbook_detail')
             ->with('workbook', $workbook_dto)
             ->with('workbook_array', $workbook_dto->toArray());
     }
     public function result($uuid, Request $request)
     {
-        $workbook = $this->workbook_usecase->getWorkbook($uuid);
-        $answer = new Answer($request);
+        $workbook_dto = $this->workbook_usecase->getWorkbook($uuid);
+        $answer_dto = new AnswerDto(
+            $request->get('exercise_list', []),
+            $request->get('answer', [])
+        );
         if (Auth::check()) {
-            $this->history_usecase->addAnswerHistory($answer, $workbook, Auth::user());
+            $this->history_usecase->registerAnswerHistory($workbook_dto, $answer_dto, Auth::user());
         }
 
         return view('workbook_result')
-            ->with('workbook', $workbook->getWorkbookDto())
-            ->with('answer', $answer)
-            ->with('answer_graph_data', $answer->toGraphData())
-            ->with('exercise_count', $answer->getExerciseCount());
+            ->with('workbook', $workbook_dto)
+            ->with('answer', $answer_dto)
+            ->with('answer_graph_data', $answer_dto->toGraphData())
+            ->with('exercise_count', $answer_dto->getExerciseCount());
     }
 }

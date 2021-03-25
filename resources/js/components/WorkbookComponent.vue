@@ -42,13 +42,16 @@
                     </div>
                     <div class="btn-group btn-group-toggle py-5 px-0 col-md-12" data-toggle="buttons" role="group" :aria-label="exercise.exercise_id">
                         <label class="btn btn-info col-md-4">
-                            <input type="radio" v-on:click="setStatus(exercise.exercise_id,'覚えた')" autocomplete="off" :name="exercise.exercise_id" value="ok"/>覚えた
+                            <input type="radio" v-on:click="setStatus(exercise.exercise_id,'覚えた')" autocomplete="off"
+                                   :name="'answer[' + exercise.exercise_id+ ']'" value="ok"/>覚えた
                         </label>
                         <label class="btn btn-info col-md-4">
-                            <input type="radio" v-on:click="setStatus(exercise.exercise_id,'ちょっと怪しい')" autocomplete="off" :name="exercise.exercise_id" value="studying"/>ちょっと怪しい
+                            <input type="radio" v-on:click="setStatus(exercise.exercise_id,'ちょっと怪しい')"
+                                   autocomplete="off" :name="'answer[' + exercise.exercise_id+ ']'" value="studying"/>ちょっと怪しい
                         </label>
                         <label class="btn btn-info col-md-4">
-                            <input type="radio" v-on:click="setStatus(exercise.exercise_id,'分からない')" autocomplete="off" :name="exercise.exercise_id" value="ng" required/>分からない
+                            <input type="radio" v-on:click="setStatus(exercise.exercise_id,'分からない')" autocomplete="off"
+                                   :name="'answer[' + exercise.exercise_id+ ']'" value="ng" required/>分からない
                         </label>
                     </div>
                     <input type="hidden" name="exercise_list[]" :value="exercise.exercise_id" />
@@ -67,7 +70,11 @@
                 </div>
                 <div class="pager-block">
                     <div class="pt-5">
-                        <input v-if="getExerciseCount > 0" type="submit" class="btn btn-primary btn-block" value="回答完了"/>
+                        <button
+                            v-if="getExerciseCount > 0"
+                            type="button" onclick="submit()"
+                            class="btn btn-primary btn-block">回答完了
+                        </button>
                         <buttn v-else type="button" onclick="history.back()" class="btn btn-outline-secondary btn-block">戻る</buttn>
                     </div>
                 </div>

@@ -1,8 +1,15 @@
 # MemoryExercise
-Laravelの練習プロジェクト。
-問題を自分で作って確認するWEBアプリ。ユーザ管理、投稿、表示を一通り実装したい。
+[![CircleCI](https://circleci.com/gh/Taurin190/MemoryExercise.svg?style=shield)](https://app.circleci.com/pipelines/github/Taurin190)
+[![CodeFactor](https://www.codefactor.io/repository/github/taurin190/memoryexercise/badge)](https://www.codefactor.io/repository/github/taurin190/memoryexercise)
+[![codecov](https://codecov.io/gh/Taurin190/MemoryExercise/branch/master/graph/badge.svg?token=M1OAYQGNQ9)](https://codecov.io/gh/Taurin190/MemoryExercise)
 
-## setup
+Laravelの練習プロジェクト。
+暗記のためのトレーニングWEBアプリケーション。
+自分で問題、問題集を作成して、解答を覚えたかチェックできる。
+ユーザ登録すると解いた問題を確認できる。
+
+## For Developer
+### setup
 
     # run mysql and redis
     docker-compose up -d mysql redis
@@ -30,23 +37,4 @@ Laravelの練習プロジェクト。
 - 問題集を作成できる
 - 問題を作成できる
 
-## ToDo
-- [x] 問題集への問題登録方法の改善
-- [ ] 未実装部分の実装
-  - [x] 問題登録時にユーザ情報も登録
-  - [x] 問題集登録時にユーザ情報も登録
-  - [x] 問題の削除機能追加
-  - [x] 問題集の削除機能追加
-  - [x] 問題詳細の表示
-  - [ ] ラベル登録機能
-  - [ ] ラベルで問題を検索する機能追加
-  - [ ] 問題集のページング作成
-- [ ] バグ修正
-  - [ ] 問題追加のページ変更時にチェックが残っている
-  - [x] 作成者でなくても詳細画面に編集画面へのリンクが表示される
-  - [x] 作成者じゃなくても編集画面に移動できる
-  - [x] 作成者じゃなくても削除できる
-  - [x] 問題の登録されていない問題集で次のページに行ける
 
-## License
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).

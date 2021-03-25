@@ -1,12 +1,9 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: koichi.taura
- * Date: 2020/05/06
- * Time: 16:21
- */
 
 namespace App\Domain;
+
+use App\Dto\AnswerDto;
+use Illuminate\Support\Facades\Log;
 
 class Answer
 {
@@ -22,21 +19,27 @@ class Answer
 
     protected $workbook_id;
 
-    public function __construct($request)
+    public function __construct($exercise_list, $answer_list)
     {
-        if (!is_array($request->exercise_list)) {
+        if (!is_array($exercise_list)) {
             throw new DomainException("問題集が配列ではありません。");
         }
-        if (count($request->exercise_list) == 0) {
+        if (count($exercise_list) == 0) {
             throw new DomainException("問題集が設定されていません。");
         }
-        $this->exercise_list = $request->exercise_list;
-        foreach ($this->exercise_list as $exercise) {
-            if (!isset($request->$exercise)) {
+        $this->exercise_list = $exercise_list;
+        $this->exercise_map = $answer_list;
+
+        foreach ($exercise_list as $exercise) {
+            Log::error($exercise);
+            Log::error($answer_list);
+            if (!isset($answer_list[$exercise])) {
                 throw new DomainException("回答されていない問題があります。");
             }
-            $this->exercise_map[$exercise] = $request->$exercise;
-            switch ($request->$exercise) {
+            if (!isset($answer_list[$exercise])) {
+                continue;
+            }
+            switch ($answer_list[$exercise]) {
                 case 'ok':
                     $this->ok_count++;
                     break;
@@ -50,6 +53,22 @@ class Answer
                     throw new DomainException("不正な回答が設定されています。");
             }
         }
+    }
+
+    public static function createFromRequest($request)
+    {
+        return new Answer(
+            $request->get('exercise_list'),
+            $request->get('answer')
+        );
+    }
+
+    public static function createFromDto(AnswerDto $answer_dto)
+    {
+        return new Answer(
+            $answer_dto->exercise_list,
+            $answer_dto->exercise_map
+        );
     }
 
     public function getExerciseMap()
@@ -66,32 +85,19 @@ class Answer
     {
         return count($this->exercise_list);
     }
+
     public function getOKCount()
     {
         return $this->ok_count;
     }
+
     public function getNGCount()
     {
         return $this->ng_count;
     }
+
     public function getStudyingCount()
     {
         return $this->studying_count;
-    }
-
-    public function toGraphData()
-    {
-        return [
-            'labels' => ['OK', 'Studying', 'NG'],
-            'datasets' => [
-                'label' => '回答数',
-                'backgroundColor' => '#f87979',
-                'data' =>[
-                    $this->ok_count,
-                    $this->studying_count,
-                    $this->ng_count
-                ],
-            ],
-        ];
     }
 }
