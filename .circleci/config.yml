@@ -2,7 +2,9 @@
 #
 # Check https://circleci.com/docs/2.0/language-php/ for more details
 #
-version: 2
+version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.2
 jobs:
   build:
     docker:
@@ -78,11 +80,14 @@ jobs:
           command: |
             mkdir -p ~/phpunit
             ./vendor/bin/phpunit --log-junit ~/phpunit/junit.xml tests
+            .vendor/bin/phpunit --coverage-clover ~/phpunit/coverage.xml
             phpdbg -qrr vendor/bin/phpunit --coverage-html ~/phpunit/coverage-report
           when: always
       - store_test_results:
           path: ~/phpunit
       - store_artifacts:
           path: ~/phpunit
+      - codecov/upload:
+          file: ~/phpunit/coverage.xml
 #      - run: ./vendor/bin/codecept build
 #      - run: ./vendor/bin/codecept run
