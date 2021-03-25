@@ -80,7 +80,7 @@ jobs:
           command: |
             mkdir -p ~/phpunit
             ./vendor/bin/phpunit --log-junit ~/phpunit/junit.xml tests
-            ./vendor/bin/phpunit --coverage-clover ~/phpunit/coverage.xml
+            phpdbg -qrr vendor/bin/phpunit --coverage-clover ~/phpunit/coverage.xml
             phpdbg -qrr vendor/bin/phpunit --coverage-html ~/phpunit/coverage-report
           when: always
       - store_test_results:
