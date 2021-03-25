@@ -3,9 +3,9 @@
 namespace App\Usecase;
 
 use App\Domain\Exercise;
+use App\Domain\ExerciseRepository;
 use App\Dto\ExerciseDto;
 use App\Exceptions\PermissionException;
-use App\Infrastructure\ExerciseRepository;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -16,22 +16,6 @@ class ExerciseUsecase
     public function __construct(ExerciseRepository $repository)
     {
         $this->exerciseRepository = $repository;
-    }
-
-    /**
-     * @param ExerciseDto $exercise_dto
-     * @param $user_id
-     * @throws \App\Domain\DomainException
-     */
-    public function validate(ExerciseDto $exercise_dto, $user_id)
-    {
-        Exercise::create([
-            'question' => $exercise_dto->question,
-            'answer' => $exercise_dto->answer,
-            'permission' => $exercise_dto->permission,
-            'author_id' => $user_id,
-            'label_list' => $exercise_dto->label_list
-        ]);
     }
 
     /**
