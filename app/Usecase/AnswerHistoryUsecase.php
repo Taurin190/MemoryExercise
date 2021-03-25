@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: koichi.taura
- * Date: 2020/05/14
- * Time: 18:12
- */
 
 namespace App\Usecase;
 
@@ -12,7 +6,10 @@ use App\Domain\Answer;
 use App\Domain\AnswerHistory;
 use App\Domain\AnswerHistoryRepository;
 use App\Domain\Workbook;
+use App\Domain\WorkbookRepository;
+use App\Dto\AnswerDto;
 use App\Dto\StudyHistoryDto;
+use App\Dto\WorkbookDto;
 use App\User;
 use DateTime;
 
@@ -20,9 +17,15 @@ class AnswerHistoryUsecase
 {
     private $answerHistoryRepository;
 
-    public function __construct(AnswerHistoryRepository $answerHistoryRepository)
+    private $workbookRepository;
+
+    public function __construct(
+        AnswerHistoryRepository $answerHistoryRepository,
+        WorkbookRepository $workbookRepository
+    )
     {
         $this->answerHistoryRepository = $answerHistoryRepository;
+        $this->workbookRepository = $workbookRepository;
     }
 
     /**
@@ -34,6 +37,14 @@ class AnswerHistoryUsecase
     public function addAnswerHistory(Answer $answer, Workbook $workbook, User $user)
     {
         $answer_history = AnswerHistory::map($answer, $workbook, $user);
+        $this->answerHistoryRepository->save($answer_history);
+    }
+
+    public function registerAnswerHistory(WorkbookDto $workbook_dto, AnswerDto $answer_dto, $user)
+    {
+        $workbook_domain = Workbook::createByDto($workbook_dto, $user);
+        $answer_domain = Answer::createFromDto($answer_dto);
+        $answer_history = AnswerHistory::map($answer_domain, $workbook_domain, $user);
         $this->answerHistoryRepository->save($answer_history);
     }
 

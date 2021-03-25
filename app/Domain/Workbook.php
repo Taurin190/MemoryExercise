@@ -52,6 +52,17 @@ class Workbook
         return new Workbook($parameters['title'], $explanation, $workbook_id, $exercise_list, $user);
     }
 
+    public static function createByDto(WorkbookDto $workbook_dto, $user)
+    {
+        return self::create([
+            'title' => $workbook_dto->title,
+            'explanation' => $workbook_dto->explanation,
+            'exercise_list' => Exercises::convertByDtoList($workbook_dto->exercise_list),
+            'workbook_id' => $workbook_dto->workbook_id,
+            'user' => $user
+        ]);
+    }
+
     public static function convertDomain(\App\Workbook $workbook_orm)
     {
         return new Workbook(

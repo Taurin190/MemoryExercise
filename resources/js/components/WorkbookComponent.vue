@@ -42,13 +42,16 @@
                     </div>
                     <div class="btn-group btn-group-toggle py-5 px-0 col-md-12" data-toggle="buttons" role="group" :aria-label="exercise.exercise_id">
                         <label class="btn btn-info col-md-4">
-                            <input type="radio" v-on:click="setStatus(exercise.exercise_id,'覚えた')" autocomplete="off" :name="exercise.exercise_id" value="ok"/>覚えた
+                            <input type="radio" v-on:click="setStatus(exercise.exercise_id,'覚えた')" autocomplete="off"
+                                   :name="'answer[' + exercise.exercise_id+ ']'" value="ok"/>覚えた
                         </label>
                         <label class="btn btn-info col-md-4">
-                            <input type="radio" v-on:click="setStatus(exercise.exercise_id,'ちょっと怪しい')" autocomplete="off" :name="exercise.exercise_id" value="studying"/>ちょっと怪しい
+                            <input type="radio" v-on:click="setStatus(exercise.exercise_id,'ちょっと怪しい')"
+                                   autocomplete="off" :name="'answer[' + exercise.exercise_id+ ']'" value="studying"/>ちょっと怪しい
                         </label>
                         <label class="btn btn-info col-md-4">
-                            <input type="radio" v-on:click="setStatus(exercise.exercise_id,'分からない')" autocomplete="off" :name="exercise.exercise_id" value="ng" required/>分からない
+                            <input type="radio" v-on:click="setStatus(exercise.exercise_id,'分からない')" autocomplete="off"
+                                   :name="'answer[' + exercise.exercise_id+ ']'" value="ng" required/>分からない
                         </label>
                     </div>
                     <input type="hidden" name="exercise_list[]" :value="exercise.exercise_id" />

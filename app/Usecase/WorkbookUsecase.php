@@ -21,17 +21,7 @@ class WorkbookUsecase
         $this->exerciseRepository = $exerciseRepository;
     }
 
-    /**
-     * 指定した問題集を取得する
-     * @param $workbook_id string 問題集のID
-     * @return Workbook 取得した問題集
-     */
-    public function getWorkbook($workbook_id)
-    {
-        return $this->workbookRepository->findByWorkbookId($workbook_id);
-    }
-
-    public function getWorkbookDto($workbook_id)
+    public function getWorkbook($workbook_id): WorkbookDto
     {
         $workbook_domain = $this->workbookRepository->findByWorkbookId($workbook_id);
         return $workbook_domain->getWorkbookDto();
@@ -117,19 +107,6 @@ class WorkbookUsecase
             throw new PermissionException("User doesn't have permission to delete");
         }
         $this->workbookRepository->delete($wordbook_id);
-    }
-
-    /**
-     * 問題を問題集から削除する
-     * @param $workbook_id String 問題集のID
-     * @param $exercise_id int 削除する問題のID
-     */
-    public function deleteExercise($workbook_id, $exercise_id)
-    {
-        $workbook = $this->workbookRepository->findByWorkbookId($workbook_id);
-        $exercise = $this->exerciseRepository->findByExerciseId($exercise_id);
-        $newWorkbook = $workbook->deleteExercise($exercise);
-        $this->workbookRepository->save($newWorkbook);
     }
 
 }
