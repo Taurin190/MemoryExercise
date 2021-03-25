@@ -1,12 +1,15 @@
 # MemoryExercise
 [![CircleCI](https://circleci.com/gh/Taurin190/MemoryExercise.svg?style=shield)](https://app.circleci.com/pipelines/github/Taurin190)
 [![CodeFactor](https://www.codefactor.io/repository/github/taurin190/memoryexercise/badge)](https://www.codefactor.io/repository/github/taurin190/memoryexercise)
-
+[![codecov](https://codecov.io/gh/Taurin190/MemoryExercise/branch/master/graph/badge.svg?token=M1OAYQGNQ9)](https://codecov.io/gh/Taurin190/MemoryExercise)
 
 Laravelの練習プロジェクト。
-問題を自分で作って確認するWEBアプリ。ユーザ管理、投稿、表示を一通り実装したい。
+暗記のためのトレーニングWEBアプリケーション。
+自分で問題、問題集を作成して、解答を覚えたかチェックできる。
+ユーザ登録すると解いた問題を確認できる。
 
-## setup
+## For Developer
+### setup
 
     # run mysql and redis
     docker-compose up -d mysql redis
