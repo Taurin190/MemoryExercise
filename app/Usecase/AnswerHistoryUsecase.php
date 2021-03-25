@@ -22,8 +22,7 @@ class AnswerHistoryUsecase
     public function __construct(
         AnswerHistoryRepository $answerHistoryRepository,
         WorkbookRepository $workbookRepository
-    )
-    {
+    ) {
         $this->answerHistoryRepository = $answerHistoryRepository;
         $this->workbookRepository = $workbookRepository;
     }
