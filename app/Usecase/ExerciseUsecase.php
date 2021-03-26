@@ -72,6 +72,7 @@ class ExerciseUsecase
             'label_list' => $exercise_dto->label_list
         ]);
         $this->exerciseRepository->save($exercise_domain);
+        return $exercise_domain->getExerciseDto();
     }
 
     public function getAllExercises($limit = 10, $user = null, $page = 1)
