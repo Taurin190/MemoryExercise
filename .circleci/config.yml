@@ -12,7 +12,7 @@ jobs:
       - image: circleci/php:7.4-node-browsers
       - image: circleci/mysql:5.7.32
         environment:
-          MYSQL_ROOT_PASSWORD: rootpw
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: test_memory
           MYSQL_USER: user
           MYSQL_PASSWORD: passw0rd
@@ -81,7 +81,6 @@ jobs:
             mkdir -p ~/phpunit
             ./vendor/bin/phpunit --log-junit ~/phpunit/junit.xml tests
             phpdbg -qrr vendor/bin/phpunit --coverage-clover ~/phpunit/coverage.xml
-            phpdbg -qrr vendor/bin/phpunit --coverage-html ~/phpunit/coverage-report
           when: always
       - store_test_results:
           path: ~/phpunit
