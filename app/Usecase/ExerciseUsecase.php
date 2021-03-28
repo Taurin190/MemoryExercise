@@ -7,7 +7,6 @@ use App\Domain\ExerciseRepository;
 use App\Dto\ExerciseDto;
 use App\Exceptions\PermissionException;
 use Exception;
-use Illuminate\Http\Request;
 
 class ExerciseUsecase
 {
@@ -96,18 +95,6 @@ class ExerciseUsecase
         return $this->exerciseRepository->findAllByExerciseIdList($id_list);
     }
 
-    public function getExerciseDtoListByIdListOfRequest(Request $request)
-    {
-        $exercise_dto_list = [];
-        $exercise_id_list = $request->get('exercise');
-        if (is_null($exercise_id_list)) {
-            return $exercise_dto_list;
-        }
-        $exercise_list_domain = $this->exerciseRepository->findAllByExerciseIdList($exercise_id_list);
-
-        return $exercise_list_domain->getExerciseDtoList();
-    }
-
     public function searchExercise($text, $page, $user = null)
     {
         $search_domain = $this->exerciseRepository->search($text, $user, $page, 10);
@@ -123,9 +110,9 @@ class ExerciseUsecase
     public function deleteExercise($exercise_id, $user_id)
     {
         $exercise_domain = $this->exerciseRepository->findByExerciseId($exercise_id, $user_id);
-        if ($exercise_domain->hasEditPermission($user_id)) {
-            $this->exerciseRepository->delete($exercise_id);
+        if (!$exercise_domain->hasEditPermission($user_id)) {
+            throw new PermissionException("User doesn't have permission to delete");
         }
-        throw new PermissionException("User doesn't have permission to delete");
+        $this->exerciseRepository->delete($exercise_id);
     }
 }
