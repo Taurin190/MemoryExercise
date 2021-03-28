@@ -146,4 +146,46 @@ class ExerciseUsecaseTest extends TestCase
         $actual = $exercise_usecase->getAllExercisesWithIdList(["exercise-1", "exercise-2", "exercise-3"]);
         self::assertTrue($actual instanceof Collection);
     }
+
+    public function testDeleteExercise()
+    {
+        $exercise_domain = Exercise::create([
+            'question' => 'Is this dog?',
+            'answer' => 'Yes, it is.',
+            'author_id' => 10,
+            'exercise_id' => 'exercise-1',
+        ]);
+        $exercise_repository = m::mock('\App\Domain\ExerciseRepository');
+        $exercise_repository->shouldReceive('findByExerciseId')
+            ->once()
+            ->with("exercise-1", 10)
+            ->andReturn($exercise_domain);
+        $exercise_repository->shouldReceive('delete')
+            ->once()
+            ->with("exercise-1")
+            ->andReturn();
+        $exercise_usecase = new ExerciseUsecase($exercise_repository);
+        $exercise_usecase->deleteExercise("exercise-1", 10);
+    }
+
+    public function testDeleteExerciseWithoutPermission()
+    {
+        $exercise_domain = Exercise::create([
+            'question' => 'Is this dog?',
+            'answer' => 'Yes, it is.',
+            'author_id' => 10,
+            'exercise_id' => 'exercise-1',
+        ]);
+        $exercise_repository = m::mock('\App\Domain\ExerciseRepository');
+        $exercise_repository->shouldReceive('findByExerciseId')
+            ->once()
+            ->with("exercise-1", 15)
+            ->andReturn($exercise_domain);
+        $exercise_usecase = new ExerciseUsecase($exercise_repository);
+        try {
+            $exercise_usecase->deleteExercise("exercise-1", 15);
+        } catch (PermissionException $e) {
+            self::assertSame("User doesn't have permission to delete", $e->getMessage());
+        }
+    }
 }
