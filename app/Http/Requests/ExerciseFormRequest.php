@@ -44,12 +44,12 @@ class ExerciseFormRequest extends FormRequest
     {
         $validated = $this->validated();
         return new ExerciseDto(
-            $validated->get('question'),
-            $validated->get('answer'),
-            $validated->get('permission'),
+            $validated['question'],
+            $validated['answer'],
+            $this->get('permission'),
             $user_id,
             $exercise_id,
-            $validated->get('label')
+            $this->get('label')
         );
     }
 

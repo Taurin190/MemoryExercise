@@ -262,4 +262,19 @@ class ExerciseUsecaseTest extends TestCase
         $actual = $exercise_usecase->searchExercise("test", 1, $user);
         self::assertTrue($actual instanceof ExerciseListDto);
     }
+
+    public function testGetValidatedExercise()
+    {
+        $exercise_dto = new ExerciseDto(
+            'is this test question.',
+            'yes, this is test.',
+            Exercise::PUBLIC_EXERCISE,
+            10
+        );
+        $exercise_repository = m::mock('\App\Domain\ExerciseRepository');
+        $exercise_usecase = new ExerciseUsecase($exercise_repository);
+        $actual = $exercise_usecase->getValidatedExercise($exercise_dto, 10);
+        self::assertSame('is this test question.', $actual->question);
+        self::assertSame('yes, this is test.', $actual->answer);
+    }
 }
