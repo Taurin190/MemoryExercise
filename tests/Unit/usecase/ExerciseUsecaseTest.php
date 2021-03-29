@@ -3,7 +3,10 @@
 namespace Tests\Unit\usecase;
 
 use App\Domain\Exercise;
+use App\Domain\Exercises;
+use App\Domain\SearchExerciseList;
 use App\Dto\ExerciseDto;
+use App\Dto\ExerciseListDto;
 use App\Exceptions\PermissionException;
 use App\Usecase\ExerciseUsecase;
 use Illuminate\Database\Eloquent\Collection;
@@ -187,5 +190,76 @@ class ExerciseUsecaseTest extends TestCase
         } catch (PermissionException $e) {
             self::assertSame("User doesn't have permission to delete", $e->getMessage());
         }
+    }
+
+    public function testGetMergedExercise()
+    {
+        $exercise_dto = new ExerciseDto(
+            'is this test question.',
+            'yes, this is test.',
+            Exercise::PUBLIC_EXERCISE,
+            10
+        );
+        $exercise_domain = Exercise::create([
+            'question' => 'Is this dog?',
+            'answer' => 'Yes, it is.',
+            'author_id' => 10,
+            'exercise_id' => 'exercise-test-1',
+        ]);
+        $exercise_repository = m::mock('\App\Domain\ExerciseRepository');
+        $exercise_repository->shouldReceive('findByExerciseId')
+            ->once()
+            ->with("exercise-test-1", 10)
+            ->andReturn($exercise_domain);
+        $exercise_usecase = new ExerciseUsecase($exercise_repository);
+        $actual = $exercise_usecase->getMergedExercise('exercise-test-1', 10, $exercise_dto);
+        self::assertSame('is this test question.', $actual->question);
+        self::assertSame('yes, this is test.', $actual->answer);
+        self::assertSame(1, $actual->permission);
+        self::assertSame(10, $actual->user_id);
+        self::assertSame('exercise-test-1', $actual->exercise_id);
+    }
+
+    public function testGetMergedExerciseWithoutPermission()
+    {
+        $exercise_dto = new ExerciseDto(
+            'is this test question.',
+            'yes, this is test.',
+            Exercise::PUBLIC_EXERCISE,
+            10
+        );
+        $exercise_domain = Exercise::create([
+            'question' => 'Is this dog?',
+            'answer' => 'Yes, it is.',
+            'author_id' => 10,
+            'exercise_id' => 'exercise-test-1',
+        ]);
+        $exercise_repository = m::mock('\App\Domain\ExerciseRepository');
+        $exercise_repository->shouldReceive('findByExerciseId')
+            ->once()
+            ->with("exercise-test-1", 15)
+            ->andReturn($exercise_domain);
+        $exercise_usecase = new ExerciseUsecase($exercise_repository);
+        try {
+            $exercise_usecase->getMergedExercise('exercise-test-1', 15, $exercise_dto);
+        } catch (PermissionException $e) {
+            self::assertSame("User doesn't have permission to edit", $e->getMessage());
+        }
+    }
+
+    public function testSearchExercise()
+    {
+        $exercise_orm_list = factory(\App\Exercise::class, 10)->make();
+        $exercise_list_domain = Exercises::convertByOrmList($exercise_orm_list);
+        $search_domain = new SearchExerciseList($exercise_list_domain, 10, 1, "test");
+        $user = factory(\App\User::class)->make();
+        $exercise_repository = m::mock('\App\Domain\ExerciseRepository');
+        $exercise_repository->shouldReceive('search')
+            ->once()
+            ->with("test", $user, 1, 10)
+            ->andReturn($search_domain);
+        $exercise_usecase = new ExerciseUsecase($exercise_repository);
+        $actual = $exercise_usecase->searchExercise("test", 1, $user);
+        self::assertTrue($actual instanceof ExerciseListDto);
     }
 }
