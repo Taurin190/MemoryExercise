@@ -6,6 +6,7 @@ namespace Tests\Unit\usecase;
 
 use App\Domain\Exercises;
 use App\Domain\Workbook;
+use App\Domain\Workbooks;
 use App\Dto\WorkbookDto;
 use App\Usecase\WorkbookUsecase;
 use Mockery as m;
@@ -94,5 +95,45 @@ class WorkbookUsecaseTest extends TestCase
         self::assertTrue($actual instanceof WorkbookDto);
         self::assertTrue(is_array($actual->exercise_list));
         self::assertSame(2, count($actual->exercise_list));
+    }
+
+    public function testGetWorkbookWithExerciseIdList()
+    {
+        $user = factory(\App\User::class)->make(['id' => 10]);
+        $exercise_orm_list = factory(\App\Exercise::class, 2)->make();
+        $workbook_dto = new WorkbookDto(
+            "test workbook",
+            "This is an example of workbook.",
+            [],
+            10
+        );
+        $exercise_repository = m::mock('\App\Domain\ExerciseRepository');
+        $workbook_repository = m::mock('\App\Domain\WorkbookRepository');
+        $exercise_repository->shouldReceive('findAllByExerciseIdList')
+            ->with(["exercise-test-1", "exercise-test-2"], 10)
+            ->andReturn(Exercises::convertByOrmList($exercise_orm_list));
+        $workbook_usecase = new WorkbookUsecase($workbook_repository, $exercise_repository);
+        $actual = $workbook_usecase->getWorkbookWithExerciseIdList(
+            $workbook_dto,
+            ["exercise-test-1", "exercise-test-2"],
+            $user
+        );
+        self::assertTrue($actual instanceof WorkbookDto);
+        self::assertTrue(is_array($actual->exercise_list));
+        self::assertSame(2, count($actual->exercise_list));
+    }
+
+    public function testGetWorkbookDtoList()
+    {
+        $workbook_orm_list = factory(\App\Workbook::class, 10)->make();
+        $exercise_repository = m::mock('\App\Domain\ExerciseRepository');
+        $workbook_repository = m::mock('\App\Domain\WorkbookRepository');
+        $workbook_repository->shouldReceive('findWorkbooks')
+            ->andReturn(Workbooks::convertByOrmList($workbook_orm_list));
+        $workbook_usecase = new WorkbookUsecase($workbook_repository, $exercise_repository);
+        $actual = $workbook_usecase->getWorkbookDtoList();
+        self::assertTrue(is_array($actual));
+        self::assertSame(10, count($actual));
+        self::assertTrue($actual[0] instanceof WorkbookDto);
     }
 }
