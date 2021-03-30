@@ -49,7 +49,7 @@ class AnswerHistoryUsecaseTest extends TestCase
         $answer_history_repository = m::mock('\App\Domain\AnswerHistoryRepository');
         $answer_history_repository->shouldReceive('getExerciseHistoryDailyCountTableWithinTerm')
             ->andReturn($exercise_daily_table);
-        $answer_history_repository->shouldReceive('getExerciseHistoryCountByUserIdWithinTerm')//            ->with(10, $graph_date_since, $graph_date_until)
+        $answer_history_repository->shouldReceive('getExerciseHistoryCountByUserIdWithinTerm')
         ->andReturn(20);
         $answer_history_repository->shouldReceive('getExerciseHistoryTotalCount')
             ->with(10)
