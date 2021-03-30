@@ -30,6 +30,19 @@ class ExerciseUsecase
         return $this->exerciseRepository->findByExerciseId($exercise_id, $user_id)->getExerciseDto();
     }
 
+    public function getValidatedExercise(ExerciseDto $exercise_dto, $user_id)
+    {
+        $exercise_domain = Exercise::create([
+            "exercise_id" => $exercise_dto->exercise_id,
+            "question" => $exercise_dto->question,
+            "answer" => $exercise_dto->answer,
+            "permission" => $exercise_dto->permission,
+            "label_list" => $exercise_dto->label_list,
+            "author_id" => $user_id
+        ]);
+        return $exercise_domain->getExerciseDto();
+    }
+
     public function getMergedExercise($exercise_id, $user_id, ExerciseDto $exercise_dto)
     {
         $exercise_domain = $this->exerciseRepository->findByExerciseId($exercise_id, $user_id);

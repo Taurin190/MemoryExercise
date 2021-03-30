@@ -40,10 +40,10 @@ class CreateController extends Controller
     {
         $exercise_dto = $request->convertDtoByRequest(Auth::id());
         // ドメインで整合性が取れるか問い合わせる
-        $this->exerciseUsecase->validate($exercise_dto, Auth::id());
-        $request->storeSessions($exercise_dto, '_create');
+        $valified_exercise_dto = $this->exerciseUsecase->getValidatedExercise($exercise_dto, Auth::id());
+        $request->storeSessions($valified_exercise_dto, '_create');
         return view('exercise_confirm')
-            ->with("exercise", $exercise_dto);
+            ->with("exercise", $valified_exercise_dto);
     }
 
     public function complete(ExerciseRequest $request)
