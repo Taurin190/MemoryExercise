@@ -10,7 +10,6 @@ use App\Domain\WorkbookRepository;
 use App\Dto\AnswerDto;
 use App\Dto\StudyHistoryDto;
 use App\Dto\WorkbookDto;
-use App\User;
 use DateTime;
 
 class AnswerHistoryUsecase
@@ -27,28 +26,12 @@ class AnswerHistoryUsecase
         $this->workbookRepository = $workbookRepository;
     }
 
-    /**
-     * 回答した内容を記録に残す
-     * @param Answer $answer
-     * @param Workbook $workbook
-     * @param User $user
-     */
-    public function addAnswerHistory(Answer $answer, Workbook $workbook, User $user)
-    {
-        $answer_history = AnswerHistory::map($answer, $workbook, $user);
-        $this->answerHistoryRepository->save($answer_history);
-    }
-
     public function registerAnswerHistory(WorkbookDto $workbook_dto, AnswerDto $answer_dto, $user)
     {
         $workbook_domain = Workbook::createByDto($workbook_dto, $user);
         $answer_domain = Answer::createFromDto($answer_dto);
         $answer_history = AnswerHistory::map($answer_domain, $workbook_domain, $user);
         $this->answerHistoryRepository->save($answer_history);
-    }
-
-    public function getAnswerHistoryForWorkbook(string $workbook_id)
-    {
     }
 
     /**
