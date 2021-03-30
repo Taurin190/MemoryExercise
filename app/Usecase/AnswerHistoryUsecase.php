@@ -6,7 +6,6 @@ use App\Domain\Answer;
 use App\Domain\AnswerHistory;
 use App\Domain\AnswerHistoryRepository;
 use App\Domain\Workbook;
-use App\Domain\WorkbookRepository;
 use App\Dto\AnswerDto;
 use App\Dto\StudyHistoryDto;
 use App\Dto\WorkbookDto;
@@ -16,14 +15,10 @@ class AnswerHistoryUsecase
 {
     private $answerHistoryRepository;
 
-    private $workbookRepository;
-
     public function __construct(
-        AnswerHistoryRepository $answerHistoryRepository,
-        WorkbookRepository $workbookRepository
+        AnswerHistoryRepository $answerHistoryRepository
     ) {
         $this->answerHistoryRepository = $answerHistoryRepository;
-        $this->workbookRepository = $workbookRepository;
     }
 
     public function registerAnswerHistory(WorkbookDto $workbook_dto, AnswerDto $answer_dto, $user)

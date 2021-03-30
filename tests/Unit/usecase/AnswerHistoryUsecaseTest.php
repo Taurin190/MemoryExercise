@@ -4,9 +4,11 @@
 namespace Tests\Unit\usecase;
 
 
+use App\Domain\ExerciseDailyTable;
 use App\Dto\AnswerDto;
 use App\Dto\WorkbookDto;
 use App\Usecase\AnswerHistoryUsecase;
+use DateTime;
 use Mockery as m;
 use Tests\TestCase;
 
@@ -34,9 +36,32 @@ class AnswerHistoryUsecaseTest extends TestCase
             'test-workbook'
         );
         $answer_history_repository = m::mock('\App\Domain\AnswerHistoryRepository');
-        $workbook_repository = m::mock('\App\Domain\WorkbookRepository');
         $answer_history_repository->shouldReceive('save')->once();
-        $answer_history_usecase = new AnswerHistoryUsecase($answer_history_repository, $workbook_repository);
+        $answer_history_usecase = new AnswerHistoryUsecase($answer_history_repository);
         $answer_history_usecase->registerAnswerHistory($workbook_dto, $answer_dto, $user);
+    }
+
+    public function testGetStudyHistoryOfUser()
+    {
+        $graph_date_since = new DateTime('first day of this month');
+        $graph_date_until = new DateTime('last day of this month');
+        $exercise_daily_table = new ExerciseDailyTable($graph_date_since, $graph_date_until);
+        $answer_history_repository = m::mock('\App\Domain\AnswerHistoryRepository');
+        $answer_history_repository->shouldReceive('getExerciseHistoryDailyCountTableWithinTerm')
+            ->andReturn($exercise_daily_table);
+        $answer_history_repository->shouldReceive('getExerciseHistoryCountByUserIdWithinTerm')
+        ->andReturn(20);
+        $answer_history_repository->shouldReceive('getExerciseHistoryTotalCount')
+            ->with(10)
+            ->andReturn(2);
+        $answer_history_repository->shouldReceive('getExerciseHistoryTotalDays')
+            ->with(10)
+            ->andReturn(15);
+
+        $answer_history_usecase = new AnswerHistoryUsecase($answer_history_repository);
+        $actual = $answer_history_usecase->getStudyHistoryOfUser(10, $graph_date_since, $graph_date_until);
+        self::assertSame(20, $actual->getMonthlyCount());
+        self::assertSame(2, $actual->getTotalCount());
+        self::assertSame(15, $actual->getTotalDays());
     }
 }
