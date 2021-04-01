@@ -5,6 +5,7 @@ namespace Tests\Unit\infrastructure;
 
 use App\Domain\Exercise;
 use App\Domain\Exercises;
+use App\Domain\SearchExerciseList;
 use App\Exceptions\DataNotFoundException;
 use App\Infrastructure\ExerciseRepository;
 use Tests\TestCase;
@@ -100,8 +101,40 @@ class ExerciseRepositoryTest extends TestCase
         self::assertSame(1, $actual);
         $exercise_list = $exercise_repository->search('testSave');
         self::assertSame(1, $exercise_list->count());
+        //TODO 取り出し方を改善する
         foreach ($exercise_list->getExerciseListDto()->exercise_dto_list as $dto) {
             $exercise_repository->delete($dto->exercise_id);
         }
+    }
+
+    public function testCount()
+    {
+        $user = factory(\App\User::class)->make(['id' => 10]);
+        $exercise_repository = new ExerciseRepository();
+        $actual = $exercise_repository->count($user);
+        self::assertSame(5, $actual);
+    }
+
+    public function testCountWithoutUser()
+    {
+        $exercise_repository = new ExerciseRepository();
+        $actual = $exercise_repository->count();
+        self::assertSame(3, $actual);
+    }
+
+    public function testCountWithOtherUser()
+    {
+        $user = factory(\App\User::class)->make(['id' => 15]);
+        $exercise_repository = new ExerciseRepository();
+        $actual = $exercise_repository->count($user);
+        self::assertSame(3, $actual);
+    }
+
+    public function testSearchWithFewText()
+    {
+        $exercise_repository = new ExerciseRepository();
+        $search_result = $exercise_repository->search('a');
+        self::assertTrue($search_result instanceof SearchExerciseList);
+        self::assertSame(3, $search_result->count());
     }
 }
