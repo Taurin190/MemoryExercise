@@ -3,6 +3,7 @@
 
 namespace Tests\Unit\infrastructure;
 
+use App\Domain\Exercise;
 use App\Domain\Exercises;
 use App\Exceptions\DataNotFoundException;
 use App\Infrastructure\ExerciseRepository;
@@ -83,5 +84,24 @@ class ExerciseRepositoryTest extends TestCase
         $actual = $exercise_repository->findAllByExerciseIdList(['exercise3', 'exercise4']);
         self::assertTrue($actual instanceof Exercises);
         self::assertSame(0, $actual->count());
+    }
+
+    public function testSave()
+    {
+        $workbook_domain = Exercise::create([
+            'question' => 'testSave. Is this test question?',
+            'answer' => 'yes, this is test one',
+            'permission' => 1,
+            'author_id' => 15
+        ]);
+        $exercise_repository = new ExerciseRepository();
+        $exercise_repository->save($workbook_domain);
+        $actual = $exercise_repository->searchCount('testSave');
+        self::assertSame(1, $actual);
+        $exercise_list = $exercise_repository->search('testSave');
+        self::assertSame(1, $exercise_list->count());
+        foreach ($exercise_list->getExerciseListDto()->exercise_dto_list as $dto) {
+            $exercise_repository->delete($dto->exercise_id);
+        }
     }
 }
