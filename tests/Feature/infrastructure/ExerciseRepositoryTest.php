@@ -31,6 +31,17 @@ class ExerciseRepositoryTest extends TestCase
         self::assertSame('Yes, it is', $actual->answer);
     }
 
+    public function testFindByExerciseIdWithoutUser()
+    {
+        $exercise_repository = new ExerciseRepository();
+        $exercise_domain = $exercise_repository->findByExerciseId('exercise1');
+        $actual = $exercise_domain->getExerciseDto();
+        self::assertSame('exercise1', $actual->exercise_id);
+        self::assertSame(10, $actual->user_id);
+        self::assertSame('Is this a dog?', $actual->question);
+        self::assertSame('Yes, it is', $actual->answer);
+    }
+
     public function testFindByExerciseIdWithInvalidId()
     {
         $exercise_repository = new ExerciseRepository();
