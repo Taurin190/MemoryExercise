@@ -3,6 +3,7 @@
 
 namespace Tests\Unit\infrastructure;
 
+use App\Domain\Exercises;
 use App\Exceptions\DataNotFoundException;
 use App\Infrastructure\ExerciseRepository;
 use Tests\TestCase;
@@ -50,5 +51,37 @@ class ExerciseRepositoryTest extends TestCase
         } catch (DataNotFoundException $e) {
             self::assertSame('Data not found in exercises by id: exercise999', $e->getMessage());
         }
+    }
+
+    public function testFindAllByExerciseIdList()
+    {
+        $exercise_repository = new ExerciseRepository();
+        $actual = $exercise_repository->findAllByExerciseIdList(['exercise1', 'exercise2', 'exercise3'], 10);
+        self::assertTrue($actual instanceof Exercises);
+        self::assertSame(3, $actual->count());
+    }
+
+    public function testFindAllByExerciseIdListWithoutUserId()
+    {
+        $exercise_repository = new ExerciseRepository();
+        $actual = $exercise_repository->findAllByExerciseIdList(['exercise1', 'exercise2', 'exercise3']);
+        self::assertTrue($actual instanceof Exercises);
+        self::assertSame(2, $actual->count());
+    }
+
+    public function testFindAllByExerciseIdListWithOtherUserId()
+    {
+        $exercise_repository = new ExerciseRepository();
+        $actual = $exercise_repository->findAllByExerciseIdList(['exercise2', 'exercise3', 'exercise4'], 15);
+        self::assertTrue($actual instanceof Exercises);
+        self::assertSame(1, $actual->count());
+    }
+
+    public function testFindAllByExerciseIdListAndGetNull()
+    {
+        $exercise_repository = new ExerciseRepository();
+        $actual = $exercise_repository->findAllByExerciseIdList(['exercise3', 'exercise4']);
+        self::assertTrue($actual instanceof Exercises);
+        self::assertSame(0, $actual->count());
     }
 }

@@ -23,6 +23,7 @@ class ExerciseSeeder extends Seeder
                     'exercise_id' => 'exercise3',
                     'question' => 'Is this a pencil?',
                     'answer' => 'Yes, it is',
+                    'permission' => 0,
                     'author_id' => 10
                 ],
                 [
@@ -30,6 +31,7 @@ class ExerciseSeeder extends Seeder
                     'question' => 'RAIDの分類において、ミラーリングを用いることで信頼性を高め、
                     障害発生時には冗長ディスクを用いてデータ復元を行う方式はどれか。',
                     'answer' => 'RAID1',
+                    'permission' => 0,
                     'author_id' => 10
                 ],
                 [
@@ -38,7 +40,7 @@ class ExerciseSeeder extends Seeder
                     動作すれば良いときの稼働率と２台とも正常に動作しなければならない時の稼働率のさはいくらか。
                     ここで、処理装置の稼働率はいずれも0.9とし、処理装置以外の要因は考慮しないものとする。',
                     'answer' => '0.09',
-                    'author_id' => 10
+                    'author_id' => 15
                 ],
             ];
         foreach ($exercises as $exercise) {
