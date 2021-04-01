@@ -61,6 +61,7 @@ jobs:
 
       # prepare the database
       - run: php artisan migrate --env=testing --database=mysql_testing --force
+      - run: php artisan db:seed --env=testing
 
     #      # run PHP_CodeSniffier
     #      - run:

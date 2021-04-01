@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddUserIdToExerciseTable extends Migration
 {
@@ -18,7 +18,7 @@ class AddUserIdToExerciseTable extends Migration
             $table->foreign('author_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('restrict')
+                ->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->unsignedTinyInteger("permission")->default(1);
         });
