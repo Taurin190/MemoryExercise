@@ -31,4 +31,9 @@ class SearchExerciseList
             $this->page
         );
     }
+
+    public function count()
+    {
+        return count($this->exerciseListDomain->getExerciseDtoList());
+    }
 }
