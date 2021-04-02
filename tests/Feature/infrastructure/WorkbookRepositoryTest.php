@@ -37,7 +37,7 @@ class WorkbookRepositoryTest extends TestCase
         $workbook_repository = new WorkbookRepository();
         $actual = $workbook_repository->findWorkbooks();
         self::assertTrue($actual instanceof Workbooks);
-        self::assertSame(3, $actual->count());
+        self::assertSame(4, $actual->count());
     }
 
     public function testUpdate()
@@ -59,10 +59,10 @@ class WorkbookRepositoryTest extends TestCase
     {
         $workbook_repository = new WorkbookRepository();
         $workbooks = $workbook_repository->findWorkbooks();
-        self::assertSame(3, $workbooks->count());
+        self::assertSame(4, $workbooks->count());
         $workbook_repository->delete('test3');
         $workbooks = $workbook_repository->findWorkbooks();
-        self::assertSame(2, $workbooks->count());
+        self::assertSame(3, $workbooks->count());
         try {
             $workbook_repository->findByWorkbookId('test3');
         } catch (DataNotFoundException $e) {
