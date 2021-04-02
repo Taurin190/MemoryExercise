@@ -58,6 +58,7 @@ class WorkbookRepositoryTest extends TestCase
     public function testDelete()
     {
         $workbook_repository = new WorkbookRepository();
+        $workbook_domain = $workbook_repository->findByWorkbookId('test3');
         $workbooks = $workbook_repository->findWorkbooks();
         self::assertSame(4, $workbooks->count());
         $workbook_repository->delete('test3');
@@ -68,5 +69,6 @@ class WorkbookRepositoryTest extends TestCase
         } catch (DataNotFoundException $e) {
             self::assertSame('Data Not Fount: Invalid Workbook Id.', $e->getMessage());
         }
+        $workbook_repository->save($workbook_domain);
     }
 }
