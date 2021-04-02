@@ -26,13 +26,14 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
 
     public function save(Workbook $workbook_domain)
     {
+        $workbook_id = '';
         if ($workbook_domain->getCountOfExercise() > 0) {
             DB::beginTransaction();
             try {
                 $workbook_orm = \App\Workbook::convertOrm($workbook_domain);
                 $workbook_orm->save();
-                $uuid = $workbook_orm->getKey();
-                $relations = $workbook_domain->getWorkbookExerciseRelationList($uuid);
+                $workbook_id = $workbook_orm->getKey();
+                $relations = $workbook_domain->getWorkbookExerciseRelationList($workbook_id);
                 $workbook_orm->exercises()->attach($relations);
                 DB::commit();
             } catch (\Exception $e) {
@@ -40,8 +41,11 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
                 Log::error("DB Exception: " . $e);
             }
         } else {
-            \App\Workbook::convertOrm($workbook_domain)->save();
+            $workbook_orm = \App\Workbook::convertOrm($workbook_domain);
+            $workbook_orm->save();
+            $workbook_id = $workbook_orm->getKey();
         }
+        return $workbook_id;
     }
 
     public function update(Workbook $workbook_domain)
@@ -63,6 +67,7 @@ class WorkbookRepository implements \App\Domain\WorkbookRepository
             }
             DB::commit();
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error("DB Exception: " . $e);
         }
     }
