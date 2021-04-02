@@ -4,9 +4,11 @@
 namespace Tests\Feature\infrastructure;
 
 
+use App\Domain\Exercises;
 use App\Domain\Workbook;
 use App\Domain\Workbooks;
 use App\Exceptions\DataNotFoundException;
+use App\Infrastructure\ExerciseRepository;
 use App\Infrastructure\WorkbookRepository;
 use Tests\TestCase;
 
@@ -62,21 +64,9 @@ class WorkbookRepositoryTest extends TestCase
             'explanation' => 'This is test new domain.',
         ]);
         $workbook_repository = new WorkbookRepository();
-        $workbook_repository->save($workbook_domain);
+        $workbook_id = $workbook_repository->save($workbook_domain);
         $workbooks = $workbook_repository->findWorkbooks();
         self::assertSame(5, $workbooks->count());
-        $workbook_id = '';
-        foreach ($workbooks->getWorkbookDtoList() as $dto) {
-            if (
-                $dto->workbook_id != 'test1'
-                && $dto->workbook_id != 'test2'
-                && $dto->workbook_id != 'test3'
-                && $dto->workbook_id != 'test4'
-            ) {
-                $workbook_id = $dto->workbook_id;
-                break;
-            }
-        }
         $workbook_repository->delete($workbook_id);
         $workbooks = $workbook_repository->findWorkbooks();
         self::assertSame(4, $workbooks->count());
@@ -85,5 +75,30 @@ class WorkbookRepositoryTest extends TestCase
         } catch (DataNotFoundException $e) {
             self::assertSame('Data Not Fount: Invalid Workbook Id.', $e->getMessage());
         }
+    }
+
+    public function testSaveWithExerciseList()
+    {
+        $exercise_repository = new ExerciseRepository();
+        $exercises = $exercise_repository->findAllByExerciseIdList(['exercise1', 'exercise2', 'exercise3']);
+        $workbook_domain = Workbook::create([
+            'title' => 'test new domain',
+            'explanation' => 'This is test new domain.',
+            'exercise_list' => $exercises
+        ]);
+        $workbook_repository = new WorkbookRepository();
+        $workbook_id = $workbook_repository->save($workbook_domain);
+        $workbook_domain = $workbook_repository->findByWorkbookId($workbook_id);
+        self::assertSame(2, $workbook_domain->getCountOfExercise());
+        $workbook_domain->edit([
+            'title' => 'modified test new domain',
+            'explanation' => 'modified This is test new domain.',
+            'exercise_list' => Exercises::convertByOrmList([])
+        ]);
+        $workbook_repository->update($workbook_domain);
+
+        $updated_workbook_domain = $workbook_repository->findByWorkbookId($workbook_id);
+        self::assertSame(0, $updated_workbook_domain->getCountOfExercise());
+        $workbook_repository->delete($workbook_id);
     }
 }
