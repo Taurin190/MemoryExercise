@@ -67,10 +67,12 @@ class WorkbookRepositoryTest extends TestCase
         self::assertSame(5, $workbooks->count());
         $workbook_id = '';
         foreach ($workbooks->getWorkbookDtoList() as $dto) {
-            if ($dto->workbook_id != 'test1'
+            if (
+                $dto->workbook_id != 'test1'
                 && $dto->workbook_id != 'test2'
                 && $dto->workbook_id != 'test3'
-                && $dto->workbook_id != 'test4') {
+                && $dto->workbook_id != 'test4'
+            ) {
                 $workbook_id = $dto->workbook_id;
                 break;
             }
