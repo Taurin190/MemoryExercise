@@ -26,6 +26,12 @@ class ExerciseControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function testListWithoutAuth()
+    {
+        $response = $this->get(route('exercise.list'));
+        $response->assertStatus(200);
+    }
+
     public function getTestDataForTestDetail()
     {
         return [

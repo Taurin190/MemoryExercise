@@ -10,7 +10,13 @@
                 <div>
                    <span>{{ $count }} 件</span>
                 </div>
-                <exercise-append-component :user_id='@json($user_id)' :exercise_list='@json($exercise_list)' :count='@json($count)'></exercise-append-component>
+                @if(isset($user_id))
+                    <exercise-append-component :user_id='@json($user_id)' :exercise_list='@json($exercise_list)'
+                                               :count='@json($count)'></exercise-append-component>
+                @else
+                    <exercise-append-component :exercise_list='@json($exercise_list)'
+                                               :count='@json($count)'></exercise-append-component>
+                @endif
             @endif
         </div>
     </div>

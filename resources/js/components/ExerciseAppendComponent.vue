@@ -20,12 +20,16 @@
 
 <script>
     import "axios";
+
     export default {
         name: "ExerciseAppendComponent",
         props: {
             count : Number,
             exercise_list: {},
-            user_id: Number
+            user_id: {
+                type: Number,
+                default: 0
+            }
         },
         data: function() {
             return {
