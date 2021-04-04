@@ -19,6 +19,13 @@ class ExerciseControllerTest extends TestCase
         $response->assertSee($title);
     }
 
+    public function testListWithAuth()
+    {
+        $user = factory(\App\User::class)->make();
+        $response = $this->actingAs($user)->get(route('exercise.list'));
+        $response->assertStatus(200);
+    }
+
     public function getTestDataForTestDetail()
     {
         return [
