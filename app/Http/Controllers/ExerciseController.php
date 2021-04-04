@@ -21,7 +21,6 @@ class ExerciseController extends Controller
      */
     public function __construct(ExerciseUsecase $exerciseUsecase, AnswerHistoryUsecase $answerHistoryUsecase)
     {
-        $this->middleware('auth');
         $this->exerciseUsecase = $exerciseUsecase;
         $this->answerHistoryUsecase = $answerHistoryUsecase;
     }
