@@ -33,7 +33,7 @@ class WorkbookControllerTest extends TestCase
 
     public function testResult()
     {
-        $user = factory(\App\User::class)->make();
+        $user = factory(\App\User::class)->create();
         $response = $this->actingAs($user)->post(route('workbook.result', 'test2'), [
             'exercise_list' => [
                 'exercise1',
