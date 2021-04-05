@@ -31,6 +31,22 @@ class WorkbookControllerTest extends TestCase
         $response->assertSee($title);
     }
 
+    public function testResult()
+    {
+        $user = factory(\App\User::class)->make();
+        $response = $this->actingAs($user)->post(route('workbook.result', 'test2'), [
+            'exercise_list' => [
+                'exercise1',
+                'exercise2'
+            ],
+            'answer' => [
+                'exercise1' => 'ok',
+                'exercise2' => 'ng'
+            ]
+        ]);
+        $response->assertStatus(200);
+    }
+
     public function getTestDataForTestDetail()
     {
         return [
