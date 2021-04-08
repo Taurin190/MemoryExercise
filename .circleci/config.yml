@@ -89,5 +89,8 @@ jobs:
           path: ~/phpunit
       - codecov/upload:
           file: ~/phpunit/coverage.xml
+      - run: curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s
+      - run: |
+          ./vendor/bin/phpcs --error-severity=0 --runtime-set ignore_warnings_on_exit 1 --standard=PSR2 --report=emacs ./app | ./bin/reviewdog -efm="%f:%l:%c: %m" -reporter=github-pr-review
 #      - run: ./vendor/bin/codecept build
 #      - run: ./vendor/bin/codecept run

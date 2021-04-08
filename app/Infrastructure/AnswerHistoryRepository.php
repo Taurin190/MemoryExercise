@@ -94,11 +94,7 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
         return $exercise_history_domain_list;
     }
 
-    public function getExerciseHistoryCountByUserIdWithinTerm(
-        $user_id,
-        DateTime $date_since = null,
-        DateTime $date_until = null
-    )
+    public function getExerciseHistoryCountByUserIdWithinTerm($user_id, DateTime $date_since = null, DateTime $date_until = null)
     {
         $query = $this->createQueryByUserWithinTerm($user_id, $date_since, $date_until);
         return $query->count();
