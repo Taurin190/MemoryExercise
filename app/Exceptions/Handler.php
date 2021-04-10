@@ -48,7 +48,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof DataNotFoundException) {
-            return Response::view('home', array(), 404);
+            return Response::view('error_notfound', array(), 404);
         }
         if ($exception instanceof PermissionException) {
             return Response::view('error_permission', array(), 403);
