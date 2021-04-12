@@ -8,36 +8,44 @@ use Tests\TestCase;
 
 class DeleteControllerTest extends TestCase
 {
+    private $user;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->user = factory(\App\User::class)->create();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        $this->user->delete();
+    }
+
     public function testDeleteComplete()
     {
-        $user = factory(\App\User::class)->create();
         $exercise = factory(\App\Exercise::class)->create([
-            'author_id' => $user->getKey()
+            'author_id' => $this->user->getKey()
         ]);
         $id = $exercise->getKey();
-        $response = $this->actingAs($user)->post(route('exercise.delete.complete', $id));
+        $response = $this->actingAs($this->user)->post(route('exercise.delete.complete', $id));
         $response->assertStatus(200);
-        $user->delete();
     }
 
     public function testDeleteCompleteWithInvalidUser()
     {
-        $user = factory(\App\User::class)->create();
         $exercise = factory(\App\Exercise::class)->create([
             'author_id' => 10
         ]);
         $id = $exercise->getKey();
-        $response = $this->actingAs($user)->post(route('exercise.delete.complete', $id));
+        $response = $this->actingAs($this->user)->post(route('exercise.delete.complete', $id));
         $response->assertStatus(403);
         $exercise->delete();
-        $user->delete();
     }
 
     public function testDeleteCompleteWithInvalidId()
     {
-        $user = factory(\App\User::class)->create();
-        $response = $this->actingAs($user)->post(route('exercise.delete.complete', 'test999'));
+        $response = $this->actingAs($this->user)->post(route('exercise.delete.complete', 'test999'));
         $response->assertStatus(404);
-        $user->delete();
     }
 }
