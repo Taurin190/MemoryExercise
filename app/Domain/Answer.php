@@ -3,7 +3,6 @@
 namespace App\Domain;
 
 use App\Dto\AnswerDto;
-use Illuminate\Support\Facades\Log;
 
 class Answer
 {
@@ -31,8 +30,6 @@ class Answer
         $this->exercise_map = $answer_list;
 
         foreach ($exercise_list as $exercise) {
-            Log::error($exercise);
-            Log::error($answer_list);
             if (!isset($answer_list[$exercise])) {
                 throw new DomainException("回答されていない問題があります。");
             }
