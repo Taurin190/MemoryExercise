@@ -19,7 +19,7 @@ class Answer
 
     protected $workbook_id;
 
-    public function __construct($exercise_list, $answer_list)
+    private function __construct($exercise_list, $answer_list)
     {
         if (!is_array($exercise_list)) {
             throw new DomainException("問題集が配列ではありません。");
@@ -53,14 +53,6 @@ class Answer
                     throw new DomainException("不正な回答が設定されています。");
             }
         }
-    }
-
-    public static function createFromRequest($request)
-    {
-        return new Answer(
-            $request->get('exercise_list'),
-            $request->get('answer')
-        );
     }
 
     public static function createFromDto(AnswerDto $answer_dto)
