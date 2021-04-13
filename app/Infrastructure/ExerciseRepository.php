@@ -8,7 +8,7 @@ use App\Exceptions\DataNotFoundException;
 
 class ExerciseRepository implements \App\Domain\ExerciseRepository
 {
-    public function findByExerciseId($exercise_id, $user_id = null)
+    public function findByExerciseId($exercise_id, $user_id = null): Exercise
     {
         $orm = null;
         if (isset($user_id)) {
@@ -26,7 +26,7 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         return Exercise::convertDomain($orm->first());
     }
 
-    public function findAllByExerciseIdList($exercise_id_list, $user_id = null)
+    public function findAllByExerciseIdList($exercise_id_list, $user_id = null): Exercises
     {
         if (isset($user_id)) {
             $exercise_orm_list = \App\Exercise::whereIn('exercise_id', $exercise_id_list)->where('permission', 1)
@@ -43,7 +43,7 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         return $domain_list;
     }
 
-    public function save(Exercise $exercise)
+    public function save(Exercise $exercise): void
     {
         \App\Exercise::convertOrm($exercise)->save();
     }
@@ -59,7 +59,7 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         }
     }
 
-    public function count($user = null)
+    public function count($user = null): int
     {
         if (isset($user)) {
             return \App\Exercise::where('permission', 1)
@@ -68,7 +68,7 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         return \App\Exercise::where('permission', 1)->count();
     }
 
-    public function search($text, $user = null, $page = 1, $limit = 10)
+    public function search(string $text, $user = null, int $page = 1, int $limit = 10)
     {
         if (mb_strlen($text) < 2) {
             $count = $this->count($user);
@@ -91,12 +91,12 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         );
     }
 
-    public function searchCount($text)
+    public function searchCount(string $text): int
     {
         return \App\Exercise::whereRaw("match(`question`) against (? IN NATURAL LANGUAGE MODE)", $text)->count();
     }
 
-    public function delete($exercise_id)
+    public function delete($exercise_id): void
     {
         \App\Exercise::where('exercise_id', $exercise_id)->delete();
     }

@@ -9,10 +9,23 @@ use Tests\TestCase;
 
 class CreateControllerTest extends TestCase
 {
+    private $user;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->user = factory(\App\User::class)->create();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        $this->user->delete();
+    }
+
     public function testShowCreate()
     {
-        $user = factory(\App\User::class)->make();
-        $response = $this->actingAs($user)->get(route('exercise.create'));
+        $response = $this->actingAs($this->user)->get(route('exercise.create'));
         $response->assertStatus(200);
     }
 
@@ -25,8 +38,7 @@ class CreateControllerTest extends TestCase
 
     public function testConfirm()
     {
-        $user = factory(\App\User::class)->create();
-        $response = $this->actingAs($user)->post(route('exercise.confirm'), [
+        $response = $this->actingAs($this->user)->post(route('exercise.confirm'), [
             'question' => 'Is this test question',
             'answer' => 'Yes, it is.',
             'permission' => 1
@@ -35,14 +47,12 @@ class CreateControllerTest extends TestCase
         $response->assertSessionHas('question_create');
         $response->assertSessionHas('answer_create');
         $response->assertSessionHas('permission_create');
-        $user->delete();
     }
 
     public function testComplete()
     {
-        $user = factory(\App\User::class)->create();
         $response = $this
-            ->actingAs($user)
+            ->actingAs($this->user)
             ->withSession([
                 'question_create' => 'Is this test question',
                 'answer_create' => 'Yes, it is.',
@@ -55,6 +65,5 @@ class CreateControllerTest extends TestCase
         $response->assertSessionMissing('answer_create');
         $response->assertSessionMissing('permission_create');
         Exercise::where('question', 'Is this test question')->delete();
-        $user->delete();
     }
 }
