@@ -36,11 +36,11 @@ class AnswerHistoryRepository implements \App\Domain\AnswerHistoryRepository
         }
     }
 
-    public function getExerciseHistoryByList($user_id, $exercise_list)
+    public function getExerciseHistoryByList($user_id, $exercises)
     {
         $exercise_id_list = [];
-        foreach ($exercise_list as $exercise) {
-            $exercise_id_list[] = $exercise->getKey();
+        foreach ($exercises->getExerciseDtoList() as $exercise) {
+            $exercise_id_list[] = $exercise->exercise_id;
         }
         return ExerciseHistory::where('user_id', $user_id)->whereIn('exercise_id', $exercise_id_list)->get();
     }

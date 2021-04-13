@@ -9,7 +9,6 @@ use App\Dto\ExerciseDto;
 use App\Dto\ExerciseListDto;
 use App\Exceptions\PermissionException;
 use App\Usecase\ExerciseUsecase;
-use Illuminate\Database\Eloquent\Collection;
 use Mockery as m;
 use Tests\TestCase;
 
@@ -115,13 +114,13 @@ class ExerciseUsecaseTest extends TestCase
         $user = factory(\App\User::class)->make();
         $exercise_list = factory(\App\Exercise::class, 10)->make();
         $exercise_repository = m::mock('\App\Domain\ExerciseRepository');
-        $exercise_repository->shouldReceive('findAll')
+        $exercise_repository->shouldReceive('findExercises')
             ->once()
             ->with(10, $user, 1)
-            ->andReturn($exercise_list);
+            ->andReturn(Exercises::convertByOrmList($exercise_list));
         $exercise_usecase = new ExerciseUsecase($exercise_repository);
         $actual = $exercise_usecase->getAllExercises(10, $user, 1);
-        self::assertTrue($actual instanceof Collection);
+        self::assertTrue(is_array($actual));
     }
 
     public function testGetExerciseCount()

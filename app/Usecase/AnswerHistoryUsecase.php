@@ -5,6 +5,7 @@ namespace App\Usecase;
 use App\Domain\Answer;
 use App\Domain\AnswerHistory;
 use App\Domain\AnswerHistoryRepository;
+use App\Domain\Exercises;
 use App\Domain\Workbook;
 use App\Dto\AnswerDto;
 use App\Dto\StudyHistoryDto;
@@ -65,10 +66,11 @@ class AnswerHistoryUsecase
      */
     public function getExerciseHistoryCountByExerciseList($user, $exercise_list)
     {
+        $exercises = Exercises::convertByDtoList($exercise_list);
         $exercise_history_list = $this->answerHistoryRepository
             ->getExerciseHistoryByList(
                 $user->getKey(),
-                $exercise_list
+                $exercises
             );
         $exercise_count_list = [];
         foreach ($exercise_history_list as $exercise_history) {
