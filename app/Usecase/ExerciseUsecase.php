@@ -89,7 +89,7 @@ class ExerciseUsecase
 
     public function getAllExercises($limit = 10, $user = null, $page = 1)
     {
-        return $this->exerciseRepository->findAll($limit, $user, $page);
+        return $this->exerciseRepository->findExercises($limit, $user, $page)->getExerciseDtoList();
     }
 
     public function getExerciseCount($user = null)

@@ -137,4 +137,12 @@ class ExerciseRepositoryTest extends TestCase
         self::assertTrue($search_result instanceof SearchExerciseList);
         self::assertSame(3, $search_result->count());
     }
+
+    public function testFindExercises()
+    {
+        $exercise_repository = new ExerciseRepository();
+        $actual = $exercise_repository->findExercises();
+        self::assertTrue($actual instanceof Exercises);
+        self::assertSame(3, $actual->count());
+    }
 }

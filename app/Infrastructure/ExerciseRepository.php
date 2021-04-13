@@ -48,15 +48,17 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
         \App\Exercise::convertOrm($exercise)->save();
     }
 
-    public function findAll($limit = 10, $user = null, $page = 1)
+    public function findExercises($limit = 10, $user = null, $page = 1): Exercises
     {
         // TODO 引数を整える
+        $exercise_list = null;
         if (isset($user)) {
-            return $exercise_list = \App\Exercise::where('permission', 1)
+            $exercise_list = \App\Exercise::where('permission', 1)
                 ->orWhere("author_id", $user->getKey())->skip($limit * ($page - 1))->take($limit)->get();
         } else {
-            return \App\Exercise::where('permission', 1)->skip($limit * ($page - 1))->take($limit)->get();
+            $exercise_list = \App\Exercise::where('permission', 1)->skip($limit * ($page - 1))->take($limit)->get();
         }
+        return Exercises::convertByOrmList($exercise_list);
     }
 
     public function count($user = null): int
@@ -72,9 +74,9 @@ class ExerciseRepository implements \App\Domain\ExerciseRepository
     {
         if (mb_strlen($text) < 2) {
             $count = $this->count($user);
-            $exercise_orm_list = $this->findAll($limit, $user, $page);
+            $exercises_orm = $this->findExercises($limit, $user, $page);
             return new SearchExerciseList(
-                Exercises::convertByOrmList($exercise_orm_list),
+                $exercises_orm,
                 $count,
                 $page,
                 $text
