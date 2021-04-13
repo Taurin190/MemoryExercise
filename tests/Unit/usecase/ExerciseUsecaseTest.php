@@ -144,10 +144,10 @@ class ExerciseUsecaseTest extends TestCase
         $exercise_repository->shouldReceive('findAllByExerciseIdList')
             ->once()
             ->with(["exercise-1", "exercise-2", "exercise-3"])
-            ->andReturn($exercise_list);
+            ->andReturn(Exercises::convertByOrmList($exercise_list));
         $exercise_usecase = new ExerciseUsecase($exercise_repository);
         $actual = $exercise_usecase->getAllExercisesWithIdList(["exercise-1", "exercise-2", "exercise-3"]);
-        self::assertTrue($actual instanceof Collection);
+        self::assertTrue($actual instanceof Exercises);
     }
 
     public function testDeleteExercise()
