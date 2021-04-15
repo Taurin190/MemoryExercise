@@ -1,24 +1,20 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: koichi.taura
- * Date: 2020/08/24
- * Time: 16:44
- */
 
 namespace App\Dto;
 
 class StudyHistoryDto
 {
-    private $exerciseDateCountMap;
+    public $exerciseDateCountMap;
 
-    private $labels = [];
+    public $labels = [];
 
-    private $monthlyCount;
+    public $monthlyCount;
 
-    private $totalCount;
+    public $totalCount;
 
-    private $totalDays;
+    public $totalDays;
+
+    public $graphData;
 
     private function __construct($exerciseHistoryTable, $monthlyCount, $totalCount, $totalDays)
     {
@@ -27,35 +23,11 @@ class StudyHistoryDto
         $this->monthlyCount = $monthlyCount;
         $this->totalCount = $totalCount;
         $this->totalDays = $totalDays;
-    }
-
-    public static function map($exercise_history_table, $monthly_count, $total_count, $total_days)
-    {
-        return new StudyHistoryDto($exercise_history_table, $monthly_count, $total_count, $total_days);
-    }
-
-    public function getMonthlyCount()
-    {
-        return $this->monthlyCount;
-    }
-
-    public function getTotalCount()
-    {
-        return $this->totalCount;
-    }
-
-    public function getTotalDays()
-    {
-        return $this->totalDays;
-    }
-
-    public function getGraphData()
-    {
         $data_list = [];
         foreach ($this->exerciseDateCountMap as $count) {
             $data_list[] = $count;
         }
-        return [
+        $this->graphData = [
             "datasets" => [
                 "data" => $data_list,
                 "label" => "学習履歴",
@@ -63,5 +35,11 @@ class StudyHistoryDto
             ],
             "labels" => $this->labels
         ];
+
+    }
+
+    public static function map($exercise_history_table, $monthly_count, $total_count, $total_days)
+    {
+        return new StudyHistoryDto($exercise_history_table, $monthly_count, $total_count, $total_days);
     }
 }
