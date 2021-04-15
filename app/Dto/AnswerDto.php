@@ -10,6 +10,8 @@ class AnswerDto
 
     public $exercise_map = [];
 
+    public $exercise_num_map = [];
+
     public $ok_count = 0;
 
     public $ng_count = 0;
@@ -28,12 +30,15 @@ class AnswerDto
             $this->exercise_map[$exercise] = $answer_list[$exercise];
             switch ($answer_list[$exercise]) {
                 case 'ok':
+                    $this->exercise_num_map[$exercise] = 3;
                     $this->ok_count++;
                     break;
                 case 'ng':
+                    $this->exercise_num_map[$exercise] = 1;
                     $this->ng_count++;
                     break;
                 case 'studying':
+                    $this->exercise_num_map[$exercise] = 2;
                     $this->studying_count++;
                     break;
                 default:

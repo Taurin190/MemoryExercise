@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Dto\AnswerDto;
 use App\Usecase\AnswerHistoryUsecase;
+use App\Usecase\StudyHistoryUsecase;
 use App\Usecase\WorkbookUsecase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,12 +15,16 @@ class WorkbookController extends Controller
 
     protected $history_usecase;
 
+    protected $study_history_usecase;
+
     public function __construct(
         WorkbookUsecase $workbook_usecase,
-        AnswerHistoryUsecase $history_usecase
+        AnswerHistoryUsecase $history_usecase,
+        StudyHistoryUsecase $study_history_usecase
     ) {
         $this->workbook_usecase = $workbook_usecase;
         $this->history_usecase = $history_usecase;
+        $this->study_history_usecase = $study_history_usecase;
     }
     public function list()
     {
@@ -48,6 +53,7 @@ class WorkbookController extends Controller
         );
         if (Auth::check()) {
             $this->history_usecase->registerAnswerHistory($workbook_dto, $answer_dto, Auth::user());
+            $this->study_history_usecase->saveStudyHistory($uuid, $answer_dto->exercise_num_map, Auth::id());
         }
 
         return view('workbook_result')

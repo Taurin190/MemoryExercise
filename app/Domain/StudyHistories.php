@@ -2,6 +2,8 @@
 
 namespace App\Domain;
 
+use DateTime;
+
 class StudyHistories
 {
     private $studyId;
@@ -57,13 +59,15 @@ class StudyHistories
     public function toRecords()
     {
         $studyHistoryArray = [];
+        $now = new DateTime();
         foreach ($this->studyHistoryList as $studyHistory) {
             $studyHistoryArray[] = [
                 'study_id' => $this->studyId,
                 'workbook_id' => $this->workbookId,
                 'exercise_id' => $studyHistory['exercise_id'],
                 'user_id' => $this->userId,
-                'score' => $studyHistory['score']
+                'score' => $studyHistory['score'],
+                'created_at' => $now
             ];
         }
         return $studyHistoryArray;
