@@ -14,12 +14,31 @@ class CreateStudyHistoriesTable extends Migration
     public function up()
     {
         Schema::create('study_histories', function (Blueprint $table) {
-            $table->unsignedBigInteger('study_history_id');
+            $table->unsignedBigInteger('study_id');
             $table->uuid('workbook_id');
             $table->uuid('exercise_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedInteger('score')->default(0);
-            $table->primary(['study_history_id', 'workbook_id', 'exercise_id']);
+            $table->primary(['study_id', 'user_id', 'workbook_id', 'exercise_id']);
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('workbook_id')
+                ->references('workbook_id')
+                ->on('workbooks')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('exercise_id')
+                ->references('exercise_id')
+                ->on('exercises')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
