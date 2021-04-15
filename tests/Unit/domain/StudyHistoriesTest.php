@@ -96,6 +96,10 @@ class StudyHistoriesTest extends TestCase
             'user_id' => 10,
             'score' => 1
         ];
-        self::assertSame($expected, $actual[0]);
+        self::assertSame(1, $actual[0]['study_id']);
+        self::assertSame('workbook1', $actual[0]['workbook_id']);
+        self::assertSame('exercise1', $actual[0]['exercise_id']);
+        self::assertSame(10, $actual[0]['user_id']);
+        self::assertSame(1, $actual[0]['score']);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Domain;
 
+use DateTime;
+
 class StudyHistories
 {
     private $studyId;
@@ -14,8 +16,9 @@ class StudyHistories
 
     private function __construct(array $parameters)
     {
-        $this->studyId = $parameters['study_id'];
-
+        if (isset($parameters['study_id'])) {
+            $this->studyId = $parameters['study_id'];
+        }
         if (empty($parameters['user_id'])) {
             throw new DomainException('user_idが設定されていません。');
         }
@@ -34,6 +37,14 @@ class StudyHistories
         }
     }
 
+    public function setStudyId($studyId)
+    {
+        if (isset($this->studyId)) {
+            throw new DomainException('既にstudyIdが設定されています。');
+        }
+        $this->studyId = $studyId;
+    }
+
     /**
      * @param array $parameters
      * @return StudyHistories
@@ -48,13 +59,15 @@ class StudyHistories
     public function toRecords()
     {
         $studyHistoryArray = [];
+        $now = new DateTime();
         foreach ($this->studyHistoryList as $studyHistory) {
             $studyHistoryArray[] = [
                 'study_id' => $this->studyId,
                 'workbook_id' => $this->workbookId,
                 'exercise_id' => $studyHistory['exercise_id'],
                 'user_id' => $this->userId,
-                'score' => $studyHistory['score']
+                'score' => $studyHistory['score'],
+                'created_at' => $now
             ];
         }
         return $studyHistoryArray;

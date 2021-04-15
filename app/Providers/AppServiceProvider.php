@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
+use App\Domain\AnswerHistoryRepository;
+use App\Domain\ExerciseRepository;
+use App\Domain\StudyHistoryRepository;
+use App\Domain\WorkbookRepository;
 use Illuminate\Support\ServiceProvider;
-use \App\Domain\WorkbookRepository;
-use \App\Domain\ExerciseRepository;
-use \App\Domain\AnswerHistoryRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             AnswerHistoryRepository::class,
             \App\Infrastructure\AnswerHistoryRepository::class
+        );
+        $this->app->bind(
+            StudyHistoryRepository::class,
+            \App\Infrastructure\StudyHistoryRepository::class
         );
     }
 
