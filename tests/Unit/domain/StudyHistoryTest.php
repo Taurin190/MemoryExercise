@@ -30,4 +30,12 @@ class StudyHistoryTest extends TestCase
         self::assertSame(1, $studyHistory['score']);
         self::assertSame('exercise1', $studyHistory['exercise_id']);
     }
+
+    public function testOffsetExists()
+    {
+        $studyHistory = StudyHistory::create('exercise1', 1);
+        self::assertTrue($studyHistory->offsetExists('exercise_id'));
+        self::assertTrue($studyHistory->offsetExists('score'));
+        self::assertFalse($studyHistory->offsetExists('invalid'));
+    }
 }

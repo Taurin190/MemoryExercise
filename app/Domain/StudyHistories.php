@@ -2,10 +2,7 @@
 
 namespace App\Domain;
 
-use ArrayIterator;
-use IteratorAggregate;
-
-class StudyHistories implements IteratorAggregate
+class StudyHistories
 {
     private $studyId;
 
@@ -61,10 +58,5 @@ class StudyHistories implements IteratorAggregate
             ];
         }
         return $studyHistoryArray;
-    }
-
-    public function getIterator()
-    {
-        return new ArrayIterator($this->studyHistoryList);
     }
 }

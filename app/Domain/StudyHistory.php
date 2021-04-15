@@ -25,15 +25,23 @@ class StudyHistory implements ArrayAccess
 
     public function offsetExists($offset)
     {
-        if ($offset == 'exercise_id') return true;
-        if ($offset == 'score') return true;
+        if ($offset == 'exercise_id') {
+            return true;
+        }
+        if ($offset == 'score') {
+            return true;
+        }
         return false;
     }
 
     public function offsetGet($offset)
     {
-        if ($offset == 'exercise_id') return $this->exercise_id;
-        if ($offset == 'score') return $this->score;
+        if ($offset == 'exercise_id') {
+            return $this->exercise_id;
+        }
+        if ($offset == 'score') {
+            return $this->score;
+        }
     }
 
     public function offsetSet($offset, $value)
