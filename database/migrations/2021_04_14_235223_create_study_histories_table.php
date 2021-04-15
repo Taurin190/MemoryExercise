@@ -20,7 +20,7 @@ class CreateStudyHistoriesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedInteger('score')->default(0);
             $table->primary(['study_id', 'user_id', 'workbook_id', 'exercise_id']);
-            $table->timestamps();
+            $table->timestamp('created_at', 0)->default(now())->index();
 
             $table->foreign('user_id')
                 ->references('id')
