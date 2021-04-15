@@ -14,8 +14,9 @@ class StudyHistories
 
     private function __construct(array $parameters)
     {
-        $this->studyId = $parameters['study_id'];
-
+        if (isset($parameters['study_id'])) {
+            $this->studyId = $parameters['study_id'];
+        }
         if (empty($parameters['user_id'])) {
             throw new DomainException('user_idが設定されていません。');
         }
@@ -32,6 +33,14 @@ class StudyHistories
         foreach ($parameters['exercise_study_map'] as $exercise_id => $score) {
             $this->studyHistoryList[] = StudyHistory::create($exercise_id, $score);
         }
+    }
+
+    public function setStudyId($studyId)
+    {
+        if (isset($this->studyId)) {
+            throw new DomainException('既にstudyIdが設定されています。');
+        }
+        $this->studyId = $studyId;
     }
 
     /**

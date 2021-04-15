@@ -11,9 +11,4 @@ class StudyHistory extends Model
     public $incrementing = false;
 
     protected $fillable = ['score'];
-
-    public static function convertOrm(\App\Domain\StudyHistories $studyHistories)
-    {
-        StudyHistory::fill($studyHistories->toRecords());
-    }
 }
