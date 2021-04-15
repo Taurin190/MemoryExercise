@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Usecase\AnswerHistoryUsecase;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -31,10 +30,8 @@ class HomeController extends Controller
             $study_history_dto = $this->answerHistoryUsecase->getStudyHistoryOfUser($user->getKey(), null, null);
             return view('home')
                 ->with('user', $user)
-                ->with('exercise_history_count', $study_history_dto->getGraphData())
-                ->with('monthly_count', $study_history_dto->getMonthlyCount())
-                ->with('total_count', $study_history_dto->getTotalCount())
-                ->with('total_days', $study_history_dto->getTotalDays());
+                ->with('study_history', $study_history_dto)
+                ->with('graph_data', $study_history_dto->graphData);
         } else {
             return view('index');
         }

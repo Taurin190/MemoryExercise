@@ -60,8 +60,8 @@ class AnswerHistoryUsecaseTest extends TestCase
 
         $answer_history_usecase = new AnswerHistoryUsecase($answer_history_repository);
         $actual = $answer_history_usecase->getStudyHistoryOfUser(10, $graph_date_since, $graph_date_until);
-        self::assertSame(20, $actual->getMonthlyCount());
-        self::assertSame(2, $actual->getTotalCount());
-        self::assertSame(15, $actual->getTotalDays());
+        self::assertSame(20, $actual->monthlyCount);
+        self::assertSame(2, $actual->totalCount);
+        self::assertSame(15, $actual->totalDays);
     }
 }
