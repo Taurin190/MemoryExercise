@@ -4,12 +4,15 @@ namespace Tests\Feature\infrastructure;
 
 use App\Domain\StudyHistories;
 use App\Infrastructure\StudyHistoryRepository;
+use App\StudyHistory;
 use Tests\TestCase;
 
 class StudyHistoryRepositoryTest extends TestCase
 {
     public function testSave()
     {
+        // delete records to go through path of no records
+        StudyHistory::query()->delete();
         $studyHistories = StudyHistories::createFromArray([
             'user_id' => 10,
             'workbook_id' => 'test1',
