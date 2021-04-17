@@ -53,6 +53,11 @@ class StudySummary
 
     public function getDto()
     {
-        return new StudySummaryDto($this->exerciseCountInMonth, $this->totalExerciseCount, $this->totalStudyDays, $this->graphDate);
+        return new StudySummaryDto(
+            $this->exerciseCountInMonth,
+            $this->totalExerciseCount,
+            $this->totalStudyDays,
+            $this->graphDate
+        );
     }
 }
