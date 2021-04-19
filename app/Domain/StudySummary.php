@@ -79,6 +79,21 @@ class StudySummary
         return new StudySummary($parameters);
     }
 
+    public static function createFromRepository($parameters)
+    {
+        $dateExerciseCountOrmList = [];
+        if (isset($parameters['date_exercise_count_orm'])) {
+            $dateExerciseCountOrmList = $parameters['date_exercise_count_orm'];
+        }
+        $dateExerciseCountMap = [];
+        foreach ($dateExerciseCountOrmList as $dateExerciseCountOrm) {
+            $dateExerciseCountMap[$dateExerciseCountOrm->Date] = (int)$dateExerciseCountOrm->days;
+        }
+        $parameters['date_exercise_count_map'] = $dateExerciseCountMap;
+
+        return new StudySummary($parameters);
+    }
+
     public function getDto()
     {
         return new StudySummaryDto(

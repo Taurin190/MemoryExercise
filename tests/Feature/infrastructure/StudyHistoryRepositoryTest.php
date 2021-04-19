@@ -59,9 +59,27 @@ class StudyHistoryRepositoryTest extends TestCase
         );
         self::assertTrue($actual instanceof StudySummary);
 
+        $expected = [
+            "datasets" => [
+                "data" => [
+                    '2021-04-01' => 0,
+                    '2021-04-02' => 3,
+                    '2021-04-03' => 0,
+                ],
+                "label" => "学習履歴",
+                "backgroundColor" => "#f87979"
+            ],
+            "labels" => [
+                '4/1',
+                '4/2',
+                '4/3'
+            ]
+        ];
+
         $dto = $actual->getDto();
         self::assertSame(3, $dto->exerciseCountInMonth);
         self::assertSame(3, $dto->totalExerciseCount);
         self::assertSame(1, $dto->totalStudyDays);
+        self::assertSame($expected, $dto->graphData);
     }
 }
