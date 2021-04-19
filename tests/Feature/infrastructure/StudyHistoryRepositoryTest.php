@@ -52,7 +52,11 @@ class StudyHistoryRepositoryTest extends TestCase
             'created_at' => '2021-04-02 00:00:00'
         ]);
         $studyHistoryRepository = new StudyHistoryRepository();
-        $actual = $studyHistoryRepository->inquireStudySummary(15, new DateTime('2021-04-01 00:00:00'), new DateTime('2021-04-03 00:00:00'));
+        $actual = $studyHistoryRepository->inquireStudySummary(
+            15,
+            new DateTime('2021-04-01 00:00:00'),
+            new DateTime('2021-04-03 00:00:00')
+        );
         self::assertTrue($actual instanceof StudySummary);
 
         $dto = $actual->getDto();
