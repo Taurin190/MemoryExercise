@@ -21,10 +21,6 @@ class StudySummary
 
     private $dateLabelList = [];
 
-    private $startDate;
-
-    private $endDate;
-
     private $graphData = [];
 
     private function __construct($parameters)
