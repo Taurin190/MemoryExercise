@@ -4,7 +4,9 @@
 namespace Tests\Unit\domain;
 
 
+use App\Domain\DomainException;
 use App\Domain\StudySummary;
+use DateTime;
 use Tests\TestCase;
 
 class StudySummaryTest extends TestCase
@@ -30,8 +32,8 @@ class StudySummaryTest extends TestCase
             'total_exercise_count' => 20,
             'total_study_days' => 5,
             'date_exercise_count_map' => [],
-            'start_date' => '2020-01-01',
-            'end_date' => '2020-01-03',
+            'start_date' => new DateTime('2020-01-01'),
+            'end_date' => new DateTime('2020-01-03'),
         ]);
         $actual = $studySummary->getDto();
         $expected = [
@@ -52,5 +54,22 @@ class StudySummaryTest extends TestCase
         ];
 
         self::assertSame($expected, $actual->graphData);
+    }
+
+    public function testCreateStudySummaryWithInvalidDateFormat()
+    {
+        try {
+            StudySummary::create([
+                'exercise_count_in_month' => 10,
+                'total_exercise_count' => 20,
+                'total_study_days' => 5,
+                'date_exercise_count_map' => [],
+                'start_date' => '2020-01-01',
+                'end_date' => '2020-01-03',
+            ]);
+            fail('exception did\'n occur');
+        } catch (DomainException $e) {
+            self::assertSame('Dateの型が正しくありません。', $e->getMessage());
+        }
     }
 }

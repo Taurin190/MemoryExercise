@@ -15,8 +15,6 @@ class StudySummary
 
     private $totalStudyDays;
 
-    private $dateExerciseCountList = [];
-
     private $dateExerciseCountMap = [];
 
     private $dateLabelList = [];
@@ -45,11 +43,19 @@ class StudySummary
 
         $startDate = new DateTime('first day of this month');
         if (isset($parameters['start_date'])) {
-            $startDate = new DateTime($parameters['start_date']);
+            if ($parameters['start_date'] instanceof DateTime) {
+                $startDate = $parameters['start_date'];
+            } else {
+                throw new DomainException('Dateの型が正しくありません。');
+            }
         }
         $endDate = new DateTime('last day of this month');
         if (isset($parameters['end_date'])) {
-            $endDate = new DateTime($parameters['end_date']);
+            if ($parameters['end_date'] instanceof DateTime) {
+                $endDate = $parameters['end_date'];
+            } else {
+                throw new DomainException('Dateの型が正しくありません。');
+            }
         }
 
         $this->exerciseCountInMonth = $exerciseCountInMonth;
@@ -63,7 +69,6 @@ class StudySummary
             }
             $this->dateExerciseCountMap[$i->format('Y-m-d')] = $exerciseCount;
             $this->dateLabelList[] = $i->format('n/j');
-            $this->dateExerciseCountList[] = new DateExerciseCount($i, $exerciseCount);
         }
 
         $this->createGraphData($this->dateExerciseCountMap);
