@@ -5,6 +5,7 @@ namespace App\Domain;
 
 
 use App\Dto\StudySummaryDto;
+use DateTime;
 
 class StudySummary
 {
@@ -16,7 +17,15 @@ class StudySummary
 
     private $dateExerciseCountList = [];
 
-    private $graphDate = [];
+    private $dateExerciseCountMap = [];
+
+    private $dateLabelList = [];
+
+    private $startDate;
+
+    private $endDate;
+
+    private $graphData = [];
 
     private function __construct($parameters)
     {
@@ -38,12 +47,30 @@ class StudySummary
             $dateExerciseCountMap = $parameters['date_exercise_count_map'];
         }
 
+        $startDate = new DateTime('first day of this month');
+        if (isset($parameters['start_date'])) {
+            $startDate = new DateTime($parameters['start_date']);
+        }
+        $endDate = new DateTime('last day of this month');
+        if (isset($parameters['end_date'])) {
+            $endDate = new DateTime($parameters['end_date']);
+        }
+
         $this->exerciseCountInMonth = $exerciseCountInMonth;
         $this->totalExerciseCount = $totalExerciseCount;
         $this->totalStudyDays = $totalStudyDays;
-        foreach ($dateExerciseCountMap as $date => $exerciseCount) {
-            $this->dateExerciseCountList[] = new DateExerciseCount($date, $exerciseCount);
+
+        for ($i = $startDate; $i <= $endDate; $i->modify('+1 day')) {
+            $exerciseCount = 0;
+            if (isset($dateExerciseCountMap[$i->format('Y-m-d')])) {
+                $exerciseCount = $dateExerciseCountMap[$i->format('Y-m-d')];
+            }
+            $this->dateExerciseCountMap[$i->format('Y-m-d')] = $exerciseCount;
+            $this->dateLabelList[] = $i->format('n/j');
+            $this->dateExerciseCountList[] = new DateExerciseCount($i, $exerciseCount);
         }
+
+        $this->createGraphData($this->dateExerciseCountMap);
     }
 
     public static function create($parameters)
@@ -57,7 +84,19 @@ class StudySummary
             $this->exerciseCountInMonth,
             $this->totalExerciseCount,
             $this->totalStudyDays,
-            $this->graphDate
+            $this->graphData
         );
+    }
+
+    private function createGraphData($dateExerciseCountMap)
+    {
+        $this->graphData = [
+            "datasets" => [
+                "data" => $dateExerciseCountMap,
+                "label" => "学習履歴",
+                "backgroundColor" => "#f87979"
+            ],
+            "labels" => $this->dateLabelList
+        ];
     }
 }
