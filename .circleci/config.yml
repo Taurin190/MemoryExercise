@@ -79,15 +79,16 @@ jobs:
       - run: php -i | grep memory_limit
       - run:
           command: |
-            mkdir -p ~/phpunit
+            mkdir -p ~/phpunit/report
             ./vendor/bin/phpunit --log-junit ~/phpunit/junit.xml tests
-            phpdbg -qrr vendor/bin/phpunit --coverage-clover ~/phpunit/coverage.xml
+            phpdbg -qrr vendor/bin/phpunit --coverage-html ~/phpunit/report
+          #            phpdbg -qrr vendor/bin/phpunit --coverage-clover ~/phpunit/coverage.xml
           when: always
       - store_test_results:
           path: ~/phpunit
       - store_artifacts:
           path: ~/phpunit
-      - codecov/upload:
-          file: ~/phpunit/coverage.xml
+#      - codecov/upload:
+#          file: ~/phpunit/coverage.xml
 #      - run: ./vendor/bin/codecept build
 #      - run: ./vendor/bin/codecept run
