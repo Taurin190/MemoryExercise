@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Constant;
-use App\Usecase\AnswerHistoryUsecase;
 use App\Usecase\ExerciseUsecase;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,18 +10,14 @@ class ExerciseController extends Controller
 {
     protected $exerciseUsecase;
 
-    protected $answerHistoryUsecase;
-
     /**
      * Create a new controller instance.
      *
      * @param ExerciseUsecase $exerciseUsecase
-     * @param AnswerHistoryUsecase $answerHistoryUsecase
      */
-    public function __construct(ExerciseUsecase $exerciseUsecase, AnswerHistoryUsecase $answerHistoryUsecase)
+    public function __construct(ExerciseUsecase $exerciseUsecase)
     {
         $this->exerciseUsecase = $exerciseUsecase;
-        $this->answerHistoryUsecase = $answerHistoryUsecase;
     }
 
     public function list()
@@ -33,13 +28,8 @@ class ExerciseController extends Controller
                 Auth::user()
             );
             $count = $this->exerciseUsecase->getExerciseCount(Auth::user());
-            $exercise_history_list = $this->answerHistoryUsecase->getExerciseHistoryCountByExerciseList(
-                Auth::user(),
-                $exercise_list
-            );
             return view('exercise_index')
                 ->with('exercise_list', $exercise_list)
-                ->with('exercise_history_list', $exercise_history_list)
                 ->with('user_id', Auth::id())
                 ->with('count', $count);
         } else {

@@ -30,10 +30,6 @@ class Exercise extends Model
     {
         return $this->belongsToMany('App\Workbook');
     }
-    public function answerHistories()
-    {
-        return $this->hasMany('App\AnswerHistory');
-    }
     public function labels()
     {
         return $this->belongsToMany('App\Label');

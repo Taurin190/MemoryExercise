@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Domain\AnswerHistoryRepository;
 use App\Domain\ExerciseRepository;
 use App\Domain\StudyHistoryRepository;
 use App\Domain\WorkbookRepository;
@@ -24,10 +23,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ExerciseRepository::class,
             \App\Infrastructure\ExerciseRepository::class
-        );
-        $this->app->bind(
-            AnswerHistoryRepository::class,
-            \App\Infrastructure\AnswerHistoryRepository::class
         );
         $this->app->bind(
             StudyHistoryRepository::class,
