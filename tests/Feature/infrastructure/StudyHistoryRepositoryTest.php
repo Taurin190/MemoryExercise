@@ -61,11 +61,7 @@ class StudyHistoryRepositoryTest extends TestCase
 
         $expected = [
             "datasets" => [
-                "data" => [
-                    '2021-04-01' => 0,
-                    '2021-04-02' => 3,
-                    '2021-04-03' => 0,
-                ],
+                "data" => [0, 3, 0],
                 "label" => "学習履歴",
                 "backgroundColor" => "#f87979"
             ],
@@ -81,5 +77,6 @@ class StudyHistoryRepositoryTest extends TestCase
         self::assertSame(3, $dto->totalExerciseCount);
         self::assertSame(1, $dto->totalStudyDays);
         self::assertSame($expected, $dto->graphData);
+        StudyHistory::query()->delete();
     }
 }

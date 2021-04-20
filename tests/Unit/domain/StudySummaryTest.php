@@ -38,11 +38,7 @@ class StudySummaryTest extends TestCase
         $actual = $studySummary->getDto();
         $expected = [
             "datasets" => [
-                "data" => [
-                    '2020-01-01' => 0,
-                    '2020-01-02' => 0,
-                    '2020-01-03' => 0,
-                ],
+                "data" => [0, 0, 0],
                 "label" => "学習履歴",
                 "backgroundColor" => "#f87979"
             ],

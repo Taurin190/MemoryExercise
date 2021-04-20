@@ -62,16 +62,19 @@ class StudySummary
         $this->totalExerciseCount = $totalExerciseCount;
         $this->totalStudyDays = $totalStudyDays;
 
+        $exerciseCountList = [];
+
         for ($i = $startDate; $i <= $endDate; $i->modify('+1 day')) {
             $exerciseCount = 0;
             if (isset($dateExerciseCountMap[$i->format('Y-m-d')])) {
                 $exerciseCount = $dateExerciseCountMap[$i->format('Y-m-d')];
             }
             $this->dateExerciseCountMap[$i->format('Y-m-d')] = $exerciseCount;
+            $exerciseCountList[] = $exerciseCount;
             $this->dateLabelList[] = $i->format('n/j');
         }
 
-        $this->createGraphData($this->dateExerciseCountMap);
+        $this->createGraphData($exerciseCountList);
     }
 
     public static function create($parameters)
@@ -104,11 +107,11 @@ class StudySummary
         );
     }
 
-    private function createGraphData($dateExerciseCountMap)
+    private function createGraphData($exerciseCountList)
     {
         $this->graphData = [
             "datasets" => [
-                "data" => $dateExerciseCountMap,
+                "data" => $exerciseCountList,
                 "label" => "学習履歴",
                 "backgroundColor" => "#f87979"
             ],

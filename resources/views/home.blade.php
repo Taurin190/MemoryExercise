@@ -17,15 +17,15 @@
                         <div>
                             <div>
                                 <label class="h5 pl-0 float-left col-md-6">今月の学習問題数</label>
-                                <p class="float-left col-md-4 offset-2">{{ $study_history->monthlyCount }}問</p>
+                                <p class="float-left col-md-4 offset-2">{{ $study_summary->exerciseCountInMonth }}問</p>
                             </div>
                             <div>
                                 <label class="h5 pl-0 float-left col-md-6">累計学習問題数</label>
-                                <p class="float-left col-md-4 offset-2">{{ $study_history->totalCount }}問</p>
+                                <p class="float-left col-md-4 offset-2">{{ $study_summary->totalExerciseCount }}問</p>
                             </div>
                             <div>
                                 <label class="h5 pl-0 float-left col-md-6">累計学習日数</label>
-                                <p class="float-left col-md-4 offset-2">{{ $study_history->totalDays }}日</p>
+                                <p class="float-left col-md-4 offset-2">{{ $study_summary->totalStudyDays }}日</p>
                             </div>
                         </div>
                     </div>
