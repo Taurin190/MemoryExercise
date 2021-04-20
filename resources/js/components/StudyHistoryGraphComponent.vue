@@ -4,11 +4,12 @@
 
 <script>
     import BarChart from "./BarChart";
+
     export default {
         name: "StudyHistoryGraphComponent",
         components: {BarChart},
         props: {
-            studyCount: {}
+            studyCount: Object
         },
         data() {
             return {

@@ -10,5 +10,7 @@ class StudyHistory extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['score'];
+    public $timestamps = false;
+
+    protected $fillable = ['score', 'created_at'];
 }
