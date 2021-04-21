@@ -32,6 +32,9 @@ class ExerciseController extends Controller
         }
         $text = $request->input('text', '');
         $page = $request->input('page', 1);
+        if (is_null($text)) {
+            $text = '';
+        }
         $search_exercise_list_dto = $this->exerciseUsecase->searchExercise($text, $page, $user);
         $exercise_list = [];
         if (isset($search_exercise_list_dto->exercise_dto_list)) {
