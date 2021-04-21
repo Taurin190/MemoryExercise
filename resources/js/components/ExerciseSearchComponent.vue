@@ -75,6 +75,7 @@
 
 <script>
     import "axios";
+
     export default {
         name: "ExerciseSearchComponent",
         props: {
@@ -104,11 +105,11 @@
         },
         methods: {
             loadExercise: function (text) {
+                this.exercise_list = {};
                 axios({
                     url: '/api/exercise?text=' + text + '&page=' + this.page,
                     method: 'GET'
                 }).then(res =>  {
-                    this.exercise_list = {};
                     console.log(res.data.exercise_list);
                     for (const [key, value] of Object.entries(this.selected_exercise_list)) {
                         this.$set(this.exercise_list, key, value);

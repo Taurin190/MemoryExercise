@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: koichi.taura
- * Date: 2020/05/23
- * Time: 14:57
- */
 
 namespace App\Http\Controllers\Api;
 
